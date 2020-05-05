@@ -1,0 +1,3478 @@
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"emFile_SPI0.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.emFile_SPI0_Enable,"ax",%progbits
+  20              		.align	2
+  21              		.global	emFile_SPI0_Enable
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	emFile_SPI0_Enable, %function
+  25              	emFile_SPI0_Enable:
+  26              	.LFB1:
+  27              		.file 1 "Generated_Source\\PSoC5\\emFile_SPI0.c"
+   1:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/emFile_SPI0.c **** * File Name: emFile_SPI0.c
+   3:Generated_Source\PSoC5/emFile_SPI0.c **** * Version 2.40
+   4:Generated_Source\PSoC5/emFile_SPI0.c **** *
+   5:Generated_Source\PSoC5/emFile_SPI0.c **** * Description:
+   6:Generated_Source\PSoC5/emFile_SPI0.c **** *  This file provides all API functionality of the SPI Master component.
+   7:Generated_Source\PSoC5/emFile_SPI0.c **** *
+   8:Generated_Source\PSoC5/emFile_SPI0.c **** * Note:
+   9:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+  10:Generated_Source\PSoC5/emFile_SPI0.c **** *
+  11:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/emFile_SPI0.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/emFile_SPI0.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:Generated_Source\PSoC5/emFile_SPI0.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  15:Generated_Source\PSoC5/emFile_SPI0.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/emFile_SPI0.c **** 
+  18:Generated_Source\PSoC5/emFile_SPI0.c **** #include "emFile_SPI0_PVT.h"
+  19:Generated_Source\PSoC5/emFile_SPI0.c **** 
+  20:Generated_Source\PSoC5/emFile_SPI0.c **** #if(emFile_SPI0_TX_SOFTWARE_BUF_ENABLED)
+  21:Generated_Source\PSoC5/emFile_SPI0.c ****     volatile uint8 emFile_SPI0_txBuffer[emFile_SPI0_TX_BUFFER_SIZE] = {0u};
+  22:Generated_Source\PSoC5/emFile_SPI0.c ****     volatile uint8 emFile_SPI0_txBufferFull;
+  23:Generated_Source\PSoC5/emFile_SPI0.c ****     volatile uint8 emFile_SPI0_txBufferRead;
+  24:Generated_Source\PSoC5/emFile_SPI0.c ****     volatile uint8 emFile_SPI0_txBufferWrite;
+  25:Generated_Source\PSoC5/emFile_SPI0.c **** #endif /* (emFile_SPI0_TX_SOFTWARE_BUF_ENABLED) */
+  26:Generated_Source\PSoC5/emFile_SPI0.c **** 
+  27:Generated_Source\PSoC5/emFile_SPI0.c **** #if(emFile_SPI0_RX_SOFTWARE_BUF_ENABLED)
+  28:Generated_Source\PSoC5/emFile_SPI0.c ****     volatile uint8 emFile_SPI0_rxBuffer[emFile_SPI0_RX_BUFFER_SIZE] = {0u};
+  29:Generated_Source\PSoC5/emFile_SPI0.c ****     volatile uint8 emFile_SPI0_rxBufferFull;
+  30:Generated_Source\PSoC5/emFile_SPI0.c ****     volatile uint8 emFile_SPI0_rxBufferRead;
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 2
+
+
+  31:Generated_Source\PSoC5/emFile_SPI0.c ****     volatile uint8 emFile_SPI0_rxBufferWrite;
+  32:Generated_Source\PSoC5/emFile_SPI0.c **** #endif /* (emFile_SPI0_RX_SOFTWARE_BUF_ENABLED) */
+  33:Generated_Source\PSoC5/emFile_SPI0.c **** 
+  34:Generated_Source\PSoC5/emFile_SPI0.c **** uint8 emFile_SPI0_initVar = 0u;
+  35:Generated_Source\PSoC5/emFile_SPI0.c **** 
+  36:Generated_Source\PSoC5/emFile_SPI0.c **** volatile uint8 emFile_SPI0_swStatusTx;
+  37:Generated_Source\PSoC5/emFile_SPI0.c **** volatile uint8 emFile_SPI0_swStatusRx;
+  38:Generated_Source\PSoC5/emFile_SPI0.c **** 
+  39:Generated_Source\PSoC5/emFile_SPI0.c **** 
+  40:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+  41:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_Init
+  42:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+  43:Generated_Source\PSoC5/emFile_SPI0.c **** *
+  44:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+  45:Generated_Source\PSoC5/emFile_SPI0.c **** *  Inits/Restores default SPIM configuration provided with customizer.
+  46:Generated_Source\PSoC5/emFile_SPI0.c **** *
+  47:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+  48:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+  49:Generated_Source\PSoC5/emFile_SPI0.c **** *
+  50:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+  51:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+  52:Generated_Source\PSoC5/emFile_SPI0.c **** *
+  53:Generated_Source\PSoC5/emFile_SPI0.c **** * Side Effects:
+  54:Generated_Source\PSoC5/emFile_SPI0.c **** *  When this function is called it initializes all of the necessary parameters
+  55:Generated_Source\PSoC5/emFile_SPI0.c **** *  for execution. i.e. setting the initial interrupt mask, configuring the
+  56:Generated_Source\PSoC5/emFile_SPI0.c **** *  interrupt service routine, configuring the bit-counter parameters and
+  57:Generated_Source\PSoC5/emFile_SPI0.c **** *  clearing the FIFO and Status Register.
+  58:Generated_Source\PSoC5/emFile_SPI0.c **** *
+  59:Generated_Source\PSoC5/emFile_SPI0.c **** * Reentrant:
+  60:Generated_Source\PSoC5/emFile_SPI0.c **** *  No.
+  61:Generated_Source\PSoC5/emFile_SPI0.c **** *
+  62:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+  63:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_Init(void) 
+  64:Generated_Source\PSoC5/emFile_SPI0.c **** {
+  65:Generated_Source\PSoC5/emFile_SPI0.c ****     /* Initialize the Bit counter */
+  66:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_COUNTER_PERIOD_REG = emFile_SPI0_BITCTR_INIT;
+  67:Generated_Source\PSoC5/emFile_SPI0.c **** 
+  68:Generated_Source\PSoC5/emFile_SPI0.c ****     /* Init TX ISR  */
+  69:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(0u != emFile_SPI0_INTERNAL_TX_INT_ENABLED)
+  70:Generated_Source\PSoC5/emFile_SPI0.c ****         CyIntDisable         (emFile_SPI0_TX_ISR_NUMBER);
+  71:Generated_Source\PSoC5/emFile_SPI0.c ****         CyIntSetPriority     (emFile_SPI0_TX_ISR_NUMBER,  emFile_SPI0_TX_ISR_PRIORITY);
+  72:Generated_Source\PSoC5/emFile_SPI0.c ****         (void) CyIntSetVector(emFile_SPI0_TX_ISR_NUMBER, &emFile_SPI0_TX_ISR);
+  73:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (0u != emFile_SPI0_INTERNAL_TX_INT_ENABLED) */
+  74:Generated_Source\PSoC5/emFile_SPI0.c **** 
+  75:Generated_Source\PSoC5/emFile_SPI0.c ****     /* Init RX ISR  */
+  76:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(0u != emFile_SPI0_INTERNAL_RX_INT_ENABLED)
+  77:Generated_Source\PSoC5/emFile_SPI0.c ****         CyIntDisable         (emFile_SPI0_RX_ISR_NUMBER);
+  78:Generated_Source\PSoC5/emFile_SPI0.c ****         CyIntSetPriority     (emFile_SPI0_RX_ISR_NUMBER,  emFile_SPI0_RX_ISR_PRIORITY);
+  79:Generated_Source\PSoC5/emFile_SPI0.c ****         (void) CyIntSetVector(emFile_SPI0_RX_ISR_NUMBER, &emFile_SPI0_RX_ISR);
+  80:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (0u != emFile_SPI0_INTERNAL_RX_INT_ENABLED) */
+  81:Generated_Source\PSoC5/emFile_SPI0.c **** 
+  82:Generated_Source\PSoC5/emFile_SPI0.c ****     /* Clear any stray data from the RX and TX FIFO */
+  83:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_ClearFIFO();
+  84:Generated_Source\PSoC5/emFile_SPI0.c **** 
+  85:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(emFile_SPI0_RX_SOFTWARE_BUF_ENABLED)
+  86:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_rxBufferFull  = 0u;
+  87:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_rxBufferRead  = 0u;
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 3
+
+
+  88:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_rxBufferWrite = 0u;
+  89:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (emFile_SPI0_RX_SOFTWARE_BUF_ENABLED) */
+  90:Generated_Source\PSoC5/emFile_SPI0.c **** 
+  91:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(emFile_SPI0_TX_SOFTWARE_BUF_ENABLED)
+  92:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_txBufferFull  = 0u;
+  93:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_txBufferRead  = 0u;
+  94:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_txBufferWrite = 0u;
+  95:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (emFile_SPI0_TX_SOFTWARE_BUF_ENABLED) */
+  96:Generated_Source\PSoC5/emFile_SPI0.c **** 
+  97:Generated_Source\PSoC5/emFile_SPI0.c ****     (void) emFile_SPI0_ReadTxStatus(); /* Clear Tx status and swStatusTx */
+  98:Generated_Source\PSoC5/emFile_SPI0.c ****     (void) emFile_SPI0_ReadRxStatus(); /* Clear Rx status and swStatusRx */
+  99:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 100:Generated_Source\PSoC5/emFile_SPI0.c ****     /* Configure TX and RX interrupt mask */
+ 101:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_TX_STATUS_MASK_REG = emFile_SPI0_TX_INIT_INTERRUPTS_MASK;
+ 102:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_RX_STATUS_MASK_REG = emFile_SPI0_RX_INIT_INTERRUPTS_MASK;
+ 103:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 104:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 105:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 106:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 107:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_Enable
+ 108:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 109:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 110:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 111:Generated_Source\PSoC5/emFile_SPI0.c **** *  Enable SPIM component.
+ 112:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 113:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 114:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 115:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 116:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 117:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 118:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 119:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 120:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_Enable(void) 
+ 121:Generated_Source\PSoC5/emFile_SPI0.c **** {
+  28              		.loc 1 121 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+ 122:Generated_Source\PSoC5/emFile_SPI0.c ****     uint8 enableInterrupts;
+ 123:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 124:Generated_Source\PSoC5/emFile_SPI0.c ****     enableInterrupts = CyEnterCriticalSection();
+  36              		.loc 1 124 0
+  37 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+  38              	.LVL0:
+ 125:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_COUNTER_CONTROL_REG |= emFile_SPI0_CNTR_ENABLE;
+  39              		.loc 1 125 0
+  40 0006 094A     		ldr	r2, .L3
+  41 0008 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  42 000a 43F02003 		orr	r3, r3, #32
+  43 000e 1370     		strb	r3, [r2]
+ 126:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_TX_STATUS_ACTL_REG  |= emFile_SPI0_INT_ENABLE;
+  44              		.loc 1 126 0
+  45 0010 013A     		subs	r2, r2, #1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 4
+
+
+  46 0012 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  47 0014 43F01003 		orr	r3, r3, #16
+  48 0018 1370     		strb	r3, [r2]
+ 127:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_RX_STATUS_ACTL_REG  |= emFile_SPI0_INT_ENABLE;
+  49              		.loc 1 127 0
+  50 001a 0232     		adds	r2, r2, #2
+  51 001c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  52 001e 43F01003 		orr	r3, r3, #16
+  53 0022 1370     		strb	r3, [r2]
+ 128:Generated_Source\PSoC5/emFile_SPI0.c ****     CyExitCriticalSection(enableInterrupts);
+  54              		.loc 1 128 0
+  55 0024 FFF7FEFF 		bl	CyExitCriticalSection
+  56              	.LVL1:
+  57 0028 08BD     		pop	{r3, pc}
+  58              	.L4:
+  59 002a 00BF     		.align	2
+  60              	.L3:
+  61 002c 9A640040 		.word	1073767578
+  62              		.cfi_endproc
+  63              	.LFE1:
+  64              		.size	emFile_SPI0_Enable, .-emFile_SPI0_Enable
+  65              		.section	.text.emFile_SPI0_Stop,"ax",%progbits
+  66              		.align	2
+  67              		.global	emFile_SPI0_Stop
+  68              		.thumb
+  69              		.thumb_func
+  70              		.type	emFile_SPI0_Stop, %function
+  71              	emFile_SPI0_Stop:
+  72              	.LFB3:
+ 129:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 130:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(0u != emFile_SPI0_INTERNAL_CLOCK)
+ 131:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_IntClock_Enable();
+ 132:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (0u != emFile_SPI0_INTERNAL_CLOCK) */
+ 133:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 134:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_EnableTxInt();
+ 135:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_EnableRxInt();
+ 136:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 137:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 138:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 139:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 140:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_Start
+ 141:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 142:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 143:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 144:Generated_Source\PSoC5/emFile_SPI0.c **** *  Initialize and Enable the SPI Master component.
+ 145:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 146:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 147:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 148:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 149:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 150:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 151:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 152:Generated_Source\PSoC5/emFile_SPI0.c **** * Global variables:
+ 153:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_initVar - used to check initial configuration, modified on
+ 154:Generated_Source\PSoC5/emFile_SPI0.c **** *  first function call.
+ 155:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 156:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 5
+
+
+ 157:Generated_Source\PSoC5/emFile_SPI0.c **** *  Enable the clock input to enable operation.
+ 158:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 159:Generated_Source\PSoC5/emFile_SPI0.c **** * Reentrant:
+ 160:Generated_Source\PSoC5/emFile_SPI0.c **** *  No.
+ 161:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 162:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 163:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_Start(void) 
+ 164:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 165:Generated_Source\PSoC5/emFile_SPI0.c ****     if(0u == emFile_SPI0_initVar)
+ 166:Generated_Source\PSoC5/emFile_SPI0.c ****     {
+ 167:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_Init();
+ 168:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_initVar = 1u;
+ 169:Generated_Source\PSoC5/emFile_SPI0.c ****     }
+ 170:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 171:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_Enable();
+ 172:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 173:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 174:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 175:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 176:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_Stop
+ 177:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 178:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 179:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 180:Generated_Source\PSoC5/emFile_SPI0.c **** *  Disable the SPI Master component.
+ 181:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 182:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 183:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 184:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 185:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 186:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 187:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 188:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ 189:Generated_Source\PSoC5/emFile_SPI0.c **** *  Disable the clock input to enable operation.
+ 190:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 191:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 192:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_Stop(void) 
+ 193:Generated_Source\PSoC5/emFile_SPI0.c **** {
+  73              		.loc 1 193 0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77 0000 08B5     		push	{r3, lr}
+  78              		.cfi_def_cfa_offset 8
+  79              		.cfi_offset 3, -8
+  80              		.cfi_offset 14, -4
+ 194:Generated_Source\PSoC5/emFile_SPI0.c ****     uint8 enableInterrupts;
+ 195:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 196:Generated_Source\PSoC5/emFile_SPI0.c ****     enableInterrupts = CyEnterCriticalSection();
+  81              		.loc 1 196 0
+  82 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+  83              	.LVL2:
+ 197:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_TX_STATUS_ACTL_REG &= ((uint8) ~emFile_SPI0_INT_ENABLE);
+  84              		.loc 1 197 0
+  85 0006 064A     		ldr	r2, .L7
+  86 0008 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  87 000a 03F0EF03 		and	r3, r3, #239
+  88 000e 1370     		strb	r3, [r2]
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 6
+
+
+ 198:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_RX_STATUS_ACTL_REG &= ((uint8) ~emFile_SPI0_INT_ENABLE);
+  89              		.loc 1 198 0
+  90 0010 0232     		adds	r2, r2, #2
+  91 0012 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  92 0014 03F0EF03 		and	r3, r3, #239
+  93 0018 1370     		strb	r3, [r2]
+ 199:Generated_Source\PSoC5/emFile_SPI0.c ****     CyExitCriticalSection(enableInterrupts);
+  94              		.loc 1 199 0
+  95 001a FFF7FEFF 		bl	CyExitCriticalSection
+  96              	.LVL3:
+  97 001e 08BD     		pop	{r3, pc}
+  98              	.L8:
+  99              		.align	2
+ 100              	.L7:
+ 101 0020 99640040 		.word	1073767577
+ 102              		.cfi_endproc
+ 103              	.LFE3:
+ 104              		.size	emFile_SPI0_Stop, .-emFile_SPI0_Stop
+ 105              		.section	.text.emFile_SPI0_EnableTxInt,"ax",%progbits
+ 106              		.align	2
+ 107              		.global	emFile_SPI0_EnableTxInt
+ 108              		.thumb
+ 109              		.thumb_func
+ 110              		.type	emFile_SPI0_EnableTxInt, %function
+ 111              	emFile_SPI0_EnableTxInt:
+ 112              	.LFB4:
+ 200:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 201:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(0u != emFile_SPI0_INTERNAL_CLOCK)
+ 202:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_IntClock_Disable();
+ 203:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (0u != emFile_SPI0_INTERNAL_CLOCK) */
+ 204:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 205:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_DisableTxInt();
+ 206:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_DisableRxInt();
+ 207:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 208:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 209:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 210:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 211:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_EnableTxInt
+ 212:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 213:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 214:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 215:Generated_Source\PSoC5/emFile_SPI0.c **** *  Enable internal Tx interrupt generation.
+ 216:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 217:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 218:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 219:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 220:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 221:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 222:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 223:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ 224:Generated_Source\PSoC5/emFile_SPI0.c **** *  Enable the internal Tx interrupt output -or- the interrupt component itself.
+ 225:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 226:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 227:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_EnableTxInt(void) 
+ 228:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 113              		.loc 1 228 0
+ 114              		.cfi_startproc
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 7
+
+
+ 115              		@ args = 0, pretend = 0, frame = 0
+ 116              		@ frame_needed = 0, uses_anonymous_args = 0
+ 117              		@ link register save eliminated.
+ 118 0000 7047     		bx	lr
+ 119              		.cfi_endproc
+ 120              	.LFE4:
+ 121              		.size	emFile_SPI0_EnableTxInt, .-emFile_SPI0_EnableTxInt
+ 122 0002 00BF     		.section	.text.emFile_SPI0_EnableRxInt,"ax",%progbits
+ 123              		.align	2
+ 124              		.global	emFile_SPI0_EnableRxInt
+ 125              		.thumb
+ 126              		.thumb_func
+ 127              		.type	emFile_SPI0_EnableRxInt, %function
+ 128              	emFile_SPI0_EnableRxInt:
+ 129              	.LFB5:
+ 229:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(0u != emFile_SPI0_INTERNAL_TX_INT_ENABLED)
+ 230:Generated_Source\PSoC5/emFile_SPI0.c ****         CyIntEnable(emFile_SPI0_TX_ISR_NUMBER);
+ 231:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (0u != emFile_SPI0_INTERNAL_TX_INT_ENABLED) */
+ 232:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 233:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 234:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 235:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 236:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_EnableRxInt
+ 237:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 238:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 239:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 240:Generated_Source\PSoC5/emFile_SPI0.c **** *  Enable internal Rx interrupt generation.
+ 241:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 242:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 243:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 244:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 245:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 246:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 247:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 248:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ 249:Generated_Source\PSoC5/emFile_SPI0.c **** *  Enable the internal Rx interrupt output -or- the interrupt component itself.
+ 250:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 251:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 252:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_EnableRxInt(void) 
+ 253:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 130              		.loc 1 253 0
+ 131              		.cfi_startproc
+ 132              		@ args = 0, pretend = 0, frame = 0
+ 133              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134              		@ link register save eliminated.
+ 135 0000 7047     		bx	lr
+ 136              		.cfi_endproc
+ 137              	.LFE5:
+ 138              		.size	emFile_SPI0_EnableRxInt, .-emFile_SPI0_EnableRxInt
+ 139 0002 00BF     		.section	.text.emFile_SPI0_DisableTxInt,"ax",%progbits
+ 140              		.align	2
+ 141              		.global	emFile_SPI0_DisableTxInt
+ 142              		.thumb
+ 143              		.thumb_func
+ 144              		.type	emFile_SPI0_DisableTxInt, %function
+ 145              	emFile_SPI0_DisableTxInt:
+ 146              	.LFB6:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 8
+
+
+ 254:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(0u != emFile_SPI0_INTERNAL_RX_INT_ENABLED)
+ 255:Generated_Source\PSoC5/emFile_SPI0.c ****         CyIntEnable(emFile_SPI0_RX_ISR_NUMBER);
+ 256:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (0u != emFile_SPI0_INTERNAL_RX_INT_ENABLED) */
+ 257:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 258:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 259:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 260:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 261:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_DisableTxInt
+ 262:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 263:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 264:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 265:Generated_Source\PSoC5/emFile_SPI0.c **** *  Disable internal Tx interrupt generation.
+ 266:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 267:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 268:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 269:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 270:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 271:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 272:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 273:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ 274:Generated_Source\PSoC5/emFile_SPI0.c **** *  Disable the internal Tx interrupt output -or- the interrupt component itself.
+ 275:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 276:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 277:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_DisableTxInt(void) 
+ 278:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 147              		.loc 1 278 0
+ 148              		.cfi_startproc
+ 149              		@ args = 0, pretend = 0, frame = 0
+ 150              		@ frame_needed = 0, uses_anonymous_args = 0
+ 151              		@ link register save eliminated.
+ 152 0000 7047     		bx	lr
+ 153              		.cfi_endproc
+ 154              	.LFE6:
+ 155              		.size	emFile_SPI0_DisableTxInt, .-emFile_SPI0_DisableTxInt
+ 156 0002 00BF     		.section	.text.emFile_SPI0_DisableRxInt,"ax",%progbits
+ 157              		.align	2
+ 158              		.global	emFile_SPI0_DisableRxInt
+ 159              		.thumb
+ 160              		.thumb_func
+ 161              		.type	emFile_SPI0_DisableRxInt, %function
+ 162              	emFile_SPI0_DisableRxInt:
+ 163              	.LFB7:
+ 279:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(0u != emFile_SPI0_INTERNAL_TX_INT_ENABLED)
+ 280:Generated_Source\PSoC5/emFile_SPI0.c ****         CyIntDisable(emFile_SPI0_TX_ISR_NUMBER);
+ 281:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (0u != emFile_SPI0_INTERNAL_TX_INT_ENABLED) */
+ 282:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 283:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 284:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 285:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 286:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_DisableRxInt
+ 287:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 288:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 289:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 290:Generated_Source\PSoC5/emFile_SPI0.c **** *  Disable internal Rx interrupt generation.
+ 291:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 292:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 293:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 9
+
+
+ 294:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 295:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 296:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 297:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 298:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ 299:Generated_Source\PSoC5/emFile_SPI0.c **** *  Disable the internal Rx interrupt output -or- the interrupt component itself.
+ 300:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 301:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 302:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_DisableRxInt(void) 
+ 303:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 164              		.loc 1 303 0
+ 165              		.cfi_startproc
+ 166              		@ args = 0, pretend = 0, frame = 0
+ 167              		@ frame_needed = 0, uses_anonymous_args = 0
+ 168              		@ link register save eliminated.
+ 169 0000 7047     		bx	lr
+ 170              		.cfi_endproc
+ 171              	.LFE7:
+ 172              		.size	emFile_SPI0_DisableRxInt, .-emFile_SPI0_DisableRxInt
+ 173 0002 00BF     		.section	.text.emFile_SPI0_SetTxInterruptMode,"ax",%progbits
+ 174              		.align	2
+ 175              		.global	emFile_SPI0_SetTxInterruptMode
+ 176              		.thumb
+ 177              		.thumb_func
+ 178              		.type	emFile_SPI0_SetTxInterruptMode, %function
+ 179              	emFile_SPI0_SetTxInterruptMode:
+ 180              	.LFB8:
+ 304:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(0u != emFile_SPI0_INTERNAL_RX_INT_ENABLED)
+ 305:Generated_Source\PSoC5/emFile_SPI0.c ****         CyIntDisable(emFile_SPI0_RX_ISR_NUMBER);
+ 306:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (0u != emFile_SPI0_INTERNAL_RX_INT_ENABLED) */
+ 307:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 308:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 309:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 310:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 311:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_SetTxInterruptMode
+ 312:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 313:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 314:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 315:Generated_Source\PSoC5/emFile_SPI0.c **** *  Configure which status bits trigger an interrupt event.
+ 316:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 317:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 318:Generated_Source\PSoC5/emFile_SPI0.c **** *  intSrc: An or'd combination of the desired status bit masks (defined in the
+ 319:Generated_Source\PSoC5/emFile_SPI0.c **** *  header file).
+ 320:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 321:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 322:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 323:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 324:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ 325:Generated_Source\PSoC5/emFile_SPI0.c **** *  Enables the output of specific status bits to the interrupt controller.
+ 326:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 327:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 328:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_SetTxInterruptMode(uint8 intSrc) 
+ 329:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 181              		.loc 1 329 0
+ 182              		.cfi_startproc
+ 183              		@ args = 0, pretend = 0, frame = 0
+ 184              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 10
+
+
+ 185              		@ link register save eliminated.
+ 186              	.LVL4:
+ 330:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_TX_STATUS_MASK_REG = intSrc;
+ 187              		.loc 1 330 0
+ 188 0000 014B     		ldr	r3, .L14
+ 189 0002 1870     		strb	r0, [r3]
+ 190 0004 7047     		bx	lr
+ 191              	.L15:
+ 192 0006 00BF     		.align	2
+ 193              	.L14:
+ 194 0008 89640040 		.word	1073767561
+ 195              		.cfi_endproc
+ 196              	.LFE8:
+ 197              		.size	emFile_SPI0_SetTxInterruptMode, .-emFile_SPI0_SetTxInterruptMode
+ 198              		.section	.text.emFile_SPI0_SetRxInterruptMode,"ax",%progbits
+ 199              		.align	2
+ 200              		.global	emFile_SPI0_SetRxInterruptMode
+ 201              		.thumb
+ 202              		.thumb_func
+ 203              		.type	emFile_SPI0_SetRxInterruptMode, %function
+ 204              	emFile_SPI0_SetRxInterruptMode:
+ 205              	.LFB9:
+ 331:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 332:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 333:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 334:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 335:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_SetRxInterruptMode
+ 336:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 337:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 338:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 339:Generated_Source\PSoC5/emFile_SPI0.c **** *  Configure which status bits trigger an interrupt event.
+ 340:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 341:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 342:Generated_Source\PSoC5/emFile_SPI0.c **** *  intSrc: An or'd combination of the desired status bit masks (defined in the
+ 343:Generated_Source\PSoC5/emFile_SPI0.c **** *  header file).
+ 344:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 345:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 346:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 347:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 348:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ 349:Generated_Source\PSoC5/emFile_SPI0.c **** *  Enables the output of specific status bits to the interrupt controller.
+ 350:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 351:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 352:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_SetRxInterruptMode(uint8 intSrc) 
+ 353:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 206              		.loc 1 353 0
+ 207              		.cfi_startproc
+ 208              		@ args = 0, pretend = 0, frame = 0
+ 209              		@ frame_needed = 0, uses_anonymous_args = 0
+ 210              		@ link register save eliminated.
+ 211              	.LVL5:
+ 354:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_RX_STATUS_MASK_REG  = intSrc;
+ 212              		.loc 1 354 0
+ 213 0000 014B     		ldr	r3, .L17
+ 214 0002 1870     		strb	r0, [r3]
+ 215 0004 7047     		bx	lr
+ 216              	.L18:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 11
+
+
+ 217 0006 00BF     		.align	2
+ 218              	.L17:
+ 219 0008 8B640040 		.word	1073767563
+ 220              		.cfi_endproc
+ 221              	.LFE9:
+ 222              		.size	emFile_SPI0_SetRxInterruptMode, .-emFile_SPI0_SetRxInterruptMode
+ 223              		.section	.text.emFile_SPI0_ReadTxStatus,"ax",%progbits
+ 224              		.align	2
+ 225              		.global	emFile_SPI0_ReadTxStatus
+ 226              		.thumb
+ 227              		.thumb_func
+ 228              		.type	emFile_SPI0_ReadTxStatus, %function
+ 229              	emFile_SPI0_ReadTxStatus:
+ 230              	.LFB10:
+ 355:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 356:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 357:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 358:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 359:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_ReadTxStatus
+ 360:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 361:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 362:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 363:Generated_Source\PSoC5/emFile_SPI0.c **** *  Read the Tx status register for the component.
+ 364:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 365:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 366:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 367:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 368:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 369:Generated_Source\PSoC5/emFile_SPI0.c **** *  Contents of the Tx status register.
+ 370:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 371:Generated_Source\PSoC5/emFile_SPI0.c **** * Global variables:
+ 372:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_swStatusTx - used to store in software status register,
+ 373:Generated_Source\PSoC5/emFile_SPI0.c **** *  modified every function call - resets to zero.
+ 374:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 375:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ 376:Generated_Source\PSoC5/emFile_SPI0.c **** *  Allows the user and the API to read the Tx status register for error
+ 377:Generated_Source\PSoC5/emFile_SPI0.c **** *  detection and flow control.
+ 378:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 379:Generated_Source\PSoC5/emFile_SPI0.c **** * Side Effects:
+ 380:Generated_Source\PSoC5/emFile_SPI0.c **** *  Clear Tx status register of the component.
+ 381:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 382:Generated_Source\PSoC5/emFile_SPI0.c **** * Reentrant:
+ 383:Generated_Source\PSoC5/emFile_SPI0.c **** *  No.
+ 384:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 385:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 386:Generated_Source\PSoC5/emFile_SPI0.c **** uint8 emFile_SPI0_ReadTxStatus(void) 
+ 387:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 231              		.loc 1 387 0
+ 232              		.cfi_startproc
+ 233              		@ args = 0, pretend = 0, frame = 0
+ 234              		@ frame_needed = 0, uses_anonymous_args = 0
+ 235              		@ link register save eliminated.
+ 388:Generated_Source\PSoC5/emFile_SPI0.c ****     uint8 tmpStatus;
+ 389:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 390:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(emFile_SPI0_TX_SOFTWARE_BUF_ENABLED)
+ 391:Generated_Source\PSoC5/emFile_SPI0.c ****         /* Disable TX interrupt to protect global veriables */
+ 392:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_DisableTxInt();
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 12
+
+
+ 393:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 394:Generated_Source\PSoC5/emFile_SPI0.c ****         tmpStatus = emFile_SPI0_GET_STATUS_TX(emFile_SPI0_swStatusTx);
+ 395:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_swStatusTx = 0u;
+ 396:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 397:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_EnableTxInt();
+ 398:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 399:Generated_Source\PSoC5/emFile_SPI0.c ****     #else
+ 400:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 401:Generated_Source\PSoC5/emFile_SPI0.c ****         tmpStatus = emFile_SPI0_TX_STATUS_REG;
+ 236              		.loc 1 401 0
+ 237 0000 014B     		ldr	r3, .L20
+ 238 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 239              	.LVL6:
+ 402:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 403:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (emFile_SPI0_TX_SOFTWARE_BUF_ENABLED) */
+ 404:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 405:Generated_Source\PSoC5/emFile_SPI0.c ****     return(tmpStatus);
+ 406:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 240              		.loc 1 406 0
+ 241 0004 7047     		bx	lr
+ 242              	.L21:
+ 243 0006 00BF     		.align	2
+ 244              	.L20:
+ 245 0008 69640040 		.word	1073767529
+ 246              		.cfi_endproc
+ 247              	.LFE10:
+ 248              		.size	emFile_SPI0_ReadTxStatus, .-emFile_SPI0_ReadTxStatus
+ 249              		.section	.text.emFile_SPI0_ReadRxStatus,"ax",%progbits
+ 250              		.align	2
+ 251              		.global	emFile_SPI0_ReadRxStatus
+ 252              		.thumb
+ 253              		.thumb_func
+ 254              		.type	emFile_SPI0_ReadRxStatus, %function
+ 255              	emFile_SPI0_ReadRxStatus:
+ 256              	.LFB11:
+ 407:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 408:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 409:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 410:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_ReadRxStatus
+ 411:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 412:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 413:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 414:Generated_Source\PSoC5/emFile_SPI0.c **** *  Read the Rx status register for the component.
+ 415:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 416:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 417:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 418:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 419:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 420:Generated_Source\PSoC5/emFile_SPI0.c **** *  Contents of the Rx status register.
+ 421:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 422:Generated_Source\PSoC5/emFile_SPI0.c **** * Global variables:
+ 423:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_swStatusRx - used to store in software Rx status register,
+ 424:Generated_Source\PSoC5/emFile_SPI0.c **** *  modified every function call - resets to zero.
+ 425:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 426:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ 427:Generated_Source\PSoC5/emFile_SPI0.c **** *  Allows the user and the API to read the Rx status register for error
+ 428:Generated_Source\PSoC5/emFile_SPI0.c **** *  detection and flow control.
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 13
+
+
+ 429:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 430:Generated_Source\PSoC5/emFile_SPI0.c **** * Side Effects:
+ 431:Generated_Source\PSoC5/emFile_SPI0.c **** *  Clear Rx status register of the component.
+ 432:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 433:Generated_Source\PSoC5/emFile_SPI0.c **** * Reentrant:
+ 434:Generated_Source\PSoC5/emFile_SPI0.c **** *  No.
+ 435:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 436:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 437:Generated_Source\PSoC5/emFile_SPI0.c **** uint8 emFile_SPI0_ReadRxStatus(void) 
+ 438:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 257              		.loc 1 438 0
+ 258              		.cfi_startproc
+ 259              		@ args = 0, pretend = 0, frame = 0
+ 260              		@ frame_needed = 0, uses_anonymous_args = 0
+ 261              		@ link register save eliminated.
+ 439:Generated_Source\PSoC5/emFile_SPI0.c ****     uint8 tmpStatus;
+ 440:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 441:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(emFile_SPI0_RX_SOFTWARE_BUF_ENABLED)
+ 442:Generated_Source\PSoC5/emFile_SPI0.c ****         /* Disable RX interrupt to protect global veriables */
+ 443:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_DisableRxInt();
+ 444:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 445:Generated_Source\PSoC5/emFile_SPI0.c ****         tmpStatus = emFile_SPI0_GET_STATUS_RX(emFile_SPI0_swStatusRx);
+ 446:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_swStatusRx = 0u;
+ 447:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 448:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_EnableRxInt();
+ 449:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 450:Generated_Source\PSoC5/emFile_SPI0.c ****     #else
+ 451:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 452:Generated_Source\PSoC5/emFile_SPI0.c ****         tmpStatus = emFile_SPI0_RX_STATUS_REG;
+ 262              		.loc 1 452 0
+ 263 0000 014B     		ldr	r3, .L23
+ 264 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 265              	.LVL7:
+ 453:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 454:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (emFile_SPI0_RX_SOFTWARE_BUF_ENABLED) */
+ 455:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 456:Generated_Source\PSoC5/emFile_SPI0.c ****     return(tmpStatus);
+ 457:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 266              		.loc 1 457 0
+ 267 0004 7047     		bx	lr
+ 268              	.L24:
+ 269 0006 00BF     		.align	2
+ 270              	.L23:
+ 271 0008 6B640040 		.word	1073767531
+ 272              		.cfi_endproc
+ 273              	.LFE11:
+ 274              		.size	emFile_SPI0_ReadRxStatus, .-emFile_SPI0_ReadRxStatus
+ 275              		.section	.text.emFile_SPI0_WriteTxData,"ax",%progbits
+ 276              		.align	2
+ 277              		.global	emFile_SPI0_WriteTxData
+ 278              		.thumb
+ 279              		.thumb_func
+ 280              		.type	emFile_SPI0_WriteTxData, %function
+ 281              	emFile_SPI0_WriteTxData:
+ 282              	.LFB12:
+ 458:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 459:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 14
+
+
+ 460:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 461:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_WriteTxData
+ 462:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 463:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 464:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 465:Generated_Source\PSoC5/emFile_SPI0.c **** *  Write a byte of data to be sent across the SPI.
+ 466:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 467:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 468:Generated_Source\PSoC5/emFile_SPI0.c **** *  txDataByte: The data value to send across the SPI.
+ 469:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 470:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 471:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 472:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 473:Generated_Source\PSoC5/emFile_SPI0.c **** * Global variables:
+ 474:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_txBufferWrite - used for the account of the bytes which
+ 475:Generated_Source\PSoC5/emFile_SPI0.c **** *  have been written down in the TX software buffer, modified every function
+ 476:Generated_Source\PSoC5/emFile_SPI0.c **** *  call if TX Software Buffer is used.
+ 477:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_txBufferRead - used for the account of the bytes which
+ 478:Generated_Source\PSoC5/emFile_SPI0.c **** *  have been read from the TX software buffer.
+ 479:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_txBuffer[emFile_SPI0_TX_BUFFER_SIZE] - used to store
+ 480:Generated_Source\PSoC5/emFile_SPI0.c **** *  data to sending, modified every function call if TX Software Buffer is used.
+ 481:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 482:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ 483:Generated_Source\PSoC5/emFile_SPI0.c **** *  Allows the user to transmit any byte of data in a single transfer.
+ 484:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 485:Generated_Source\PSoC5/emFile_SPI0.c **** * Side Effects:
+ 486:Generated_Source\PSoC5/emFile_SPI0.c **** *  If this function is called again before the previous byte is finished then
+ 487:Generated_Source\PSoC5/emFile_SPI0.c **** *  the next byte will be appended to the transfer with no time between
+ 488:Generated_Source\PSoC5/emFile_SPI0.c **** *  the byte transfers. Clear Tx status register of the component.
+ 489:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 490:Generated_Source\PSoC5/emFile_SPI0.c **** * Reentrant:
+ 491:Generated_Source\PSoC5/emFile_SPI0.c **** *  No.
+ 492:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 493:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 494:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_WriteTxData(uint8 txData) 
+ 495:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 283              		.loc 1 495 0
+ 284              		.cfi_startproc
+ 285              		@ args = 0, pretend = 0, frame = 0
+ 286              		@ frame_needed = 0, uses_anonymous_args = 0
+ 287              		@ link register save eliminated.
+ 288              	.LVL8:
+ 289              	.L26:
+ 496:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(emFile_SPI0_TX_SOFTWARE_BUF_ENABLED)
+ 497:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 498:Generated_Source\PSoC5/emFile_SPI0.c ****         uint8 tempStatus;
+ 499:Generated_Source\PSoC5/emFile_SPI0.c ****         uint8 tmpTxBufferRead;
+ 500:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 501:Generated_Source\PSoC5/emFile_SPI0.c ****         /* Block if TX buffer is FULL: don't overwrite */
+ 502:Generated_Source\PSoC5/emFile_SPI0.c ****         do
+ 503:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ 504:Generated_Source\PSoC5/emFile_SPI0.c ****             tmpTxBufferRead = emFile_SPI0_txBufferRead;
+ 505:Generated_Source\PSoC5/emFile_SPI0.c ****             if(0u == tmpTxBufferRead)
+ 506:Generated_Source\PSoC5/emFile_SPI0.c ****             {
+ 507:Generated_Source\PSoC5/emFile_SPI0.c ****                 tmpTxBufferRead = (emFile_SPI0_TX_BUFFER_SIZE - 1u);
+ 508:Generated_Source\PSoC5/emFile_SPI0.c ****             }
+ 509:Generated_Source\PSoC5/emFile_SPI0.c ****             else
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 15
+
+
+ 510:Generated_Source\PSoC5/emFile_SPI0.c ****             {
+ 511:Generated_Source\PSoC5/emFile_SPI0.c ****                 tmpTxBufferRead--;
+ 512:Generated_Source\PSoC5/emFile_SPI0.c ****             }
+ 513:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 514:Generated_Source\PSoC5/emFile_SPI0.c ****         }while(tmpTxBufferRead == emFile_SPI0_txBufferWrite);
+ 515:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 516:Generated_Source\PSoC5/emFile_SPI0.c ****         /* Disable TX interrupt to protect global veriables */
+ 517:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_DisableTxInt();
+ 518:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 519:Generated_Source\PSoC5/emFile_SPI0.c ****         tempStatus = emFile_SPI0_GET_STATUS_TX(emFile_SPI0_swStatusTx);
+ 520:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_swStatusTx = tempStatus;
+ 521:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 522:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 523:Generated_Source\PSoC5/emFile_SPI0.c ****         if((emFile_SPI0_txBufferRead == emFile_SPI0_txBufferWrite) &&
+ 524:Generated_Source\PSoC5/emFile_SPI0.c ****            (0u != (emFile_SPI0_swStatusTx & emFile_SPI0_STS_TX_FIFO_NOT_FULL)))
+ 525:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ 526:Generated_Source\PSoC5/emFile_SPI0.c ****             /* Add directly to the TX FIFO */
+ 527:Generated_Source\PSoC5/emFile_SPI0.c ****             CY_SET_REG8(emFile_SPI0_TXDATA_PTR, txData);
+ 528:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 529:Generated_Source\PSoC5/emFile_SPI0.c ****         else
+ 530:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ 531:Generated_Source\PSoC5/emFile_SPI0.c ****             /* Add to the TX software buffer */
+ 532:Generated_Source\PSoC5/emFile_SPI0.c ****             emFile_SPI0_txBufferWrite++;
+ 533:Generated_Source\PSoC5/emFile_SPI0.c ****             if(emFile_SPI0_txBufferWrite >= emFile_SPI0_TX_BUFFER_SIZE)
+ 534:Generated_Source\PSoC5/emFile_SPI0.c ****             {
+ 535:Generated_Source\PSoC5/emFile_SPI0.c ****                 emFile_SPI0_txBufferWrite = 0u;
+ 536:Generated_Source\PSoC5/emFile_SPI0.c ****             }
+ 537:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 538:Generated_Source\PSoC5/emFile_SPI0.c ****             if(emFile_SPI0_txBufferWrite == emFile_SPI0_txBufferRead)
+ 539:Generated_Source\PSoC5/emFile_SPI0.c ****             {
+ 540:Generated_Source\PSoC5/emFile_SPI0.c ****                 emFile_SPI0_txBufferRead++;
+ 541:Generated_Source\PSoC5/emFile_SPI0.c ****                 if(emFile_SPI0_txBufferRead >= emFile_SPI0_TX_BUFFER_SIZE)
+ 542:Generated_Source\PSoC5/emFile_SPI0.c ****                 {
+ 543:Generated_Source\PSoC5/emFile_SPI0.c ****                     emFile_SPI0_txBufferRead = 0u;
+ 544:Generated_Source\PSoC5/emFile_SPI0.c ****                 }
+ 545:Generated_Source\PSoC5/emFile_SPI0.c ****                 emFile_SPI0_txBufferFull = 1u;
+ 546:Generated_Source\PSoC5/emFile_SPI0.c ****             }
+ 547:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 548:Generated_Source\PSoC5/emFile_SPI0.c ****             emFile_SPI0_txBuffer[emFile_SPI0_txBufferWrite] = txData;
+ 549:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 550:Generated_Source\PSoC5/emFile_SPI0.c ****             emFile_SPI0_TX_STATUS_MASK_REG |= emFile_SPI0_STS_TX_FIFO_NOT_FULL;
+ 551:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 552:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 553:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_EnableTxInt();
+ 554:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 555:Generated_Source\PSoC5/emFile_SPI0.c ****     #else
+ 556:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 557:Generated_Source\PSoC5/emFile_SPI0.c ****         while(0u == (emFile_SPI0_TX_STATUS_REG & emFile_SPI0_STS_TX_FIFO_NOT_FULL))
+ 290              		.loc 1 557 0 discriminator 1
+ 291 0000 034B     		ldr	r3, .L27
+ 292 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 293 0004 13F0040F 		tst	r3, #4
+ 294 0008 FAD0     		beq	.L26
+ 558:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ 559:Generated_Source\PSoC5/emFile_SPI0.c ****             ; /* Wait for room in FIFO */
+ 560:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 561:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 16
+
+
+ 562:Generated_Source\PSoC5/emFile_SPI0.c ****         /* Put byte in TX FIFO */
+ 563:Generated_Source\PSoC5/emFile_SPI0.c ****         CY_SET_REG8(emFile_SPI0_TXDATA_PTR, txData);
+ 295              		.loc 1 563 0
+ 296 000a 024B     		ldr	r3, .L27+4
+ 297 000c 1870     		strb	r0, [r3]
+ 298 000e 7047     		bx	lr
+ 299              	.L28:
+ 300              		.align	2
+ 301              	.L27:
+ 302 0010 69640040 		.word	1073767529
+ 303 0014 4A640040 		.word	1073767498
+ 304              		.cfi_endproc
+ 305              	.LFE12:
+ 306              		.size	emFile_SPI0_WriteTxData, .-emFile_SPI0_WriteTxData
+ 307              		.section	.text.emFile_SPI0_ReadRxData,"ax",%progbits
+ 308              		.align	2
+ 309              		.global	emFile_SPI0_ReadRxData
+ 310              		.thumb
+ 311              		.thumb_func
+ 312              		.type	emFile_SPI0_ReadRxData, %function
+ 313              	emFile_SPI0_ReadRxData:
+ 314              	.LFB13:
+ 564:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 565:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (emFile_SPI0_TX_SOFTWARE_BUF_ENABLED) */
+ 566:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 567:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 568:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 569:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 570:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_ReadRxData
+ 571:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 572:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 573:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 574:Generated_Source\PSoC5/emFile_SPI0.c **** *  Read the next byte of data received across the SPI.
+ 575:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 576:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 577:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 578:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 579:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 580:Generated_Source\PSoC5/emFile_SPI0.c **** *  The next byte of data read from the FIFO.
+ 581:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 582:Generated_Source\PSoC5/emFile_SPI0.c **** * Global variables:
+ 583:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_rxBufferWrite - used for the account of the bytes which
+ 584:Generated_Source\PSoC5/emFile_SPI0.c **** *  have been written down in the RX software buffer.
+ 585:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_rxBufferRead - used for the account of the bytes which
+ 586:Generated_Source\PSoC5/emFile_SPI0.c **** *  have been read from the RX software buffer, modified every function
+ 587:Generated_Source\PSoC5/emFile_SPI0.c **** *  call if RX Software Buffer is used.
+ 588:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_rxBuffer[emFile_SPI0_RX_BUFFER_SIZE] - used to store
+ 589:Generated_Source\PSoC5/emFile_SPI0.c **** *  received data.
+ 590:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 591:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ 592:Generated_Source\PSoC5/emFile_SPI0.c **** *  Allows the user to read a byte of data received.
+ 593:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 594:Generated_Source\PSoC5/emFile_SPI0.c **** * Side Effects:
+ 595:Generated_Source\PSoC5/emFile_SPI0.c **** *  Will return invalid data if the FIFO is empty. The user should Call
+ 596:Generated_Source\PSoC5/emFile_SPI0.c **** *  GetRxBufferSize() and if it returns a non-zero value then it is safe to call
+ 597:Generated_Source\PSoC5/emFile_SPI0.c **** *  ReadByte() function.
+ 598:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 17
+
+
+ 599:Generated_Source\PSoC5/emFile_SPI0.c **** * Reentrant:
+ 600:Generated_Source\PSoC5/emFile_SPI0.c **** *  No.
+ 601:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 602:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 603:Generated_Source\PSoC5/emFile_SPI0.c **** uint8 emFile_SPI0_ReadRxData(void) 
+ 604:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 315              		.loc 1 604 0
+ 316              		.cfi_startproc
+ 317              		@ args = 0, pretend = 0, frame = 0
+ 318              		@ frame_needed = 0, uses_anonymous_args = 0
+ 319              		@ link register save eliminated.
+ 605:Generated_Source\PSoC5/emFile_SPI0.c ****     uint8 rxData;
+ 606:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 607:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(emFile_SPI0_RX_SOFTWARE_BUF_ENABLED)
+ 608:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 609:Generated_Source\PSoC5/emFile_SPI0.c ****         /* Disable RX interrupt to protect global veriables */
+ 610:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_DisableRxInt();
+ 611:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 612:Generated_Source\PSoC5/emFile_SPI0.c ****         if(emFile_SPI0_rxBufferRead != emFile_SPI0_rxBufferWrite)
+ 613:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ 614:Generated_Source\PSoC5/emFile_SPI0.c ****             if(0u == emFile_SPI0_rxBufferFull)
+ 615:Generated_Source\PSoC5/emFile_SPI0.c ****             {
+ 616:Generated_Source\PSoC5/emFile_SPI0.c ****                 emFile_SPI0_rxBufferRead++;
+ 617:Generated_Source\PSoC5/emFile_SPI0.c ****                 if(emFile_SPI0_rxBufferRead >= emFile_SPI0_RX_BUFFER_SIZE)
+ 618:Generated_Source\PSoC5/emFile_SPI0.c ****                 {
+ 619:Generated_Source\PSoC5/emFile_SPI0.c ****                     emFile_SPI0_rxBufferRead = 0u;
+ 620:Generated_Source\PSoC5/emFile_SPI0.c ****                 }
+ 621:Generated_Source\PSoC5/emFile_SPI0.c ****             }
+ 622:Generated_Source\PSoC5/emFile_SPI0.c ****             else
+ 623:Generated_Source\PSoC5/emFile_SPI0.c ****             {
+ 624:Generated_Source\PSoC5/emFile_SPI0.c ****                 emFile_SPI0_rxBufferFull = 0u;
+ 625:Generated_Source\PSoC5/emFile_SPI0.c ****             }
+ 626:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 627:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 628:Generated_Source\PSoC5/emFile_SPI0.c ****         rxData = emFile_SPI0_rxBuffer[emFile_SPI0_rxBufferRead];
+ 629:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 630:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_EnableRxInt();
+ 631:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 632:Generated_Source\PSoC5/emFile_SPI0.c ****     #else
+ 633:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 634:Generated_Source\PSoC5/emFile_SPI0.c ****         rxData = CY_GET_REG8(emFile_SPI0_RXDATA_PTR);
+ 320              		.loc 1 634 0
+ 321 0000 014B     		ldr	r3, .L30
+ 322 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 323              	.LVL9:
+ 635:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 636:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (emFile_SPI0_RX_SOFTWARE_BUF_ENABLED) */
+ 637:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 638:Generated_Source\PSoC5/emFile_SPI0.c ****     return(rxData);
+ 639:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 324              		.loc 1 639 0
+ 325 0004 7047     		bx	lr
+ 326              	.L31:
+ 327 0006 00BF     		.align	2
+ 328              	.L30:
+ 329 0008 5A640040 		.word	1073767514
+ 330              		.cfi_endproc
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 18
+
+
+ 331              	.LFE13:
+ 332              		.size	emFile_SPI0_ReadRxData, .-emFile_SPI0_ReadRxData
+ 333              		.section	.text.emFile_SPI0_GetRxBufferSize,"ax",%progbits
+ 334              		.align	2
+ 335              		.global	emFile_SPI0_GetRxBufferSize
+ 336              		.thumb
+ 337              		.thumb_func
+ 338              		.type	emFile_SPI0_GetRxBufferSize, %function
+ 339              	emFile_SPI0_GetRxBufferSize:
+ 340              	.LFB14:
+ 640:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 641:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 642:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 643:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_GetRxBufferSize
+ 644:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 645:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 646:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 647:Generated_Source\PSoC5/emFile_SPI0.c **** *  Returns the number of bytes/words of data currently held in the RX buffer.
+ 648:Generated_Source\PSoC5/emFile_SPI0.c **** *  If RX Software Buffer not used then function return 0 if FIFO empty or 1 if
+ 649:Generated_Source\PSoC5/emFile_SPI0.c **** *  FIFO not empty. In another case function return size of RX Software Buffer.
+ 650:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 651:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 652:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 653:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 654:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 655:Generated_Source\PSoC5/emFile_SPI0.c **** *  Integer count of the number of bytes/words in the RX buffer.
+ 656:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 657:Generated_Source\PSoC5/emFile_SPI0.c **** * Global variables:
+ 658:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_rxBufferWrite - used for the account of the bytes which
+ 659:Generated_Source\PSoC5/emFile_SPI0.c **** *  have been written down in the RX software buffer.
+ 660:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_rxBufferRead - used for the account of the bytes which
+ 661:Generated_Source\PSoC5/emFile_SPI0.c **** *  have been read from the RX software buffer.
+ 662:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 663:Generated_Source\PSoC5/emFile_SPI0.c **** * Side Effects:
+ 664:Generated_Source\PSoC5/emFile_SPI0.c **** *  Clear status register of the component.
+ 665:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 666:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 667:Generated_Source\PSoC5/emFile_SPI0.c **** uint8 emFile_SPI0_GetRxBufferSize(void) 
+ 668:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 341              		.loc 1 668 0
+ 342              		.cfi_startproc
+ 343              		@ args = 0, pretend = 0, frame = 0
+ 344              		@ frame_needed = 0, uses_anonymous_args = 0
+ 345              		@ link register save eliminated.
+ 669:Generated_Source\PSoC5/emFile_SPI0.c ****     uint8 size;
+ 670:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 671:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(emFile_SPI0_RX_SOFTWARE_BUF_ENABLED)
+ 672:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 673:Generated_Source\PSoC5/emFile_SPI0.c ****         /* Disable RX interrupt to protect global veriables */
+ 674:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_DisableRxInt();
+ 675:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 676:Generated_Source\PSoC5/emFile_SPI0.c ****         if(emFile_SPI0_rxBufferRead == emFile_SPI0_rxBufferWrite)
+ 677:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ 678:Generated_Source\PSoC5/emFile_SPI0.c ****             size = 0u;
+ 679:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 680:Generated_Source\PSoC5/emFile_SPI0.c ****         else if(emFile_SPI0_rxBufferRead < emFile_SPI0_rxBufferWrite)
+ 681:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 19
+
+
+ 682:Generated_Source\PSoC5/emFile_SPI0.c ****             size = (emFile_SPI0_rxBufferWrite - emFile_SPI0_rxBufferRead);
+ 683:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 684:Generated_Source\PSoC5/emFile_SPI0.c ****         else
+ 685:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ 686:Generated_Source\PSoC5/emFile_SPI0.c ****             size = (emFile_SPI0_RX_BUFFER_SIZE - emFile_SPI0_rxBufferRead) + emFile_SPI0_rxBufferWr
+ 687:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 688:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 689:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_EnableRxInt();
+ 690:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 691:Generated_Source\PSoC5/emFile_SPI0.c ****     #else
+ 692:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 693:Generated_Source\PSoC5/emFile_SPI0.c ****         /* We can only know if there is data in the RX FIFO */
+ 694:Generated_Source\PSoC5/emFile_SPI0.c ****         size = (0u != (emFile_SPI0_RX_STATUS_REG & emFile_SPI0_STS_RX_FIFO_NOT_EMPTY)) ? 1u : 0u;
+ 346              		.loc 1 694 0
+ 347 0000 044B     		ldr	r3, .L35
+ 348 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 349 0004 13F0200F 		tst	r3, #32
+ 350 0008 01D0     		beq	.L34
+ 351 000a 0120     		movs	r0, #1
+ 352 000c 7047     		bx	lr
+ 353              	.L34:
+ 354 000e 0020     		movs	r0, #0
+ 355              	.LVL10:
+ 695:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 696:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (emFile_SPI0_TX_SOFTWARE_BUF_ENABLED) */
+ 697:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 698:Generated_Source\PSoC5/emFile_SPI0.c ****     return(size);
+ 699:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 356              		.loc 1 699 0
+ 357 0010 7047     		bx	lr
+ 358              	.L36:
+ 359 0012 00BF     		.align	2
+ 360              	.L35:
+ 361 0014 6B640040 		.word	1073767531
+ 362              		.cfi_endproc
+ 363              	.LFE14:
+ 364              		.size	emFile_SPI0_GetRxBufferSize, .-emFile_SPI0_GetRxBufferSize
+ 365              		.section	.text.emFile_SPI0_GetTxBufferSize,"ax",%progbits
+ 366              		.align	2
+ 367              		.global	emFile_SPI0_GetTxBufferSize
+ 368              		.thumb
+ 369              		.thumb_func
+ 370              		.type	emFile_SPI0_GetTxBufferSize, %function
+ 371              	emFile_SPI0_GetTxBufferSize:
+ 372              	.LFB15:
+ 700:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 701:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 702:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 703:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_GetTxBufferSize
+ 704:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 705:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 706:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 707:Generated_Source\PSoC5/emFile_SPI0.c **** *  Returns the number of bytes/words of data currently held in the TX buffer.
+ 708:Generated_Source\PSoC5/emFile_SPI0.c **** *  If TX Software Buffer not used then function return 0 - if FIFO empty, 1 - if
+ 709:Generated_Source\PSoC5/emFile_SPI0.c **** *  FIFO not full, 4 - if FIFO full. In another case function return size of TX
+ 710:Generated_Source\PSoC5/emFile_SPI0.c **** *  Software Buffer.
+ 711:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 20
+
+
+ 712:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 713:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 714:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 715:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 716:Generated_Source\PSoC5/emFile_SPI0.c **** *  Integer count of the number of bytes/words in the TX buffer.
+ 717:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 718:Generated_Source\PSoC5/emFile_SPI0.c **** * Global variables:
+ 719:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_txBufferWrite - used for the account of the bytes which
+ 720:Generated_Source\PSoC5/emFile_SPI0.c **** *  have been written down in the TX software buffer.
+ 721:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_txBufferRead - used for the account of the bytes which
+ 722:Generated_Source\PSoC5/emFile_SPI0.c **** *  have been read from the TX software buffer.
+ 723:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 724:Generated_Source\PSoC5/emFile_SPI0.c **** * Side Effects:
+ 725:Generated_Source\PSoC5/emFile_SPI0.c **** *  Clear status register of the component.
+ 726:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 727:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 728:Generated_Source\PSoC5/emFile_SPI0.c **** uint8  emFile_SPI0_GetTxBufferSize(void) 
+ 729:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 373              		.loc 1 729 0
+ 374              		.cfi_startproc
+ 375              		@ args = 0, pretend = 0, frame = 0
+ 376              		@ frame_needed = 0, uses_anonymous_args = 0
+ 377              		@ link register save eliminated.
+ 730:Generated_Source\PSoC5/emFile_SPI0.c ****     uint8 size;
+ 731:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 732:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(emFile_SPI0_TX_SOFTWARE_BUF_ENABLED)
+ 733:Generated_Source\PSoC5/emFile_SPI0.c ****         /* Disable TX interrupt to protect global veriables */
+ 734:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_DisableTxInt();
+ 735:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 736:Generated_Source\PSoC5/emFile_SPI0.c ****         if(emFile_SPI0_txBufferRead == emFile_SPI0_txBufferWrite)
+ 737:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ 738:Generated_Source\PSoC5/emFile_SPI0.c ****             size = 0u;
+ 739:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 740:Generated_Source\PSoC5/emFile_SPI0.c ****         else if(emFile_SPI0_txBufferRead < emFile_SPI0_txBufferWrite)
+ 741:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ 742:Generated_Source\PSoC5/emFile_SPI0.c ****             size = (emFile_SPI0_txBufferWrite - emFile_SPI0_txBufferRead);
+ 743:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 744:Generated_Source\PSoC5/emFile_SPI0.c ****         else
+ 745:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ 746:Generated_Source\PSoC5/emFile_SPI0.c ****             size = (emFile_SPI0_TX_BUFFER_SIZE - emFile_SPI0_txBufferRead) + emFile_SPI0_txBufferWr
+ 747:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 748:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 749:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_EnableTxInt();
+ 750:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 751:Generated_Source\PSoC5/emFile_SPI0.c ****     #else
+ 752:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 753:Generated_Source\PSoC5/emFile_SPI0.c ****         size = emFile_SPI0_TX_STATUS_REG;
+ 378              		.loc 1 753 0
+ 379 0000 074B     		ldr	r3, .L41
+ 380 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 381 0004 DBB2     		uxtb	r3, r3
+ 382              	.LVL11:
+ 754:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 755:Generated_Source\PSoC5/emFile_SPI0.c ****         if(0u != (size & emFile_SPI0_STS_TX_FIFO_EMPTY))
+ 383              		.loc 1 755 0
+ 384 0006 13F0020F 		tst	r3, #2
+ 385 000a 04D1     		bne	.L39
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 21
+
+
+ 756:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ 757:Generated_Source\PSoC5/emFile_SPI0.c ****             size = 0u;
+ 758:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 759:Generated_Source\PSoC5/emFile_SPI0.c ****         else if(0u != (size & emFile_SPI0_STS_TX_FIFO_NOT_FULL))
+ 386              		.loc 1 759 0
+ 387 000c 13F0040F 		tst	r3, #4
+ 388 0010 03D0     		beq	.L40
+ 760:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ 761:Generated_Source\PSoC5/emFile_SPI0.c ****             size = 1u;
+ 389              		.loc 1 761 0
+ 390 0012 0120     		movs	r0, #1
+ 391 0014 7047     		bx	lr
+ 392              	.L39:
+ 757:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 393              		.loc 1 757 0
+ 394 0016 0020     		movs	r0, #0
+ 395 0018 7047     		bx	lr
+ 396              	.L40:
+ 762:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 763:Generated_Source\PSoC5/emFile_SPI0.c ****         else
+ 764:Generated_Source\PSoC5/emFile_SPI0.c ****         {
+ 765:Generated_Source\PSoC5/emFile_SPI0.c ****             size = emFile_SPI0_FIFO_SIZE;
+ 397              		.loc 1 765 0
+ 398 001a 0420     		movs	r0, #4
+ 399              	.LVL12:
+ 766:Generated_Source\PSoC5/emFile_SPI0.c ****         }
+ 767:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 768:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (emFile_SPI0_TX_SOFTWARE_BUF_ENABLED) */
+ 769:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 770:Generated_Source\PSoC5/emFile_SPI0.c ****     return(size);
+ 771:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 400              		.loc 1 771 0
+ 401 001c 7047     		bx	lr
+ 402              	.L42:
+ 403 001e 00BF     		.align	2
+ 404              	.L41:
+ 405 0020 69640040 		.word	1073767529
+ 406              		.cfi_endproc
+ 407              	.LFE15:
+ 408              		.size	emFile_SPI0_GetTxBufferSize, .-emFile_SPI0_GetTxBufferSize
+ 409              		.section	.text.emFile_SPI0_ClearRxBuffer,"ax",%progbits
+ 410              		.align	2
+ 411              		.global	emFile_SPI0_ClearRxBuffer
+ 412              		.thumb
+ 413              		.thumb_func
+ 414              		.type	emFile_SPI0_ClearRxBuffer, %function
+ 415              	emFile_SPI0_ClearRxBuffer:
+ 416              	.LFB16:
+ 772:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 773:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 774:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 775:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_ClearRxBuffer
+ 776:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 777:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 778:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 779:Generated_Source\PSoC5/emFile_SPI0.c **** *  Clear the RX RAM buffer by setting the read and write pointers both to zero.
+ 780:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 22
+
+
+ 781:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 782:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 783:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 784:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 785:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 786:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 787:Generated_Source\PSoC5/emFile_SPI0.c **** * Global variables:
+ 788:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_rxBufferWrite - used for the account of the bytes which
+ 789:Generated_Source\PSoC5/emFile_SPI0.c **** *  have been written down in the RX software buffer, modified every function
+ 790:Generated_Source\PSoC5/emFile_SPI0.c **** *  call - resets to zero.
+ 791:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_rxBufferRead - used for the account of the bytes which
+ 792:Generated_Source\PSoC5/emFile_SPI0.c **** *  have been read from the RX software buffer, modified every function call -
+ 793:Generated_Source\PSoC5/emFile_SPI0.c **** *  resets to zero.
+ 794:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 795:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ 796:Generated_Source\PSoC5/emFile_SPI0.c **** *  Setting the pointers to zero makes the system believe there is no data to
+ 797:Generated_Source\PSoC5/emFile_SPI0.c **** *  read and writing will resume at address 0 overwriting any data that may have
+ 798:Generated_Source\PSoC5/emFile_SPI0.c **** *  remained in the RAM.
+ 799:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 800:Generated_Source\PSoC5/emFile_SPI0.c **** * Side Effects:
+ 801:Generated_Source\PSoC5/emFile_SPI0.c **** *  Any received data not read from the RAM buffer will be lost when overwritten.
+ 802:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 803:Generated_Source\PSoC5/emFile_SPI0.c **** * Reentrant:
+ 804:Generated_Source\PSoC5/emFile_SPI0.c **** *  No.
+ 805:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 806:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 807:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_ClearRxBuffer(void) 
+ 808:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 417              		.loc 1 808 0
+ 418              		.cfi_startproc
+ 419              		@ args = 0, pretend = 0, frame = 0
+ 420              		@ frame_needed = 0, uses_anonymous_args = 0
+ 421              		@ link register save eliminated.
+ 809:Generated_Source\PSoC5/emFile_SPI0.c ****     /* Clear Hardware RX FIFO */
+ 810:Generated_Source\PSoC5/emFile_SPI0.c ****     while(0u !=(emFile_SPI0_RX_STATUS_REG & emFile_SPI0_STS_RX_FIFO_NOT_EMPTY))
+ 422              		.loc 1 810 0
+ 423 0000 01E0     		b	.L44
+ 424              	.L45:
+ 811:Generated_Source\PSoC5/emFile_SPI0.c ****     {
+ 812:Generated_Source\PSoC5/emFile_SPI0.c ****         (void) CY_GET_REG8(emFile_SPI0_RXDATA_PTR);
+ 425              		.loc 1 812 0
+ 426 0002 044B     		ldr	r3, .L46
+ 427 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 428              	.L44:
+ 810:Generated_Source\PSoC5/emFile_SPI0.c ****     {
+ 429              		.loc 1 810 0
+ 430 0006 044B     		ldr	r3, .L46+4
+ 431 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 432 000a 13F0200F 		tst	r3, #32
+ 433 000e F8D1     		bne	.L45
+ 813:Generated_Source\PSoC5/emFile_SPI0.c ****     }
+ 814:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 815:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(emFile_SPI0_RX_SOFTWARE_BUF_ENABLED)
+ 816:Generated_Source\PSoC5/emFile_SPI0.c ****         /* Disable RX interrupt to protect global veriables */
+ 817:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_DisableRxInt();
+ 818:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 819:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_rxBufferFull  = 0u;
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 23
+
+
+ 820:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_rxBufferRead  = 0u;
+ 821:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_rxBufferWrite = 0u;
+ 822:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 823:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_EnableRxInt();
+ 824:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (emFile_SPI0_RX_SOFTWARE_BUF_ENABLED) */
+ 825:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 434              		.loc 1 825 0
+ 435 0010 7047     		bx	lr
+ 436              	.L47:
+ 437 0012 00BF     		.align	2
+ 438              	.L46:
+ 439 0014 5A640040 		.word	1073767514
+ 440 0018 6B640040 		.word	1073767531
+ 441              		.cfi_endproc
+ 442              	.LFE16:
+ 443              		.size	emFile_SPI0_ClearRxBuffer, .-emFile_SPI0_ClearRxBuffer
+ 444              		.section	.text.emFile_SPI0_ClearTxBuffer,"ax",%progbits
+ 445              		.align	2
+ 446              		.global	emFile_SPI0_ClearTxBuffer
+ 447              		.thumb
+ 448              		.thumb_func
+ 449              		.type	emFile_SPI0_ClearTxBuffer, %function
+ 450              	emFile_SPI0_ClearTxBuffer:
+ 451              	.LFB17:
+ 826:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 827:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 828:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 829:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_ClearTxBuffer
+ 830:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 831:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 832:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 833:Generated_Source\PSoC5/emFile_SPI0.c **** *  Clear the TX RAM buffer by setting the read and write pointers both to zero.
+ 834:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 835:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 836:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 837:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 838:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 839:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 840:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 841:Generated_Source\PSoC5/emFile_SPI0.c **** * Global variables:
+ 842:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_txBufferWrite - used for the account of the bytes which
+ 843:Generated_Source\PSoC5/emFile_SPI0.c **** *  have been written down in the TX software buffer, modified every function
+ 844:Generated_Source\PSoC5/emFile_SPI0.c **** *  call - resets to zero.
+ 845:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_txBufferRead - used for the account of the bytes which
+ 846:Generated_Source\PSoC5/emFile_SPI0.c **** *  have been read from the TX software buffer, modified every function call -
+ 847:Generated_Source\PSoC5/emFile_SPI0.c **** *  resets to zero.
+ 848:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 849:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+ 850:Generated_Source\PSoC5/emFile_SPI0.c **** *  Setting the pointers to zero makes the system believe there is no data to
+ 851:Generated_Source\PSoC5/emFile_SPI0.c **** *  read and writing will resume at address 0 overwriting any data that may have
+ 852:Generated_Source\PSoC5/emFile_SPI0.c **** *  remained in the RAM.
+ 853:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 854:Generated_Source\PSoC5/emFile_SPI0.c **** * Side Effects:
+ 855:Generated_Source\PSoC5/emFile_SPI0.c **** *  Any data not yet transmitted from the RAM buffer will be lost when
+ 856:Generated_Source\PSoC5/emFile_SPI0.c **** *  overwritten.
+ 857:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 858:Generated_Source\PSoC5/emFile_SPI0.c **** * Reentrant:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 24
+
+
+ 859:Generated_Source\PSoC5/emFile_SPI0.c **** *  No.
+ 860:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 861:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 862:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_ClearTxBuffer(void) 
+ 863:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 452              		.loc 1 863 0
+ 453              		.cfi_startproc
+ 454              		@ args = 0, pretend = 0, frame = 0
+ 455              		@ frame_needed = 0, uses_anonymous_args = 0
+ 456 0000 08B5     		push	{r3, lr}
+ 457              		.cfi_def_cfa_offset 8
+ 458              		.cfi_offset 3, -8
+ 459              		.cfi_offset 14, -4
+ 864:Generated_Source\PSoC5/emFile_SPI0.c ****     uint8 enableInterrupts;
+ 865:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 866:Generated_Source\PSoC5/emFile_SPI0.c ****     enableInterrupts = CyEnterCriticalSection();
+ 460              		.loc 1 866 0
+ 461 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 462              	.LVL13:
+ 867:Generated_Source\PSoC5/emFile_SPI0.c ****     /* Clear TX FIFO */
+ 868:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_AUX_CONTROL_DP0_REG |= ((uint8)  emFile_SPI0_TX_FIFO_CLR);
+ 463              		.loc 1 868 0
+ 464 0006 064B     		ldr	r3, .L50
+ 465 0008 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 466 000a 42F00102 		orr	r2, r2, #1
+ 467 000e 1A70     		strb	r2, [r3]
+ 869:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_AUX_CONTROL_DP0_REG &= ((uint8) ~emFile_SPI0_TX_FIFO_CLR);
+ 468              		.loc 1 869 0
+ 469 0010 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 470 0012 02F0FE02 		and	r2, r2, #254
+ 471 0016 1A70     		strb	r2, [r3]
+ 870:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 871:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(emFile_SPI0_USE_SECOND_DATAPATH)
+ 872:Generated_Source\PSoC5/emFile_SPI0.c ****         /* Clear TX FIFO for 2nd Datapath */
+ 873:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_AUX_CONTROL_DP1_REG |= ((uint8)  emFile_SPI0_TX_FIFO_CLR);
+ 874:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_AUX_CONTROL_DP1_REG &= ((uint8) ~emFile_SPI0_TX_FIFO_CLR);
+ 875:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (emFile_SPI0_USE_SECOND_DATAPATH) */
+ 876:Generated_Source\PSoC5/emFile_SPI0.c ****     CyExitCriticalSection(enableInterrupts);
+ 472              		.loc 1 876 0
+ 473 0018 FFF7FEFF 		bl	CyExitCriticalSection
+ 474              	.LVL14:
+ 475 001c 08BD     		pop	{r3, pc}
+ 476              	.L51:
+ 477 001e 00BF     		.align	2
+ 478              	.L50:
+ 479 0020 9A640040 		.word	1073767578
+ 480              		.cfi_endproc
+ 481              	.LFE17:
+ 482              		.size	emFile_SPI0_ClearTxBuffer, .-emFile_SPI0_ClearTxBuffer
+ 483              		.section	.text.emFile_SPI0_PutArray,"ax",%progbits
+ 484              		.align	2
+ 485              		.global	emFile_SPI0_PutArray
+ 486              		.thumb
+ 487              		.thumb_func
+ 488              		.type	emFile_SPI0_PutArray, %function
+ 489              	emFile_SPI0_PutArray:
+ 490              	.LFB18:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 25
+
+
+ 877:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 878:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(emFile_SPI0_TX_SOFTWARE_BUF_ENABLED)
+ 879:Generated_Source\PSoC5/emFile_SPI0.c ****         /* Disable TX interrupt to protect global veriables */
+ 880:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_DisableTxInt();
+ 881:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 882:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_txBufferFull  = 0u;
+ 883:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_txBufferRead  = 0u;
+ 884:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_txBufferWrite = 0u;
+ 885:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 886:Generated_Source\PSoC5/emFile_SPI0.c ****         /* Buffer is EMPTY: disable TX FIFO NOT FULL interrupt */
+ 887:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_TX_STATUS_MASK_REG &= ((uint8) ~emFile_SPI0_STS_TX_FIFO_NOT_FULL);
+ 888:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 889:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_EnableTxInt();
+ 890:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (emFile_SPI0_TX_SOFTWARE_BUF_ENABLED) */
+ 891:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 892:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 893:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 894:Generated_Source\PSoC5/emFile_SPI0.c **** #if(0u != emFile_SPI0_BIDIRECTIONAL_MODE)
+ 895:Generated_Source\PSoC5/emFile_SPI0.c ****     /*******************************************************************************
+ 896:Generated_Source\PSoC5/emFile_SPI0.c ****     * Function Name: emFile_SPI0_TxEnable
+ 897:Generated_Source\PSoC5/emFile_SPI0.c ****     ********************************************************************************
+ 898:Generated_Source\PSoC5/emFile_SPI0.c ****     *
+ 899:Generated_Source\PSoC5/emFile_SPI0.c ****     * Summary:
+ 900:Generated_Source\PSoC5/emFile_SPI0.c ****     *  If the SPI master is configured to use a single bi-directional pin then this
+ 901:Generated_Source\PSoC5/emFile_SPI0.c ****     *  will set the bi-directional pin to transmit.
+ 902:Generated_Source\PSoC5/emFile_SPI0.c ****     *
+ 903:Generated_Source\PSoC5/emFile_SPI0.c ****     * Parameters:
+ 904:Generated_Source\PSoC5/emFile_SPI0.c ****     *  None.
+ 905:Generated_Source\PSoC5/emFile_SPI0.c ****     *
+ 906:Generated_Source\PSoC5/emFile_SPI0.c ****     * Return:
+ 907:Generated_Source\PSoC5/emFile_SPI0.c ****     *  None.
+ 908:Generated_Source\PSoC5/emFile_SPI0.c ****     *
+ 909:Generated_Source\PSoC5/emFile_SPI0.c ****     *******************************************************************************/
+ 910:Generated_Source\PSoC5/emFile_SPI0.c ****     void emFile_SPI0_TxEnable(void) 
+ 911:Generated_Source\PSoC5/emFile_SPI0.c ****     {
+ 912:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_CONTROL_REG |= emFile_SPI0_CTRL_TX_SIGNAL_EN;
+ 913:Generated_Source\PSoC5/emFile_SPI0.c ****     }
+ 914:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 915:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 916:Generated_Source\PSoC5/emFile_SPI0.c ****     /*******************************************************************************
+ 917:Generated_Source\PSoC5/emFile_SPI0.c ****     * Function Name: emFile_SPI0_TxDisable
+ 918:Generated_Source\PSoC5/emFile_SPI0.c ****     ********************************************************************************
+ 919:Generated_Source\PSoC5/emFile_SPI0.c ****     *
+ 920:Generated_Source\PSoC5/emFile_SPI0.c ****     * Summary:
+ 921:Generated_Source\PSoC5/emFile_SPI0.c ****     *  If the SPI master is configured to use a single bi-directional pin then this
+ 922:Generated_Source\PSoC5/emFile_SPI0.c ****     *  will set the bi-directional pin to receive.
+ 923:Generated_Source\PSoC5/emFile_SPI0.c ****     *
+ 924:Generated_Source\PSoC5/emFile_SPI0.c ****     * Parameters:
+ 925:Generated_Source\PSoC5/emFile_SPI0.c ****     *  None.
+ 926:Generated_Source\PSoC5/emFile_SPI0.c ****     *
+ 927:Generated_Source\PSoC5/emFile_SPI0.c ****     * Return:
+ 928:Generated_Source\PSoC5/emFile_SPI0.c ****     *  None.
+ 929:Generated_Source\PSoC5/emFile_SPI0.c ****     *
+ 930:Generated_Source\PSoC5/emFile_SPI0.c ****     *******************************************************************************/
+ 931:Generated_Source\PSoC5/emFile_SPI0.c ****     void emFile_SPI0_TxDisable(void) 
+ 932:Generated_Source\PSoC5/emFile_SPI0.c ****     {
+ 933:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_CONTROL_REG &= ((uint8) ~emFile_SPI0_CTRL_TX_SIGNAL_EN);
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 26
+
+
+ 934:Generated_Source\PSoC5/emFile_SPI0.c ****     }
+ 935:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 936:Generated_Source\PSoC5/emFile_SPI0.c **** #endif /* (0u != emFile_SPI0_BIDIRECTIONAL_MODE) */
+ 937:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 938:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 939:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 940:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_PutArray
+ 941:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 942:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 943:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 944:Generated_Source\PSoC5/emFile_SPI0.c **** *  Write available data from ROM/RAM to the TX buffer while space is available
+ 945:Generated_Source\PSoC5/emFile_SPI0.c **** *  in the TX buffer. Keep trying until all data is passed to the TX buffer.
+ 946:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 947:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 948:Generated_Source\PSoC5/emFile_SPI0.c **** *  *buffer: Pointer to the location in RAM containing the data to send
+ 949:Generated_Source\PSoC5/emFile_SPI0.c **** *  byteCount: The number of bytes to move to the transmit buffer.
+ 950:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 951:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 952:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 953:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 954:Generated_Source\PSoC5/emFile_SPI0.c **** * Side Effects:
+ 955:Generated_Source\PSoC5/emFile_SPI0.c **** *  Will stay in this routine until all data has been sent.  May get locked in
+ 956:Generated_Source\PSoC5/emFile_SPI0.c **** *  this loop if data is not being initiated by the master if there is not
+ 957:Generated_Source\PSoC5/emFile_SPI0.c **** *  enough room in the TX FIFO.
+ 958:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 959:Generated_Source\PSoC5/emFile_SPI0.c **** * Reentrant:
+ 960:Generated_Source\PSoC5/emFile_SPI0.c **** *  No.
+ 961:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 962:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ 963:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_PutArray(const uint8 buffer[], uint8 byteCount)
+ 964:Generated_Source\PSoC5/emFile_SPI0.c ****                                                                           
+ 965:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 491              		.loc 1 965 0
+ 492              		.cfi_startproc
+ 493              		@ args = 0, pretend = 0, frame = 0
+ 494              		@ frame_needed = 0, uses_anonymous_args = 0
+ 495              	.LVL15:
+ 496 0000 70B5     		push	{r4, r5, r6, lr}
+ 497              		.cfi_def_cfa_offset 16
+ 498              		.cfi_offset 4, -16
+ 499              		.cfi_offset 5, -12
+ 500              		.cfi_offset 6, -8
+ 501              		.cfi_offset 14, -4
+ 502 0002 0646     		mov	r6, r0
+ 503 0004 0C46     		mov	r4, r1
+ 504              	.LVL16:
+ 966:Generated_Source\PSoC5/emFile_SPI0.c ****     uint8 bufIndex;
+ 967:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 968:Generated_Source\PSoC5/emFile_SPI0.c ****     bufIndex = 0u;
+ 505              		.loc 1 968 0
+ 506 0006 0025     		movs	r5, #0
+ 969:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 970:Generated_Source\PSoC5/emFile_SPI0.c ****     while(byteCount > 0u)
+ 507              		.loc 1 970 0
+ 508 0008 06E0     		b	.L53
+ 509              	.LVL17:
+ 510              	.L54:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 27
+
+
+ 971:Generated_Source\PSoC5/emFile_SPI0.c ****     {
+ 972:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_WriteTxData(buffer[bufIndex]);
+ 511              		.loc 1 972 0
+ 512 000a 705D     		ldrb	r0, [r6, r5]	@ zero_extendqisi2
+ 513 000c FFF7FEFF 		bl	emFile_SPI0_WriteTxData
+ 514              	.LVL18:
+ 973:Generated_Source\PSoC5/emFile_SPI0.c ****         bufIndex++;
+ 515              		.loc 1 973 0
+ 516 0010 0135     		adds	r5, r5, #1
+ 517              	.LVL19:
+ 518 0012 EDB2     		uxtb	r5, r5
+ 519              	.LVL20:
+ 974:Generated_Source\PSoC5/emFile_SPI0.c ****         byteCount--;
+ 520              		.loc 1 974 0
+ 521 0014 013C     		subs	r4, r4, #1
+ 522              	.LVL21:
+ 523 0016 E4B2     		uxtb	r4, r4
+ 524              	.LVL22:
+ 525              	.L53:
+ 970:Generated_Source\PSoC5/emFile_SPI0.c ****     {
+ 526              		.loc 1 970 0
+ 527 0018 002C     		cmp	r4, #0
+ 528 001a F6D1     		bne	.L54
+ 975:Generated_Source\PSoC5/emFile_SPI0.c ****     }
+ 976:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 529              		.loc 1 976 0
+ 530 001c 70BD     		pop	{r4, r5, r6, pc}
+ 531              		.cfi_endproc
+ 532              	.LFE18:
+ 533              		.size	emFile_SPI0_PutArray, .-emFile_SPI0_PutArray
+ 534 001e 00BF     		.section	.text.emFile_SPI0_ClearFIFO,"ax",%progbits
+ 535              		.align	2
+ 536              		.global	emFile_SPI0_ClearFIFO
+ 537              		.thumb
+ 538              		.thumb_func
+ 539              		.type	emFile_SPI0_ClearFIFO, %function
+ 540              	emFile_SPI0_ClearFIFO:
+ 541              	.LFB19:
+ 977:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 978:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 979:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+ 980:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_ClearFIFO
+ 981:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+ 982:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 983:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+ 984:Generated_Source\PSoC5/emFile_SPI0.c **** *  Clear the RX and TX FIFO's of all data for a fresh start.
+ 985:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 986:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ 987:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 988:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 989:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+ 990:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+ 991:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 992:Generated_Source\PSoC5/emFile_SPI0.c **** * Side Effects:
+ 993:Generated_Source\PSoC5/emFile_SPI0.c **** *  Clear status register of the component.
+ 994:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ 995:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 28
+
+
+ 996:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_ClearFIFO(void) 
+ 997:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 542              		.loc 1 997 0
+ 543              		.cfi_startproc
+ 544              		@ args = 0, pretend = 0, frame = 0
+ 545              		@ frame_needed = 0, uses_anonymous_args = 0
+ 546 0000 08B5     		push	{r3, lr}
+ 547              		.cfi_def_cfa_offset 8
+ 548              		.cfi_offset 3, -8
+ 549              		.cfi_offset 14, -4
+ 998:Generated_Source\PSoC5/emFile_SPI0.c ****     uint8 enableInterrupts;
+ 999:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1000:Generated_Source\PSoC5/emFile_SPI0.c ****     /* Clear Hardware RX FIFO */
+1001:Generated_Source\PSoC5/emFile_SPI0.c ****     while(0u !=(emFile_SPI0_RX_STATUS_REG & emFile_SPI0_STS_RX_FIFO_NOT_EMPTY))
+ 550              		.loc 1 1001 0
+ 551 0002 01E0     		b	.L57
+ 552              	.L58:
+1002:Generated_Source\PSoC5/emFile_SPI0.c ****     {
+1003:Generated_Source\PSoC5/emFile_SPI0.c ****         (void) CY_GET_REG8(emFile_SPI0_RXDATA_PTR);
+ 553              		.loc 1 1003 0
+ 554 0004 0A4B     		ldr	r3, .L60
+ 555 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 556              	.L57:
+1001:Generated_Source\PSoC5/emFile_SPI0.c ****     {
+ 557              		.loc 1 1001 0
+ 558 0008 0A4B     		ldr	r3, .L60+4
+ 559 000a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 560 000c 13F0200F 		tst	r3, #32
+ 561 0010 F8D1     		bne	.L58
+1004:Generated_Source\PSoC5/emFile_SPI0.c ****     }
+1005:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1006:Generated_Source\PSoC5/emFile_SPI0.c ****     enableInterrupts = CyEnterCriticalSection();
+ 562              		.loc 1 1006 0
+ 563 0012 FFF7FEFF 		bl	CyEnterCriticalSection
+ 564              	.LVL23:
+1007:Generated_Source\PSoC5/emFile_SPI0.c ****     /* Clear TX FIFO */
+1008:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_AUX_CONTROL_DP0_REG |= ((uint8)  emFile_SPI0_TX_FIFO_CLR);
+ 565              		.loc 1 1008 0
+ 566 0016 084B     		ldr	r3, .L60+8
+ 567 0018 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 568 001a 42F00102 		orr	r2, r2, #1
+ 569 001e 1A70     		strb	r2, [r3]
+1009:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_AUX_CONTROL_DP0_REG &= ((uint8) ~emFile_SPI0_TX_FIFO_CLR);
+ 570              		.loc 1 1009 0
+ 571 0020 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 572 0022 02F0FE02 		and	r2, r2, #254
+ 573 0026 1A70     		strb	r2, [r3]
+1010:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1011:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(emFile_SPI0_USE_SECOND_DATAPATH)
+1012:Generated_Source\PSoC5/emFile_SPI0.c ****         /* Clear TX FIFO for 2nd Datapath */
+1013:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_AUX_CONTROL_DP1_REG |= ((uint8)  emFile_SPI0_TX_FIFO_CLR);
+1014:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_AUX_CONTROL_DP1_REG &= ((uint8) ~emFile_SPI0_TX_FIFO_CLR);
+1015:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (emFile_SPI0_USE_SECOND_DATAPATH) */
+1016:Generated_Source\PSoC5/emFile_SPI0.c ****     CyExitCriticalSection(enableInterrupts);
+ 574              		.loc 1 1016 0
+ 575 0028 FFF7FEFF 		bl	CyExitCriticalSection
+ 576              	.LVL24:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 29
+
+
+ 577 002c 08BD     		pop	{r3, pc}
+ 578              	.L61:
+ 579 002e 00BF     		.align	2
+ 580              	.L60:
+ 581 0030 5A640040 		.word	1073767514
+ 582 0034 6B640040 		.word	1073767531
+ 583 0038 9A640040 		.word	1073767578
+ 584              		.cfi_endproc
+ 585              	.LFE19:
+ 586              		.size	emFile_SPI0_ClearFIFO, .-emFile_SPI0_ClearFIFO
+ 587              		.section	.text.emFile_SPI0_Init,"ax",%progbits
+ 588              		.align	2
+ 589              		.global	emFile_SPI0_Init
+ 590              		.thumb
+ 591              		.thumb_func
+ 592              		.type	emFile_SPI0_Init, %function
+ 593              	emFile_SPI0_Init:
+ 594              	.LFB0:
+  64:Generated_Source\PSoC5/emFile_SPI0.c ****     /* Initialize the Bit counter */
+ 595              		.loc 1 64 0
+ 596              		.cfi_startproc
+ 597              		@ args = 0, pretend = 0, frame = 0
+ 598              		@ frame_needed = 0, uses_anonymous_args = 0
+ 599 0000 08B5     		push	{r3, lr}
+ 600              		.cfi_def_cfa_offset 8
+ 601              		.cfi_offset 3, -8
+ 602              		.cfi_offset 14, -4
+  66:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 603              		.loc 1 66 0
+ 604 0002 0F22     		movs	r2, #15
+ 605 0004 064B     		ldr	r3, .L64
+ 606 0006 1A70     		strb	r2, [r3]
+  83:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 607              		.loc 1 83 0
+ 608 0008 FFF7FEFF 		bl	emFile_SPI0_ClearFIFO
+ 609              	.LVL25:
+  97:Generated_Source\PSoC5/emFile_SPI0.c ****     (void) emFile_SPI0_ReadRxStatus(); /* Clear Rx status and swStatusRx */
+ 610              		.loc 1 97 0
+ 611 000c FFF7FEFF 		bl	emFile_SPI0_ReadTxStatus
+ 612              	.LVL26:
+  98:Generated_Source\PSoC5/emFile_SPI0.c **** 
+ 613              		.loc 1 98 0
+ 614 0010 FFF7FEFF 		bl	emFile_SPI0_ReadRxStatus
+ 615              	.LVL27:
+ 101:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_RX_STATUS_MASK_REG = emFile_SPI0_RX_INIT_INTERRUPTS_MASK;
+ 616              		.loc 1 101 0
+ 617 0014 0023     		movs	r3, #0
+ 618 0016 034A     		ldr	r2, .L64+4
+ 619 0018 1370     		strb	r3, [r2]
+ 102:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 620              		.loc 1 102 0
+ 621 001a 0232     		adds	r2, r2, #2
+ 622 001c 1370     		strb	r3, [r2]
+ 623 001e 08BD     		pop	{r3, pc}
+ 624              	.L65:
+ 625              		.align	2
+ 626              	.L64:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 30
+
+
+ 627 0020 8A640040 		.word	1073767562
+ 628 0024 89640040 		.word	1073767561
+ 629              		.cfi_endproc
+ 630              	.LFE0:
+ 631              		.size	emFile_SPI0_Init, .-emFile_SPI0_Init
+ 632              		.section	.text.emFile_SPI0_Start,"ax",%progbits
+ 633              		.align	2
+ 634              		.global	emFile_SPI0_Start
+ 635              		.thumb
+ 636              		.thumb_func
+ 637              		.type	emFile_SPI0_Start, %function
+ 638              	emFile_SPI0_Start:
+ 639              	.LFB2:
+ 164:Generated_Source\PSoC5/emFile_SPI0.c ****     if(0u == emFile_SPI0_initVar)
+ 640              		.loc 1 164 0
+ 641              		.cfi_startproc
+ 642              		@ args = 0, pretend = 0, frame = 0
+ 643              		@ frame_needed = 0, uses_anonymous_args = 0
+ 644 0000 08B5     		push	{r3, lr}
+ 645              		.cfi_def_cfa_offset 8
+ 646              		.cfi_offset 3, -8
+ 647              		.cfi_offset 14, -4
+ 165:Generated_Source\PSoC5/emFile_SPI0.c ****     {
+ 648              		.loc 1 165 0
+ 649 0002 054B     		ldr	r3, .L69
+ 650 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 651 0006 23B9     		cbnz	r3, .L67
+ 167:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_initVar = 1u;
+ 652              		.loc 1 167 0
+ 653 0008 FFF7FEFF 		bl	emFile_SPI0_Init
+ 654              	.LVL28:
+ 168:Generated_Source\PSoC5/emFile_SPI0.c ****     }
+ 655              		.loc 1 168 0
+ 656 000c 0122     		movs	r2, #1
+ 657 000e 024B     		ldr	r3, .L69
+ 658 0010 1A70     		strb	r2, [r3]
+ 659              	.L67:
+ 171:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 660              		.loc 1 171 0
+ 661 0012 FFF7FEFF 		bl	emFile_SPI0_Enable
+ 662              	.LVL29:
+ 663 0016 08BD     		pop	{r3, pc}
+ 664              	.L70:
+ 665              		.align	2
+ 666              	.L69:
+ 667 0018 00000000 		.word	.LANCHOR0
+ 668              		.cfi_endproc
+ 669              	.LFE2:
+ 670              		.size	emFile_SPI0_Start, .-emFile_SPI0_Start
+ 671              		.section	.text.emFile_SPI0_EnableInt,"ax",%progbits
+ 672              		.align	2
+ 673              		.global	emFile_SPI0_EnableInt
+ 674              		.thumb
+ 675              		.thumb_func
+ 676              		.type	emFile_SPI0_EnableInt, %function
+ 677              	emFile_SPI0_EnableInt:
+ 678              	.LFB20:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 31
+
+
+1017:Generated_Source\PSoC5/emFile_SPI0.c **** }
+1018:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1019:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1020:Generated_Source\PSoC5/emFile_SPI0.c **** /* Following functions are for version Compatibility, they are obsolete.
+1021:Generated_Source\PSoC5/emFile_SPI0.c **** *  Please do not use it in new projects.
+1022:Generated_Source\PSoC5/emFile_SPI0.c **** */
+1023:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1024:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1025:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+1026:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_EnableInt
+1027:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+1028:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1029:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+1030:Generated_Source\PSoC5/emFile_SPI0.c **** *  Enable internal interrupt generation.
+1031:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1032:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+1033:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+1034:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1035:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+1036:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+1037:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1038:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+1039:Generated_Source\PSoC5/emFile_SPI0.c **** *  Enable the internal interrupt output -or- the interrupt component itself.
+1040:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1041:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+1042:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_EnableInt(void) 
+1043:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 679              		.loc 1 1043 0
+ 680              		.cfi_startproc
+ 681              		@ args = 0, pretend = 0, frame = 0
+ 682              		@ frame_needed = 0, uses_anonymous_args = 0
+ 683              		@ link register save eliminated.
+ 684 0000 7047     		bx	lr
+ 685              		.cfi_endproc
+ 686              	.LFE20:
+ 687              		.size	emFile_SPI0_EnableInt, .-emFile_SPI0_EnableInt
+ 688 0002 00BF     		.section	.text.emFile_SPI0_DisableInt,"ax",%progbits
+ 689              		.align	2
+ 690              		.global	emFile_SPI0_DisableInt
+ 691              		.thumb
+ 692              		.thumb_func
+ 693              		.type	emFile_SPI0_DisableInt, %function
+ 694              	emFile_SPI0_DisableInt:
+ 695              	.LFB21:
+1044:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_EnableRxInt();
+1045:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_EnableTxInt();
+1046:Generated_Source\PSoC5/emFile_SPI0.c **** }
+1047:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1048:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1049:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+1050:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_DisableInt
+1051:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+1052:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1053:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+1054:Generated_Source\PSoC5/emFile_SPI0.c **** *  Disable internal interrupt generation.
+1055:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1056:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 32
+
+
+1057:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+1058:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1059:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+1060:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+1061:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1062:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+1063:Generated_Source\PSoC5/emFile_SPI0.c **** *  Disable the internal interrupt output -or- the interrupt component itself.
+1064:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1065:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+1066:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_DisableInt(void) 
+1067:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 696              		.loc 1 1067 0
+ 697              		.cfi_startproc
+ 698              		@ args = 0, pretend = 0, frame = 0
+ 699              		@ frame_needed = 0, uses_anonymous_args = 0
+ 700              		@ link register save eliminated.
+ 701 0000 7047     		bx	lr
+ 702              		.cfi_endproc
+ 703              	.LFE21:
+ 704              		.size	emFile_SPI0_DisableInt, .-emFile_SPI0_DisableInt
+ 705 0002 00BF     		.section	.text.emFile_SPI0_SetInterruptMode,"ax",%progbits
+ 706              		.align	2
+ 707              		.global	emFile_SPI0_SetInterruptMode
+ 708              		.thumb
+ 709              		.thumb_func
+ 710              		.type	emFile_SPI0_SetInterruptMode, %function
+ 711              	emFile_SPI0_SetInterruptMode:
+ 712              	.LFB22:
+1068:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_DisableTxInt();
+1069:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_DisableRxInt();
+1070:Generated_Source\PSoC5/emFile_SPI0.c **** }
+1071:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1072:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1073:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+1074:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_SetInterruptMode
+1075:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+1076:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1077:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+1078:Generated_Source\PSoC5/emFile_SPI0.c **** *  Configure which status bits trigger an interrupt event.
+1079:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1080:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+1081:Generated_Source\PSoC5/emFile_SPI0.c **** *  intSrc: An or'd combination of the desired status bit masks (defined in the
+1082:Generated_Source\PSoC5/emFile_SPI0.c **** *  header file).
+1083:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1084:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+1085:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+1086:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1087:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+1088:Generated_Source\PSoC5/emFile_SPI0.c **** *  Enables the output of specific status bits to the interrupt controller.
+1089:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1090:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+1091:Generated_Source\PSoC5/emFile_SPI0.c **** void emFile_SPI0_SetInterruptMode(uint8 intSrc) 
+1092:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 713              		.loc 1 1092 0
+ 714              		.cfi_startproc
+ 715              		@ args = 0, pretend = 0, frame = 0
+ 716              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 33
+
+
+ 717              		@ link register save eliminated.
+ 718              	.LVL30:
+1093:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_TX_STATUS_MASK_REG  = (intSrc & ((uint8) ~emFile_SPI0_STS_SPI_IDLE));
+ 719              		.loc 1 1093 0
+ 720 0000 00F0EF02 		and	r2, r0, #239
+ 721 0004 024B     		ldr	r3, .L74
+ 722 0006 1A70     		strb	r2, [r3]
+1094:Generated_Source\PSoC5/emFile_SPI0.c ****     emFile_SPI0_RX_STATUS_MASK_REG  =  intSrc;
+ 723              		.loc 1 1094 0
+ 724 0008 0233     		adds	r3, r3, #2
+ 725 000a 1870     		strb	r0, [r3]
+ 726 000c 7047     		bx	lr
+ 727              	.L75:
+ 728 000e 00BF     		.align	2
+ 729              	.L74:
+ 730 0010 89640040 		.word	1073767561
+ 731              		.cfi_endproc
+ 732              	.LFE22:
+ 733              		.size	emFile_SPI0_SetInterruptMode, .-emFile_SPI0_SetInterruptMode
+ 734              		.section	.text.emFile_SPI0_ReadStatus,"ax",%progbits
+ 735              		.align	2
+ 736              		.global	emFile_SPI0_ReadStatus
+ 737              		.thumb
+ 738              		.thumb_func
+ 739              		.type	emFile_SPI0_ReadStatus, %function
+ 740              	emFile_SPI0_ReadStatus:
+ 741              	.LFB23:
+1095:Generated_Source\PSoC5/emFile_SPI0.c **** }
+1096:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1097:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1098:Generated_Source\PSoC5/emFile_SPI0.c **** /*******************************************************************************
+1099:Generated_Source\PSoC5/emFile_SPI0.c **** * Function Name: emFile_SPI0_ReadStatus
+1100:Generated_Source\PSoC5/emFile_SPI0.c **** ********************************************************************************
+1101:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1102:Generated_Source\PSoC5/emFile_SPI0.c **** * Summary:
+1103:Generated_Source\PSoC5/emFile_SPI0.c **** *  Read the status register for the component.
+1104:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1105:Generated_Source\PSoC5/emFile_SPI0.c **** * Parameters:
+1106:Generated_Source\PSoC5/emFile_SPI0.c **** *  None.
+1107:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1108:Generated_Source\PSoC5/emFile_SPI0.c **** * Return:
+1109:Generated_Source\PSoC5/emFile_SPI0.c **** *  Contents of the status register.
+1110:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1111:Generated_Source\PSoC5/emFile_SPI0.c **** * Global variables:
+1112:Generated_Source\PSoC5/emFile_SPI0.c **** *  emFile_SPI0_swStatus - used to store in software status register,
+1113:Generated_Source\PSoC5/emFile_SPI0.c **** *  modified every function call - resets to zero.
+1114:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1115:Generated_Source\PSoC5/emFile_SPI0.c **** * Theory:
+1116:Generated_Source\PSoC5/emFile_SPI0.c **** *  Allows the user and the API to read the status register for error detection
+1117:Generated_Source\PSoC5/emFile_SPI0.c **** *  and flow control.
+1118:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1119:Generated_Source\PSoC5/emFile_SPI0.c **** * Side Effects:
+1120:Generated_Source\PSoC5/emFile_SPI0.c **** *  Clear status register of the component.
+1121:Generated_Source\PSoC5/emFile_SPI0.c **** *
+1122:Generated_Source\PSoC5/emFile_SPI0.c **** * Reentrant:
+1123:Generated_Source\PSoC5/emFile_SPI0.c **** *  No.
+1124:Generated_Source\PSoC5/emFile_SPI0.c **** *
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 34
+
+
+1125:Generated_Source\PSoC5/emFile_SPI0.c **** *******************************************************************************/
+1126:Generated_Source\PSoC5/emFile_SPI0.c **** uint8 emFile_SPI0_ReadStatus(void) 
+1127:Generated_Source\PSoC5/emFile_SPI0.c **** {
+ 742              		.loc 1 1127 0
+ 743              		.cfi_startproc
+ 744              		@ args = 0, pretend = 0, frame = 0
+ 745              		@ frame_needed = 0, uses_anonymous_args = 0
+ 746              		@ link register save eliminated.
+1128:Generated_Source\PSoC5/emFile_SPI0.c ****     uint8 tmpStatus;
+1129:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1130:Generated_Source\PSoC5/emFile_SPI0.c ****     #if(emFile_SPI0_TX_SOFTWARE_BUF_ENABLED || emFile_SPI0_RX_SOFTWARE_BUF_ENABLED)
+1131:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1132:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_DisableInt();
+1133:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1134:Generated_Source\PSoC5/emFile_SPI0.c ****         tmpStatus  = emFile_SPI0_GET_STATUS_RX(emFile_SPI0_swStatusRx);
+1135:Generated_Source\PSoC5/emFile_SPI0.c ****         tmpStatus |= emFile_SPI0_GET_STATUS_TX(emFile_SPI0_swStatusTx);
+1136:Generated_Source\PSoC5/emFile_SPI0.c ****         tmpStatus &= ((uint8) ~emFile_SPI0_STS_SPI_IDLE);
+1137:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1138:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_swStatusTx = 0u;
+1139:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_swStatusRx = 0u;
+1140:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1141:Generated_Source\PSoC5/emFile_SPI0.c ****         emFile_SPI0_EnableInt();
+1142:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1143:Generated_Source\PSoC5/emFile_SPI0.c ****     #else
+1144:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1145:Generated_Source\PSoC5/emFile_SPI0.c ****         tmpStatus  = emFile_SPI0_RX_STATUS_REG;
+ 747              		.loc 1 1145 0
+ 748 0000 034B     		ldr	r3, .L77
+ 749 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 750              	.LVL31:
+1146:Generated_Source\PSoC5/emFile_SPI0.c ****         tmpStatus |= emFile_SPI0_TX_STATUS_REG;
+ 751              		.loc 1 1146 0
+ 752 0004 034A     		ldr	r2, .L77+4
+ 753 0006 1078     		ldrb	r0, [r2]	@ zero_extendqisi2
+ 754 0008 1843     		orrs	r0, r0, r3
+ 755              	.LVL32:
+1147:Generated_Source\PSoC5/emFile_SPI0.c ****         tmpStatus &= ((uint8) ~emFile_SPI0_STS_SPI_IDLE);
+1148:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1149:Generated_Source\PSoC5/emFile_SPI0.c ****     #endif /* (emFile_SPI0_TX_SOFTWARE_BUF_ENABLED || emFile_SPI0_RX_SOFTWARE_BUF_ENABLED) */
+1150:Generated_Source\PSoC5/emFile_SPI0.c **** 
+1151:Generated_Source\PSoC5/emFile_SPI0.c ****     return(tmpStatus);
+1152:Generated_Source\PSoC5/emFile_SPI0.c **** }
+ 756              		.loc 1 1152 0
+ 757 000a 00F0EF00 		and	r0, r0, #239
+ 758              	.LVL33:
+ 759 000e 7047     		bx	lr
+ 760              	.L78:
+ 761              		.align	2
+ 762              	.L77:
+ 763 0010 6B640040 		.word	1073767531
+ 764 0014 69640040 		.word	1073767529
+ 765              		.cfi_endproc
+ 766              	.LFE23:
+ 767              		.size	emFile_SPI0_ReadStatus, .-emFile_SPI0_ReadStatus
+ 768              		.comm	emFile_SPI0_swStatusRx,1,1
+ 769              		.comm	emFile_SPI0_swStatusTx,1,1
+ 770              		.global	emFile_SPI0_initVar
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 35
+
+
+ 771              		.bss
+ 772              		.set	.LANCHOR0,. + 0
+ 773              		.type	emFile_SPI0_initVar, %object
+ 774              		.size	emFile_SPI0_initVar, 1
+ 775              	emFile_SPI0_initVar:
+ 776 0000 00       		.space	1
+ 777              		.text
+ 778              	.Letext0:
+ 779              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 780              		.file 3 "Generated_Source\\PSoC5\\CyLib.h"
+ 781              		.section	.debug_info,"",%progbits
+ 782              	.Ldebug_info0:
+ 783 0000 8F040000 		.4byte	0x48f
+ 784 0004 0400     		.2byte	0x4
+ 785 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 786 000a 04       		.byte	0x4
+ 787 000b 01       		.uleb128 0x1
+ 788 000c FF000000 		.4byte	.LASF54
+ 789 0010 0C       		.byte	0xc
+ 790 0011 43020000 		.4byte	.LASF55
+ 791 0015 23040000 		.4byte	.LASF56
+ 792 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 793 001d 00000000 		.4byte	0
+ 794 0021 00000000 		.4byte	.Ldebug_line0
+ 795 0025 02       		.uleb128 0x2
+ 796 0026 01       		.byte	0x1
+ 797 0027 06       		.byte	0x6
+ 798 0028 00040000 		.4byte	.LASF0
+ 799 002c 02       		.uleb128 0x2
+ 800 002d 01       		.byte	0x1
+ 801 002e 08       		.byte	0x8
+ 802 002f 1F020000 		.4byte	.LASF1
+ 803 0033 02       		.uleb128 0x2
+ 804 0034 02       		.byte	0x2
+ 805 0035 05       		.byte	0x5
+ 806 0036 B8030000 		.4byte	.LASF2
+ 807 003a 02       		.uleb128 0x2
+ 808 003b 02       		.byte	0x2
+ 809 003c 07       		.byte	0x7
+ 810 003d 73000000 		.4byte	.LASF3
+ 811 0041 02       		.uleb128 0x2
+ 812 0042 04       		.byte	0x4
+ 813 0043 05       		.byte	0x5
+ 814 0044 C9030000 		.4byte	.LASF4
+ 815 0048 02       		.uleb128 0x2
+ 816 0049 04       		.byte	0x4
+ 817 004a 07       		.byte	0x7
+ 818 004b BD010000 		.4byte	.LASF5
+ 819 004f 02       		.uleb128 0x2
+ 820 0050 08       		.byte	0x8
+ 821 0051 05       		.byte	0x5
+ 822 0052 73030000 		.4byte	.LASF6
+ 823 0056 02       		.uleb128 0x2
+ 824 0057 08       		.byte	0x8
+ 825 0058 07       		.byte	0x7
+ 826 0059 E3000000 		.4byte	.LASF7
+ 827 005d 03       		.uleb128 0x3
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 36
+
+
+ 828 005e 04       		.byte	0x4
+ 829 005f 05       		.byte	0x5
+ 830 0060 696E7400 		.ascii	"int\000"
+ 831 0064 02       		.uleb128 0x2
+ 832 0065 04       		.byte	0x4
+ 833 0066 07       		.byte	0x7
+ 834 0067 86000000 		.4byte	.LASF8
+ 835 006b 04       		.uleb128 0x4
+ 836 006c E5010000 		.4byte	.LASF12
+ 837 0070 02       		.byte	0x2
+ 838 0071 E401     		.2byte	0x1e4
+ 839 0073 2C000000 		.4byte	0x2c
+ 840 0077 02       		.uleb128 0x2
+ 841 0078 04       		.byte	0x4
+ 842 0079 04       		.byte	0x4
+ 843 007a CC000000 		.4byte	.LASF9
+ 844 007e 02       		.uleb128 0x2
+ 845 007f 08       		.byte	0x8
+ 846 0080 04       		.byte	0x4
+ 847 0081 68020000 		.4byte	.LASF10
+ 848 0085 02       		.uleb128 0x2
+ 849 0086 01       		.byte	0x1
+ 850 0087 08       		.byte	0x8
+ 851 0088 99030000 		.4byte	.LASF11
+ 852 008c 04       		.uleb128 0x4
+ 853 008d 17000000 		.4byte	.LASF13
+ 854 0091 02       		.byte	0x2
+ 855 0092 8E02     		.2byte	0x28e
+ 856 0094 98000000 		.4byte	0x98
+ 857 0098 05       		.uleb128 0x5
+ 858 0099 6B000000 		.4byte	0x6b
+ 859 009d 02       		.uleb128 0x2
+ 860 009e 08       		.byte	0x8
+ 861 009f 04       		.byte	0x4
+ 862 00a0 F4030000 		.4byte	.LASF14
+ 863 00a4 02       		.uleb128 0x2
+ 864 00a5 04       		.byte	0x4
+ 865 00a6 07       		.byte	0x7
+ 866 00a7 6A030000 		.4byte	.LASF15
+ 867 00ab 06       		.uleb128 0x6
+ 868 00ac AA010000 		.4byte	.LASF16
+ 869 00b0 01       		.byte	0x1
+ 870 00b1 78       		.byte	0x78
+ 871 00b2 00000000 		.4byte	.LFB1
+ 872 00b6 30000000 		.4byte	.LFE1-.LFB1
+ 873 00ba 01       		.uleb128 0x1
+ 874 00bb 9C       		.byte	0x9c
+ 875 00bc E2000000 		.4byte	0xe2
+ 876 00c0 07       		.uleb128 0x7
+ 877 00c1 0E020000 		.4byte	.LASF18
+ 878 00c5 01       		.byte	0x1
+ 879 00c6 7A       		.byte	0x7a
+ 880 00c7 6B000000 		.4byte	0x6b
+ 881 00cb 00000000 		.4byte	.LLST0
+ 882 00cf 08       		.uleb128 0x8
+ 883 00d0 06000000 		.4byte	.LVL0
+ 884 00d4 7C040000 		.4byte	0x47c
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 37
+
+
+ 885 00d8 08       		.uleb128 0x8
+ 886 00d9 28000000 		.4byte	.LVL1
+ 887 00dd 87040000 		.4byte	0x487
+ 888 00e1 00       		.byte	0
+ 889 00e2 06       		.uleb128 0x6
+ 890 00e3 32030000 		.4byte	.LASF17
+ 891 00e7 01       		.byte	0x1
+ 892 00e8 C0       		.byte	0xc0
+ 893 00e9 00000000 		.4byte	.LFB3
+ 894 00ed 24000000 		.4byte	.LFE3-.LFB3
+ 895 00f1 01       		.uleb128 0x1
+ 896 00f2 9C       		.byte	0x9c
+ 897 00f3 19010000 		.4byte	0x119
+ 898 00f7 07       		.uleb128 0x7
+ 899 00f8 0E020000 		.4byte	.LASF18
+ 900 00fc 01       		.byte	0x1
+ 901 00fd C2       		.byte	0xc2
+ 902 00fe 6B000000 		.4byte	0x6b
+ 903 0102 13000000 		.4byte	.LLST1
+ 904 0106 08       		.uleb128 0x8
+ 905 0107 06000000 		.4byte	.LVL2
+ 906 010b 7C040000 		.4byte	0x47c
+ 907 010f 08       		.uleb128 0x8
+ 908 0110 1E000000 		.4byte	.LVL3
+ 909 0114 87040000 		.4byte	0x487
+ 910 0118 00       		.byte	0
+ 911 0119 09       		.uleb128 0x9
+ 912 011a 93000000 		.4byte	.LASF19
+ 913 011e 01       		.byte	0x1
+ 914 011f E3       		.byte	0xe3
+ 915 0120 00000000 		.4byte	.LFB4
+ 916 0124 02000000 		.4byte	.LFE4-.LFB4
+ 917 0128 01       		.uleb128 0x1
+ 918 0129 9C       		.byte	0x9c
+ 919 012a 09       		.uleb128 0x9
+ 920 012b 81030000 		.4byte	.LASF20
+ 921 012f 01       		.byte	0x1
+ 922 0130 FC       		.byte	0xfc
+ 923 0131 00000000 		.4byte	.LFB5
+ 924 0135 02000000 		.4byte	.LFE5-.LFB5
+ 925 0139 01       		.uleb128 0x1
+ 926 013a 9C       		.byte	0x9c
+ 927 013b 0A       		.uleb128 0xa
+ 928 013c 6F020000 		.4byte	.LASF21
+ 929 0140 01       		.byte	0x1
+ 930 0141 1501     		.2byte	0x115
+ 931 0143 00000000 		.4byte	.LFB6
+ 932 0147 02000000 		.4byte	.LFE6-.LFB6
+ 933 014b 01       		.uleb128 0x1
+ 934 014c 9C       		.byte	0x9c
+ 935 014d 0A       		.uleb128 0xa
+ 936 014e 7A040000 		.4byte	.LASF22
+ 937 0152 01       		.byte	0x1
+ 938 0153 2E01     		.2byte	0x12e
+ 939 0155 00000000 		.4byte	.LFB7
+ 940 0159 02000000 		.4byte	.LFE7-.LFB7
+ 941 015d 01       		.uleb128 0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 38
+
+
+ 942 015e 9C       		.byte	0x9c
+ 943 015f 0B       		.uleb128 0xb
+ 944 0160 35000000 		.4byte	.LASF23
+ 945 0164 01       		.byte	0x1
+ 946 0165 4801     		.2byte	0x148
+ 947 0167 00000000 		.4byte	.LFB8
+ 948 016b 0C000000 		.4byte	.LFE8-.LFB8
+ 949 016f 01       		.uleb128 0x1
+ 950 0170 9C       		.byte	0x9c
+ 951 0171 84010000 		.4byte	0x184
+ 952 0175 0C       		.uleb128 0xc
+ 953 0176 88020000 		.4byte	.LASF25
+ 954 017a 01       		.byte	0x1
+ 955 017b 4801     		.2byte	0x148
+ 956 017d 6B000000 		.4byte	0x6b
+ 957 0181 01       		.uleb128 0x1
+ 958 0182 50       		.byte	0x50
+ 959 0183 00       		.byte	0
+ 960 0184 0B       		.uleb128 0xb
+ 961 0185 54000000 		.4byte	.LASF24
+ 962 0189 01       		.byte	0x1
+ 963 018a 6001     		.2byte	0x160
+ 964 018c 00000000 		.4byte	.LFB9
+ 965 0190 0C000000 		.4byte	.LFE9-.LFB9
+ 966 0194 01       		.uleb128 0x1
+ 967 0195 9C       		.byte	0x9c
+ 968 0196 A9010000 		.4byte	0x1a9
+ 969 019a 0C       		.uleb128 0xc
+ 970 019b 88020000 		.4byte	.LASF25
+ 971 019f 01       		.byte	0x1
+ 972 01a0 6001     		.2byte	0x160
+ 973 01a2 6B000000 		.4byte	0x6b
+ 974 01a6 01       		.uleb128 0x1
+ 975 01a7 50       		.byte	0x50
+ 976 01a8 00       		.byte	0
+ 977 01a9 0D       		.uleb128 0xd
+ 978 01aa 1C000000 		.4byte	.LASF27
+ 979 01ae 01       		.byte	0x1
+ 980 01af 8201     		.2byte	0x182
+ 981 01b1 6B000000 		.4byte	0x6b
+ 982 01b5 00000000 		.4byte	.LFB10
+ 983 01b9 0C000000 		.4byte	.LFE10-.LFB10
+ 984 01bd 01       		.uleb128 0x1
+ 985 01be 9C       		.byte	0x9c
+ 986 01bf D2010000 		.4byte	0x1d2
+ 987 01c3 0E       		.uleb128 0xe
+ 988 01c4 D2030000 		.4byte	.LASF26
+ 989 01c8 01       		.byte	0x1
+ 990 01c9 8401     		.2byte	0x184
+ 991 01cb 6B000000 		.4byte	0x6b
+ 992 01cf 01       		.uleb128 0x1
+ 993 01d0 50       		.byte	0x50
+ 994 01d1 00       		.byte	0
+ 995 01d2 0D       		.uleb128 0xd
+ 996 01d3 EB010000 		.4byte	.LASF28
+ 997 01d7 01       		.byte	0x1
+ 998 01d8 B501     		.2byte	0x1b5
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 39
+
+
+ 999 01da 6B000000 		.4byte	0x6b
+ 1000 01de 00000000 		.4byte	.LFB11
+ 1001 01e2 0C000000 		.4byte	.LFE11-.LFB11
+ 1002 01e6 01       		.uleb128 0x1
+ 1003 01e7 9C       		.byte	0x9c
+ 1004 01e8 FB010000 		.4byte	0x1fb
+ 1005 01ec 0E       		.uleb128 0xe
+ 1006 01ed D2030000 		.4byte	.LASF26
+ 1007 01f1 01       		.byte	0x1
+ 1008 01f2 B701     		.2byte	0x1b7
+ 1009 01f4 6B000000 		.4byte	0x6b
+ 1010 01f8 01       		.uleb128 0x1
+ 1011 01f9 50       		.byte	0x50
+ 1012 01fa 00       		.byte	0
+ 1013 01fb 0B       		.uleb128 0xb
+ 1014 01fc DC030000 		.4byte	.LASF29
+ 1015 0200 01       		.byte	0x1
+ 1016 0201 EE01     		.2byte	0x1ee
+ 1017 0203 00000000 		.4byte	.LFB12
+ 1018 0207 18000000 		.4byte	.LFE12-.LFB12
+ 1019 020b 01       		.uleb128 0x1
+ 1020 020c 9C       		.byte	0x9c
+ 1021 020d 20020000 		.4byte	0x220
+ 1022 0211 0C       		.uleb128 0xc
+ 1023 0212 4C030000 		.4byte	.LASF30
+ 1024 0216 01       		.byte	0x1
+ 1025 0217 EE01     		.2byte	0x1ee
+ 1026 0219 6B000000 		.4byte	0x6b
+ 1027 021d 01       		.uleb128 0x1
+ 1028 021e 50       		.byte	0x50
+ 1029 021f 00       		.byte	0
+ 1030 0220 0D       		.uleb128 0xd
+ 1031 0221 00000000 		.4byte	.LASF31
+ 1032 0225 01       		.byte	0x1
+ 1033 0226 5B02     		.2byte	0x25b
+ 1034 0228 6B000000 		.4byte	0x6b
+ 1035 022c 00000000 		.4byte	.LFB13
+ 1036 0230 0C000000 		.4byte	.LFE13-.LFB13
+ 1037 0234 01       		.uleb128 0x1
+ 1038 0235 9C       		.byte	0x9c
+ 1039 0236 49020000 		.4byte	0x249
+ 1040 023a 0E       		.uleb128 0xe
+ 1041 023b C5000000 		.4byte	.LASF32
+ 1042 023f 01       		.byte	0x1
+ 1043 0240 5D02     		.2byte	0x25d
+ 1044 0242 6B000000 		.4byte	0x6b
+ 1045 0246 01       		.uleb128 0x1
+ 1046 0247 50       		.byte	0x50
+ 1047 0248 00       		.byte	0
+ 1048 0249 0D       		.uleb128 0xd
+ 1049 024a EE020000 		.4byte	.LASF33
+ 1050 024e 01       		.byte	0x1
+ 1051 024f 9B02     		.2byte	0x29b
+ 1052 0251 6B000000 		.4byte	0x6b
+ 1053 0255 00000000 		.4byte	.LFB14
+ 1054 0259 18000000 		.4byte	.LFE14-.LFB14
+ 1055 025d 01       		.uleb128 0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 40
+
+
+ 1056 025e 9C       		.byte	0x9c
+ 1057 025f 72020000 		.4byte	0x272
+ 1058 0263 0E       		.uleb128 0xe
+ 1059 0264 FA000000 		.4byte	.LASF34
+ 1060 0268 01       		.byte	0x1
+ 1061 0269 9D02     		.2byte	0x29d
+ 1062 026b 6B000000 		.4byte	0x6b
+ 1063 026f 01       		.uleb128 0x1
+ 1064 0270 50       		.byte	0x50
+ 1065 0271 00       		.byte	0
+ 1066 0272 0D       		.uleb128 0xd
+ 1067 0273 8F020000 		.4byte	.LASF35
+ 1068 0277 01       		.byte	0x1
+ 1069 0278 D802     		.2byte	0x2d8
+ 1070 027a 6B000000 		.4byte	0x6b
+ 1071 027e 00000000 		.4byte	.LFB15
+ 1072 0282 24000000 		.4byte	.LFE15-.LFB15
+ 1073 0286 01       		.uleb128 0x1
+ 1074 0287 9C       		.byte	0x9c
+ 1075 0288 9D020000 		.4byte	0x29d
+ 1076 028c 0F       		.uleb128 0xf
+ 1077 028d FA000000 		.4byte	.LASF34
+ 1078 0291 01       		.byte	0x1
+ 1079 0292 DA02     		.2byte	0x2da
+ 1080 0294 6B000000 		.4byte	0x6b
+ 1081 0298 26000000 		.4byte	.LLST2
+ 1082 029c 00       		.byte	0
+ 1083 029d 0A       		.uleb128 0xa
+ 1084 029e AB000000 		.4byte	.LASF36
+ 1085 02a2 01       		.byte	0x1
+ 1086 02a3 2703     		.2byte	0x327
+ 1087 02a5 00000000 		.4byte	.LFB16
+ 1088 02a9 1C000000 		.4byte	.LFE16-.LFB16
+ 1089 02ad 01       		.uleb128 0x1
+ 1090 02ae 9C       		.byte	0x9c
+ 1091 02af 0B       		.uleb128 0xb
+ 1092 02b0 9E030000 		.4byte	.LASF37
+ 1093 02b4 01       		.byte	0x1
+ 1094 02b5 5E03     		.2byte	0x35e
+ 1095 02b7 00000000 		.4byte	.LFB17
+ 1096 02bb 24000000 		.4byte	.LFE17-.LFB17
+ 1097 02bf 01       		.uleb128 0x1
+ 1098 02c0 9C       		.byte	0x9c
+ 1099 02c1 E8020000 		.4byte	0x2e8
+ 1100 02c5 0F       		.uleb128 0xf
+ 1101 02c6 0E020000 		.4byte	.LASF18
+ 1102 02ca 01       		.byte	0x1
+ 1103 02cb 6003     		.2byte	0x360
+ 1104 02cd 6B000000 		.4byte	0x6b
+ 1105 02d1 44000000 		.4byte	.LLST3
+ 1106 02d5 08       		.uleb128 0x8
+ 1107 02d6 06000000 		.4byte	.LVL13
+ 1108 02da 7C040000 		.4byte	0x47c
+ 1109 02de 08       		.uleb128 0x8
+ 1110 02df 1C000000 		.4byte	.LVL14
+ 1111 02e3 87040000 		.4byte	0x487
+ 1112 02e7 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 41
+
+
+ 1113 02e8 0B       		.uleb128 0xb
+ 1114 02e9 D9020000 		.4byte	.LASF38
+ 1115 02ed 01       		.byte	0x1
+ 1116 02ee C303     		.2byte	0x3c3
+ 1117 02f0 00000000 		.4byte	.LFB18
+ 1118 02f4 1E000000 		.4byte	.LFE18-.LFB18
+ 1119 02f8 01       		.uleb128 0x1
+ 1120 02f9 9C       		.byte	0x9c
+ 1121 02fa 38030000 		.4byte	0x338
+ 1122 02fe 10       		.uleb128 0x10
+ 1123 02ff C2030000 		.4byte	.LASF39
+ 1124 0303 01       		.byte	0x1
+ 1125 0304 C303     		.2byte	0x3c3
+ 1126 0306 38030000 		.4byte	0x338
+ 1127 030a 57000000 		.4byte	.LLST4
+ 1128 030e 10       		.uleb128 0x10
+ 1129 030f 04020000 		.4byte	.LASF40
+ 1130 0313 01       		.byte	0x1
+ 1131 0314 C303     		.2byte	0x3c3
+ 1132 0316 6B000000 		.4byte	0x6b
+ 1133 031a 75000000 		.4byte	.LLST5
+ 1134 031e 0F       		.uleb128 0xf
+ 1135 031f 43030000 		.4byte	.LASF41
+ 1136 0323 01       		.byte	0x1
+ 1137 0324 C603     		.2byte	0x3c6
+ 1138 0326 6B000000 		.4byte	0x6b
+ 1139 032a 9E000000 		.4byte	.LLST6
+ 1140 032e 08       		.uleb128 0x8
+ 1141 032f 10000000 		.4byte	.LVL18
+ 1142 0333 FB010000 		.4byte	0x1fb
+ 1143 0337 00       		.byte	0
+ 1144 0338 11       		.uleb128 0x11
+ 1145 0339 04       		.byte	0x4
+ 1146 033a 3E030000 		.4byte	0x33e
+ 1147 033e 12       		.uleb128 0x12
+ 1148 033f 6B000000 		.4byte	0x6b
+ 1149 0343 0B       		.uleb128 0xb
+ 1150 0344 2D020000 		.4byte	.LASF42
+ 1151 0348 01       		.byte	0x1
+ 1152 0349 E403     		.2byte	0x3e4
+ 1153 034b 00000000 		.4byte	.LFB19
+ 1154 034f 3C000000 		.4byte	.LFE19-.LFB19
+ 1155 0353 01       		.uleb128 0x1
+ 1156 0354 9C       		.byte	0x9c
+ 1157 0355 7C030000 		.4byte	0x37c
+ 1158 0359 0F       		.uleb128 0xf
+ 1159 035a 0E020000 		.4byte	.LASF18
+ 1160 035e 01       		.byte	0x1
+ 1161 035f E603     		.2byte	0x3e6
+ 1162 0361 6B000000 		.4byte	0x6b
+ 1163 0365 C8000000 		.4byte	.LLST7
+ 1164 0369 08       		.uleb128 0x8
+ 1165 036a 16000000 		.4byte	.LVL23
+ 1166 036e 7C040000 		.4byte	0x47c
+ 1167 0372 08       		.uleb128 0x8
+ 1168 0373 2C000000 		.4byte	.LVL24
+ 1169 0377 87040000 		.4byte	0x487
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 42
+
+
+ 1170 037b 00       		.byte	0
+ 1171 037c 06       		.uleb128 0x6
+ 1172 037d D2000000 		.4byte	.LASF43
+ 1173 0381 01       		.byte	0x1
+ 1174 0382 3F       		.byte	0x3f
+ 1175 0383 00000000 		.4byte	.LFB0
+ 1176 0387 28000000 		.4byte	.LFE0-.LFB0
+ 1177 038b 01       		.uleb128 0x1
+ 1178 038c 9C       		.byte	0x9c
+ 1179 038d AD030000 		.4byte	0x3ad
+ 1180 0391 08       		.uleb128 0x8
+ 1181 0392 0C000000 		.4byte	.LVL25
+ 1182 0396 43030000 		.4byte	0x343
+ 1183 039a 08       		.uleb128 0x8
+ 1184 039b 10000000 		.4byte	.LVL26
+ 1185 039f A9010000 		.4byte	0x1a9
+ 1186 03a3 08       		.uleb128 0x8
+ 1187 03a4 14000000 		.4byte	.LVL27
+ 1188 03a8 D2010000 		.4byte	0x1d2
+ 1189 03ac 00       		.byte	0
+ 1190 03ad 06       		.uleb128 0x6
+ 1191 03ae 0A030000 		.4byte	.LASF44
+ 1192 03b2 01       		.byte	0x1
+ 1193 03b3 A3       		.byte	0xa3
+ 1194 03b4 00000000 		.4byte	.LFB2
+ 1195 03b8 1C000000 		.4byte	.LFE2-.LFB2
+ 1196 03bc 01       		.uleb128 0x1
+ 1197 03bd 9C       		.byte	0x9c
+ 1198 03be D5030000 		.4byte	0x3d5
+ 1199 03c2 08       		.uleb128 0x8
+ 1200 03c3 0C000000 		.4byte	.LVL28
+ 1201 03c7 7C030000 		.4byte	0x37c
+ 1202 03cb 08       		.uleb128 0x8
+ 1203 03cc 16000000 		.4byte	.LVL29
+ 1204 03d0 AB000000 		.4byte	0xab
+ 1205 03d4 00       		.byte	0
+ 1206 03d5 0A       		.uleb128 0xa
+ 1207 03d6 CF010000 		.4byte	.LASF45
+ 1208 03da 01       		.byte	0x1
+ 1209 03db 1204     		.2byte	0x412
+ 1210 03dd 00000000 		.4byte	.LFB20
+ 1211 03e1 02000000 		.4byte	.LFE20-.LFB20
+ 1212 03e5 01       		.uleb128 0x1
+ 1213 03e6 9C       		.byte	0x9c
+ 1214 03e7 0A       		.uleb128 0xa
+ 1215 03e8 AB020000 		.4byte	.LASF46
+ 1216 03ec 01       		.byte	0x1
+ 1217 03ed 2A04     		.2byte	0x42a
+ 1218 03ef 00000000 		.4byte	.LFB21
+ 1219 03f3 02000000 		.4byte	.LFE21-.LFB21
+ 1220 03f7 01       		.uleb128 0x1
+ 1221 03f8 9C       		.byte	0x9c
+ 1222 03f9 0B       		.uleb128 0xb
+ 1223 03fa 8D010000 		.4byte	.LASF47
+ 1224 03fe 01       		.byte	0x1
+ 1225 03ff 4304     		.2byte	0x443
+ 1226 0401 00000000 		.4byte	.LFB22
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 43
+
+
+ 1227 0405 14000000 		.4byte	.LFE22-.LFB22
+ 1228 0409 01       		.uleb128 0x1
+ 1229 040a 9C       		.byte	0x9c
+ 1230 040b 1E040000 		.4byte	0x41e
+ 1231 040f 0C       		.uleb128 0xc
+ 1232 0410 88020000 		.4byte	.LASF25
+ 1233 0414 01       		.byte	0x1
+ 1234 0415 4304     		.2byte	0x443
+ 1235 0417 6B000000 		.4byte	0x6b
+ 1236 041b 01       		.uleb128 0x1
+ 1237 041c 50       		.byte	0x50
+ 1238 041d 00       		.byte	0
+ 1239 041e 0D       		.uleb128 0xd
+ 1240 041f 53030000 		.4byte	.LASF48
+ 1241 0423 01       		.byte	0x1
+ 1242 0424 6604     		.2byte	0x466
+ 1243 0426 6B000000 		.4byte	0x6b
+ 1244 042a 00000000 		.4byte	.LFB23
+ 1245 042e 18000000 		.4byte	.LFE23-.LFB23
+ 1246 0432 01       		.uleb128 0x1
+ 1247 0433 9C       		.byte	0x9c
+ 1248 0434 49040000 		.4byte	0x449
+ 1249 0438 0F       		.uleb128 0xf
+ 1250 0439 D2030000 		.4byte	.LASF26
+ 1251 043d 01       		.byte	0x1
+ 1252 043e 6804     		.2byte	0x468
+ 1253 0440 6B000000 		.4byte	0x6b
+ 1254 0444 DB000000 		.4byte	.LLST8
+ 1255 0448 00       		.byte	0
+ 1256 0449 13       		.uleb128 0x13
+ 1257 044a 93040000 		.4byte	.LASF49
+ 1258 044e 01       		.byte	0x1
+ 1259 044f 22       		.byte	0x22
+ 1260 0450 6B000000 		.4byte	0x6b
+ 1261 0454 05       		.uleb128 0x5
+ 1262 0455 03       		.byte	0x3
+ 1263 0456 00000000 		.4byte	emFile_SPI0_initVar
+ 1264 045a 13       		.uleb128 0x13
+ 1265 045b A7040000 		.4byte	.LASF50
+ 1266 045f 01       		.byte	0x1
+ 1267 0460 24       		.byte	0x24
+ 1268 0461 98000000 		.4byte	0x98
+ 1269 0465 05       		.uleb128 0x5
+ 1270 0466 03       		.byte	0x3
+ 1271 0467 00000000 		.4byte	emFile_SPI0_swStatusTx
+ 1272 046b 13       		.uleb128 0x13
+ 1273 046c 0C040000 		.4byte	.LASF51
+ 1274 0470 01       		.byte	0x1
+ 1275 0471 25       		.byte	0x25
+ 1276 0472 98000000 		.4byte	0x98
+ 1277 0476 05       		.uleb128 0x5
+ 1278 0477 03       		.byte	0x3
+ 1279 0478 00000000 		.4byte	emFile_SPI0_swStatusRx
+ 1280 047c 14       		.uleb128 0x14
+ 1281 047d C2020000 		.4byte	.LASF52
+ 1282 0481 C2020000 		.4byte	.LASF52
+ 1283 0485 03       		.byte	0x3
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 44
+
+
+ 1284 0486 7D       		.byte	0x7d
+ 1285 0487 14       		.uleb128 0x14
+ 1286 0488 1C030000 		.4byte	.LASF53
+ 1287 048c 1C030000 		.4byte	.LASF53
+ 1288 0490 03       		.byte	0x3
+ 1289 0491 7E       		.byte	0x7e
+ 1290 0492 00       		.byte	0
+ 1291              		.section	.debug_abbrev,"",%progbits
+ 1292              	.Ldebug_abbrev0:
+ 1293 0000 01       		.uleb128 0x1
+ 1294 0001 11       		.uleb128 0x11
+ 1295 0002 01       		.byte	0x1
+ 1296 0003 25       		.uleb128 0x25
+ 1297 0004 0E       		.uleb128 0xe
+ 1298 0005 13       		.uleb128 0x13
+ 1299 0006 0B       		.uleb128 0xb
+ 1300 0007 03       		.uleb128 0x3
+ 1301 0008 0E       		.uleb128 0xe
+ 1302 0009 1B       		.uleb128 0x1b
+ 1303 000a 0E       		.uleb128 0xe
+ 1304 000b 55       		.uleb128 0x55
+ 1305 000c 17       		.uleb128 0x17
+ 1306 000d 11       		.uleb128 0x11
+ 1307 000e 01       		.uleb128 0x1
+ 1308 000f 10       		.uleb128 0x10
+ 1309 0010 17       		.uleb128 0x17
+ 1310 0011 00       		.byte	0
+ 1311 0012 00       		.byte	0
+ 1312 0013 02       		.uleb128 0x2
+ 1313 0014 24       		.uleb128 0x24
+ 1314 0015 00       		.byte	0
+ 1315 0016 0B       		.uleb128 0xb
+ 1316 0017 0B       		.uleb128 0xb
+ 1317 0018 3E       		.uleb128 0x3e
+ 1318 0019 0B       		.uleb128 0xb
+ 1319 001a 03       		.uleb128 0x3
+ 1320 001b 0E       		.uleb128 0xe
+ 1321 001c 00       		.byte	0
+ 1322 001d 00       		.byte	0
+ 1323 001e 03       		.uleb128 0x3
+ 1324 001f 24       		.uleb128 0x24
+ 1325 0020 00       		.byte	0
+ 1326 0021 0B       		.uleb128 0xb
+ 1327 0022 0B       		.uleb128 0xb
+ 1328 0023 3E       		.uleb128 0x3e
+ 1329 0024 0B       		.uleb128 0xb
+ 1330 0025 03       		.uleb128 0x3
+ 1331 0026 08       		.uleb128 0x8
+ 1332 0027 00       		.byte	0
+ 1333 0028 00       		.byte	0
+ 1334 0029 04       		.uleb128 0x4
+ 1335 002a 16       		.uleb128 0x16
+ 1336 002b 00       		.byte	0
+ 1337 002c 03       		.uleb128 0x3
+ 1338 002d 0E       		.uleb128 0xe
+ 1339 002e 3A       		.uleb128 0x3a
+ 1340 002f 0B       		.uleb128 0xb
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 45
+
+
+ 1341 0030 3B       		.uleb128 0x3b
+ 1342 0031 05       		.uleb128 0x5
+ 1343 0032 49       		.uleb128 0x49
+ 1344 0033 13       		.uleb128 0x13
+ 1345 0034 00       		.byte	0
+ 1346 0035 00       		.byte	0
+ 1347 0036 05       		.uleb128 0x5
+ 1348 0037 35       		.uleb128 0x35
+ 1349 0038 00       		.byte	0
+ 1350 0039 49       		.uleb128 0x49
+ 1351 003a 13       		.uleb128 0x13
+ 1352 003b 00       		.byte	0
+ 1353 003c 00       		.byte	0
+ 1354 003d 06       		.uleb128 0x6
+ 1355 003e 2E       		.uleb128 0x2e
+ 1356 003f 01       		.byte	0x1
+ 1357 0040 3F       		.uleb128 0x3f
+ 1358 0041 19       		.uleb128 0x19
+ 1359 0042 03       		.uleb128 0x3
+ 1360 0043 0E       		.uleb128 0xe
+ 1361 0044 3A       		.uleb128 0x3a
+ 1362 0045 0B       		.uleb128 0xb
+ 1363 0046 3B       		.uleb128 0x3b
+ 1364 0047 0B       		.uleb128 0xb
+ 1365 0048 27       		.uleb128 0x27
+ 1366 0049 19       		.uleb128 0x19
+ 1367 004a 11       		.uleb128 0x11
+ 1368 004b 01       		.uleb128 0x1
+ 1369 004c 12       		.uleb128 0x12
+ 1370 004d 06       		.uleb128 0x6
+ 1371 004e 40       		.uleb128 0x40
+ 1372 004f 18       		.uleb128 0x18
+ 1373 0050 9742     		.uleb128 0x2117
+ 1374 0052 19       		.uleb128 0x19
+ 1375 0053 01       		.uleb128 0x1
+ 1376 0054 13       		.uleb128 0x13
+ 1377 0055 00       		.byte	0
+ 1378 0056 00       		.byte	0
+ 1379 0057 07       		.uleb128 0x7
+ 1380 0058 34       		.uleb128 0x34
+ 1381 0059 00       		.byte	0
+ 1382 005a 03       		.uleb128 0x3
+ 1383 005b 0E       		.uleb128 0xe
+ 1384 005c 3A       		.uleb128 0x3a
+ 1385 005d 0B       		.uleb128 0xb
+ 1386 005e 3B       		.uleb128 0x3b
+ 1387 005f 0B       		.uleb128 0xb
+ 1388 0060 49       		.uleb128 0x49
+ 1389 0061 13       		.uleb128 0x13
+ 1390 0062 02       		.uleb128 0x2
+ 1391 0063 17       		.uleb128 0x17
+ 1392 0064 00       		.byte	0
+ 1393 0065 00       		.byte	0
+ 1394 0066 08       		.uleb128 0x8
+ 1395 0067 898201   		.uleb128 0x4109
+ 1396 006a 00       		.byte	0
+ 1397 006b 11       		.uleb128 0x11
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 46
+
+
+ 1398 006c 01       		.uleb128 0x1
+ 1399 006d 31       		.uleb128 0x31
+ 1400 006e 13       		.uleb128 0x13
+ 1401 006f 00       		.byte	0
+ 1402 0070 00       		.byte	0
+ 1403 0071 09       		.uleb128 0x9
+ 1404 0072 2E       		.uleb128 0x2e
+ 1405 0073 00       		.byte	0
+ 1406 0074 3F       		.uleb128 0x3f
+ 1407 0075 19       		.uleb128 0x19
+ 1408 0076 03       		.uleb128 0x3
+ 1409 0077 0E       		.uleb128 0xe
+ 1410 0078 3A       		.uleb128 0x3a
+ 1411 0079 0B       		.uleb128 0xb
+ 1412 007a 3B       		.uleb128 0x3b
+ 1413 007b 0B       		.uleb128 0xb
+ 1414 007c 27       		.uleb128 0x27
+ 1415 007d 19       		.uleb128 0x19
+ 1416 007e 11       		.uleb128 0x11
+ 1417 007f 01       		.uleb128 0x1
+ 1418 0080 12       		.uleb128 0x12
+ 1419 0081 06       		.uleb128 0x6
+ 1420 0082 40       		.uleb128 0x40
+ 1421 0083 18       		.uleb128 0x18
+ 1422 0084 9742     		.uleb128 0x2117
+ 1423 0086 19       		.uleb128 0x19
+ 1424 0087 00       		.byte	0
+ 1425 0088 00       		.byte	0
+ 1426 0089 0A       		.uleb128 0xa
+ 1427 008a 2E       		.uleb128 0x2e
+ 1428 008b 00       		.byte	0
+ 1429 008c 3F       		.uleb128 0x3f
+ 1430 008d 19       		.uleb128 0x19
+ 1431 008e 03       		.uleb128 0x3
+ 1432 008f 0E       		.uleb128 0xe
+ 1433 0090 3A       		.uleb128 0x3a
+ 1434 0091 0B       		.uleb128 0xb
+ 1435 0092 3B       		.uleb128 0x3b
+ 1436 0093 05       		.uleb128 0x5
+ 1437 0094 27       		.uleb128 0x27
+ 1438 0095 19       		.uleb128 0x19
+ 1439 0096 11       		.uleb128 0x11
+ 1440 0097 01       		.uleb128 0x1
+ 1441 0098 12       		.uleb128 0x12
+ 1442 0099 06       		.uleb128 0x6
+ 1443 009a 40       		.uleb128 0x40
+ 1444 009b 18       		.uleb128 0x18
+ 1445 009c 9742     		.uleb128 0x2117
+ 1446 009e 19       		.uleb128 0x19
+ 1447 009f 00       		.byte	0
+ 1448 00a0 00       		.byte	0
+ 1449 00a1 0B       		.uleb128 0xb
+ 1450 00a2 2E       		.uleb128 0x2e
+ 1451 00a3 01       		.byte	0x1
+ 1452 00a4 3F       		.uleb128 0x3f
+ 1453 00a5 19       		.uleb128 0x19
+ 1454 00a6 03       		.uleb128 0x3
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 47
+
+
+ 1455 00a7 0E       		.uleb128 0xe
+ 1456 00a8 3A       		.uleb128 0x3a
+ 1457 00a9 0B       		.uleb128 0xb
+ 1458 00aa 3B       		.uleb128 0x3b
+ 1459 00ab 05       		.uleb128 0x5
+ 1460 00ac 27       		.uleb128 0x27
+ 1461 00ad 19       		.uleb128 0x19
+ 1462 00ae 11       		.uleb128 0x11
+ 1463 00af 01       		.uleb128 0x1
+ 1464 00b0 12       		.uleb128 0x12
+ 1465 00b1 06       		.uleb128 0x6
+ 1466 00b2 40       		.uleb128 0x40
+ 1467 00b3 18       		.uleb128 0x18
+ 1468 00b4 9742     		.uleb128 0x2117
+ 1469 00b6 19       		.uleb128 0x19
+ 1470 00b7 01       		.uleb128 0x1
+ 1471 00b8 13       		.uleb128 0x13
+ 1472 00b9 00       		.byte	0
+ 1473 00ba 00       		.byte	0
+ 1474 00bb 0C       		.uleb128 0xc
+ 1475 00bc 05       		.uleb128 0x5
+ 1476 00bd 00       		.byte	0
+ 1477 00be 03       		.uleb128 0x3
+ 1478 00bf 0E       		.uleb128 0xe
+ 1479 00c0 3A       		.uleb128 0x3a
+ 1480 00c1 0B       		.uleb128 0xb
+ 1481 00c2 3B       		.uleb128 0x3b
+ 1482 00c3 05       		.uleb128 0x5
+ 1483 00c4 49       		.uleb128 0x49
+ 1484 00c5 13       		.uleb128 0x13
+ 1485 00c6 02       		.uleb128 0x2
+ 1486 00c7 18       		.uleb128 0x18
+ 1487 00c8 00       		.byte	0
+ 1488 00c9 00       		.byte	0
+ 1489 00ca 0D       		.uleb128 0xd
+ 1490 00cb 2E       		.uleb128 0x2e
+ 1491 00cc 01       		.byte	0x1
+ 1492 00cd 3F       		.uleb128 0x3f
+ 1493 00ce 19       		.uleb128 0x19
+ 1494 00cf 03       		.uleb128 0x3
+ 1495 00d0 0E       		.uleb128 0xe
+ 1496 00d1 3A       		.uleb128 0x3a
+ 1497 00d2 0B       		.uleb128 0xb
+ 1498 00d3 3B       		.uleb128 0x3b
+ 1499 00d4 05       		.uleb128 0x5
+ 1500 00d5 27       		.uleb128 0x27
+ 1501 00d6 19       		.uleb128 0x19
+ 1502 00d7 49       		.uleb128 0x49
+ 1503 00d8 13       		.uleb128 0x13
+ 1504 00d9 11       		.uleb128 0x11
+ 1505 00da 01       		.uleb128 0x1
+ 1506 00db 12       		.uleb128 0x12
+ 1507 00dc 06       		.uleb128 0x6
+ 1508 00dd 40       		.uleb128 0x40
+ 1509 00de 18       		.uleb128 0x18
+ 1510 00df 9742     		.uleb128 0x2117
+ 1511 00e1 19       		.uleb128 0x19
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 48
+
+
+ 1512 00e2 01       		.uleb128 0x1
+ 1513 00e3 13       		.uleb128 0x13
+ 1514 00e4 00       		.byte	0
+ 1515 00e5 00       		.byte	0
+ 1516 00e6 0E       		.uleb128 0xe
+ 1517 00e7 34       		.uleb128 0x34
+ 1518 00e8 00       		.byte	0
+ 1519 00e9 03       		.uleb128 0x3
+ 1520 00ea 0E       		.uleb128 0xe
+ 1521 00eb 3A       		.uleb128 0x3a
+ 1522 00ec 0B       		.uleb128 0xb
+ 1523 00ed 3B       		.uleb128 0x3b
+ 1524 00ee 05       		.uleb128 0x5
+ 1525 00ef 49       		.uleb128 0x49
+ 1526 00f0 13       		.uleb128 0x13
+ 1527 00f1 02       		.uleb128 0x2
+ 1528 00f2 18       		.uleb128 0x18
+ 1529 00f3 00       		.byte	0
+ 1530 00f4 00       		.byte	0
+ 1531 00f5 0F       		.uleb128 0xf
+ 1532 00f6 34       		.uleb128 0x34
+ 1533 00f7 00       		.byte	0
+ 1534 00f8 03       		.uleb128 0x3
+ 1535 00f9 0E       		.uleb128 0xe
+ 1536 00fa 3A       		.uleb128 0x3a
+ 1537 00fb 0B       		.uleb128 0xb
+ 1538 00fc 3B       		.uleb128 0x3b
+ 1539 00fd 05       		.uleb128 0x5
+ 1540 00fe 49       		.uleb128 0x49
+ 1541 00ff 13       		.uleb128 0x13
+ 1542 0100 02       		.uleb128 0x2
+ 1543 0101 17       		.uleb128 0x17
+ 1544 0102 00       		.byte	0
+ 1545 0103 00       		.byte	0
+ 1546 0104 10       		.uleb128 0x10
+ 1547 0105 05       		.uleb128 0x5
+ 1548 0106 00       		.byte	0
+ 1549 0107 03       		.uleb128 0x3
+ 1550 0108 0E       		.uleb128 0xe
+ 1551 0109 3A       		.uleb128 0x3a
+ 1552 010a 0B       		.uleb128 0xb
+ 1553 010b 3B       		.uleb128 0x3b
+ 1554 010c 05       		.uleb128 0x5
+ 1555 010d 49       		.uleb128 0x49
+ 1556 010e 13       		.uleb128 0x13
+ 1557 010f 02       		.uleb128 0x2
+ 1558 0110 17       		.uleb128 0x17
+ 1559 0111 00       		.byte	0
+ 1560 0112 00       		.byte	0
+ 1561 0113 11       		.uleb128 0x11
+ 1562 0114 0F       		.uleb128 0xf
+ 1563 0115 00       		.byte	0
+ 1564 0116 0B       		.uleb128 0xb
+ 1565 0117 0B       		.uleb128 0xb
+ 1566 0118 49       		.uleb128 0x49
+ 1567 0119 13       		.uleb128 0x13
+ 1568 011a 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 49
+
+
+ 1569 011b 00       		.byte	0
+ 1570 011c 12       		.uleb128 0x12
+ 1571 011d 26       		.uleb128 0x26
+ 1572 011e 00       		.byte	0
+ 1573 011f 49       		.uleb128 0x49
+ 1574 0120 13       		.uleb128 0x13
+ 1575 0121 00       		.byte	0
+ 1576 0122 00       		.byte	0
+ 1577 0123 13       		.uleb128 0x13
+ 1578 0124 34       		.uleb128 0x34
+ 1579 0125 00       		.byte	0
+ 1580 0126 03       		.uleb128 0x3
+ 1581 0127 0E       		.uleb128 0xe
+ 1582 0128 3A       		.uleb128 0x3a
+ 1583 0129 0B       		.uleb128 0xb
+ 1584 012a 3B       		.uleb128 0x3b
+ 1585 012b 0B       		.uleb128 0xb
+ 1586 012c 49       		.uleb128 0x49
+ 1587 012d 13       		.uleb128 0x13
+ 1588 012e 3F       		.uleb128 0x3f
+ 1589 012f 19       		.uleb128 0x19
+ 1590 0130 02       		.uleb128 0x2
+ 1591 0131 18       		.uleb128 0x18
+ 1592 0132 00       		.byte	0
+ 1593 0133 00       		.byte	0
+ 1594 0134 14       		.uleb128 0x14
+ 1595 0135 2E       		.uleb128 0x2e
+ 1596 0136 00       		.byte	0
+ 1597 0137 3F       		.uleb128 0x3f
+ 1598 0138 19       		.uleb128 0x19
+ 1599 0139 3C       		.uleb128 0x3c
+ 1600 013a 19       		.uleb128 0x19
+ 1601 013b 6E       		.uleb128 0x6e
+ 1602 013c 0E       		.uleb128 0xe
+ 1603 013d 03       		.uleb128 0x3
+ 1604 013e 0E       		.uleb128 0xe
+ 1605 013f 3A       		.uleb128 0x3a
+ 1606 0140 0B       		.uleb128 0xb
+ 1607 0141 3B       		.uleb128 0x3b
+ 1608 0142 0B       		.uleb128 0xb
+ 1609 0143 00       		.byte	0
+ 1610 0144 00       		.byte	0
+ 1611 0145 00       		.byte	0
+ 1612              		.section	.debug_loc,"",%progbits
+ 1613              	.Ldebug_loc0:
+ 1614              	.LLST0:
+ 1615 0000 06000000 		.4byte	.LVL0
+ 1616 0004 27000000 		.4byte	.LVL1-1
+ 1617 0008 0100     		.2byte	0x1
+ 1618 000a 50       		.byte	0x50
+ 1619 000b 00000000 		.4byte	0
+ 1620 000f 00000000 		.4byte	0
+ 1621              	.LLST1:
+ 1622 0013 06000000 		.4byte	.LVL2
+ 1623 0017 1D000000 		.4byte	.LVL3-1
+ 1624 001b 0100     		.2byte	0x1
+ 1625 001d 50       		.byte	0x50
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 50
+
+
+ 1626 001e 00000000 		.4byte	0
+ 1627 0022 00000000 		.4byte	0
+ 1628              	.LLST2:
+ 1629 0026 06000000 		.4byte	.LVL11
+ 1630 002a 1C000000 		.4byte	.LVL12
+ 1631 002e 0100     		.2byte	0x1
+ 1632 0030 53       		.byte	0x53
+ 1633 0031 1C000000 		.4byte	.LVL12
+ 1634 0035 24000000 		.4byte	.LFE15
+ 1635 0039 0100     		.2byte	0x1
+ 1636 003b 50       		.byte	0x50
+ 1637 003c 00000000 		.4byte	0
+ 1638 0040 00000000 		.4byte	0
+ 1639              	.LLST3:
+ 1640 0044 06000000 		.4byte	.LVL13
+ 1641 0048 1B000000 		.4byte	.LVL14-1
+ 1642 004c 0100     		.2byte	0x1
+ 1643 004e 50       		.byte	0x50
+ 1644 004f 00000000 		.4byte	0
+ 1645 0053 00000000 		.4byte	0
+ 1646              	.LLST4:
+ 1647 0057 00000000 		.4byte	.LVL15
+ 1648 005b 0A000000 		.4byte	.LVL17
+ 1649 005f 0100     		.2byte	0x1
+ 1650 0061 50       		.byte	0x50
+ 1651 0062 0A000000 		.4byte	.LVL17
+ 1652 0066 1E000000 		.4byte	.LFE18
+ 1653 006a 0100     		.2byte	0x1
+ 1654 006c 56       		.byte	0x56
+ 1655 006d 00000000 		.4byte	0
+ 1656 0071 00000000 		.4byte	0
+ 1657              	.LLST5:
+ 1658 0075 00000000 		.4byte	.LVL15
+ 1659 0079 0A000000 		.4byte	.LVL17
+ 1660 007d 0100     		.2byte	0x1
+ 1661 007f 51       		.byte	0x51
+ 1662 0080 0A000000 		.4byte	.LVL17
+ 1663 0084 16000000 		.4byte	.LVL21
+ 1664 0088 0100     		.2byte	0x1
+ 1665 008a 54       		.byte	0x54
+ 1666 008b 18000000 		.4byte	.LVL22
+ 1667 008f 1E000000 		.4byte	.LFE18
+ 1668 0093 0100     		.2byte	0x1
+ 1669 0095 54       		.byte	0x54
+ 1670 0096 00000000 		.4byte	0
+ 1671 009a 00000000 		.4byte	0
+ 1672              	.LLST6:
+ 1673 009e 06000000 		.4byte	.LVL16
+ 1674 00a2 0A000000 		.4byte	.LVL17
+ 1675 00a6 0200     		.2byte	0x2
+ 1676 00a8 30       		.byte	0x30
+ 1677 00a9 9F       		.byte	0x9f
+ 1678 00aa 0A000000 		.4byte	.LVL17
+ 1679 00ae 12000000 		.4byte	.LVL19
+ 1680 00b2 0100     		.2byte	0x1
+ 1681 00b4 55       		.byte	0x55
+ 1682 00b5 14000000 		.4byte	.LVL20
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 51
+
+
+ 1683 00b9 1E000000 		.4byte	.LFE18
+ 1684 00bd 0100     		.2byte	0x1
+ 1685 00bf 55       		.byte	0x55
+ 1686 00c0 00000000 		.4byte	0
+ 1687 00c4 00000000 		.4byte	0
+ 1688              	.LLST7:
+ 1689 00c8 16000000 		.4byte	.LVL23
+ 1690 00cc 2B000000 		.4byte	.LVL24-1
+ 1691 00d0 0100     		.2byte	0x1
+ 1692 00d2 50       		.byte	0x50
+ 1693 00d3 00000000 		.4byte	0
+ 1694 00d7 00000000 		.4byte	0
+ 1695              	.LLST8:
+ 1696 00db 04000000 		.4byte	.LVL31
+ 1697 00df 0A000000 		.4byte	.LVL32
+ 1698 00e3 0100     		.2byte	0x1
+ 1699 00e5 53       		.byte	0x53
+ 1700 00e6 0A000000 		.4byte	.LVL32
+ 1701 00ea 0E000000 		.4byte	.LVL33
+ 1702 00ee 0600     		.2byte	0x6
+ 1703 00f0 70       		.byte	0x70
+ 1704 00f1 00       		.sleb128 0
+ 1705 00f2 08       		.byte	0x8
+ 1706 00f3 EF       		.byte	0xef
+ 1707 00f4 1A       		.byte	0x1a
+ 1708 00f5 9F       		.byte	0x9f
+ 1709 00f6 00000000 		.4byte	0
+ 1710 00fa 00000000 		.4byte	0
+ 1711              		.section	.debug_aranges,"",%progbits
+ 1712 0000 D4000000 		.4byte	0xd4
+ 1713 0004 0200     		.2byte	0x2
+ 1714 0006 00000000 		.4byte	.Ldebug_info0
+ 1715 000a 04       		.byte	0x4
+ 1716 000b 00       		.byte	0
+ 1717 000c 0000     		.2byte	0
+ 1718 000e 0000     		.2byte	0
+ 1719 0010 00000000 		.4byte	.LFB1
+ 1720 0014 30000000 		.4byte	.LFE1-.LFB1
+ 1721 0018 00000000 		.4byte	.LFB3
+ 1722 001c 24000000 		.4byte	.LFE3-.LFB3
+ 1723 0020 00000000 		.4byte	.LFB4
+ 1724 0024 02000000 		.4byte	.LFE4-.LFB4
+ 1725 0028 00000000 		.4byte	.LFB5
+ 1726 002c 02000000 		.4byte	.LFE5-.LFB5
+ 1727 0030 00000000 		.4byte	.LFB6
+ 1728 0034 02000000 		.4byte	.LFE6-.LFB6
+ 1729 0038 00000000 		.4byte	.LFB7
+ 1730 003c 02000000 		.4byte	.LFE7-.LFB7
+ 1731 0040 00000000 		.4byte	.LFB8
+ 1732 0044 0C000000 		.4byte	.LFE8-.LFB8
+ 1733 0048 00000000 		.4byte	.LFB9
+ 1734 004c 0C000000 		.4byte	.LFE9-.LFB9
+ 1735 0050 00000000 		.4byte	.LFB10
+ 1736 0054 0C000000 		.4byte	.LFE10-.LFB10
+ 1737 0058 00000000 		.4byte	.LFB11
+ 1738 005c 0C000000 		.4byte	.LFE11-.LFB11
+ 1739 0060 00000000 		.4byte	.LFB12
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 52
+
+
+ 1740 0064 18000000 		.4byte	.LFE12-.LFB12
+ 1741 0068 00000000 		.4byte	.LFB13
+ 1742 006c 0C000000 		.4byte	.LFE13-.LFB13
+ 1743 0070 00000000 		.4byte	.LFB14
+ 1744 0074 18000000 		.4byte	.LFE14-.LFB14
+ 1745 0078 00000000 		.4byte	.LFB15
+ 1746 007c 24000000 		.4byte	.LFE15-.LFB15
+ 1747 0080 00000000 		.4byte	.LFB16
+ 1748 0084 1C000000 		.4byte	.LFE16-.LFB16
+ 1749 0088 00000000 		.4byte	.LFB17
+ 1750 008c 24000000 		.4byte	.LFE17-.LFB17
+ 1751 0090 00000000 		.4byte	.LFB18
+ 1752 0094 1E000000 		.4byte	.LFE18-.LFB18
+ 1753 0098 00000000 		.4byte	.LFB19
+ 1754 009c 3C000000 		.4byte	.LFE19-.LFB19
+ 1755 00a0 00000000 		.4byte	.LFB0
+ 1756 00a4 28000000 		.4byte	.LFE0-.LFB0
+ 1757 00a8 00000000 		.4byte	.LFB2
+ 1758 00ac 1C000000 		.4byte	.LFE2-.LFB2
+ 1759 00b0 00000000 		.4byte	.LFB20
+ 1760 00b4 02000000 		.4byte	.LFE20-.LFB20
+ 1761 00b8 00000000 		.4byte	.LFB21
+ 1762 00bc 02000000 		.4byte	.LFE21-.LFB21
+ 1763 00c0 00000000 		.4byte	.LFB22
+ 1764 00c4 14000000 		.4byte	.LFE22-.LFB22
+ 1765 00c8 00000000 		.4byte	.LFB23
+ 1766 00cc 18000000 		.4byte	.LFE23-.LFB23
+ 1767 00d0 00000000 		.4byte	0
+ 1768 00d4 00000000 		.4byte	0
+ 1769              		.section	.debug_ranges,"",%progbits
+ 1770              	.Ldebug_ranges0:
+ 1771 0000 00000000 		.4byte	.LFB1
+ 1772 0004 30000000 		.4byte	.LFE1
+ 1773 0008 00000000 		.4byte	.LFB3
+ 1774 000c 24000000 		.4byte	.LFE3
+ 1775 0010 00000000 		.4byte	.LFB4
+ 1776 0014 02000000 		.4byte	.LFE4
+ 1777 0018 00000000 		.4byte	.LFB5
+ 1778 001c 02000000 		.4byte	.LFE5
+ 1779 0020 00000000 		.4byte	.LFB6
+ 1780 0024 02000000 		.4byte	.LFE6
+ 1781 0028 00000000 		.4byte	.LFB7
+ 1782 002c 02000000 		.4byte	.LFE7
+ 1783 0030 00000000 		.4byte	.LFB8
+ 1784 0034 0C000000 		.4byte	.LFE8
+ 1785 0038 00000000 		.4byte	.LFB9
+ 1786 003c 0C000000 		.4byte	.LFE9
+ 1787 0040 00000000 		.4byte	.LFB10
+ 1788 0044 0C000000 		.4byte	.LFE10
+ 1789 0048 00000000 		.4byte	.LFB11
+ 1790 004c 0C000000 		.4byte	.LFE11
+ 1791 0050 00000000 		.4byte	.LFB12
+ 1792 0054 18000000 		.4byte	.LFE12
+ 1793 0058 00000000 		.4byte	.LFB13
+ 1794 005c 0C000000 		.4byte	.LFE13
+ 1795 0060 00000000 		.4byte	.LFB14
+ 1796 0064 18000000 		.4byte	.LFE14
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 53
+
+
+ 1797 0068 00000000 		.4byte	.LFB15
+ 1798 006c 24000000 		.4byte	.LFE15
+ 1799 0070 00000000 		.4byte	.LFB16
+ 1800 0074 1C000000 		.4byte	.LFE16
+ 1801 0078 00000000 		.4byte	.LFB17
+ 1802 007c 24000000 		.4byte	.LFE17
+ 1803 0080 00000000 		.4byte	.LFB18
+ 1804 0084 1E000000 		.4byte	.LFE18
+ 1805 0088 00000000 		.4byte	.LFB19
+ 1806 008c 3C000000 		.4byte	.LFE19
+ 1807 0090 00000000 		.4byte	.LFB0
+ 1808 0094 28000000 		.4byte	.LFE0
+ 1809 0098 00000000 		.4byte	.LFB2
+ 1810 009c 1C000000 		.4byte	.LFE2
+ 1811 00a0 00000000 		.4byte	.LFB20
+ 1812 00a4 02000000 		.4byte	.LFE20
+ 1813 00a8 00000000 		.4byte	.LFB21
+ 1814 00ac 02000000 		.4byte	.LFE21
+ 1815 00b0 00000000 		.4byte	.LFB22
+ 1816 00b4 14000000 		.4byte	.LFE22
+ 1817 00b8 00000000 		.4byte	.LFB23
+ 1818 00bc 18000000 		.4byte	.LFE23
+ 1819 00c0 00000000 		.4byte	0
+ 1820 00c4 00000000 		.4byte	0
+ 1821              		.section	.debug_line,"",%progbits
+ 1822              	.Ldebug_line0:
+ 1823 0000 31020000 		.section	.debug_str,"MS",%progbits,1
+ 1823      02005300 
+ 1823      00000201 
+ 1823      FB0E0D00 
+ 1823      01010101 
+ 1824              	.LASF31:
+ 1825 0000 656D4669 		.ascii	"emFile_SPI0_ReadRxData\000"
+ 1825      6C655F53 
+ 1825      5049305F 
+ 1825      52656164 
+ 1825      52784461 
+ 1826              	.LASF13:
+ 1827 0017 72656738 		.ascii	"reg8\000"
+ 1827      00
+ 1828              	.LASF27:
+ 1829 001c 656D4669 		.ascii	"emFile_SPI0_ReadTxStatus\000"
+ 1829      6C655F53 
+ 1829      5049305F 
+ 1829      52656164 
+ 1829      54785374 
+ 1830              	.LASF23:
+ 1831 0035 656D4669 		.ascii	"emFile_SPI0_SetTxInterruptMode\000"
+ 1831      6C655F53 
+ 1831      5049305F 
+ 1831      53657454 
+ 1831      78496E74 
+ 1832              	.LASF24:
+ 1833 0054 656D4669 		.ascii	"emFile_SPI0_SetRxInterruptMode\000"
+ 1833      6C655F53 
+ 1833      5049305F 
+ 1833      53657452 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 54
+
+
+ 1833      78496E74 
+ 1834              	.LASF3:
+ 1835 0073 73686F72 		.ascii	"short unsigned int\000"
+ 1835      7420756E 
+ 1835      7369676E 
+ 1835      65642069 
+ 1835      6E7400
+ 1836              	.LASF8:
+ 1837 0086 756E7369 		.ascii	"unsigned int\000"
+ 1837      676E6564 
+ 1837      20696E74 
+ 1837      00
+ 1838              	.LASF19:
+ 1839 0093 656D4669 		.ascii	"emFile_SPI0_EnableTxInt\000"
+ 1839      6C655F53 
+ 1839      5049305F 
+ 1839      456E6162 
+ 1839      6C655478 
+ 1840              	.LASF36:
+ 1841 00ab 656D4669 		.ascii	"emFile_SPI0_ClearRxBuffer\000"
+ 1841      6C655F53 
+ 1841      5049305F 
+ 1841      436C6561 
+ 1841      72527842 
+ 1842              	.LASF32:
+ 1843 00c5 72784461 		.ascii	"rxData\000"
+ 1843      746100
+ 1844              	.LASF9:
+ 1845 00cc 666C6F61 		.ascii	"float\000"
+ 1845      7400
+ 1846              	.LASF43:
+ 1847 00d2 656D4669 		.ascii	"emFile_SPI0_Init\000"
+ 1847      6C655F53 
+ 1847      5049305F 
+ 1847      496E6974 
+ 1847      00
+ 1848              	.LASF7:
+ 1849 00e3 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1849      206C6F6E 
+ 1849      6720756E 
+ 1849      7369676E 
+ 1849      65642069 
+ 1850              	.LASF34:
+ 1851 00fa 73697A65 		.ascii	"size\000"
+ 1851      00
+ 1852              	.LASF54:
+ 1853 00ff 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1853      43313120 
+ 1853      352E342E 
+ 1853      31203230 
+ 1853      31363036 
+ 1854 0132 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1854      20726576 
+ 1854      6973696F 
+ 1854      6E203233 
+ 1854      37373135 
+ 1855 0165 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 55
+
+
+ 1855      66756E63 
+ 1855      74696F6E 
+ 1855      2D736563 
+ 1855      74696F6E 
+ 1856              	.LASF47:
+ 1857 018d 656D4669 		.ascii	"emFile_SPI0_SetInterruptMode\000"
+ 1857      6C655F53 
+ 1857      5049305F 
+ 1857      53657449 
+ 1857      6E746572 
+ 1858              	.LASF16:
+ 1859 01aa 656D4669 		.ascii	"emFile_SPI0_Enable\000"
+ 1859      6C655F53 
+ 1859      5049305F 
+ 1859      456E6162 
+ 1859      6C6500
+ 1860              	.LASF5:
+ 1861 01bd 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1861      20756E73 
+ 1861      69676E65 
+ 1861      6420696E 
+ 1861      7400
+ 1862              	.LASF45:
+ 1863 01cf 656D4669 		.ascii	"emFile_SPI0_EnableInt\000"
+ 1863      6C655F53 
+ 1863      5049305F 
+ 1863      456E6162 
+ 1863      6C65496E 
+ 1864              	.LASF12:
+ 1865 01e5 75696E74 		.ascii	"uint8\000"
+ 1865      3800
+ 1866              	.LASF28:
+ 1867 01eb 656D4669 		.ascii	"emFile_SPI0_ReadRxStatus\000"
+ 1867      6C655F53 
+ 1867      5049305F 
+ 1867      52656164 
+ 1867      52785374 
+ 1868              	.LASF40:
+ 1869 0204 62797465 		.ascii	"byteCount\000"
+ 1869      436F756E 
+ 1869      7400
+ 1870              	.LASF18:
+ 1871 020e 656E6162 		.ascii	"enableInterrupts\000"
+ 1871      6C65496E 
+ 1871      74657272 
+ 1871      75707473 
+ 1871      00
+ 1872              	.LASF1:
+ 1873 021f 756E7369 		.ascii	"unsigned char\000"
+ 1873      676E6564 
+ 1873      20636861 
+ 1873      7200
+ 1874              	.LASF42:
+ 1875 022d 656D4669 		.ascii	"emFile_SPI0_ClearFIFO\000"
+ 1875      6C655F53 
+ 1875      5049305F 
+ 1875      436C6561 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 56
+
+
+ 1875      72464946 
+ 1876              	.LASF55:
+ 1877 0243 47656E65 		.ascii	"Generated_Source\\PSoC5\\emFile_SPI0.c\000"
+ 1877      72617465 
+ 1877      645F536F 
+ 1877      75726365 
+ 1877      5C50536F 
+ 1878              	.LASF10:
+ 1879 0268 646F7562 		.ascii	"double\000"
+ 1879      6C6500
+ 1880              	.LASF21:
+ 1881 026f 656D4669 		.ascii	"emFile_SPI0_DisableTxInt\000"
+ 1881      6C655F53 
+ 1881      5049305F 
+ 1881      44697361 
+ 1881      626C6554 
+ 1882              	.LASF25:
+ 1883 0288 696E7453 		.ascii	"intSrc\000"
+ 1883      726300
+ 1884              	.LASF35:
+ 1885 028f 656D4669 		.ascii	"emFile_SPI0_GetTxBufferSize\000"
+ 1885      6C655F53 
+ 1885      5049305F 
+ 1885      47657454 
+ 1885      78427566 
+ 1886              	.LASF46:
+ 1887 02ab 656D4669 		.ascii	"emFile_SPI0_DisableInt\000"
+ 1887      6C655F53 
+ 1887      5049305F 
+ 1887      44697361 
+ 1887      626C6549 
+ 1888              	.LASF52:
+ 1889 02c2 4379456E 		.ascii	"CyEnterCriticalSection\000"
+ 1889      74657243 
+ 1889      72697469 
+ 1889      63616C53 
+ 1889      65637469 
+ 1890              	.LASF38:
+ 1891 02d9 656D4669 		.ascii	"emFile_SPI0_PutArray\000"
+ 1891      6C655F53 
+ 1891      5049305F 
+ 1891      50757441 
+ 1891      72726179 
+ 1892              	.LASF33:
+ 1893 02ee 656D4669 		.ascii	"emFile_SPI0_GetRxBufferSize\000"
+ 1893      6C655F53 
+ 1893      5049305F 
+ 1893      47657452 
+ 1893      78427566 
+ 1894              	.LASF44:
+ 1895 030a 656D4669 		.ascii	"emFile_SPI0_Start\000"
+ 1895      6C655F53 
+ 1895      5049305F 
+ 1895      53746172 
+ 1895      7400
+ 1896              	.LASF53:
+ 1897 031c 43794578 		.ascii	"CyExitCriticalSection\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 57
+
+
+ 1897      69744372 
+ 1897      69746963 
+ 1897      616C5365 
+ 1897      6374696F 
+ 1898              	.LASF17:
+ 1899 0332 656D4669 		.ascii	"emFile_SPI0_Stop\000"
+ 1899      6C655F53 
+ 1899      5049305F 
+ 1899      53746F70 
+ 1899      00
+ 1900              	.LASF41:
+ 1901 0343 62756649 		.ascii	"bufIndex\000"
+ 1901      6E646578 
+ 1901      00
+ 1902              	.LASF30:
+ 1903 034c 74784461 		.ascii	"txData\000"
+ 1903      746100
+ 1904              	.LASF48:
+ 1905 0353 656D4669 		.ascii	"emFile_SPI0_ReadStatus\000"
+ 1905      6C655F53 
+ 1905      5049305F 
+ 1905      52656164 
+ 1905      53746174 
+ 1906              	.LASF15:
+ 1907 036a 73697A65 		.ascii	"sizetype\000"
+ 1907      74797065 
+ 1907      00
+ 1908              	.LASF6:
+ 1909 0373 6C6F6E67 		.ascii	"long long int\000"
+ 1909      206C6F6E 
+ 1909      6720696E 
+ 1909      7400
+ 1910              	.LASF20:
+ 1911 0381 656D4669 		.ascii	"emFile_SPI0_EnableRxInt\000"
+ 1911      6C655F53 
+ 1911      5049305F 
+ 1911      456E6162 
+ 1911      6C655278 
+ 1912              	.LASF11:
+ 1913 0399 63686172 		.ascii	"char\000"
+ 1913      00
+ 1914              	.LASF37:
+ 1915 039e 656D4669 		.ascii	"emFile_SPI0_ClearTxBuffer\000"
+ 1915      6C655F53 
+ 1915      5049305F 
+ 1915      436C6561 
+ 1915      72547842 
+ 1916              	.LASF2:
+ 1917 03b8 73686F72 		.ascii	"short int\000"
+ 1917      7420696E 
+ 1917      7400
+ 1918              	.LASF39:
+ 1919 03c2 62756666 		.ascii	"buffer\000"
+ 1919      657200
+ 1920              	.LASF4:
+ 1921 03c9 6C6F6E67 		.ascii	"long int\000"
+ 1921      20696E74 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccdY607t.s 			page 58
+
+
+ 1921      00
+ 1922              	.LASF26:
+ 1923 03d2 746D7053 		.ascii	"tmpStatus\000"
+ 1923      74617475 
+ 1923      7300
+ 1924              	.LASF29:
+ 1925 03dc 656D4669 		.ascii	"emFile_SPI0_WriteTxData\000"
+ 1925      6C655F53 
+ 1925      5049305F 
+ 1925      57726974 
+ 1925      65547844 
+ 1926              	.LASF14:
+ 1927 03f4 6C6F6E67 		.ascii	"long double\000"
+ 1927      20646F75 
+ 1927      626C6500 
+ 1928              	.LASF0:
+ 1929 0400 7369676E 		.ascii	"signed char\000"
+ 1929      65642063 
+ 1929      68617200 
+ 1930              	.LASF51:
+ 1931 040c 656D4669 		.ascii	"emFile_SPI0_swStatusRx\000"
+ 1931      6C655F53 
+ 1931      5049305F 
+ 1931      73775374 
+ 1931      61747573 
+ 1932              	.LASF56:
+ 1933 0423 433A5C55 		.ascii	"C:\\Users\\bkettle\\OneDrive\\School\\6.115\\projec"
+ 1933      73657273 
+ 1933      5C626B65 
+ 1933      74746C65 
+ 1933      5C4F6E65 
+ 1934 0450 745C7073 		.ascii	"t\\psoc\\Password Keeper\\SD Card Test.cydsn\000"
+ 1934      6F635C50 
+ 1934      61737377 
+ 1934      6F726420 
+ 1934      4B656570 
+ 1935              	.LASF22:
+ 1936 047a 656D4669 		.ascii	"emFile_SPI0_DisableRxInt\000"
+ 1936      6C655F53 
+ 1936      5049305F 
+ 1936      44697361 
+ 1936      626C6552 
+ 1937              	.LASF49:
+ 1938 0493 656D4669 		.ascii	"emFile_SPI0_initVar\000"
+ 1938      6C655F53 
+ 1938      5049305F 
+ 1938      696E6974 
+ 1938      56617200 
+ 1939              	.LASF50:
+ 1940 04a7 656D4669 		.ascii	"emFile_SPI0_swStatusTx\000"
+ 1940      6C655F53 
+ 1940      5049305F 
+ 1940      73775374 
+ 1940      61747573 
+ 1941              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

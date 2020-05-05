@@ -1,0 +1,22 @@
+(DELAYFILE
+ (SDFVERSION "IEEE 1497 4.0")
+ (DATE "2020-04-23T02:38:05Z")
+ (DESIGN "Rotary Encoder Test")
+ (VENDOR "Cypress Semiconductor")
+ (PROGRAM "PSoC Creator")
+ (VERSION " 4.3")
+ (DIVIDER .)
+ (TIMESCALE 1 ns)
+ (CELL
+  (CELLTYPE "Rotary Encoder Test")
+  (INSTANCE *)
+  (DELAY
+   (ABSOLUTE
+    (INTERCONNECT enc_sw\(0\)_PAD enc_sw\(0\).pad_in (0.000:0.000:0.000))
+    (INTERCONNECT LED1\(0\)_PAD LED1\(0\).pad_in (0.000:0.000:0.000))
+    (INTERCONNECT enc_a\(0\)_PAD enc_a\(0\).pad_in (0.000:0.000:0.000))
+    (INTERCONNECT enc_b\(0\)_PAD enc_b\(0\).pad_in (0.000:0.000:0.000))
+   )
+  )
+ )
+)

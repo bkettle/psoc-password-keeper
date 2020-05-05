@@ -1,0 +1,3283 @@
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.serial_print_record,"ax",%progbits
+  20              		.align	2
+  21              		.global	serial_print_record
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	serial_print_record, %function
+  25              	serial_print_record:
+  26              	.LFB63:
+  27              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** #include "project.h"
+  13:main.c        **** #include <FS.h>
+  14:main.c        **** #include <string.h>
+  15:main.c        **** #include <Global.h>
+  16:main.c        **** #include <stdbool.h>
+  17:main.c        **** 
+  18:main.c        **** char sdFile[9] = "pwdb";
+  19:main.c        **** 
+  20:main.c        **** // struct to hold each item, when decrypted they should fit this format
+  21:main.c        **** // 64 bytes total (for now)
+  22:main.c        **** // ALREADY IN OTHER FILE
+  23:main.c        **** typedef struct {
+  24:main.c        ****     char title[10];
+  25:main.c        ****     char username[35];
+  26:main.c        ****     char password[19];
+  27:main.c        **** } Record;
+  28:main.c        **** int record_size = 64; // record size in bytes
+  29:main.c        **** Record null_record = {"","",""};
+  30:main.c        **** Record example_record = {"aaaaaaaa", "aaaaaaaaaaaaaaaaa", "aaaaaaaaaaa"};
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 2
+
+
+  31:main.c        **** 
+  32:main.c        **** 
+  33:main.c        **** //////////// ALREADY IN SERIAL USB FILE
+  34:main.c        **** void serial_print_record(Record record) {
+  28              		.loc 1 34 0
+  29              		.cfi_startproc
+  30              		@ args = 64, pretend = 16, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 84B0     		sub	sp, sp, #16
+  33              		.cfi_def_cfa_offset 16
+  34 0002 10B5     		push	{r4, lr}
+  35              		.cfi_def_cfa_offset 24
+  36              		.cfi_offset 4, -24
+  37              		.cfi_offset 14, -20
+  38 0004 02AC     		add	r4, sp, #8
+  39 0006 84E80F00 		stmia	r4, {r0, r1, r2, r3}
+  35:main.c        ****     // prints a record's info to the serial monitor in a nice way
+  36:main.c        ****     UART_1_PutString("\n\r\n\r   ");
+  40              		.loc 1 36 0
+  41 000a 1748     		ldr	r0, .L7
+  42 000c FFF7FEFF 		bl	UART_1_PutString
+  43              	.LVL0:
+  44              	.LBB2:
+  37:main.c        ****     for (int i=0; i<30; i++) {
+  45              		.loc 1 37 0
+  46 0010 0024     		movs	r4, #0
+  47 0012 03E0     		b	.L2
+  48              	.LVL1:
+  49              	.L3:
+  38:main.c        ****         UART_1_PutChar('*');
+  50              		.loc 1 38 0 discriminator 3
+  51 0014 2A20     		movs	r0, #42
+  52 0016 FFF7FEFF 		bl	UART_1_PutChar
+  53              	.LVL2:
+  37:main.c        ****     for (int i=0; i<30; i++) {
+  54              		.loc 1 37 0 discriminator 3
+  55 001a 0134     		adds	r4, r4, #1
+  56              	.LVL3:
+  57              	.L2:
+  37:main.c        ****     for (int i=0; i<30; i++) {
+  58              		.loc 1 37 0 is_stmt 0 discriminator 1
+  59 001c 1D2C     		cmp	r4, #29
+  60 001e F9DD     		ble	.L3
+  61              	.LBE2:
+  39:main.c        ****     }
+  40:main.c        ****     UART_1_PutString("\n\r   * Title: ");
+  62              		.loc 1 40 0 is_stmt 1
+  63 0020 1248     		ldr	r0, .L7+4
+  64 0022 FFF7FEFF 		bl	UART_1_PutString
+  65              	.LVL4:
+  41:main.c        ****     UART_1_PutString(record.title);
+  66              		.loc 1 41 0
+  67 0026 02A8     		add	r0, sp, #8
+  68 0028 FFF7FEFF 		bl	UART_1_PutString
+  69              	.LVL5:
+  42:main.c        ****     UART_1_PutString("\n\r   * Username: ");
+  70              		.loc 1 42 0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 3
+
+
+  71 002c 1048     		ldr	r0, .L7+8
+  72 002e FFF7FEFF 		bl	UART_1_PutString
+  73              	.LVL6:
+  43:main.c        ****     UART_1_PutString(record.username);
+  74              		.loc 1 43 0
+  75 0032 0DF11200 		add	r0, sp, #18
+  76 0036 FFF7FEFF 		bl	UART_1_PutString
+  77              	.LVL7:
+  44:main.c        ****     UART_1_PutString("\n\r   * Password: ");
+  78              		.loc 1 44 0
+  79 003a 0E48     		ldr	r0, .L7+12
+  80 003c FFF7FEFF 		bl	UART_1_PutString
+  81              	.LVL8:
+  45:main.c        ****     UART_1_PutString(record.password);
+  82              		.loc 1 45 0
+  83 0040 0DF13500 		add	r0, sp, #53
+  84 0044 FFF7FEFF 		bl	UART_1_PutString
+  85              	.LVL9:
+  46:main.c        ****     UART_1_PutString("\n\r   ");
+  86              		.loc 1 46 0
+  87 0048 0B48     		ldr	r0, .L7+16
+  88 004a FFF7FEFF 		bl	UART_1_PutString
+  89              	.LVL10:
+  90              	.LBB3:
+  47:main.c        ****     for (int i=0; i<30; i++) {
+  91              		.loc 1 47 0
+  92 004e 0024     		movs	r4, #0
+  93              	.LVL11:
+  94 0050 03E0     		b	.L4
+  95              	.LVL12:
+  96              	.L5:
+  48:main.c        ****         UART_1_PutChar('*');
+  97              		.loc 1 48 0 discriminator 3
+  98 0052 2A20     		movs	r0, #42
+  99 0054 FFF7FEFF 		bl	UART_1_PutChar
+ 100              	.LVL13:
+  47:main.c        ****     for (int i=0; i<30; i++) {
+ 101              		.loc 1 47 0 discriminator 3
+ 102 0058 0134     		adds	r4, r4, #1
+ 103              	.LVL14:
+ 104              	.L4:
+  47:main.c        ****     for (int i=0; i<30; i++) {
+ 105              		.loc 1 47 0 is_stmt 0 discriminator 1
+ 106 005a 1D2C     		cmp	r4, #29
+ 107 005c F9DD     		ble	.L5
+ 108              	.LBE3:
+  49:main.c        ****     }
+  50:main.c        **** }
+ 109              		.loc 1 50 0 is_stmt 1
+ 110 005e BDE81040 		pop	{r4, lr}
+ 111              		.cfi_restore 14
+ 112              		.cfi_restore 4
+ 113              		.cfi_def_cfa_offset 16
+ 114              	.LVL15:
+ 115 0062 04B0     		add	sp, sp, #16
+ 116              		.cfi_def_cfa_offset 0
+ 117 0064 7047     		bx	lr
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 4
+
+
+ 118              	.L8:
+ 119 0066 00BF     		.align	2
+ 120              	.L7:
+ 121 0068 00000000 		.word	.LC0
+ 122 006c 08000000 		.word	.LC1
+ 123 0070 18000000 		.word	.LC2
+ 124 0074 2C000000 		.word	.LC3
+ 125 0078 40000000 		.word	.LC4
+ 126              		.cfi_endproc
+ 127              	.LFE63:
+ 128              		.size	serial_print_record, .-serial_print_record
+ 129              		.section	.text.SD_createDB,"ax",%progbits
+ 130              		.align	2
+ 131              		.global	SD_createDB
+ 132              		.thumb
+ 133              		.thumb_func
+ 134              		.type	SD_createDB, %function
+ 135              	SD_createDB:
+ 136              	.LFB64:
+  51:main.c        **** 
+  52:main.c        **** 
+  53:main.c        **** 
+  54:main.c        **** void SD_createDB(FS_FILE * pFile, char * sdVolName, bool write_example) {
+ 137              		.loc 1 54 0
+ 138              		.cfi_startproc
+ 139              		@ args = 0, pretend = 0, frame = 0
+ 140              		@ frame_needed = 0, uses_anonymous_args = 0
+ 141              	.LVL16:
+ 142 0000 38B5     		push	{r3, r4, r5, lr}
+ 143              		.cfi_def_cfa_offset 16
+ 144              		.cfi_offset 3, -16
+ 145              		.cfi_offset 4, -12
+ 146              		.cfi_offset 5, -8
+ 147              		.cfi_offset 14, -4
+ 148 0002 0C46     		mov	r4, r1
+ 149 0004 1546     		mov	r5, r2
+  55:main.c        ****     UART_1_PutString("\n\r SD card format");
+ 150              		.loc 1 55 0
+ 151 0006 2748     		ldr	r0, .L18
+ 152              	.LVL17:
+ 153 0008 FFF7FEFF 		bl	UART_1_PutString
+ 154              	.LVL18:
+  56:main.c        ****     
+  57:main.c        ****     if(0 == FS_FormatSD(sdVolName)) {
+ 155              		.loc 1 57 0
+ 156 000c 2046     		mov	r0, r4
+ 157 000e FFF7FEFF 		bl	FS_FormatSD
+ 158              	.LVL19:
+ 159 0012 18B9     		cbnz	r0, .L10
+  58:main.c        ****         UART_1_PutString(" Succeeded");
+ 160              		.loc 1 58 0
+ 161 0014 2448     		ldr	r0, .L18+4
+ 162 0016 FFF7FEFF 		bl	UART_1_PutString
+ 163              	.LVL20:
+ 164 001a 02E0     		b	.L11
+ 165              	.L10:
+  59:main.c        ****     }
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 5
+
+
+  60:main.c        ****     else {
+  61:main.c        ****         UART_1_PutString(" Failed");
+ 166              		.loc 1 61 0
+ 167 001c 2348     		ldr	r0, .L18+8
+ 168 001e FFF7FEFF 		bl	UART_1_PutString
+ 169              	.LVL21:
+ 170              	.L11:
+  62:main.c        ****     }
+  63:main.c        ****     
+  64:main.c        ****     /* Create specific file for modification */
+  65:main.c        ****     pFile = FS_FOpen(sdFile, "w");
+ 171              		.loc 1 65 0
+ 172 0022 2349     		ldr	r1, .L18+12
+ 173 0024 2348     		ldr	r0, .L18+16
+ 174 0026 FFF7FEFF 		bl	FS_FOpen
+ 175              	.LVL22:
+  66:main.c        ****     
+  67:main.c        ****     /* Check if file was created */
+  68:main.c        ****     if(pFile) {
+ 176              		.loc 1 68 0
+ 177 002a 0446     		mov	r4, r0
+ 178              	.LVL23:
+ 179 002c 78B3     		cbz	r0, .L12
+  69:main.c        ****         /* Indicate successful file creation message */
+  70:main.c        ****         UART_1_PutString("\n\r File ");
+ 180              		.loc 1 70 0
+ 181 002e 2248     		ldr	r0, .L18+20
+ 182              	.LVL24:
+ 183 0030 FFF7FEFF 		bl	UART_1_PutString
+ 184              	.LVL25:
+  71:main.c        ****         UART_1_PutString(sdFile);
+ 185              		.loc 1 71 0
+ 186 0034 1F48     		ldr	r0, .L18+16
+ 187 0036 FFF7FEFF 		bl	UART_1_PutString
+ 188              	.LVL26:
+  72:main.c        ****         UART_1_PutString(" was opened");
+ 189              		.loc 1 72 0
+ 190 003a 2048     		ldr	r0, .L18+24
+ 191 003c FFF7FEFF 		bl	UART_1_PutString
+ 192              	.LVL27:
+  73:main.c        ****         
+  74:main.c        ****         // write example record to the file
+  75:main.c        ****         if (write_example) {
+ 193              		.loc 1 75 0
+ 194 0040 B5B1     		cbz	r5, .L13
+  76:main.c        ****             if(0 != FS_Write(pFile, &example_record, record_size)) {
+ 195              		.loc 1 76 0
+ 196 0042 1C49     		ldr	r1, .L18+16
+ 197 0044 CA68     		ldr	r2, [r1, #12]
+ 198 0046 1031     		adds	r1, r1, #16
+ 199 0048 2046     		mov	r0, r4
+ 200 004a FFF7FEFF 		bl	FS_Write
+ 201              	.LVL28:
+ 202 004e 48B1     		cbz	r0, .L14
+  77:main.c        ****                 /* Inditate that data was written to a file */
+  78:main.c        ****                 UART_1_PutString("\n\r\"0123456789\"");
+ 203              		.loc 1 78 0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 6
+
+
+ 204 0050 1B48     		ldr	r0, .L18+28
+ 205 0052 FFF7FEFF 		bl	UART_1_PutString
+ 206              	.LVL29:
+  79:main.c        ****                 UART_1_PutString(sdFile);
+ 207              		.loc 1 79 0
+ 208 0056 1748     		ldr	r0, .L18+16
+ 209 0058 FFF7FEFF 		bl	UART_1_PutString
+ 210              	.LVL30:
+  80:main.c        ****                 //LCD_Position(1u, 0u);
+  81:main.c        ****                 UART_1_PutString(" written to file");
+ 211              		.loc 1 81 0
+ 212 005c 1948     		ldr	r0, .L18+32
+ 213 005e FFF7FEFF 		bl	UART_1_PutString
+ 214              	.LVL31:
+ 215 0062 05E0     		b	.L13
+ 216              	.L14:
+  82:main.c        ****             }
+  83:main.c        ****             else {
+  84:main.c        ****                 UART_1_PutString("\n\r Failed to write");
+ 217              		.loc 1 84 0
+ 218 0064 1848     		ldr	r0, .L18+36
+ 219 0066 FFF7FEFF 		bl	UART_1_PutString
+ 220              	.LVL32:
+  85:main.c        ****                 //LCD_Position(1u, 0u);
+  86:main.c        ****                 UART_1_PutString(" data to file");
+ 221              		.loc 1 86 0
+ 222 006a 1848     		ldr	r0, .L18+40
+ 223 006c FFF7FEFF 		bl	UART_1_PutString
+ 224              	.LVL33:
+ 225              	.L13:
+  87:main.c        ****             }
+  88:main.c        ****         }
+  89:main.c        ****         
+  90:main.c        ****         if(0 == FS_FClose(pFile)) {
+ 226              		.loc 1 90 0
+ 227 0070 2046     		mov	r0, r4
+ 228 0072 FFF7FEFF 		bl	FS_FClose
+ 229              	.LVL34:
+ 230 0076 18B9     		cbnz	r0, .L15
+  91:main.c        ****             UART_1_PutString("\n\r File was closed");
+ 231              		.loc 1 91 0
+ 232 0078 1548     		ldr	r0, .L18+44
+ 233 007a FFF7FEFF 		bl	UART_1_PutString
+ 234              	.LVL35:
+ 235 007e 0CE0     		b	.L16
+ 236              	.L15:
+  92:main.c        ****         }
+  93:main.c        ****         else {
+  94:main.c        ****             UART_1_PutString("\n\r Failed to close");
+ 237              		.loc 1 94 0
+ 238 0080 1448     		ldr	r0, .L18+48
+ 239 0082 FFF7FEFF 		bl	UART_1_PutString
+ 240              	.LVL36:
+  95:main.c        ****             UART_1_PutString("file");
+ 241              		.loc 1 95 0
+ 242 0086 1448     		ldr	r0, .L18+52
+ 243 0088 FFF7FEFF 		bl	UART_1_PutString
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 7
+
+
+ 244              	.LVL37:
+ 245 008c 05E0     		b	.L16
+ 246              	.LVL38:
+ 247              	.L12:
+  96:main.c        ****         }
+  97:main.c        ****     }
+  98:main.c        ****     else {
+  99:main.c        ****         UART_1_PutString("\n\r Failed to create");
+ 248              		.loc 1 99 0
+ 249 008e 1348     		ldr	r0, .L18+56
+ 250              	.LVL39:
+ 251 0090 FFF7FEFF 		bl	UART_1_PutString
+ 252              	.LVL40:
+ 100:main.c        ****         UART_1_PutString(" file");
+ 253              		.loc 1 100 0
+ 254 0094 1248     		ldr	r0, .L18+60
+ 255 0096 FFF7FEFF 		bl	UART_1_PutString
+ 256              	.LVL41:
+ 257              	.L16:
+ 101:main.c        ****     }
+ 102:main.c        ****     
+ 103:main.c        ****     UART_1_PutString("\n\r Format complete ");
+ 258              		.loc 1 103 0
+ 259 009a 1248     		ldr	r0, .L18+64
+ 260 009c FFF7FEFF 		bl	UART_1_PutString
+ 261              	.LVL42:
+ 262 00a0 38BD     		pop	{r3, r4, r5, pc}
+ 263              	.LVL43:
+ 264              	.L19:
+ 265 00a2 00BF     		.align	2
+ 266              	.L18:
+ 267 00a4 48000000 		.word	.LC5
+ 268 00a8 5C000000 		.word	.LC6
+ 269 00ac 68000000 		.word	.LC7
+ 270 00b0 70000000 		.word	.LC8
+ 271 00b4 00000000 		.word	.LANCHOR0
+ 272 00b8 74000000 		.word	.LC9
+ 273 00bc 80000000 		.word	.LC10
+ 274 00c0 8C000000 		.word	.LC11
+ 275 00c4 9C000000 		.word	.LC12
+ 276 00c8 B0000000 		.word	.LC13
+ 277 00cc C4000000 		.word	.LC14
+ 278 00d0 D4000000 		.word	.LC15
+ 279 00d4 E8000000 		.word	.LC16
+ 280 00d8 FC000000 		.word	.LC17
+ 281 00dc 04010000 		.word	.LC18
+ 282 00e0 18010000 		.word	.LC19
+ 283 00e4 20010000 		.word	.LC20
+ 284              		.cfi_endproc
+ 285              	.LFE64:
+ 286              		.size	SD_createDB, .-SD_createDB
+ 287              		.section	.text.SD_readRecords,"ax",%progbits
+ 288              		.align	2
+ 289              		.global	SD_readRecords
+ 290              		.thumb
+ 291              		.thumb_func
+ 292              		.type	SD_readRecords, %function
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 8
+
+
+ 293              	SD_readRecords:
+ 294              	.LFB65:
+ 104:main.c        **** }
+ 105:main.c        **** 
+ 106:main.c        **** bool SD_readRecords(FS_FILE * pFile, int rec_index, int num_records, Record * out) {
+ 295              		.loc 1 106 0
+ 296              		.cfi_startproc
+ 297              		@ args = 0, pretend = 0, frame = 0
+ 298              		@ frame_needed = 0, uses_anonymous_args = 0
+ 299              	.LVL44:
+ 300 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 301              		.cfi_def_cfa_offset 24
+ 302              		.cfi_offset 3, -24
+ 303              		.cfi_offset 4, -20
+ 304              		.cfi_offset 5, -16
+ 305              		.cfi_offset 6, -12
+ 306              		.cfi_offset 7, -8
+ 307              		.cfi_offset 14, -4
+ 308 0002 0D46     		mov	r5, r1
+ 309 0004 1646     		mov	r6, r2
+ 310 0006 1F46     		mov	r7, r3
+ 107:main.c        ****     /* reads records from card at the 
+ 108:main.c        ****         specified index, and copies it to the location
+ 109:main.c        ****         given by the out pointer.
+ 110:main.c        ****     
+ 111:main.c        ****         returns true if successful, false if not
+ 112:main.c        ****     */
+ 113:main.c        ****     // open the db file
+ 114:main.c        ****     pFile = FS_FOpen(sdFile, "r");
+ 311              		.loc 1 114 0
+ 312 0008 1749     		ldr	r1, .L25
+ 313              	.LVL45:
+ 314 000a 1848     		ldr	r0, .L25+4
+ 315              	.LVL46:
+ 316 000c FFF7FEFF 		bl	FS_FOpen
+ 317              	.LVL47:
+ 115:main.c        ****     
+ 116:main.c        ****     if (pFile) {
+ 318              		.loc 1 116 0
+ 319 0010 38B3     		cbz	r0, .L21
+ 320 0012 0446     		mov	r4, r0
+ 321              	.LBB4:
+ 117:main.c        ****         // should first check that the file is long enough
+ 118:main.c        ****         // to hold all the records the person asked for
+ 119:main.c        ****         int db_size = FS_GetFileSize(pFile);
+ 322              		.loc 1 119 0
+ 323 0014 FFF7FEFF 		bl	FS_GetFileSize
+ 324              	.LVL48:
+ 120:main.c        ****         if (db_size < (rec_index + num_records)*record_size) {
+ 325              		.loc 1 120 0
+ 326 0018 AB19     		adds	r3, r5, r6
+ 327 001a 144A     		ldr	r2, .L25+4
+ 328 001c D168     		ldr	r1, [r2, #12]
+ 329 001e 01FB03F3 		mul	r3, r1, r3
+ 330 0022 9842     		cmp	r0, r3
+ 331 0024 03DA     		bge	.L22
+ 121:main.c        ****             // not enough records in db, abort
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 9
+
+
+ 122:main.c        ****             UART_1_PutString("\n\r !! Requested records outside range!");
+ 332              		.loc 1 122 0
+ 333 0026 1248     		ldr	r0, .L25+8
+ 334              	.LVL49:
+ 335 0028 FFF7FEFF 		bl	UART_1_PutString
+ 336              	.LVL50:
+ 123:main.c        ****             return false;
+ 337              		.loc 1 123 0
+ 338 002c 19E0     		b	.L21
+ 339              	.LVL51:
+ 340              	.L22:
+ 124:main.c        ****         }
+ 125:main.c        ****         
+ 126:main.c        ****         
+ 127:main.c        ****         // move the cursor to the start of the record we want
+ 128:main.c        ****         // this record should be located at rec_index * record_size
+ 129:main.c        ****         if (0 != FS_FSeek(pFile, rec_index*record_size, FS_SEEK_CUR)) {
+ 341              		.loc 1 129 0
+ 342 002e 0122     		movs	r2, #1
+ 343 0030 01FB05F1 		mul	r1, r1, r5
+ 344 0034 2046     		mov	r0, r4
+ 345              	.LVL52:
+ 346 0036 FFF7FEFF 		bl	FS_FSeek
+ 347              	.LVL53:
+ 348 003a 18B1     		cbz	r0, .L23
+ 130:main.c        ****             // seek failed, abort
+ 131:main.c        ****             UART_1_PutString("\n\r !! Failed to move cursor!");
+ 349              		.loc 1 131 0
+ 350 003c 0D48     		ldr	r0, .L25+12
+ 351 003e FFF7FEFF 		bl	UART_1_PutString
+ 352              	.LVL54:
+ 132:main.c        ****             return false;
+ 353              		.loc 1 132 0
+ 354 0042 0EE0     		b	.L21
+ 355              	.L23:
+ 133:main.c        ****         }
+ 134:main.c        ****         
+ 135:main.c        ****         FS_Read(pFile, out, record_size*num_records);
+ 356              		.loc 1 135 0
+ 357 0044 094B     		ldr	r3, .L25+4
+ 358 0046 DA68     		ldr	r2, [r3, #12]
+ 359 0048 02FB06F2 		mul	r2, r2, r6
+ 360 004c 3946     		mov	r1, r7
+ 361 004e 2046     		mov	r0, r4
+ 362 0050 FFF7FEFF 		bl	FS_Read
+ 363              	.LVL55:
+ 136:main.c        ****         
+ 137:main.c        ****         if (0 != FS_FClose(pFile)) {
+ 364              		.loc 1 137 0
+ 365 0054 2046     		mov	r0, r4
+ 366 0056 FFF7FEFF 		bl	FS_FClose
+ 367              	.LVL56:
+ 368 005a 10B1     		cbz	r0, .L21
+ 138:main.c        ****             // failed to close file
+ 139:main.c        ****             UART_1_PutString("\n\r !! Failed to close file!");
+ 369              		.loc 1 139 0
+ 370 005c 0648     		ldr	r0, .L25+16
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 10
+
+
+ 371 005e FFF7FEFF 		bl	UART_1_PutString
+ 372              	.LVL57:
+ 373              	.L21:
+ 374              	.LBE4:
+ 140:main.c        ****             return false;
+ 141:main.c        ****         }
+ 142:main.c        ****     }
+ 143:main.c        ****     
+ 144:main.c        ****     return false;
+ 145:main.c        **** }
+ 375              		.loc 1 145 0
+ 376 0062 0020     		movs	r0, #0
+ 377 0064 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 378              	.LVL58:
+ 379              	.L26:
+ 380 0066 00BF     		.align	2
+ 381              	.L25:
+ 382 0068 34010000 		.word	.LC21
+ 383 006c 00000000 		.word	.LANCHOR0
+ 384 0070 38010000 		.word	.LC22
+ 385 0074 60010000 		.word	.LC23
+ 386 0078 80010000 		.word	.LC24
+ 387              		.cfi_endproc
+ 388              	.LFE65:
+ 389              		.size	SD_readRecords, .-SD_readRecords
+ 390              		.section	.text.SD_addRecord,"ax",%progbits
+ 391              		.align	2
+ 392              		.global	SD_addRecord
+ 393              		.thumb
+ 394              		.thumb_func
+ 395              		.type	SD_addRecord, %function
+ 396              	SD_addRecord:
+ 397              	.LFB66:
+ 146:main.c        **** 
+ 147:main.c        **** bool SD_addRecord(FS_FILE * pFile, Record * to_add) {
+ 398              		.loc 1 147 0
+ 399              		.cfi_startproc
+ 400              		@ args = 0, pretend = 0, frame = 0
+ 401              		@ frame_needed = 0, uses_anonymous_args = 0
+ 402              	.LVL59:
+ 403 0000 38B5     		push	{r3, r4, r5, lr}
+ 404              		.cfi_def_cfa_offset 16
+ 405              		.cfi_offset 3, -16
+ 406              		.cfi_offset 4, -12
+ 407              		.cfi_offset 5, -8
+ 408              		.cfi_offset 14, -4
+ 409 0002 0D46     		mov	r5, r1
+ 148:main.c        ****     /* writes the record at the address given by to_add
+ 149:main.c        ****         to the SD card at the end of the db.
+ 150:main.c        ****     
+ 151:main.c        ****         returns true if successful, false if not
+ 152:main.c        ****     */
+ 153:main.c        ****     // open the db file for APPENDING (a)
+ 154:main.c        ****     pFile = FS_FOpen(sdFile, "a");
+ 410              		.loc 1 154 0
+ 411 0004 0B49     		ldr	r1, .L30
+ 412              	.LVL60:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 11
+
+
+ 413 0006 0C48     		ldr	r0, .L30+4
+ 414              	.LVL61:
+ 415 0008 FFF7FEFF 		bl	FS_FOpen
+ 416              	.LVL62:
+ 155:main.c        ****     
+ 156:main.c        ****     if (pFile) {
+ 417              		.loc 1 156 0
+ 418 000c 78B1     		cbz	r0, .L28
+ 419 000e 0446     		mov	r4, r0
+ 420              	.LBB5:
+ 157:main.c        ****         int db_size = FS_GetFileSize(pFile);
+ 421              		.loc 1 157 0
+ 422 0010 FFF7FEFF 		bl	FS_GetFileSize
+ 423              	.LVL63:
+ 158:main.c        ****         
+ 159:main.c        ****         // cursor should be at the end of the file, bc appending
+ 160:main.c        ****         
+ 161:main.c        ****         // write the record in to_add to the file at the cursor pos
+ 162:main.c        ****         // should be record_size long (I hope)
+ 163:main.c        ****         FS_Write(pFile, to_add, record_size);
+ 424              		.loc 1 163 0
+ 425 0014 084B     		ldr	r3, .L30+4
+ 426 0016 DA68     		ldr	r2, [r3, #12]
+ 427 0018 2946     		mov	r1, r5
+ 428 001a 2046     		mov	r0, r4
+ 429 001c FFF7FEFF 		bl	FS_Write
+ 430              	.LVL64:
+ 164:main.c        ****         
+ 165:main.c        ****         if (0 != FS_FClose(pFile)) {
+ 431              		.loc 1 165 0
+ 432 0020 2046     		mov	r0, r4
+ 433 0022 FFF7FEFF 		bl	FS_FClose
+ 434              	.LVL65:
+ 435 0026 10B1     		cbz	r0, .L28
+ 166:main.c        ****             // failed to close file
+ 167:main.c        ****             UART_1_PutString("\n\r !! Failed to close file!");
+ 436              		.loc 1 167 0
+ 437 0028 0448     		ldr	r0, .L30+8
+ 438 002a FFF7FEFF 		bl	UART_1_PutString
+ 439              	.LVL66:
+ 440              	.L28:
+ 441              	.LBE5:
+ 168:main.c        ****             return false;
+ 169:main.c        ****         }
+ 170:main.c        ****     }
+ 171:main.c        ****     
+ 172:main.c        ****     return false;
+ 173:main.c        **** }
+ 442              		.loc 1 173 0
+ 443 002e 0020     		movs	r0, #0
+ 444 0030 38BD     		pop	{r3, r4, r5, pc}
+ 445              	.LVL67:
+ 446              	.L31:
+ 447 0032 00BF     		.align	2
+ 448              	.L30:
+ 449 0034 9C010000 		.word	.LC25
+ 450 0038 00000000 		.word	.LANCHOR0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 12
+
+
+ 451 003c 80010000 		.word	.LC24
+ 452              		.cfi_endproc
+ 453              	.LFE66:
+ 454              		.size	SD_addRecord, .-SD_addRecord
+ 455              		.section	.text.main,"ax",%progbits
+ 456              		.align	2
+ 457              		.global	main
+ 458              		.thumb
+ 459              		.thumb_func
+ 460              		.type	main, %function
+ 461              	main:
+ 462              	.LFB67:
+ 174:main.c        **** 
+ 175:main.c        **** int main() {
+ 463              		.loc 1 175 0
+ 464              		.cfi_startproc
+ 465              		@ args = 0, pretend = 0, frame = 144
+ 466              		@ frame_needed = 0, uses_anonymous_args = 0
+ 467 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 468              		.cfi_def_cfa_offset 20
+ 469              		.cfi_offset 4, -20
+ 470              		.cfi_offset 5, -16
+ 471              		.cfi_offset 6, -12
+ 472              		.cfi_offset 7, -8
+ 473              		.cfi_offset 14, -4
+ 474 0002 B1B0     		sub	sp, sp, #196
+ 475              		.cfi_def_cfa_offset 216
+ 476              	.LVL68:
+ 176:main.c        ****     char sdVolName[10];     /* Buffer that will hold SD card Volume name */
+ 177:main.c        ****     U16 step = 1u;
+ 178:main.c        ****     FS_FILE * pFile;
+ 179:main.c        ****     
+ 180:main.c        ****     /* Start LCD */
+ 181:main.c        ****     //LCD_Start();
+ 182:main.c        ****     UART_1_Start();
+ 477              		.loc 1 182 0
+ 478 0004 FFF7FEFF 		bl	UART_1_Start
+ 479              	.LVL69:
+ 183:main.c        ****     
+ 184:main.c        ****     /* Initialize file system */
+ 185:main.c        ****     FS_Init();
+ 480              		.loc 1 185 0
+ 481 0008 FFF7FEFF 		bl	FS_Init
+ 482              	.LVL70:
+ 186:main.c        ****     
+ 187:main.c        ****     /* Get volume name of SD card #0 */
+ 188:main.c        ****     if(0 != FS_GetVolumeName(0u, &sdVolName[0], 9u))
+ 483              		.loc 1 188 0
+ 484 000c 0922     		movs	r2, #9
+ 485 000e 2DA9     		add	r1, sp, #180
+ 486 0010 0020     		movs	r0, #0
+ 487 0012 FFF7FEFF 		bl	FS_GetVolumeName
+ 488              	.LVL71:
+ 489 0016 30B1     		cbz	r0, .L33
+ 189:main.c        ****     {
+ 190:main.c        ****         // display volume name
+ 191:main.c        ****         UART_1_PutString("\n\r SD card name:");
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 13
+
+
+ 490              		.loc 1 191 0
+ 491 0018 2648     		ldr	r0, .L37
+ 492 001a FFF7FEFF 		bl	UART_1_PutString
+ 493              	.LVL72:
+ 192:main.c        ****         UART_1_PutString(sdVolName);
+ 494              		.loc 1 192 0
+ 495 001e 2DA8     		add	r0, sp, #180
+ 496 0020 FFF7FEFF 		bl	UART_1_PutString
+ 497              	.LVL73:
+ 498 0024 05E0     		b	.L35
+ 499              	.L33:
+ 193:main.c        ****     }
+ 194:main.c        ****     else
+ 195:main.c        ****     {
+ 196:main.c        ****         // getting volume name failed
+ 197:main.c        ****         UART_1_PutString("\n\r Failed to get ");
+ 500              		.loc 1 197 0
+ 501 0026 2448     		ldr	r0, .L37+4
+ 502 0028 FFF7FEFF 		bl	UART_1_PutString
+ 503              	.LVL74:
+ 198:main.c        ****         UART_1_PutString("SD card name");
+ 504              		.loc 1 198 0
+ 505 002c 2348     		ldr	r0, .L37+8
+ 506 002e FFF7FEFF 		bl	UART_1_PutString
+ 507              	.LVL75:
+ 508              	.L35:
+ 509              	.LBB6:
+ 199:main.c        ****     }
+ 200:main.c        ****     
+ 201:main.c        ****     // format the sd card and create the db
+ 202:main.c        ****     //SD_createDB(pFile, sdVolName, true);
+ 203:main.c        ****     //Record new_rec = {"bbb", "bbbb", "bbbbb"};
+ 204:main.c        ****     //SD_addRecord(pFile, &new_rec);
+ 205:main.c        ****     
+ 206:main.c        ****     for(;;) {
+ 207:main.c        ****         CyDelay(4000);
+ 510              		.loc 1 207 0 discriminator 1
+ 511 0032 4FF47A60 		mov	r0, #4000
+ 512 0036 FFF7FEFF 		bl	CyDelay
+ 513              	.LVL76:
+ 208:main.c        ****         Record curr_records[2];
+ 209:main.c        ****         SD_readRecords(pFile, 0, 2, curr_records);
+ 514              		.loc 1 209 0 discriminator 1
+ 515 003a 0DAE     		add	r6, sp, #52
+ 516 003c 3346     		mov	r3, r6
+ 517 003e 0222     		movs	r2, #2
+ 518 0040 0021     		movs	r1, #0
+ 519 0042 0F46     		mov	r7, r1
+ 520 0044 0846     		mov	r0, r1
+ 521 0046 FFF7FEFF 		bl	SD_readRecords
+ 522              	.LVL77:
+ 210:main.c        ****         serial_print_record(curr_records[0]);
+ 523              		.loc 1 210 0 discriminator 1
+ 524 004a 6C46     		mov	r4, sp
+ 525 004c 11AD     		add	r5, sp, #68
+ 526 004e 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 527 0050 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 14
+
+
+ 528 0052 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 529 0054 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 530 0056 95E80F00 		ldmia	r5, {r0, r1, r2, r3}
+ 531 005a 84E80F00 		stmia	r4, {r0, r1, r2, r3}
+ 532 005e 96E80F00 		ldmia	r6, {r0, r1, r2, r3}
+ 533 0062 FFF7FEFF 		bl	serial_print_record
+ 534              	.LVL78:
+ 211:main.c        ****         serial_print_record(curr_records[1]);
+ 535              		.loc 1 211 0 discriminator 1
+ 536 0066 6C46     		mov	r4, sp
+ 537 0068 21AD     		add	r5, sp, #132
+ 538 006a 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 539 006c 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 540 006e 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 541 0070 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 542 0072 95E80F00 		ldmia	r5, {r0, r1, r2, r3}
+ 543 0076 84E80F00 		stmia	r4, {r0, r1, r2, r3}
+ 544 007a 1DAB     		add	r3, sp, #116
+ 545 007c 0FCB     		ldmia	r3, {r0, r1, r2, r3}
+ 546 007e FFF7FEFF 		bl	serial_print_record
+ 547              	.LVL79:
+ 212:main.c        **** //        
+ 213:main.c        ****         UART_1_PutString("\n\r----");
+ 548              		.loc 1 213 0 discriminator 1
+ 549 0082 0F48     		ldr	r0, .L37+12
+ 550 0084 FFF7FEFF 		bl	UART_1_PutString
+ 551              	.LVL80:
+ 214:main.c        ****         SD_readRecords(pFile, 1, 1, curr_records);
+ 552              		.loc 1 214 0 discriminator 1
+ 553 0088 3346     		mov	r3, r6
+ 554 008a 0122     		movs	r2, #1
+ 555 008c 1146     		mov	r1, r2
+ 556 008e 3846     		mov	r0, r7
+ 557 0090 FFF7FEFF 		bl	SD_readRecords
+ 558              	.LVL81:
+ 215:main.c        ****         serial_print_record(curr_records[0]);
+ 559              		.loc 1 215 0 discriminator 1
+ 560 0094 6C46     		mov	r4, sp
+ 561 0096 11AD     		add	r5, sp, #68
+ 562 0098 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 563 009a 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 564 009c 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 565 009e 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 566 00a0 95E80F00 		ldmia	r5, {r0, r1, r2, r3}
+ 567 00a4 84E80F00 		stmia	r4, {r0, r1, r2, r3}
+ 568 00a8 96E80F00 		ldmia	r6, {r0, r1, r2, r3}
+ 569 00ac FFF7FEFF 		bl	serial_print_record
+ 570              	.LVL82:
+ 571 00b0 BFE7     		b	.L35
+ 572              	.L38:
+ 573 00b2 00BF     		.align	2
+ 574              	.L37:
+ 575 00b4 A0010000 		.word	.LC26
+ 576 00b8 B4010000 		.word	.LC27
+ 577 00bc C8010000 		.word	.LC28
+ 578 00c0 D8010000 		.word	.LC29
+ 579              	.LBE6:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 15
+
+
+ 580              		.cfi_endproc
+ 581              	.LFE67:
+ 582              		.size	main, .-main
+ 583              		.global	example_record
+ 584              		.global	null_record
+ 585              		.global	record_size
+ 586              		.global	sdFile
+ 587              		.data
+ 588              		.align	2
+ 589              		.set	.LANCHOR0,. + 0
+ 590              		.type	sdFile, %object
+ 591              		.size	sdFile, 9
+ 592              	sdFile:
+ 593 0000 70776462 		.ascii	"pwdb\000"
+ 593      00
+ 594 0005 00000000 		.space	4
+ 595 0009 000000   		.space	3
+ 596              		.type	record_size, %object
+ 597              		.size	record_size, 4
+ 598              	record_size:
+ 599 000c 40000000 		.word	64
+ 600              		.type	example_record, %object
+ 601              		.size	example_record, 64
+ 602              	example_record:
+ 603 0010 61616161 		.ascii	"aaaaaaaa\000"
+ 603      61616161 
+ 603      00
+ 604 0019 00       		.space	1
+ 605 001a 61616161 		.ascii	"aaaaaaaaaaaaaaaaa\000"
+ 605      61616161 
+ 605      61616161 
+ 605      61616161 
+ 605      6100
+ 606 002c 00000000 		.space	17
+ 606      00000000 
+ 606      00000000 
+ 606      00000000 
+ 606      00
+ 607 003d 61616161 		.ascii	"aaaaaaaaaaa\000"
+ 607      61616161 
+ 607      61616100 
+ 608 0049 00000000 		.space	7
+ 608      000000
+ 609              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 610              		.align	2
+ 611              	.LC0:
+ 612 0000 0A0D0A0D 		.ascii	"\012\015\012\015   \000"
+ 612      20202000 
+ 613              	.LC1:
+ 614 0008 0A0D2020 		.ascii	"\012\015   * Title: \000"
+ 614      202A2054 
+ 614      69746C65 
+ 614      3A2000
+ 615 0017 00       		.space	1
+ 616              	.LC2:
+ 617 0018 0A0D2020 		.ascii	"\012\015   * Username: \000"
+ 617      202A2055 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 16
+
+
+ 617      7365726E 
+ 617      616D653A 
+ 617      2000
+ 618 002a 0000     		.space	2
+ 619              	.LC3:
+ 620 002c 0A0D2020 		.ascii	"\012\015   * Password: \000"
+ 620      202A2050 
+ 620      61737377 
+ 620      6F72643A 
+ 620      2000
+ 621 003e 0000     		.space	2
+ 622              	.LC4:
+ 623 0040 0A0D2020 		.ascii	"\012\015   \000"
+ 623      2000
+ 624 0046 0000     		.space	2
+ 625              	.LC5:
+ 626 0048 0A0D2053 		.ascii	"\012\015 SD card format\000"
+ 626      44206361 
+ 626      72642066 
+ 626      6F726D61 
+ 626      7400
+ 627 005a 0000     		.space	2
+ 628              	.LC6:
+ 629 005c 20537563 		.ascii	" Succeeded\000"
+ 629      63656564 
+ 629      656400
+ 630 0067 00       		.space	1
+ 631              	.LC7:
+ 632 0068 20466169 		.ascii	" Failed\000"
+ 632      6C656400 
+ 633              	.LC8:
+ 634 0070 7700     		.ascii	"w\000"
+ 635 0072 0000     		.space	2
+ 636              	.LC9:
+ 637 0074 0A0D2046 		.ascii	"\012\015 File \000"
+ 637      696C6520 
+ 637      00
+ 638 007d 000000   		.space	3
+ 639              	.LC10:
+ 640 0080 20776173 		.ascii	" was opened\000"
+ 640      206F7065 
+ 640      6E656400 
+ 641              	.LC11:
+ 642 008c 0A0D2230 		.ascii	"\012\015\"0123456789\"\000"
+ 642      31323334 
+ 642      35363738 
+ 642      392200
+ 643 009b 00       		.space	1
+ 644              	.LC12:
+ 645 009c 20777269 		.ascii	" written to file\000"
+ 645      7474656E 
+ 645      20746F20 
+ 645      66696C65 
+ 645      00
+ 646 00ad 000000   		.space	3
+ 647              	.LC13:
+ 648 00b0 0A0D2046 		.ascii	"\012\015 Failed to write\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 17
+
+
+ 648      61696C65 
+ 648      6420746F 
+ 648      20777269 
+ 648      746500
+ 649 00c3 00       		.space	1
+ 650              	.LC14:
+ 651 00c4 20646174 		.ascii	" data to file\000"
+ 651      6120746F 
+ 651      2066696C 
+ 651      6500
+ 652 00d2 0000     		.space	2
+ 653              	.LC15:
+ 654 00d4 0A0D2046 		.ascii	"\012\015 File was closed\000"
+ 654      696C6520 
+ 654      77617320 
+ 654      636C6F73 
+ 654      656400
+ 655 00e7 00       		.space	1
+ 656              	.LC16:
+ 657 00e8 0A0D2046 		.ascii	"\012\015 Failed to close\000"
+ 657      61696C65 
+ 657      6420746F 
+ 657      20636C6F 
+ 657      736500
+ 658 00fb 00       		.space	1
+ 659              	.LC17:
+ 660 00fc 66696C65 		.ascii	"file\000"
+ 660      00
+ 661 0101 000000   		.space	3
+ 662              	.LC18:
+ 663 0104 0A0D2046 		.ascii	"\012\015 Failed to create\000"
+ 663      61696C65 
+ 663      6420746F 
+ 663      20637265 
+ 663      61746500 
+ 664              	.LC19:
+ 665 0118 2066696C 		.ascii	" file\000"
+ 665      6500
+ 666 011e 0000     		.space	2
+ 667              	.LC20:
+ 668 0120 0A0D2046 		.ascii	"\012\015 Format complete \000"
+ 668      6F726D61 
+ 668      7420636F 
+ 668      6D706C65 
+ 668      74652000 
+ 669              	.LC21:
+ 670 0134 7200     		.ascii	"r\000"
+ 671 0136 0000     		.space	2
+ 672              	.LC22:
+ 673 0138 0A0D2021 		.ascii	"\012\015 !! Requested records outside range!\000"
+ 673      21205265 
+ 673      71756573 
+ 673      74656420 
+ 673      7265636F 
+ 674 015f 00       		.space	1
+ 675              	.LC23:
+ 676 0160 0A0D2021 		.ascii	"\012\015 !! Failed to move cursor!\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 18
+
+
+ 676      21204661 
+ 676      696C6564 
+ 676      20746F20 
+ 676      6D6F7665 
+ 677 017d 000000   		.space	3
+ 678              	.LC24:
+ 679 0180 0A0D2021 		.ascii	"\012\015 !! Failed to close file!\000"
+ 679      21204661 
+ 679      696C6564 
+ 679      20746F20 
+ 679      636C6F73 
+ 680              	.LC25:
+ 681 019c 6100     		.ascii	"a\000"
+ 682 019e 0000     		.space	2
+ 683              	.LC26:
+ 684 01a0 0A0D2053 		.ascii	"\012\015 SD card name:\000"
+ 684      44206361 
+ 684      7264206E 
+ 684      616D653A 
+ 684      00
+ 685 01b1 000000   		.space	3
+ 686              	.LC27:
+ 687 01b4 0A0D2046 		.ascii	"\012\015 Failed to get \000"
+ 687      61696C65 
+ 687      6420746F 
+ 687      20676574 
+ 687      2000
+ 688 01c6 0000     		.space	2
+ 689              	.LC28:
+ 690 01c8 53442063 		.ascii	"SD card name\000"
+ 690      61726420 
+ 690      6E616D65 
+ 690      00
+ 691 01d5 000000   		.space	3
+ 692              	.LC29:
+ 693 01d8 0A0D2D2D 		.ascii	"\012\015----\000"
+ 693      2D2D00
+ 694              		.bss
+ 695              		.align	2
+ 696              		.type	null_record, %object
+ 697              		.size	null_record, 64
+ 698              	null_record:
+ 699 0000 00000000 		.space	64
+ 699      00000000 
+ 699      00000000 
+ 699      00000000 
+ 699      00000000 
+ 700              		.text
+ 701              	.Letext0:
+ 702              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 703              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 704              		.file 4 "..\\emFile_V322c\\Code\\Include\\PSoC5/FS_Types.h"
+ 705              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 706              		.file 6 "Generated_Source\\PSoC5/UART_1.h"
+ 707              		.file 7 "..\\emFile_V322c\\Code\\Include\\PSoC5/FS.h"
+ 708              		.file 8 "Generated_Source\\PSoC5/CyLib.h"
+ 709              		.section	.debug_info,"",%progbits
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 19
+
+
+ 710              	.Ldebug_info0:
+ 711 0000 EF080000 		.4byte	0x8ef
+ 712 0004 0400     		.2byte	0x4
+ 713 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 714 000a 04       		.byte	0x4
+ 715 000b 01       		.uleb128 0x1
+ 716 000c C3000000 		.4byte	.LASF55
+ 717 0010 0C       		.byte	0xc
+ 718 0011 4F020000 		.4byte	.LASF56
+ 719 0015 DC020000 		.4byte	.LASF57
+ 720 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 721 001d 00000000 		.4byte	0
+ 722 0021 00000000 		.4byte	.Ldebug_line0
+ 723 0025 02       		.uleb128 0x2
+ 724 0026 01       		.byte	0x1
+ 725 0027 06       		.byte	0x6
+ 726 0028 AA020000 		.4byte	.LASF0
+ 727 002c 02       		.uleb128 0x2
+ 728 002d 01       		.byte	0x1
+ 729 002e 08       		.byte	0x8
+ 730 002f B0010000 		.4byte	.LASF1
+ 731 0033 02       		.uleb128 0x2
+ 732 0034 02       		.byte	0x2
+ 733 0035 05       		.byte	0x5
+ 734 0036 72020000 		.4byte	.LASF2
+ 735 003a 02       		.uleb128 0x2
+ 736 003b 02       		.byte	0x2
+ 737 003c 07       		.byte	0x7
+ 738 003d 69010000 		.4byte	.LASF3
+ 739 0041 03       		.uleb128 0x3
+ 740 0042 4A000000 		.4byte	.LASF9
+ 741 0046 02       		.byte	0x2
+ 742 0047 3F       		.byte	0x3f
+ 743 0048 4C000000 		.4byte	0x4c
+ 744 004c 02       		.uleb128 0x2
+ 745 004d 04       		.byte	0x4
+ 746 004e 05       		.byte	0x5
+ 747 004f 8E020000 		.4byte	.LASF4
+ 748 0053 02       		.uleb128 0x2
+ 749 0054 04       		.byte	0x4
+ 750 0055 07       		.byte	0x7
+ 751 0056 57010000 		.4byte	.LASF5
+ 752 005a 02       		.uleb128 0x2
+ 753 005b 08       		.byte	0x8
+ 754 005c 05       		.byte	0x5
+ 755 005d 41020000 		.4byte	.LASF6
+ 756 0061 02       		.uleb128 0x2
+ 757 0062 08       		.byte	0x8
+ 758 0063 07       		.byte	0x7
+ 759 0064 02020000 		.4byte	.LASF7
+ 760 0068 04       		.uleb128 0x4
+ 761 0069 04       		.byte	0x4
+ 762 006a 05       		.byte	0x5
+ 763 006b 696E7400 		.ascii	"int\000"
+ 764 006f 02       		.uleb128 0x2
+ 765 0070 04       		.byte	0x4
+ 766 0071 07       		.byte	0x7
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 20
+
+
+ 767 0072 F5010000 		.4byte	.LASF8
+ 768 0076 03       		.uleb128 0x3
+ 769 0077 6A020000 		.4byte	.LASF10
+ 770 007b 03       		.byte	0x3
+ 771 007c 2C       		.byte	0x2c
+ 772 007d 41000000 		.4byte	0x41
+ 773 0081 02       		.uleb128 0x2
+ 774 0082 04       		.byte	0x4
+ 775 0083 04       		.byte	0x4
+ 776 0084 9C000000 		.4byte	.LASF11
+ 777 0088 02       		.uleb128 0x2
+ 778 0089 08       		.byte	0x8
+ 779 008a 04       		.byte	0x4
+ 780 008b 6C000000 		.4byte	.LASF12
+ 781 008f 02       		.uleb128 0x2
+ 782 0090 01       		.byte	0x1
+ 783 0091 08       		.byte	0x8
+ 784 0092 56020000 		.4byte	.LASF13
+ 785 0096 02       		.uleb128 0x2
+ 786 0097 08       		.byte	0x8
+ 787 0098 04       		.byte	0x4
+ 788 0099 9E020000 		.4byte	.LASF14
+ 789 009d 02       		.uleb128 0x2
+ 790 009e 04       		.byte	0x4
+ 791 009f 07       		.byte	0x7
+ 792 00a0 2A020000 		.4byte	.LASF15
+ 793 00a4 05       		.uleb128 0x5
+ 794 00a5 04       		.byte	0x4
+ 795 00a6 8F000000 		.4byte	0x8f
+ 796 00aa 03       		.uleb128 0x3
+ 797 00ab 22020000 		.4byte	.LASF16
+ 798 00af 04       		.byte	0x4
+ 799 00b0 7E       		.byte	0x7e
+ 800 00b1 B5000000 		.4byte	0xb5
+ 801 00b5 06       		.uleb128 0x6
+ 802 00b6 22020000 		.4byte	.LASF16
+ 803 00ba 05       		.uleb128 0x5
+ 804 00bb 04       		.byte	0x4
+ 805 00bc AA000000 		.4byte	0xaa
+ 806 00c0 07       		.uleb128 0x7
+ 807 00c1 40       		.byte	0x40
+ 808 00c2 01       		.byte	0x1
+ 809 00c3 17       		.byte	0x17
+ 810 00c4 ED000000 		.4byte	0xed
+ 811 00c8 08       		.uleb128 0x8
+ 812 00c9 51010000 		.4byte	.LASF17
+ 813 00cd 01       		.byte	0x1
+ 814 00ce 18       		.byte	0x18
+ 815 00cf ED000000 		.4byte	0xed
+ 816 00d3 00       		.byte	0
+ 817 00d4 08       		.uleb128 0x8
+ 818 00d5 19020000 		.4byte	.LASF18
+ 819 00d9 01       		.byte	0x1
+ 820 00da 19       		.byte	0x19
+ 821 00db FD000000 		.4byte	0xfd
+ 822 00df 0A       		.byte	0xa
+ 823 00e0 08       		.uleb128 0x8
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 21
+
+
+ 824 00e1 3B030000 		.4byte	.LASF19
+ 825 00e5 01       		.byte	0x1
+ 826 00e6 1A       		.byte	0x1a
+ 827 00e7 0D010000 		.4byte	0x10d
+ 828 00eb 2D       		.byte	0x2d
+ 829 00ec 00       		.byte	0
+ 830 00ed 09       		.uleb128 0x9
+ 831 00ee 8F000000 		.4byte	0x8f
+ 832 00f2 FD000000 		.4byte	0xfd
+ 833 00f6 0A       		.uleb128 0xa
+ 834 00f7 9D000000 		.4byte	0x9d
+ 835 00fb 09       		.byte	0x9
+ 836 00fc 00       		.byte	0
+ 837 00fd 09       		.uleb128 0x9
+ 838 00fe 8F000000 		.4byte	0x8f
+ 839 0102 0D010000 		.4byte	0x10d
+ 840 0106 0A       		.uleb128 0xa
+ 841 0107 9D000000 		.4byte	0x9d
+ 842 010b 22       		.byte	0x22
+ 843 010c 00       		.byte	0
+ 844 010d 09       		.uleb128 0x9
+ 845 010e 8F000000 		.4byte	0x8f
+ 846 0112 1D010000 		.4byte	0x11d
+ 847 0116 0A       		.uleb128 0xa
+ 848 0117 9D000000 		.4byte	0x9d
+ 849 011b 12       		.byte	0x12
+ 850 011c 00       		.byte	0
+ 851 011d 03       		.uleb128 0x3
+ 852 011e 43000000 		.4byte	.LASF20
+ 853 0122 01       		.byte	0x1
+ 854 0123 1B       		.byte	0x1b
+ 855 0124 C0000000 		.4byte	0xc0
+ 856 0128 0B       		.uleb128 0xb
+ 857 0129 C2020000 		.4byte	.LASF21
+ 858 012d 01       		.byte	0x1
+ 859 012e 22       		.byte	0x22
+ 860 012f 00000000 		.4byte	.LFB63
+ 861 0133 7C000000 		.4byte	.LFE63-.LFB63
+ 862 0137 01       		.uleb128 0x1
+ 863 0138 9C       		.byte	0x9c
+ 864 0139 4D020000 		.4byte	0x24d
+ 865 013d 0C       		.uleb128 0xc
+ 866 013e 65000000 		.4byte	.LASF23
+ 867 0142 01       		.byte	0x1
+ 868 0143 22       		.byte	0x22
+ 869 0144 1D010000 		.4byte	0x11d
+ 870 0148 02       		.uleb128 0x2
+ 871 0149 91       		.byte	0x91
+ 872 014a 70       		.sleb128 -16
+ 873 014b 0D       		.uleb128 0xd
+ 874 014c 10000000 		.4byte	.LBB2
+ 875 0150 10000000 		.4byte	.LBE2-.LBB2
+ 876 0154 76010000 		.4byte	0x176
+ 877 0158 0E       		.uleb128 0xe
+ 878 0159 6900     		.ascii	"i\000"
+ 879 015b 01       		.byte	0x1
+ 880 015c 25       		.byte	0x25
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 22
+
+
+ 881 015d 68000000 		.4byte	0x68
+ 882 0161 00000000 		.4byte	.LLST0
+ 883 0165 0F       		.uleb128 0xf
+ 884 0166 1A000000 		.4byte	.LVL2
+ 885 016a 5A080000 		.4byte	0x85a
+ 886 016e 10       		.uleb128 0x10
+ 887 016f 01       		.uleb128 0x1
+ 888 0170 50       		.byte	0x50
+ 889 0171 02       		.uleb128 0x2
+ 890 0172 08       		.byte	0x8
+ 891 0173 2A       		.byte	0x2a
+ 892 0174 00       		.byte	0
+ 893 0175 00       		.byte	0
+ 894 0176 0D       		.uleb128 0xd
+ 895 0177 4E000000 		.4byte	.LBB3
+ 896 017b 10000000 		.4byte	.LBE3-.LBB3
+ 897 017f A1010000 		.4byte	0x1a1
+ 898 0183 0E       		.uleb128 0xe
+ 899 0184 6900     		.ascii	"i\000"
+ 900 0186 01       		.byte	0x1
+ 901 0187 2F       		.byte	0x2f
+ 902 0188 68000000 		.4byte	0x68
+ 903 018c 1F000000 		.4byte	.LLST1
+ 904 0190 0F       		.uleb128 0xf
+ 905 0191 58000000 		.4byte	.LVL13
+ 906 0195 5A080000 		.4byte	0x85a
+ 907 0199 10       		.uleb128 0x10
+ 908 019a 01       		.uleb128 0x1
+ 909 019b 50       		.byte	0x50
+ 910 019c 02       		.uleb128 0x2
+ 911 019d 08       		.byte	0x8
+ 912 019e 2A       		.byte	0x2a
+ 913 019f 00       		.byte	0
+ 914 01a0 00       		.byte	0
+ 915 01a1 11       		.uleb128 0x11
+ 916 01a2 10000000 		.4byte	.LVL0
+ 917 01a6 65080000 		.4byte	0x865
+ 918 01aa B8010000 		.4byte	0x1b8
+ 919 01ae 10       		.uleb128 0x10
+ 920 01af 01       		.uleb128 0x1
+ 921 01b0 50       		.byte	0x50
+ 922 01b1 05       		.uleb128 0x5
+ 923 01b2 03       		.byte	0x3
+ 924 01b3 00000000 		.4byte	.LC0
+ 925 01b7 00       		.byte	0
+ 926 01b8 11       		.uleb128 0x11
+ 927 01b9 26000000 		.4byte	.LVL4
+ 928 01bd 65080000 		.4byte	0x865
+ 929 01c1 CF010000 		.4byte	0x1cf
+ 930 01c5 10       		.uleb128 0x10
+ 931 01c6 01       		.uleb128 0x1
+ 932 01c7 50       		.byte	0x50
+ 933 01c8 05       		.uleb128 0x5
+ 934 01c9 03       		.byte	0x3
+ 935 01ca 08000000 		.4byte	.LC1
+ 936 01ce 00       		.byte	0
+ 937 01cf 11       		.uleb128 0x11
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 23
+
+
+ 938 01d0 2C000000 		.4byte	.LVL5
+ 939 01d4 65080000 		.4byte	0x865
+ 940 01d8 E3010000 		.4byte	0x1e3
+ 941 01dc 10       		.uleb128 0x10
+ 942 01dd 01       		.uleb128 0x1
+ 943 01de 50       		.byte	0x50
+ 944 01df 02       		.uleb128 0x2
+ 945 01e0 91       		.byte	0x91
+ 946 01e1 50       		.sleb128 -48
+ 947 01e2 00       		.byte	0
+ 948 01e3 11       		.uleb128 0x11
+ 949 01e4 32000000 		.4byte	.LVL6
+ 950 01e8 65080000 		.4byte	0x865
+ 951 01ec FA010000 		.4byte	0x1fa
+ 952 01f0 10       		.uleb128 0x10
+ 953 01f1 01       		.uleb128 0x1
+ 954 01f2 50       		.byte	0x50
+ 955 01f3 05       		.uleb128 0x5
+ 956 01f4 03       		.byte	0x3
+ 957 01f5 18000000 		.4byte	.LC2
+ 958 01f9 00       		.byte	0
+ 959 01fa 11       		.uleb128 0x11
+ 960 01fb 3A000000 		.4byte	.LVL7
+ 961 01ff 65080000 		.4byte	0x865
+ 962 0203 0E020000 		.4byte	0x20e
+ 963 0207 10       		.uleb128 0x10
+ 964 0208 01       		.uleb128 0x1
+ 965 0209 50       		.byte	0x50
+ 966 020a 02       		.uleb128 0x2
+ 967 020b 91       		.byte	0x91
+ 968 020c 5A       		.sleb128 -38
+ 969 020d 00       		.byte	0
+ 970 020e 11       		.uleb128 0x11
+ 971 020f 40000000 		.4byte	.LVL8
+ 972 0213 65080000 		.4byte	0x865
+ 973 0217 25020000 		.4byte	0x225
+ 974 021b 10       		.uleb128 0x10
+ 975 021c 01       		.uleb128 0x1
+ 976 021d 50       		.byte	0x50
+ 977 021e 05       		.uleb128 0x5
+ 978 021f 03       		.byte	0x3
+ 979 0220 2C000000 		.4byte	.LC3
+ 980 0224 00       		.byte	0
+ 981 0225 11       		.uleb128 0x11
+ 982 0226 48000000 		.4byte	.LVL9
+ 983 022a 65080000 		.4byte	0x865
+ 984 022e 39020000 		.4byte	0x239
+ 985 0232 10       		.uleb128 0x10
+ 986 0233 01       		.uleb128 0x1
+ 987 0234 50       		.byte	0x50
+ 988 0235 02       		.uleb128 0x2
+ 989 0236 91       		.byte	0x91
+ 990 0237 7D       		.sleb128 -3
+ 991 0238 00       		.byte	0
+ 992 0239 0F       		.uleb128 0xf
+ 993 023a 4E000000 		.4byte	.LVL10
+ 994 023e 65080000 		.4byte	0x865
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 24
+
+
+ 995 0242 10       		.uleb128 0x10
+ 996 0243 01       		.uleb128 0x1
+ 997 0244 50       		.byte	0x50
+ 998 0245 05       		.uleb128 0x5
+ 999 0246 03       		.byte	0x3
+ 1000 0247 40000000 		.4byte	.LC4
+ 1001 024b 00       		.byte	0
+ 1002 024c 00       		.byte	0
+ 1003 024d 0B       		.uleb128 0xb
+ 1004 024e B6020000 		.4byte	.LASF22
+ 1005 0252 01       		.byte	0x1
+ 1006 0253 36       		.byte	0x36
+ 1007 0254 00000000 		.4byte	.LFB64
+ 1008 0258 E8000000 		.4byte	.LFE64-.LFB64
+ 1009 025c 01       		.uleb128 0x1
+ 1010 025d 9C       		.byte	0x9c
+ 1011 025e 78040000 		.4byte	0x478
+ 1012 0262 12       		.uleb128 0x12
+ 1013 0263 80000000 		.4byte	.LASF24
+ 1014 0267 01       		.byte	0x1
+ 1015 0268 36       		.byte	0x36
+ 1016 0269 BA000000 		.4byte	0xba
+ 1017 026d 3E000000 		.4byte	.LLST2
+ 1018 0271 12       		.uleb128 0x12
+ 1019 0272 84020000 		.4byte	.LASF25
+ 1020 0276 01       		.byte	0x1
+ 1021 0277 36       		.byte	0x36
+ 1022 0278 A4000000 		.4byte	0xa4
+ 1023 027c 8B000000 		.4byte	.LLST3
+ 1024 0280 12       		.uleb128 0x12
+ 1025 0281 33020000 		.4byte	.LASF26
+ 1026 0285 01       		.byte	0x1
+ 1027 0286 36       		.byte	0x36
+ 1028 0287 78040000 		.4byte	0x478
+ 1029 028b B7000000 		.4byte	.LLST4
+ 1030 028f 11       		.uleb128 0x11
+ 1031 0290 0C000000 		.4byte	.LVL18
+ 1032 0294 65080000 		.4byte	0x865
+ 1033 0298 A6020000 		.4byte	0x2a6
+ 1034 029c 10       		.uleb128 0x10
+ 1035 029d 01       		.uleb128 0x1
+ 1036 029e 50       		.byte	0x50
+ 1037 029f 05       		.uleb128 0x5
+ 1038 02a0 03       		.byte	0x3
+ 1039 02a1 48000000 		.4byte	.LC5
+ 1040 02a5 00       		.byte	0
+ 1041 02a6 11       		.uleb128 0x11
+ 1042 02a7 12000000 		.4byte	.LVL19
+ 1043 02ab 70080000 		.4byte	0x870
+ 1044 02af BA020000 		.4byte	0x2ba
+ 1045 02b3 10       		.uleb128 0x10
+ 1046 02b4 01       		.uleb128 0x1
+ 1047 02b5 50       		.byte	0x50
+ 1048 02b6 02       		.uleb128 0x2
+ 1049 02b7 74       		.byte	0x74
+ 1050 02b8 00       		.sleb128 0
+ 1051 02b9 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 25
+
+
+ 1052 02ba 11       		.uleb128 0x11
+ 1053 02bb 1A000000 		.4byte	.LVL20
+ 1054 02bf 65080000 		.4byte	0x865
+ 1055 02c3 D1020000 		.4byte	0x2d1
+ 1056 02c7 10       		.uleb128 0x10
+ 1057 02c8 01       		.uleb128 0x1
+ 1058 02c9 50       		.byte	0x50
+ 1059 02ca 05       		.uleb128 0x5
+ 1060 02cb 03       		.byte	0x3
+ 1061 02cc 5C000000 		.4byte	.LC6
+ 1062 02d0 00       		.byte	0
+ 1063 02d1 11       		.uleb128 0x11
+ 1064 02d2 22000000 		.4byte	.LVL21
+ 1065 02d6 65080000 		.4byte	0x865
+ 1066 02da E8020000 		.4byte	0x2e8
+ 1067 02de 10       		.uleb128 0x10
+ 1068 02df 01       		.uleb128 0x1
+ 1069 02e0 50       		.byte	0x50
+ 1070 02e1 05       		.uleb128 0x5
+ 1071 02e2 03       		.byte	0x3
+ 1072 02e3 68000000 		.4byte	.LC7
+ 1073 02e7 00       		.byte	0
+ 1074 02e8 11       		.uleb128 0x11
+ 1075 02e9 2A000000 		.4byte	.LVL22
+ 1076 02ed 7C080000 		.4byte	0x87c
+ 1077 02f1 08030000 		.4byte	0x308
+ 1078 02f5 10       		.uleb128 0x10
+ 1079 02f6 01       		.uleb128 0x1
+ 1080 02f7 50       		.byte	0x50
+ 1081 02f8 05       		.uleb128 0x5
+ 1082 02f9 03       		.byte	0x3
+ 1083 02fa 00000000 		.4byte	.LANCHOR0
+ 1084 02fe 10       		.uleb128 0x10
+ 1085 02ff 01       		.uleb128 0x1
+ 1086 0300 51       		.byte	0x51
+ 1087 0301 05       		.uleb128 0x5
+ 1088 0302 03       		.byte	0x3
+ 1089 0303 70000000 		.4byte	.LC8
+ 1090 0307 00       		.byte	0
+ 1091 0308 11       		.uleb128 0x11
+ 1092 0309 34000000 		.4byte	.LVL25
+ 1093 030d 65080000 		.4byte	0x865
+ 1094 0311 1F030000 		.4byte	0x31f
+ 1095 0315 10       		.uleb128 0x10
+ 1096 0316 01       		.uleb128 0x1
+ 1097 0317 50       		.byte	0x50
+ 1098 0318 05       		.uleb128 0x5
+ 1099 0319 03       		.byte	0x3
+ 1100 031a 74000000 		.4byte	.LC9
+ 1101 031e 00       		.byte	0
+ 1102 031f 11       		.uleb128 0x11
+ 1103 0320 3A000000 		.4byte	.LVL26
+ 1104 0324 65080000 		.4byte	0x865
+ 1105 0328 36030000 		.4byte	0x336
+ 1106 032c 10       		.uleb128 0x10
+ 1107 032d 01       		.uleb128 0x1
+ 1108 032e 50       		.byte	0x50
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 26
+
+
+ 1109 032f 05       		.uleb128 0x5
+ 1110 0330 03       		.byte	0x3
+ 1111 0331 00000000 		.4byte	.LANCHOR0
+ 1112 0335 00       		.byte	0
+ 1113 0336 11       		.uleb128 0x11
+ 1114 0337 40000000 		.4byte	.LVL27
+ 1115 033b 65080000 		.4byte	0x865
+ 1116 033f 4D030000 		.4byte	0x34d
+ 1117 0343 10       		.uleb128 0x10
+ 1118 0344 01       		.uleb128 0x1
+ 1119 0345 50       		.byte	0x50
+ 1120 0346 05       		.uleb128 0x5
+ 1121 0347 03       		.byte	0x3
+ 1122 0348 80000000 		.4byte	.LC10
+ 1123 034c 00       		.byte	0
+ 1124 034d 11       		.uleb128 0x11
+ 1125 034e 4E000000 		.4byte	.LVL28
+ 1126 0352 88080000 		.4byte	0x888
+ 1127 0356 6A030000 		.4byte	0x36a
+ 1128 035a 10       		.uleb128 0x10
+ 1129 035b 01       		.uleb128 0x1
+ 1130 035c 50       		.byte	0x50
+ 1131 035d 02       		.uleb128 0x2
+ 1132 035e 74       		.byte	0x74
+ 1133 035f 00       		.sleb128 0
+ 1134 0360 10       		.uleb128 0x10
+ 1135 0361 01       		.uleb128 0x1
+ 1136 0362 51       		.byte	0x51
+ 1137 0363 05       		.uleb128 0x5
+ 1138 0364 03       		.byte	0x3
+ 1139 0365 10000000 		.4byte	.LANCHOR0+16
+ 1140 0369 00       		.byte	0
+ 1141 036a 11       		.uleb128 0x11
+ 1142 036b 56000000 		.4byte	.LVL29
+ 1143 036f 65080000 		.4byte	0x865
+ 1144 0373 81030000 		.4byte	0x381
+ 1145 0377 10       		.uleb128 0x10
+ 1146 0378 01       		.uleb128 0x1
+ 1147 0379 50       		.byte	0x50
+ 1148 037a 05       		.uleb128 0x5
+ 1149 037b 03       		.byte	0x3
+ 1150 037c 8C000000 		.4byte	.LC11
+ 1151 0380 00       		.byte	0
+ 1152 0381 11       		.uleb128 0x11
+ 1153 0382 5C000000 		.4byte	.LVL30
+ 1154 0386 65080000 		.4byte	0x865
+ 1155 038a 98030000 		.4byte	0x398
+ 1156 038e 10       		.uleb128 0x10
+ 1157 038f 01       		.uleb128 0x1
+ 1158 0390 50       		.byte	0x50
+ 1159 0391 05       		.uleb128 0x5
+ 1160 0392 03       		.byte	0x3
+ 1161 0393 00000000 		.4byte	.LANCHOR0
+ 1162 0397 00       		.byte	0
+ 1163 0398 11       		.uleb128 0x11
+ 1164 0399 62000000 		.4byte	.LVL31
+ 1165 039d 65080000 		.4byte	0x865
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 27
+
+
+ 1166 03a1 AF030000 		.4byte	0x3af
+ 1167 03a5 10       		.uleb128 0x10
+ 1168 03a6 01       		.uleb128 0x1
+ 1169 03a7 50       		.byte	0x50
+ 1170 03a8 05       		.uleb128 0x5
+ 1171 03a9 03       		.byte	0x3
+ 1172 03aa 9C000000 		.4byte	.LC12
+ 1173 03ae 00       		.byte	0
+ 1174 03af 11       		.uleb128 0x11
+ 1175 03b0 6A000000 		.4byte	.LVL32
+ 1176 03b4 65080000 		.4byte	0x865
+ 1177 03b8 C6030000 		.4byte	0x3c6
+ 1178 03bc 10       		.uleb128 0x10
+ 1179 03bd 01       		.uleb128 0x1
+ 1180 03be 50       		.byte	0x50
+ 1181 03bf 05       		.uleb128 0x5
+ 1182 03c0 03       		.byte	0x3
+ 1183 03c1 B0000000 		.4byte	.LC13
+ 1184 03c5 00       		.byte	0
+ 1185 03c6 11       		.uleb128 0x11
+ 1186 03c7 70000000 		.4byte	.LVL33
+ 1187 03cb 65080000 		.4byte	0x865
+ 1188 03cf DD030000 		.4byte	0x3dd
+ 1189 03d3 10       		.uleb128 0x10
+ 1190 03d4 01       		.uleb128 0x1
+ 1191 03d5 50       		.byte	0x50
+ 1192 03d6 05       		.uleb128 0x5
+ 1193 03d7 03       		.byte	0x3
+ 1194 03d8 C4000000 		.4byte	.LC14
+ 1195 03dc 00       		.byte	0
+ 1196 03dd 11       		.uleb128 0x11
+ 1197 03de 76000000 		.4byte	.LVL34
+ 1198 03e2 94080000 		.4byte	0x894
+ 1199 03e6 F1030000 		.4byte	0x3f1
+ 1200 03ea 10       		.uleb128 0x10
+ 1201 03eb 01       		.uleb128 0x1
+ 1202 03ec 50       		.byte	0x50
+ 1203 03ed 02       		.uleb128 0x2
+ 1204 03ee 74       		.byte	0x74
+ 1205 03ef 00       		.sleb128 0
+ 1206 03f0 00       		.byte	0
+ 1207 03f1 11       		.uleb128 0x11
+ 1208 03f2 7E000000 		.4byte	.LVL35
+ 1209 03f6 65080000 		.4byte	0x865
+ 1210 03fa 08040000 		.4byte	0x408
+ 1211 03fe 10       		.uleb128 0x10
+ 1212 03ff 01       		.uleb128 0x1
+ 1213 0400 50       		.byte	0x50
+ 1214 0401 05       		.uleb128 0x5
+ 1215 0402 03       		.byte	0x3
+ 1216 0403 D4000000 		.4byte	.LC15
+ 1217 0407 00       		.byte	0
+ 1218 0408 11       		.uleb128 0x11
+ 1219 0409 86000000 		.4byte	.LVL36
+ 1220 040d 65080000 		.4byte	0x865
+ 1221 0411 1F040000 		.4byte	0x41f
+ 1222 0415 10       		.uleb128 0x10
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 28
+
+
+ 1223 0416 01       		.uleb128 0x1
+ 1224 0417 50       		.byte	0x50
+ 1225 0418 05       		.uleb128 0x5
+ 1226 0419 03       		.byte	0x3
+ 1227 041a E8000000 		.4byte	.LC16
+ 1228 041e 00       		.byte	0
+ 1229 041f 11       		.uleb128 0x11
+ 1230 0420 8C000000 		.4byte	.LVL37
+ 1231 0424 65080000 		.4byte	0x865
+ 1232 0428 36040000 		.4byte	0x436
+ 1233 042c 10       		.uleb128 0x10
+ 1234 042d 01       		.uleb128 0x1
+ 1235 042e 50       		.byte	0x50
+ 1236 042f 05       		.uleb128 0x5
+ 1237 0430 03       		.byte	0x3
+ 1238 0431 FC000000 		.4byte	.LC17
+ 1239 0435 00       		.byte	0
+ 1240 0436 11       		.uleb128 0x11
+ 1241 0437 94000000 		.4byte	.LVL40
+ 1242 043b 65080000 		.4byte	0x865
+ 1243 043f 4D040000 		.4byte	0x44d
+ 1244 0443 10       		.uleb128 0x10
+ 1245 0444 01       		.uleb128 0x1
+ 1246 0445 50       		.byte	0x50
+ 1247 0446 05       		.uleb128 0x5
+ 1248 0447 03       		.byte	0x3
+ 1249 0448 04010000 		.4byte	.LC18
+ 1250 044c 00       		.byte	0
+ 1251 044d 11       		.uleb128 0x11
+ 1252 044e 9A000000 		.4byte	.LVL41
+ 1253 0452 65080000 		.4byte	0x865
+ 1254 0456 64040000 		.4byte	0x464
+ 1255 045a 10       		.uleb128 0x10
+ 1256 045b 01       		.uleb128 0x1
+ 1257 045c 50       		.byte	0x50
+ 1258 045d 05       		.uleb128 0x5
+ 1259 045e 03       		.byte	0x3
+ 1260 045f 18010000 		.4byte	.LC19
+ 1261 0463 00       		.byte	0
+ 1262 0464 0F       		.uleb128 0xf
+ 1263 0465 A0000000 		.4byte	.LVL42
+ 1264 0469 65080000 		.4byte	0x865
+ 1265 046d 10       		.uleb128 0x10
+ 1266 046e 01       		.uleb128 0x1
+ 1267 046f 50       		.byte	0x50
+ 1268 0470 05       		.uleb128 0x5
+ 1269 0471 03       		.byte	0x3
+ 1270 0472 20010000 		.4byte	.LC20
+ 1271 0476 00       		.byte	0
+ 1272 0477 00       		.byte	0
+ 1273 0478 02       		.uleb128 0x2
+ 1274 0479 01       		.byte	0x1
+ 1275 047a 02       		.byte	0x2
+ 1276 047b D6020000 		.4byte	.LASF27
+ 1277 047f 13       		.uleb128 0x13
+ 1278 0480 8D000000 		.4byte	.LASF31
+ 1279 0484 01       		.byte	0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 29
+
+
+ 1280 0485 6A       		.byte	0x6a
+ 1281 0486 78040000 		.4byte	0x478
+ 1282 048a 00000000 		.4byte	.LFB65
+ 1283 048e 7C000000 		.4byte	.LFE65-.LFB65
+ 1284 0492 01       		.uleb128 0x1
+ 1285 0493 9C       		.byte	0x9c
+ 1286 0494 AA050000 		.4byte	0x5aa
+ 1287 0498 12       		.uleb128 0x12
+ 1288 0499 80000000 		.4byte	.LASF24
+ 1289 049d 01       		.byte	0x1
+ 1290 049e 6A       		.byte	0x6a
+ 1291 049f BA000000 		.4byte	0xba
+ 1292 04a3 D8000000 		.4byte	.LLST5
+ 1293 04a7 12       		.uleb128 0x12
+ 1294 04a8 99010000 		.4byte	.LASF28
+ 1295 04ac 01       		.byte	0x1
+ 1296 04ad 6A       		.byte	0x6a
+ 1297 04ae 68000000 		.4byte	0x68
+ 1298 04b2 0F010000 		.4byte	.LLST6
+ 1299 04b6 12       		.uleb128 0x12
+ 1300 04b7 AA000000 		.4byte	.LASF29
+ 1301 04bb 01       		.byte	0x1
+ 1302 04bc 6A       		.byte	0x6a
+ 1303 04bd 68000000 		.4byte	0x68
+ 1304 04c1 3B010000 		.4byte	.LLST7
+ 1305 04c5 14       		.uleb128 0x14
+ 1306 04c6 6F757400 		.ascii	"out\000"
+ 1307 04ca 01       		.byte	0x1
+ 1308 04cb 6A       		.byte	0x6a
+ 1309 04cc AA050000 		.4byte	0x5aa
+ 1310 04d0 67010000 		.4byte	.LLST8
+ 1311 04d4 0D       		.uleb128 0xd
+ 1312 04d5 14000000 		.4byte	.LBB4
+ 1313 04d9 4E000000 		.4byte	.LBE4-.LBB4
+ 1314 04dd 8D050000 		.4byte	0x58d
+ 1315 04e1 15       		.uleb128 0x15
+ 1316 04e2 DE010000 		.4byte	.LASF30
+ 1317 04e6 01       		.byte	0x1
+ 1318 04e7 77       		.byte	0x77
+ 1319 04e8 68000000 		.4byte	0x68
+ 1320 04ec 93010000 		.4byte	.LLST9
+ 1321 04f0 11       		.uleb128 0x11
+ 1322 04f1 18000000 		.4byte	.LVL48
+ 1323 04f5 A0080000 		.4byte	0x8a0
+ 1324 04f9 04050000 		.4byte	0x504
+ 1325 04fd 10       		.uleb128 0x10
+ 1326 04fe 01       		.uleb128 0x1
+ 1327 04ff 50       		.byte	0x50
+ 1328 0500 02       		.uleb128 0x2
+ 1329 0501 74       		.byte	0x74
+ 1330 0502 00       		.sleb128 0
+ 1331 0503 00       		.byte	0
+ 1332 0504 11       		.uleb128 0x11
+ 1333 0505 2C000000 		.4byte	.LVL50
+ 1334 0509 65080000 		.4byte	0x865
+ 1335 050d 1B050000 		.4byte	0x51b
+ 1336 0511 10       		.uleb128 0x10
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 30
+
+
+ 1337 0512 01       		.uleb128 0x1
+ 1338 0513 50       		.byte	0x50
+ 1339 0514 05       		.uleb128 0x5
+ 1340 0515 03       		.byte	0x3
+ 1341 0516 38010000 		.4byte	.LC22
+ 1342 051a 00       		.byte	0
+ 1343 051b 11       		.uleb128 0x11
+ 1344 051c 3A000000 		.4byte	.LVL53
+ 1345 0520 AC080000 		.4byte	0x8ac
+ 1346 0524 34050000 		.4byte	0x534
+ 1347 0528 10       		.uleb128 0x10
+ 1348 0529 01       		.uleb128 0x1
+ 1349 052a 50       		.byte	0x50
+ 1350 052b 02       		.uleb128 0x2
+ 1351 052c 74       		.byte	0x74
+ 1352 052d 00       		.sleb128 0
+ 1353 052e 10       		.uleb128 0x10
+ 1354 052f 01       		.uleb128 0x1
+ 1355 0530 52       		.byte	0x52
+ 1356 0531 01       		.uleb128 0x1
+ 1357 0532 31       		.byte	0x31
+ 1358 0533 00       		.byte	0
+ 1359 0534 11       		.uleb128 0x11
+ 1360 0535 42000000 		.4byte	.LVL54
+ 1361 0539 65080000 		.4byte	0x865
+ 1362 053d 4B050000 		.4byte	0x54b
+ 1363 0541 10       		.uleb128 0x10
+ 1364 0542 01       		.uleb128 0x1
+ 1365 0543 50       		.byte	0x50
+ 1366 0544 05       		.uleb128 0x5
+ 1367 0545 03       		.byte	0x3
+ 1368 0546 60010000 		.4byte	.LC23
+ 1369 054a 00       		.byte	0
+ 1370 054b 11       		.uleb128 0x11
+ 1371 054c 54000000 		.4byte	.LVL55
+ 1372 0550 B8080000 		.4byte	0x8b8
+ 1373 0554 65050000 		.4byte	0x565
+ 1374 0558 10       		.uleb128 0x10
+ 1375 0559 01       		.uleb128 0x1
+ 1376 055a 50       		.byte	0x50
+ 1377 055b 02       		.uleb128 0x2
+ 1378 055c 74       		.byte	0x74
+ 1379 055d 00       		.sleb128 0
+ 1380 055e 10       		.uleb128 0x10
+ 1381 055f 01       		.uleb128 0x1
+ 1382 0560 51       		.byte	0x51
+ 1383 0561 02       		.uleb128 0x2
+ 1384 0562 77       		.byte	0x77
+ 1385 0563 00       		.sleb128 0
+ 1386 0564 00       		.byte	0
+ 1387 0565 11       		.uleb128 0x11
+ 1388 0566 5A000000 		.4byte	.LVL56
+ 1389 056a 94080000 		.4byte	0x894
+ 1390 056e 79050000 		.4byte	0x579
+ 1391 0572 10       		.uleb128 0x10
+ 1392 0573 01       		.uleb128 0x1
+ 1393 0574 50       		.byte	0x50
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 31
+
+
+ 1394 0575 02       		.uleb128 0x2
+ 1395 0576 74       		.byte	0x74
+ 1396 0577 00       		.sleb128 0
+ 1397 0578 00       		.byte	0
+ 1398 0579 0F       		.uleb128 0xf
+ 1399 057a 62000000 		.4byte	.LVL57
+ 1400 057e 65080000 		.4byte	0x865
+ 1401 0582 10       		.uleb128 0x10
+ 1402 0583 01       		.uleb128 0x1
+ 1403 0584 50       		.byte	0x50
+ 1404 0585 05       		.uleb128 0x5
+ 1405 0586 03       		.byte	0x3
+ 1406 0587 80010000 		.4byte	.LC24
+ 1407 058b 00       		.byte	0
+ 1408 058c 00       		.byte	0
+ 1409 058d 0F       		.uleb128 0xf
+ 1410 058e 10000000 		.4byte	.LVL47
+ 1411 0592 7C080000 		.4byte	0x87c
+ 1412 0596 10       		.uleb128 0x10
+ 1413 0597 01       		.uleb128 0x1
+ 1414 0598 50       		.byte	0x50
+ 1415 0599 05       		.uleb128 0x5
+ 1416 059a 03       		.byte	0x3
+ 1417 059b 00000000 		.4byte	.LANCHOR0
+ 1418 059f 10       		.uleb128 0x10
+ 1419 05a0 01       		.uleb128 0x1
+ 1420 05a1 51       		.byte	0x51
+ 1421 05a2 05       		.uleb128 0x5
+ 1422 05a3 03       		.byte	0x3
+ 1423 05a4 34010000 		.4byte	.LC21
+ 1424 05a8 00       		.byte	0
+ 1425 05a9 00       		.byte	0
+ 1426 05aa 05       		.uleb128 0x5
+ 1427 05ab 04       		.byte	0x4
+ 1428 05ac 1D010000 		.4byte	0x11d
+ 1429 05b0 13       		.uleb128 0x13
+ 1430 05b1 B6000000 		.4byte	.LASF32
+ 1431 05b5 01       		.byte	0x1
+ 1432 05b6 93       		.byte	0x93
+ 1433 05b7 78040000 		.4byte	0x478
+ 1434 05bb 00000000 		.4byte	.LFB66
+ 1435 05bf 40000000 		.4byte	.LFE66-.LFB66
+ 1436 05c3 01       		.uleb128 0x1
+ 1437 05c4 9C       		.byte	0x9c
+ 1438 05c5 72060000 		.4byte	0x672
+ 1439 05c9 12       		.uleb128 0x12
+ 1440 05ca 80000000 		.4byte	.LASF24
+ 1441 05ce 01       		.byte	0x1
+ 1442 05cf 93       		.byte	0x93
+ 1443 05d0 BA000000 		.4byte	0xba
+ 1444 05d4 B1010000 		.4byte	.LLST10
+ 1445 05d8 12       		.uleb128 0x12
+ 1446 05d9 86000000 		.4byte	.LASF33
+ 1447 05dd 01       		.byte	0x1
+ 1448 05de 93       		.byte	0x93
+ 1449 05df AA050000 		.4byte	0x5aa
+ 1450 05e3 E8010000 		.4byte	.LLST11
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 32
+
+
+ 1451 05e7 0D       		.uleb128 0xd
+ 1452 05e8 10000000 		.4byte	.LBB5
+ 1453 05ec 1E000000 		.4byte	.LBE5-.LBB5
+ 1454 05f0 55060000 		.4byte	0x655
+ 1455 05f4 16       		.uleb128 0x16
+ 1456 05f5 DE010000 		.4byte	.LASF30
+ 1457 05f9 01       		.byte	0x1
+ 1458 05fa 9D       		.byte	0x9d
+ 1459 05fb 68000000 		.4byte	0x68
+ 1460 05ff 11       		.uleb128 0x11
+ 1461 0600 14000000 		.4byte	.LVL63
+ 1462 0604 A0080000 		.4byte	0x8a0
+ 1463 0608 13060000 		.4byte	0x613
+ 1464 060c 10       		.uleb128 0x10
+ 1465 060d 01       		.uleb128 0x1
+ 1466 060e 50       		.byte	0x50
+ 1467 060f 02       		.uleb128 0x2
+ 1468 0610 74       		.byte	0x74
+ 1469 0611 00       		.sleb128 0
+ 1470 0612 00       		.byte	0
+ 1471 0613 11       		.uleb128 0x11
+ 1472 0614 20000000 		.4byte	.LVL64
+ 1473 0618 88080000 		.4byte	0x888
+ 1474 061c 2D060000 		.4byte	0x62d
+ 1475 0620 10       		.uleb128 0x10
+ 1476 0621 01       		.uleb128 0x1
+ 1477 0622 50       		.byte	0x50
+ 1478 0623 02       		.uleb128 0x2
+ 1479 0624 74       		.byte	0x74
+ 1480 0625 00       		.sleb128 0
+ 1481 0626 10       		.uleb128 0x10
+ 1482 0627 01       		.uleb128 0x1
+ 1483 0628 51       		.byte	0x51
+ 1484 0629 02       		.uleb128 0x2
+ 1485 062a 75       		.byte	0x75
+ 1486 062b 00       		.sleb128 0
+ 1487 062c 00       		.byte	0
+ 1488 062d 11       		.uleb128 0x11
+ 1489 062e 26000000 		.4byte	.LVL65
+ 1490 0632 94080000 		.4byte	0x894
+ 1491 0636 41060000 		.4byte	0x641
+ 1492 063a 10       		.uleb128 0x10
+ 1493 063b 01       		.uleb128 0x1
+ 1494 063c 50       		.byte	0x50
+ 1495 063d 02       		.uleb128 0x2
+ 1496 063e 74       		.byte	0x74
+ 1497 063f 00       		.sleb128 0
+ 1498 0640 00       		.byte	0
+ 1499 0641 0F       		.uleb128 0xf
+ 1500 0642 2E000000 		.4byte	.LVL66
+ 1501 0646 65080000 		.4byte	0x865
+ 1502 064a 10       		.uleb128 0x10
+ 1503 064b 01       		.uleb128 0x1
+ 1504 064c 50       		.byte	0x50
+ 1505 064d 05       		.uleb128 0x5
+ 1506 064e 03       		.byte	0x3
+ 1507 064f 80010000 		.4byte	.LC24
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 33
+
+
+ 1508 0653 00       		.byte	0
+ 1509 0654 00       		.byte	0
+ 1510 0655 0F       		.uleb128 0xf
+ 1511 0656 0C000000 		.4byte	.LVL62
+ 1512 065a 7C080000 		.4byte	0x87c
+ 1513 065e 10       		.uleb128 0x10
+ 1514 065f 01       		.uleb128 0x1
+ 1515 0660 50       		.byte	0x50
+ 1516 0661 05       		.uleb128 0x5
+ 1517 0662 03       		.byte	0x3
+ 1518 0663 00000000 		.4byte	.LANCHOR0
+ 1519 0667 10       		.uleb128 0x10
+ 1520 0668 01       		.uleb128 0x1
+ 1521 0669 51       		.byte	0x51
+ 1522 066a 05       		.uleb128 0x5
+ 1523 066b 03       		.byte	0x3
+ 1524 066c 9C010000 		.4byte	.LC25
+ 1525 0670 00       		.byte	0
+ 1526 0671 00       		.byte	0
+ 1527 0672 17       		.uleb128 0x17
+ 1528 0673 D9010000 		.4byte	.LASF34
+ 1529 0677 01       		.byte	0x1
+ 1530 0678 AF       		.byte	0xaf
+ 1531 0679 68000000 		.4byte	0x68
+ 1532 067d 00000000 		.4byte	.LFB67
+ 1533 0681 C4000000 		.4byte	.LFE67-.LFB67
+ 1534 0685 01       		.uleb128 0x1
+ 1535 0686 9C       		.byte	0x9c
+ 1536 0687 E5070000 		.4byte	0x7e5
+ 1537 068b 18       		.uleb128 0x18
+ 1538 068c 84020000 		.4byte	.LASF25
+ 1539 0690 01       		.byte	0x1
+ 1540 0691 B0       		.byte	0xb0
+ 1541 0692 ED000000 		.4byte	0xed
+ 1542 0696 02       		.uleb128 0x2
+ 1543 0697 91       		.byte	0x91
+ 1544 0698 5C       		.sleb128 -36
+ 1545 0699 19       		.uleb128 0x19
+ 1546 069a 54000000 		.4byte	.LASF35
+ 1547 069e 01       		.byte	0x1
+ 1548 069f B1       		.byte	0xb1
+ 1549 06a0 3A000000 		.4byte	0x3a
+ 1550 06a4 01       		.byte	0x1
+ 1551 06a5 18       		.uleb128 0x18
+ 1552 06a6 80000000 		.4byte	.LASF24
+ 1553 06aa 01       		.byte	0x1
+ 1554 06ab B2       		.byte	0xb2
+ 1555 06ac BA000000 		.4byte	0xba
+ 1556 06b0 01       		.uleb128 0x1
+ 1557 06b1 57       		.byte	0x57
+ 1558 06b2 0D       		.uleb128 0xd
+ 1559 06b3 32000000 		.4byte	.LBB6
+ 1560 06b7 92000000 		.4byte	.LBE6-.LBB6
+ 1561 06bb 5F070000 		.4byte	0x75f
+ 1562 06bf 18       		.uleb128 0x18
+ 1563 06c0 73000000 		.4byte	.LASF36
+ 1564 06c4 01       		.byte	0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 34
+
+
+ 1565 06c5 D0       		.byte	0xd0
+ 1566 06c6 E5070000 		.4byte	0x7e5
+ 1567 06ca 03       		.uleb128 0x3
+ 1568 06cb 91       		.byte	0x91
+ 1569 06cc DC7E     		.sleb128 -164
+ 1570 06ce 11       		.uleb128 0x11
+ 1571 06cf 3A000000 		.4byte	.LVL76
+ 1572 06d3 C4080000 		.4byte	0x8c4
+ 1573 06d7 E3060000 		.4byte	0x6e3
+ 1574 06db 10       		.uleb128 0x10
+ 1575 06dc 01       		.uleb128 0x1
+ 1576 06dd 50       		.byte	0x50
+ 1577 06de 03       		.uleb128 0x3
+ 1578 06df 0A       		.byte	0xa
+ 1579 06e0 A00F     		.2byte	0xfa0
+ 1580 06e2 00       		.byte	0
+ 1581 06e3 11       		.uleb128 0x11
+ 1582 06e4 4A000000 		.4byte	.LVL77
+ 1583 06e8 7F040000 		.4byte	0x47f
+ 1584 06ec 08070000 		.4byte	0x708
+ 1585 06f0 10       		.uleb128 0x10
+ 1586 06f1 01       		.uleb128 0x1
+ 1587 06f2 50       		.byte	0x50
+ 1588 06f3 02       		.uleb128 0x2
+ 1589 06f4 77       		.byte	0x77
+ 1590 06f5 00       		.sleb128 0
+ 1591 06f6 10       		.uleb128 0x10
+ 1592 06f7 01       		.uleb128 0x1
+ 1593 06f8 51       		.byte	0x51
+ 1594 06f9 02       		.uleb128 0x2
+ 1595 06fa 77       		.byte	0x77
+ 1596 06fb 00       		.sleb128 0
+ 1597 06fc 10       		.uleb128 0x10
+ 1598 06fd 01       		.uleb128 0x1
+ 1599 06fe 52       		.byte	0x52
+ 1600 06ff 01       		.uleb128 0x1
+ 1601 0700 32       		.byte	0x32
+ 1602 0701 10       		.uleb128 0x10
+ 1603 0702 01       		.uleb128 0x1
+ 1604 0703 53       		.byte	0x53
+ 1605 0704 02       		.uleb128 0x2
+ 1606 0705 76       		.byte	0x76
+ 1607 0706 00       		.sleb128 0
+ 1608 0707 00       		.byte	0
+ 1609 0708 1A       		.uleb128 0x1a
+ 1610 0709 66000000 		.4byte	.LVL78
+ 1611 070d 28010000 		.4byte	0x128
+ 1612 0711 1A       		.uleb128 0x1a
+ 1613 0712 82000000 		.4byte	.LVL79
+ 1614 0716 28010000 		.4byte	0x128
+ 1615 071a 11       		.uleb128 0x11
+ 1616 071b 88000000 		.4byte	.LVL80
+ 1617 071f 65080000 		.4byte	0x865
+ 1618 0723 31070000 		.4byte	0x731
+ 1619 0727 10       		.uleb128 0x10
+ 1620 0728 01       		.uleb128 0x1
+ 1621 0729 50       		.byte	0x50
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 35
+
+
+ 1622 072a 05       		.uleb128 0x5
+ 1623 072b 03       		.byte	0x3
+ 1624 072c D8010000 		.4byte	.LC29
+ 1625 0730 00       		.byte	0
+ 1626 0731 11       		.uleb128 0x11
+ 1627 0732 94000000 		.4byte	.LVL81
+ 1628 0736 7F040000 		.4byte	0x47f
+ 1629 073a 55070000 		.4byte	0x755
+ 1630 073e 10       		.uleb128 0x10
+ 1631 073f 01       		.uleb128 0x1
+ 1632 0740 50       		.byte	0x50
+ 1633 0741 02       		.uleb128 0x2
+ 1634 0742 77       		.byte	0x77
+ 1635 0743 00       		.sleb128 0
+ 1636 0744 10       		.uleb128 0x10
+ 1637 0745 01       		.uleb128 0x1
+ 1638 0746 51       		.byte	0x51
+ 1639 0747 01       		.uleb128 0x1
+ 1640 0748 31       		.byte	0x31
+ 1641 0749 10       		.uleb128 0x10
+ 1642 074a 01       		.uleb128 0x1
+ 1643 074b 52       		.byte	0x52
+ 1644 074c 01       		.uleb128 0x1
+ 1645 074d 31       		.byte	0x31
+ 1646 074e 10       		.uleb128 0x10
+ 1647 074f 01       		.uleb128 0x1
+ 1648 0750 53       		.byte	0x53
+ 1649 0751 02       		.uleb128 0x2
+ 1650 0752 76       		.byte	0x76
+ 1651 0753 00       		.sleb128 0
+ 1652 0754 00       		.byte	0
+ 1653 0755 1A       		.uleb128 0x1a
+ 1654 0756 B0000000 		.4byte	.LVL82
+ 1655 075a 28010000 		.4byte	0x128
+ 1656 075e 00       		.byte	0
+ 1657 075f 1A       		.uleb128 0x1a
+ 1658 0760 08000000 		.4byte	.LVL69
+ 1659 0764 CF080000 		.4byte	0x8cf
+ 1660 0768 1A       		.uleb128 0x1a
+ 1661 0769 0C000000 		.4byte	.LVL70
+ 1662 076d DA080000 		.4byte	0x8da
+ 1663 0771 11       		.uleb128 0x11
+ 1664 0772 16000000 		.4byte	.LVL71
+ 1665 0776 E6080000 		.4byte	0x8e6
+ 1666 077a 8F070000 		.4byte	0x78f
+ 1667 077e 10       		.uleb128 0x10
+ 1668 077f 01       		.uleb128 0x1
+ 1669 0780 50       		.byte	0x50
+ 1670 0781 01       		.uleb128 0x1
+ 1671 0782 30       		.byte	0x30
+ 1672 0783 10       		.uleb128 0x10
+ 1673 0784 01       		.uleb128 0x1
+ 1674 0785 51       		.byte	0x51
+ 1675 0786 02       		.uleb128 0x2
+ 1676 0787 91       		.byte	0x91
+ 1677 0788 5C       		.sleb128 -36
+ 1678 0789 10       		.uleb128 0x10
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 36
+
+
+ 1679 078a 01       		.uleb128 0x1
+ 1680 078b 52       		.byte	0x52
+ 1681 078c 01       		.uleb128 0x1
+ 1682 078d 39       		.byte	0x39
+ 1683 078e 00       		.byte	0
+ 1684 078f 11       		.uleb128 0x11
+ 1685 0790 1E000000 		.4byte	.LVL72
+ 1686 0794 65080000 		.4byte	0x865
+ 1687 0798 A6070000 		.4byte	0x7a6
+ 1688 079c 10       		.uleb128 0x10
+ 1689 079d 01       		.uleb128 0x1
+ 1690 079e 50       		.byte	0x50
+ 1691 079f 05       		.uleb128 0x5
+ 1692 07a0 03       		.byte	0x3
+ 1693 07a1 A0010000 		.4byte	.LC26
+ 1694 07a5 00       		.byte	0
+ 1695 07a6 11       		.uleb128 0x11
+ 1696 07a7 24000000 		.4byte	.LVL73
+ 1697 07ab 65080000 		.4byte	0x865
+ 1698 07af BA070000 		.4byte	0x7ba
+ 1699 07b3 10       		.uleb128 0x10
+ 1700 07b4 01       		.uleb128 0x1
+ 1701 07b5 50       		.byte	0x50
+ 1702 07b6 02       		.uleb128 0x2
+ 1703 07b7 91       		.byte	0x91
+ 1704 07b8 5C       		.sleb128 -36
+ 1705 07b9 00       		.byte	0
+ 1706 07ba 11       		.uleb128 0x11
+ 1707 07bb 2C000000 		.4byte	.LVL74
+ 1708 07bf 65080000 		.4byte	0x865
+ 1709 07c3 D1070000 		.4byte	0x7d1
+ 1710 07c7 10       		.uleb128 0x10
+ 1711 07c8 01       		.uleb128 0x1
+ 1712 07c9 50       		.byte	0x50
+ 1713 07ca 05       		.uleb128 0x5
+ 1714 07cb 03       		.byte	0x3
+ 1715 07cc B4010000 		.4byte	.LC27
+ 1716 07d0 00       		.byte	0
+ 1717 07d1 0F       		.uleb128 0xf
+ 1718 07d2 32000000 		.4byte	.LVL75
+ 1719 07d6 65080000 		.4byte	0x865
+ 1720 07da 10       		.uleb128 0x10
+ 1721 07db 01       		.uleb128 0x1
+ 1722 07dc 50       		.byte	0x50
+ 1723 07dd 05       		.uleb128 0x5
+ 1724 07de 03       		.byte	0x3
+ 1725 07df C8010000 		.4byte	.LC28
+ 1726 07e3 00       		.byte	0
+ 1727 07e4 00       		.byte	0
+ 1728 07e5 09       		.uleb128 0x9
+ 1729 07e6 1D010000 		.4byte	0x11d
+ 1730 07ea F5070000 		.4byte	0x7f5
+ 1731 07ee 0A       		.uleb128 0xa
+ 1732 07ef 9D000000 		.4byte	0x9d
+ 1733 07f3 01       		.byte	0x1
+ 1734 07f4 00       		.byte	0
+ 1735 07f5 1B       		.uleb128 0x1b
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 37
+
+
+ 1736 07f6 A3010000 		.4byte	.LASF37
+ 1737 07fa 05       		.byte	0x5
+ 1738 07fb 1207     		.2byte	0x712
+ 1739 07fd 01080000 		.4byte	0x801
+ 1740 0801 1C       		.uleb128 0x1c
+ 1741 0802 76000000 		.4byte	0x76
+ 1742 0806 09       		.uleb128 0x9
+ 1743 0807 8F000000 		.4byte	0x8f
+ 1744 080b 16080000 		.4byte	0x816
+ 1745 080f 0A       		.uleb128 0xa
+ 1746 0810 9D000000 		.4byte	0x9d
+ 1747 0814 08       		.byte	0x8
+ 1748 0815 00       		.byte	0
+ 1749 0816 1D       		.uleb128 0x1d
+ 1750 0817 97020000 		.4byte	.LASF38
+ 1751 081b 01       		.byte	0x1
+ 1752 081c 12       		.byte	0x12
+ 1753 081d 06080000 		.4byte	0x806
+ 1754 0821 05       		.uleb128 0x5
+ 1755 0822 03       		.byte	0x3
+ 1756 0823 00000000 		.4byte	sdFile
+ 1757 0827 1D       		.uleb128 0x1d
+ 1758 0828 7C010000 		.4byte	.LASF39
+ 1759 082c 01       		.byte	0x1
+ 1760 082d 1C       		.byte	0x1c
+ 1761 082e 68000000 		.4byte	0x68
+ 1762 0832 05       		.uleb128 0x5
+ 1763 0833 03       		.byte	0x3
+ 1764 0834 00000000 		.4byte	record_size
+ 1765 0838 1D       		.uleb128 0x1d
+ 1766 0839 00000000 		.4byte	.LASF40
+ 1767 083d 01       		.byte	0x1
+ 1768 083e 1D       		.byte	0x1d
+ 1769 083f 1D010000 		.4byte	0x11d
+ 1770 0843 05       		.uleb128 0x5
+ 1771 0844 03       		.byte	0x3
+ 1772 0845 00000000 		.4byte	null_record
+ 1773 0849 1D       		.uleb128 0x1d
+ 1774 084a 19000000 		.4byte	.LASF41
+ 1775 084e 01       		.byte	0x1
+ 1776 084f 1E       		.byte	0x1e
+ 1777 0850 1D010000 		.4byte	0x11d
+ 1778 0854 05       		.uleb128 0x5
+ 1779 0855 03       		.byte	0x3
+ 1780 0856 00000000 		.4byte	example_record
+ 1781 085a 1E       		.uleb128 0x1e
+ 1782 085b E6010000 		.4byte	.LASF42
+ 1783 085f E6010000 		.4byte	.LASF42
+ 1784 0863 06       		.byte	0x6
+ 1785 0864 8A       		.byte	0x8a
+ 1786 0865 1E       		.uleb128 0x1e
+ 1787 0866 32000000 		.4byte	.LASF43
+ 1788 086a 32000000 		.4byte	.LASF43
+ 1789 086e 06       		.byte	0x6
+ 1790 086f 8B       		.byte	0x8b
+ 1791 0870 1F       		.uleb128 0x1f
+ 1792 0871 59000000 		.4byte	.LASF44
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 38
+
+
+ 1793 0875 59000000 		.4byte	.LASF44
+ 1794 0879 07       		.byte	0x7
+ 1795 087a E601     		.2byte	0x1e6
+ 1796 087c 1F       		.uleb128 0x1f
+ 1797 087d BE010000 		.4byte	.LASF45
+ 1798 0881 BE010000 		.4byte	.LASF45
+ 1799 0885 07       		.byte	0x7
+ 1800 0886 3A01     		.2byte	0x13a
+ 1801 0888 1F       		.uleb128 0x1f
+ 1802 0889 C7010000 		.4byte	.LASF46
+ 1803 088d C7010000 		.4byte	.LASF46
+ 1804 0891 07       		.byte	0x7
+ 1805 0892 4401     		.2byte	0x144
+ 1806 0894 1F       		.uleb128 0x1f
+ 1807 0895 28000000 		.4byte	.LASF47
+ 1808 0899 28000000 		.4byte	.LASF47
+ 1809 089d 07       		.byte	0x7
+ 1810 089e 3B01     		.2byte	0x13b
+ 1811 08a0 1F       		.uleb128 0x1f
+ 1812 08a1 5B020000 		.4byte	.LASF48
+ 1813 08a5 5B020000 		.4byte	.LASF48
+ 1814 08a9 07       		.byte	0x7
+ 1815 08aa 5F01     		.2byte	0x15f
+ 1816 08ac 1F       		.uleb128 0x1f
+ 1817 08ad D0010000 		.4byte	.LASF49
+ 1818 08b1 D0010000 		.4byte	.LASF49
+ 1819 08b5 07       		.byte	0x7
+ 1820 08b6 4A01     		.2byte	0x14a
+ 1821 08b8 1F       		.uleb128 0x1f
+ 1822 08b9 A2000000 		.4byte	.LASF50
+ 1823 08bd A2000000 		.4byte	.LASF50
+ 1824 08c1 07       		.byte	0x7
+ 1825 08c2 4301     		.2byte	0x143
+ 1826 08c4 1E       		.uleb128 0x1e
+ 1827 08c5 33030000 		.4byte	.LASF51
+ 1828 08c9 33030000 		.4byte	.LASF51
+ 1829 08cd 08       		.byte	0x8
+ 1830 08ce 76       		.byte	0x76
+ 1831 08cf 1E       		.uleb128 0x1e
+ 1832 08d0 0C000000 		.4byte	.LASF52
+ 1833 08d4 0C000000 		.4byte	.LASF52
+ 1834 08d8 06       		.byte	0x6
+ 1835 08d9 54       		.byte	0x54
+ 1836 08da 1F       		.uleb128 0x1f
+ 1837 08db 7C020000 		.4byte	.LASF53
+ 1838 08df 7C020000 		.4byte	.LASF53
+ 1839 08e3 07       		.byte	0x7
+ 1840 08e4 DA01     		.2byte	0x1da
+ 1841 08e6 1F       		.uleb128 0x1f
+ 1842 08e7 88010000 		.4byte	.LASF54
+ 1843 08eb 88010000 		.4byte	.LASF54
+ 1844 08ef 07       		.byte	0x7
+ 1845 08f0 7001     		.2byte	0x170
+ 1846 08f2 00       		.byte	0
+ 1847              		.section	.debug_abbrev,"",%progbits
+ 1848              	.Ldebug_abbrev0:
+ 1849 0000 01       		.uleb128 0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 39
+
+
+ 1850 0001 11       		.uleb128 0x11
+ 1851 0002 01       		.byte	0x1
+ 1852 0003 25       		.uleb128 0x25
+ 1853 0004 0E       		.uleb128 0xe
+ 1854 0005 13       		.uleb128 0x13
+ 1855 0006 0B       		.uleb128 0xb
+ 1856 0007 03       		.uleb128 0x3
+ 1857 0008 0E       		.uleb128 0xe
+ 1858 0009 1B       		.uleb128 0x1b
+ 1859 000a 0E       		.uleb128 0xe
+ 1860 000b 55       		.uleb128 0x55
+ 1861 000c 17       		.uleb128 0x17
+ 1862 000d 11       		.uleb128 0x11
+ 1863 000e 01       		.uleb128 0x1
+ 1864 000f 10       		.uleb128 0x10
+ 1865 0010 17       		.uleb128 0x17
+ 1866 0011 00       		.byte	0
+ 1867 0012 00       		.byte	0
+ 1868 0013 02       		.uleb128 0x2
+ 1869 0014 24       		.uleb128 0x24
+ 1870 0015 00       		.byte	0
+ 1871 0016 0B       		.uleb128 0xb
+ 1872 0017 0B       		.uleb128 0xb
+ 1873 0018 3E       		.uleb128 0x3e
+ 1874 0019 0B       		.uleb128 0xb
+ 1875 001a 03       		.uleb128 0x3
+ 1876 001b 0E       		.uleb128 0xe
+ 1877 001c 00       		.byte	0
+ 1878 001d 00       		.byte	0
+ 1879 001e 03       		.uleb128 0x3
+ 1880 001f 16       		.uleb128 0x16
+ 1881 0020 00       		.byte	0
+ 1882 0021 03       		.uleb128 0x3
+ 1883 0022 0E       		.uleb128 0xe
+ 1884 0023 3A       		.uleb128 0x3a
+ 1885 0024 0B       		.uleb128 0xb
+ 1886 0025 3B       		.uleb128 0x3b
+ 1887 0026 0B       		.uleb128 0xb
+ 1888 0027 49       		.uleb128 0x49
+ 1889 0028 13       		.uleb128 0x13
+ 1890 0029 00       		.byte	0
+ 1891 002a 00       		.byte	0
+ 1892 002b 04       		.uleb128 0x4
+ 1893 002c 24       		.uleb128 0x24
+ 1894 002d 00       		.byte	0
+ 1895 002e 0B       		.uleb128 0xb
+ 1896 002f 0B       		.uleb128 0xb
+ 1897 0030 3E       		.uleb128 0x3e
+ 1898 0031 0B       		.uleb128 0xb
+ 1899 0032 03       		.uleb128 0x3
+ 1900 0033 08       		.uleb128 0x8
+ 1901 0034 00       		.byte	0
+ 1902 0035 00       		.byte	0
+ 1903 0036 05       		.uleb128 0x5
+ 1904 0037 0F       		.uleb128 0xf
+ 1905 0038 00       		.byte	0
+ 1906 0039 0B       		.uleb128 0xb
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 40
+
+
+ 1907 003a 0B       		.uleb128 0xb
+ 1908 003b 49       		.uleb128 0x49
+ 1909 003c 13       		.uleb128 0x13
+ 1910 003d 00       		.byte	0
+ 1911 003e 00       		.byte	0
+ 1912 003f 06       		.uleb128 0x6
+ 1913 0040 13       		.uleb128 0x13
+ 1914 0041 00       		.byte	0
+ 1915 0042 03       		.uleb128 0x3
+ 1916 0043 0E       		.uleb128 0xe
+ 1917 0044 3C       		.uleb128 0x3c
+ 1918 0045 19       		.uleb128 0x19
+ 1919 0046 00       		.byte	0
+ 1920 0047 00       		.byte	0
+ 1921 0048 07       		.uleb128 0x7
+ 1922 0049 13       		.uleb128 0x13
+ 1923 004a 01       		.byte	0x1
+ 1924 004b 0B       		.uleb128 0xb
+ 1925 004c 0B       		.uleb128 0xb
+ 1926 004d 3A       		.uleb128 0x3a
+ 1927 004e 0B       		.uleb128 0xb
+ 1928 004f 3B       		.uleb128 0x3b
+ 1929 0050 0B       		.uleb128 0xb
+ 1930 0051 01       		.uleb128 0x1
+ 1931 0052 13       		.uleb128 0x13
+ 1932 0053 00       		.byte	0
+ 1933 0054 00       		.byte	0
+ 1934 0055 08       		.uleb128 0x8
+ 1935 0056 0D       		.uleb128 0xd
+ 1936 0057 00       		.byte	0
+ 1937 0058 03       		.uleb128 0x3
+ 1938 0059 0E       		.uleb128 0xe
+ 1939 005a 3A       		.uleb128 0x3a
+ 1940 005b 0B       		.uleb128 0xb
+ 1941 005c 3B       		.uleb128 0x3b
+ 1942 005d 0B       		.uleb128 0xb
+ 1943 005e 49       		.uleb128 0x49
+ 1944 005f 13       		.uleb128 0x13
+ 1945 0060 38       		.uleb128 0x38
+ 1946 0061 0B       		.uleb128 0xb
+ 1947 0062 00       		.byte	0
+ 1948 0063 00       		.byte	0
+ 1949 0064 09       		.uleb128 0x9
+ 1950 0065 01       		.uleb128 0x1
+ 1951 0066 01       		.byte	0x1
+ 1952 0067 49       		.uleb128 0x49
+ 1953 0068 13       		.uleb128 0x13
+ 1954 0069 01       		.uleb128 0x1
+ 1955 006a 13       		.uleb128 0x13
+ 1956 006b 00       		.byte	0
+ 1957 006c 00       		.byte	0
+ 1958 006d 0A       		.uleb128 0xa
+ 1959 006e 21       		.uleb128 0x21
+ 1960 006f 00       		.byte	0
+ 1961 0070 49       		.uleb128 0x49
+ 1962 0071 13       		.uleb128 0x13
+ 1963 0072 2F       		.uleb128 0x2f
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 41
+
+
+ 1964 0073 0B       		.uleb128 0xb
+ 1965 0074 00       		.byte	0
+ 1966 0075 00       		.byte	0
+ 1967 0076 0B       		.uleb128 0xb
+ 1968 0077 2E       		.uleb128 0x2e
+ 1969 0078 01       		.byte	0x1
+ 1970 0079 3F       		.uleb128 0x3f
+ 1971 007a 19       		.uleb128 0x19
+ 1972 007b 03       		.uleb128 0x3
+ 1973 007c 0E       		.uleb128 0xe
+ 1974 007d 3A       		.uleb128 0x3a
+ 1975 007e 0B       		.uleb128 0xb
+ 1976 007f 3B       		.uleb128 0x3b
+ 1977 0080 0B       		.uleb128 0xb
+ 1978 0081 27       		.uleb128 0x27
+ 1979 0082 19       		.uleb128 0x19
+ 1980 0083 11       		.uleb128 0x11
+ 1981 0084 01       		.uleb128 0x1
+ 1982 0085 12       		.uleb128 0x12
+ 1983 0086 06       		.uleb128 0x6
+ 1984 0087 40       		.uleb128 0x40
+ 1985 0088 18       		.uleb128 0x18
+ 1986 0089 9742     		.uleb128 0x2117
+ 1987 008b 19       		.uleb128 0x19
+ 1988 008c 01       		.uleb128 0x1
+ 1989 008d 13       		.uleb128 0x13
+ 1990 008e 00       		.byte	0
+ 1991 008f 00       		.byte	0
+ 1992 0090 0C       		.uleb128 0xc
+ 1993 0091 05       		.uleb128 0x5
+ 1994 0092 00       		.byte	0
+ 1995 0093 03       		.uleb128 0x3
+ 1996 0094 0E       		.uleb128 0xe
+ 1997 0095 3A       		.uleb128 0x3a
+ 1998 0096 0B       		.uleb128 0xb
+ 1999 0097 3B       		.uleb128 0x3b
+ 2000 0098 0B       		.uleb128 0xb
+ 2001 0099 49       		.uleb128 0x49
+ 2002 009a 13       		.uleb128 0x13
+ 2003 009b 02       		.uleb128 0x2
+ 2004 009c 18       		.uleb128 0x18
+ 2005 009d 00       		.byte	0
+ 2006 009e 00       		.byte	0
+ 2007 009f 0D       		.uleb128 0xd
+ 2008 00a0 0B       		.uleb128 0xb
+ 2009 00a1 01       		.byte	0x1
+ 2010 00a2 11       		.uleb128 0x11
+ 2011 00a3 01       		.uleb128 0x1
+ 2012 00a4 12       		.uleb128 0x12
+ 2013 00a5 06       		.uleb128 0x6
+ 2014 00a6 01       		.uleb128 0x1
+ 2015 00a7 13       		.uleb128 0x13
+ 2016 00a8 00       		.byte	0
+ 2017 00a9 00       		.byte	0
+ 2018 00aa 0E       		.uleb128 0xe
+ 2019 00ab 34       		.uleb128 0x34
+ 2020 00ac 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 42
+
+
+ 2021 00ad 03       		.uleb128 0x3
+ 2022 00ae 08       		.uleb128 0x8
+ 2023 00af 3A       		.uleb128 0x3a
+ 2024 00b0 0B       		.uleb128 0xb
+ 2025 00b1 3B       		.uleb128 0x3b
+ 2026 00b2 0B       		.uleb128 0xb
+ 2027 00b3 49       		.uleb128 0x49
+ 2028 00b4 13       		.uleb128 0x13
+ 2029 00b5 02       		.uleb128 0x2
+ 2030 00b6 17       		.uleb128 0x17
+ 2031 00b7 00       		.byte	0
+ 2032 00b8 00       		.byte	0
+ 2033 00b9 0F       		.uleb128 0xf
+ 2034 00ba 898201   		.uleb128 0x4109
+ 2035 00bd 01       		.byte	0x1
+ 2036 00be 11       		.uleb128 0x11
+ 2037 00bf 01       		.uleb128 0x1
+ 2038 00c0 31       		.uleb128 0x31
+ 2039 00c1 13       		.uleb128 0x13
+ 2040 00c2 00       		.byte	0
+ 2041 00c3 00       		.byte	0
+ 2042 00c4 10       		.uleb128 0x10
+ 2043 00c5 8A8201   		.uleb128 0x410a
+ 2044 00c8 00       		.byte	0
+ 2045 00c9 02       		.uleb128 0x2
+ 2046 00ca 18       		.uleb128 0x18
+ 2047 00cb 9142     		.uleb128 0x2111
+ 2048 00cd 18       		.uleb128 0x18
+ 2049 00ce 00       		.byte	0
+ 2050 00cf 00       		.byte	0
+ 2051 00d0 11       		.uleb128 0x11
+ 2052 00d1 898201   		.uleb128 0x4109
+ 2053 00d4 01       		.byte	0x1
+ 2054 00d5 11       		.uleb128 0x11
+ 2055 00d6 01       		.uleb128 0x1
+ 2056 00d7 31       		.uleb128 0x31
+ 2057 00d8 13       		.uleb128 0x13
+ 2058 00d9 01       		.uleb128 0x1
+ 2059 00da 13       		.uleb128 0x13
+ 2060 00db 00       		.byte	0
+ 2061 00dc 00       		.byte	0
+ 2062 00dd 12       		.uleb128 0x12
+ 2063 00de 05       		.uleb128 0x5
+ 2064 00df 00       		.byte	0
+ 2065 00e0 03       		.uleb128 0x3
+ 2066 00e1 0E       		.uleb128 0xe
+ 2067 00e2 3A       		.uleb128 0x3a
+ 2068 00e3 0B       		.uleb128 0xb
+ 2069 00e4 3B       		.uleb128 0x3b
+ 2070 00e5 0B       		.uleb128 0xb
+ 2071 00e6 49       		.uleb128 0x49
+ 2072 00e7 13       		.uleb128 0x13
+ 2073 00e8 02       		.uleb128 0x2
+ 2074 00e9 17       		.uleb128 0x17
+ 2075 00ea 00       		.byte	0
+ 2076 00eb 00       		.byte	0
+ 2077 00ec 13       		.uleb128 0x13
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 43
+
+
+ 2078 00ed 2E       		.uleb128 0x2e
+ 2079 00ee 01       		.byte	0x1
+ 2080 00ef 3F       		.uleb128 0x3f
+ 2081 00f0 19       		.uleb128 0x19
+ 2082 00f1 03       		.uleb128 0x3
+ 2083 00f2 0E       		.uleb128 0xe
+ 2084 00f3 3A       		.uleb128 0x3a
+ 2085 00f4 0B       		.uleb128 0xb
+ 2086 00f5 3B       		.uleb128 0x3b
+ 2087 00f6 0B       		.uleb128 0xb
+ 2088 00f7 27       		.uleb128 0x27
+ 2089 00f8 19       		.uleb128 0x19
+ 2090 00f9 49       		.uleb128 0x49
+ 2091 00fa 13       		.uleb128 0x13
+ 2092 00fb 11       		.uleb128 0x11
+ 2093 00fc 01       		.uleb128 0x1
+ 2094 00fd 12       		.uleb128 0x12
+ 2095 00fe 06       		.uleb128 0x6
+ 2096 00ff 40       		.uleb128 0x40
+ 2097 0100 18       		.uleb128 0x18
+ 2098 0101 9742     		.uleb128 0x2117
+ 2099 0103 19       		.uleb128 0x19
+ 2100 0104 01       		.uleb128 0x1
+ 2101 0105 13       		.uleb128 0x13
+ 2102 0106 00       		.byte	0
+ 2103 0107 00       		.byte	0
+ 2104 0108 14       		.uleb128 0x14
+ 2105 0109 05       		.uleb128 0x5
+ 2106 010a 00       		.byte	0
+ 2107 010b 03       		.uleb128 0x3
+ 2108 010c 08       		.uleb128 0x8
+ 2109 010d 3A       		.uleb128 0x3a
+ 2110 010e 0B       		.uleb128 0xb
+ 2111 010f 3B       		.uleb128 0x3b
+ 2112 0110 0B       		.uleb128 0xb
+ 2113 0111 49       		.uleb128 0x49
+ 2114 0112 13       		.uleb128 0x13
+ 2115 0113 02       		.uleb128 0x2
+ 2116 0114 17       		.uleb128 0x17
+ 2117 0115 00       		.byte	0
+ 2118 0116 00       		.byte	0
+ 2119 0117 15       		.uleb128 0x15
+ 2120 0118 34       		.uleb128 0x34
+ 2121 0119 00       		.byte	0
+ 2122 011a 03       		.uleb128 0x3
+ 2123 011b 0E       		.uleb128 0xe
+ 2124 011c 3A       		.uleb128 0x3a
+ 2125 011d 0B       		.uleb128 0xb
+ 2126 011e 3B       		.uleb128 0x3b
+ 2127 011f 0B       		.uleb128 0xb
+ 2128 0120 49       		.uleb128 0x49
+ 2129 0121 13       		.uleb128 0x13
+ 2130 0122 02       		.uleb128 0x2
+ 2131 0123 17       		.uleb128 0x17
+ 2132 0124 00       		.byte	0
+ 2133 0125 00       		.byte	0
+ 2134 0126 16       		.uleb128 0x16
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 44
+
+
+ 2135 0127 34       		.uleb128 0x34
+ 2136 0128 00       		.byte	0
+ 2137 0129 03       		.uleb128 0x3
+ 2138 012a 0E       		.uleb128 0xe
+ 2139 012b 3A       		.uleb128 0x3a
+ 2140 012c 0B       		.uleb128 0xb
+ 2141 012d 3B       		.uleb128 0x3b
+ 2142 012e 0B       		.uleb128 0xb
+ 2143 012f 49       		.uleb128 0x49
+ 2144 0130 13       		.uleb128 0x13
+ 2145 0131 00       		.byte	0
+ 2146 0132 00       		.byte	0
+ 2147 0133 17       		.uleb128 0x17
+ 2148 0134 2E       		.uleb128 0x2e
+ 2149 0135 01       		.byte	0x1
+ 2150 0136 3F       		.uleb128 0x3f
+ 2151 0137 19       		.uleb128 0x19
+ 2152 0138 03       		.uleb128 0x3
+ 2153 0139 0E       		.uleb128 0xe
+ 2154 013a 3A       		.uleb128 0x3a
+ 2155 013b 0B       		.uleb128 0xb
+ 2156 013c 3B       		.uleb128 0x3b
+ 2157 013d 0B       		.uleb128 0xb
+ 2158 013e 49       		.uleb128 0x49
+ 2159 013f 13       		.uleb128 0x13
+ 2160 0140 8701     		.uleb128 0x87
+ 2161 0142 19       		.uleb128 0x19
+ 2162 0143 11       		.uleb128 0x11
+ 2163 0144 01       		.uleb128 0x1
+ 2164 0145 12       		.uleb128 0x12
+ 2165 0146 06       		.uleb128 0x6
+ 2166 0147 40       		.uleb128 0x40
+ 2167 0148 18       		.uleb128 0x18
+ 2168 0149 9742     		.uleb128 0x2117
+ 2169 014b 19       		.uleb128 0x19
+ 2170 014c 01       		.uleb128 0x1
+ 2171 014d 13       		.uleb128 0x13
+ 2172 014e 00       		.byte	0
+ 2173 014f 00       		.byte	0
+ 2174 0150 18       		.uleb128 0x18
+ 2175 0151 34       		.uleb128 0x34
+ 2176 0152 00       		.byte	0
+ 2177 0153 03       		.uleb128 0x3
+ 2178 0154 0E       		.uleb128 0xe
+ 2179 0155 3A       		.uleb128 0x3a
+ 2180 0156 0B       		.uleb128 0xb
+ 2181 0157 3B       		.uleb128 0x3b
+ 2182 0158 0B       		.uleb128 0xb
+ 2183 0159 49       		.uleb128 0x49
+ 2184 015a 13       		.uleb128 0x13
+ 2185 015b 02       		.uleb128 0x2
+ 2186 015c 18       		.uleb128 0x18
+ 2187 015d 00       		.byte	0
+ 2188 015e 00       		.byte	0
+ 2189 015f 19       		.uleb128 0x19
+ 2190 0160 34       		.uleb128 0x34
+ 2191 0161 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 45
+
+
+ 2192 0162 03       		.uleb128 0x3
+ 2193 0163 0E       		.uleb128 0xe
+ 2194 0164 3A       		.uleb128 0x3a
+ 2195 0165 0B       		.uleb128 0xb
+ 2196 0166 3B       		.uleb128 0x3b
+ 2197 0167 0B       		.uleb128 0xb
+ 2198 0168 49       		.uleb128 0x49
+ 2199 0169 13       		.uleb128 0x13
+ 2200 016a 1C       		.uleb128 0x1c
+ 2201 016b 0B       		.uleb128 0xb
+ 2202 016c 00       		.byte	0
+ 2203 016d 00       		.byte	0
+ 2204 016e 1A       		.uleb128 0x1a
+ 2205 016f 898201   		.uleb128 0x4109
+ 2206 0172 00       		.byte	0
+ 2207 0173 11       		.uleb128 0x11
+ 2208 0174 01       		.uleb128 0x1
+ 2209 0175 31       		.uleb128 0x31
+ 2210 0176 13       		.uleb128 0x13
+ 2211 0177 00       		.byte	0
+ 2212 0178 00       		.byte	0
+ 2213 0179 1B       		.uleb128 0x1b
+ 2214 017a 34       		.uleb128 0x34
+ 2215 017b 00       		.byte	0
+ 2216 017c 03       		.uleb128 0x3
+ 2217 017d 0E       		.uleb128 0xe
+ 2218 017e 3A       		.uleb128 0x3a
+ 2219 017f 0B       		.uleb128 0xb
+ 2220 0180 3B       		.uleb128 0x3b
+ 2221 0181 05       		.uleb128 0x5
+ 2222 0182 49       		.uleb128 0x49
+ 2223 0183 13       		.uleb128 0x13
+ 2224 0184 3F       		.uleb128 0x3f
+ 2225 0185 19       		.uleb128 0x19
+ 2226 0186 3C       		.uleb128 0x3c
+ 2227 0187 19       		.uleb128 0x19
+ 2228 0188 00       		.byte	0
+ 2229 0189 00       		.byte	0
+ 2230 018a 1C       		.uleb128 0x1c
+ 2231 018b 35       		.uleb128 0x35
+ 2232 018c 00       		.byte	0
+ 2233 018d 49       		.uleb128 0x49
+ 2234 018e 13       		.uleb128 0x13
+ 2235 018f 00       		.byte	0
+ 2236 0190 00       		.byte	0
+ 2237 0191 1D       		.uleb128 0x1d
+ 2238 0192 34       		.uleb128 0x34
+ 2239 0193 00       		.byte	0
+ 2240 0194 03       		.uleb128 0x3
+ 2241 0195 0E       		.uleb128 0xe
+ 2242 0196 3A       		.uleb128 0x3a
+ 2243 0197 0B       		.uleb128 0xb
+ 2244 0198 3B       		.uleb128 0x3b
+ 2245 0199 0B       		.uleb128 0xb
+ 2246 019a 49       		.uleb128 0x49
+ 2247 019b 13       		.uleb128 0x13
+ 2248 019c 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 46
+
+
+ 2249 019d 19       		.uleb128 0x19
+ 2250 019e 02       		.uleb128 0x2
+ 2251 019f 18       		.uleb128 0x18
+ 2252 01a0 00       		.byte	0
+ 2253 01a1 00       		.byte	0
+ 2254 01a2 1E       		.uleb128 0x1e
+ 2255 01a3 2E       		.uleb128 0x2e
+ 2256 01a4 00       		.byte	0
+ 2257 01a5 3F       		.uleb128 0x3f
+ 2258 01a6 19       		.uleb128 0x19
+ 2259 01a7 3C       		.uleb128 0x3c
+ 2260 01a8 19       		.uleb128 0x19
+ 2261 01a9 6E       		.uleb128 0x6e
+ 2262 01aa 0E       		.uleb128 0xe
+ 2263 01ab 03       		.uleb128 0x3
+ 2264 01ac 0E       		.uleb128 0xe
+ 2265 01ad 3A       		.uleb128 0x3a
+ 2266 01ae 0B       		.uleb128 0xb
+ 2267 01af 3B       		.uleb128 0x3b
+ 2268 01b0 0B       		.uleb128 0xb
+ 2269 01b1 00       		.byte	0
+ 2270 01b2 00       		.byte	0
+ 2271 01b3 1F       		.uleb128 0x1f
+ 2272 01b4 2E       		.uleb128 0x2e
+ 2273 01b5 00       		.byte	0
+ 2274 01b6 3F       		.uleb128 0x3f
+ 2275 01b7 19       		.uleb128 0x19
+ 2276 01b8 3C       		.uleb128 0x3c
+ 2277 01b9 19       		.uleb128 0x19
+ 2278 01ba 6E       		.uleb128 0x6e
+ 2279 01bb 0E       		.uleb128 0xe
+ 2280 01bc 03       		.uleb128 0x3
+ 2281 01bd 0E       		.uleb128 0xe
+ 2282 01be 3A       		.uleb128 0x3a
+ 2283 01bf 0B       		.uleb128 0xb
+ 2284 01c0 3B       		.uleb128 0x3b
+ 2285 01c1 05       		.uleb128 0x5
+ 2286 01c2 00       		.byte	0
+ 2287 01c3 00       		.byte	0
+ 2288 01c4 00       		.byte	0
+ 2289              		.section	.debug_loc,"",%progbits
+ 2290              	.Ldebug_loc0:
+ 2291              	.LLST0:
+ 2292 0000 10000000 		.4byte	.LVL0
+ 2293 0004 14000000 		.4byte	.LVL1
+ 2294 0008 0200     		.2byte	0x2
+ 2295 000a 30       		.byte	0x30
+ 2296 000b 9F       		.byte	0x9f
+ 2297 000c 14000000 		.4byte	.LVL1
+ 2298 0010 50000000 		.4byte	.LVL11
+ 2299 0014 0100     		.2byte	0x1
+ 2300 0016 54       		.byte	0x54
+ 2301 0017 00000000 		.4byte	0
+ 2302 001b 00000000 		.4byte	0
+ 2303              	.LLST1:
+ 2304 001f 4E000000 		.4byte	.LVL10
+ 2305 0023 52000000 		.4byte	.LVL12
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 47
+
+
+ 2306 0027 0200     		.2byte	0x2
+ 2307 0029 30       		.byte	0x30
+ 2308 002a 9F       		.byte	0x9f
+ 2309 002b 52000000 		.4byte	.LVL12
+ 2310 002f 62000000 		.4byte	.LVL15
+ 2311 0033 0100     		.2byte	0x1
+ 2312 0035 54       		.byte	0x54
+ 2313 0036 00000000 		.4byte	0
+ 2314 003a 00000000 		.4byte	0
+ 2315              	.LLST2:
+ 2316 003e 00000000 		.4byte	.LVL16
+ 2317 0042 08000000 		.4byte	.LVL17
+ 2318 0046 0100     		.2byte	0x1
+ 2319 0048 50       		.byte	0x50
+ 2320 0049 08000000 		.4byte	.LVL17
+ 2321 004d 2A000000 		.4byte	.LVL22
+ 2322 0051 0400     		.2byte	0x4
+ 2323 0053 F3       		.byte	0xf3
+ 2324 0054 01       		.uleb128 0x1
+ 2325 0055 50       		.byte	0x50
+ 2326 0056 9F       		.byte	0x9f
+ 2327 0057 2A000000 		.4byte	.LVL22
+ 2328 005b 30000000 		.4byte	.LVL24
+ 2329 005f 0100     		.2byte	0x1
+ 2330 0061 50       		.byte	0x50
+ 2331 0062 30000000 		.4byte	.LVL24
+ 2332 0066 8E000000 		.4byte	.LVL38
+ 2333 006a 0100     		.2byte	0x1
+ 2334 006c 54       		.byte	0x54
+ 2335 006d 8E000000 		.4byte	.LVL38
+ 2336 0071 90000000 		.4byte	.LVL39
+ 2337 0075 0100     		.2byte	0x1
+ 2338 0077 50       		.byte	0x50
+ 2339 0078 90000000 		.4byte	.LVL39
+ 2340 007c A2000000 		.4byte	.LVL43
+ 2341 0080 0100     		.2byte	0x1
+ 2342 0082 54       		.byte	0x54
+ 2343 0083 00000000 		.4byte	0
+ 2344 0087 00000000 		.4byte	0
+ 2345              	.LLST3:
+ 2346 008b 00000000 		.4byte	.LVL16
+ 2347 008f 0B000000 		.4byte	.LVL18-1
+ 2348 0093 0100     		.2byte	0x1
+ 2349 0095 51       		.byte	0x51
+ 2350 0096 0B000000 		.4byte	.LVL18-1
+ 2351 009a 2C000000 		.4byte	.LVL23
+ 2352 009e 0100     		.2byte	0x1
+ 2353 00a0 54       		.byte	0x54
+ 2354 00a1 2C000000 		.4byte	.LVL23
+ 2355 00a5 E8000000 		.4byte	.LFE64
+ 2356 00a9 0400     		.2byte	0x4
+ 2357 00ab F3       		.byte	0xf3
+ 2358 00ac 01       		.uleb128 0x1
+ 2359 00ad 51       		.byte	0x51
+ 2360 00ae 9F       		.byte	0x9f
+ 2361 00af 00000000 		.4byte	0
+ 2362 00b3 00000000 		.4byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 48
+
+
+ 2363              	.LLST4:
+ 2364 00b7 00000000 		.4byte	.LVL16
+ 2365 00bb 0B000000 		.4byte	.LVL18-1
+ 2366 00bf 0100     		.2byte	0x1
+ 2367 00c1 52       		.byte	0x52
+ 2368 00c2 0B000000 		.4byte	.LVL18-1
+ 2369 00c6 E8000000 		.4byte	.LFE64
+ 2370 00ca 0400     		.2byte	0x4
+ 2371 00cc F3       		.byte	0xf3
+ 2372 00cd 01       		.uleb128 0x1
+ 2373 00ce 52       		.byte	0x52
+ 2374 00cf 9F       		.byte	0x9f
+ 2375 00d0 00000000 		.4byte	0
+ 2376 00d4 00000000 		.4byte	0
+ 2377              	.LLST5:
+ 2378 00d8 00000000 		.4byte	.LVL44
+ 2379 00dc 0C000000 		.4byte	.LVL46
+ 2380 00e0 0100     		.2byte	0x1
+ 2381 00e2 50       		.byte	0x50
+ 2382 00e3 0C000000 		.4byte	.LVL46
+ 2383 00e7 10000000 		.4byte	.LVL47
+ 2384 00eb 0400     		.2byte	0x4
+ 2385 00ed F3       		.byte	0xf3
+ 2386 00ee 01       		.uleb128 0x1
+ 2387 00ef 50       		.byte	0x50
+ 2388 00f0 9F       		.byte	0x9f
+ 2389 00f1 10000000 		.4byte	.LVL47
+ 2390 00f5 17000000 		.4byte	.LVL48-1
+ 2391 00f9 0100     		.2byte	0x1
+ 2392 00fb 50       		.byte	0x50
+ 2393 00fc 17000000 		.4byte	.LVL48-1
+ 2394 0100 62000000 		.4byte	.LVL57
+ 2395 0104 0100     		.2byte	0x1
+ 2396 0106 54       		.byte	0x54
+ 2397 0107 00000000 		.4byte	0
+ 2398 010b 00000000 		.4byte	0
+ 2399              	.LLST6:
+ 2400 010f 00000000 		.4byte	.LVL44
+ 2401 0113 0A000000 		.4byte	.LVL45
+ 2402 0117 0100     		.2byte	0x1
+ 2403 0119 51       		.byte	0x51
+ 2404 011a 0A000000 		.4byte	.LVL45
+ 2405 011e 66000000 		.4byte	.LVL58
+ 2406 0122 0100     		.2byte	0x1
+ 2407 0124 55       		.byte	0x55
+ 2408 0125 66000000 		.4byte	.LVL58
+ 2409 0129 7C000000 		.4byte	.LFE65
+ 2410 012d 0400     		.2byte	0x4
+ 2411 012f F3       		.byte	0xf3
+ 2412 0130 01       		.uleb128 0x1
+ 2413 0131 51       		.byte	0x51
+ 2414 0132 9F       		.byte	0x9f
+ 2415 0133 00000000 		.4byte	0
+ 2416 0137 00000000 		.4byte	0
+ 2417              	.LLST7:
+ 2418 013b 00000000 		.4byte	.LVL44
+ 2419 013f 0F000000 		.4byte	.LVL47-1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 49
+
+
+ 2420 0143 0100     		.2byte	0x1
+ 2421 0145 52       		.byte	0x52
+ 2422 0146 0F000000 		.4byte	.LVL47-1
+ 2423 014a 66000000 		.4byte	.LVL58
+ 2424 014e 0100     		.2byte	0x1
+ 2425 0150 56       		.byte	0x56
+ 2426 0151 66000000 		.4byte	.LVL58
+ 2427 0155 7C000000 		.4byte	.LFE65
+ 2428 0159 0400     		.2byte	0x4
+ 2429 015b F3       		.byte	0xf3
+ 2430 015c 01       		.uleb128 0x1
+ 2431 015d 52       		.byte	0x52
+ 2432 015e 9F       		.byte	0x9f
+ 2433 015f 00000000 		.4byte	0
+ 2434 0163 00000000 		.4byte	0
+ 2435              	.LLST8:
+ 2436 0167 00000000 		.4byte	.LVL44
+ 2437 016b 0F000000 		.4byte	.LVL47-1
+ 2438 016f 0100     		.2byte	0x1
+ 2439 0171 53       		.byte	0x53
+ 2440 0172 0F000000 		.4byte	.LVL47-1
+ 2441 0176 66000000 		.4byte	.LVL58
+ 2442 017a 0100     		.2byte	0x1
+ 2443 017c 57       		.byte	0x57
+ 2444 017d 66000000 		.4byte	.LVL58
+ 2445 0181 7C000000 		.4byte	.LFE65
+ 2446 0185 0400     		.2byte	0x4
+ 2447 0187 F3       		.byte	0xf3
+ 2448 0188 01       		.uleb128 0x1
+ 2449 0189 53       		.byte	0x53
+ 2450 018a 9F       		.byte	0x9f
+ 2451 018b 00000000 		.4byte	0
+ 2452 018f 00000000 		.4byte	0
+ 2453              	.LLST9:
+ 2454 0193 18000000 		.4byte	.LVL48
+ 2455 0197 28000000 		.4byte	.LVL49
+ 2456 019b 0100     		.2byte	0x1
+ 2457 019d 50       		.byte	0x50
+ 2458 019e 2E000000 		.4byte	.LVL51
+ 2459 01a2 36000000 		.4byte	.LVL52
+ 2460 01a6 0100     		.2byte	0x1
+ 2461 01a8 50       		.byte	0x50
+ 2462 01a9 00000000 		.4byte	0
+ 2463 01ad 00000000 		.4byte	0
+ 2464              	.LLST10:
+ 2465 01b1 00000000 		.4byte	.LVL59
+ 2466 01b5 08000000 		.4byte	.LVL61
+ 2467 01b9 0100     		.2byte	0x1
+ 2468 01bb 50       		.byte	0x50
+ 2469 01bc 08000000 		.4byte	.LVL61
+ 2470 01c0 0C000000 		.4byte	.LVL62
+ 2471 01c4 0400     		.2byte	0x4
+ 2472 01c6 F3       		.byte	0xf3
+ 2473 01c7 01       		.uleb128 0x1
+ 2474 01c8 50       		.byte	0x50
+ 2475 01c9 9F       		.byte	0x9f
+ 2476 01ca 0C000000 		.4byte	.LVL62
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 50
+
+
+ 2477 01ce 13000000 		.4byte	.LVL63-1
+ 2478 01d2 0100     		.2byte	0x1
+ 2479 01d4 50       		.byte	0x50
+ 2480 01d5 13000000 		.4byte	.LVL63-1
+ 2481 01d9 2E000000 		.4byte	.LVL66
+ 2482 01dd 0100     		.2byte	0x1
+ 2483 01df 54       		.byte	0x54
+ 2484 01e0 00000000 		.4byte	0
+ 2485 01e4 00000000 		.4byte	0
+ 2486              	.LLST11:
+ 2487 01e8 00000000 		.4byte	.LVL59
+ 2488 01ec 06000000 		.4byte	.LVL60
+ 2489 01f0 0100     		.2byte	0x1
+ 2490 01f2 51       		.byte	0x51
+ 2491 01f3 06000000 		.4byte	.LVL60
+ 2492 01f7 32000000 		.4byte	.LVL67
+ 2493 01fb 0100     		.2byte	0x1
+ 2494 01fd 55       		.byte	0x55
+ 2495 01fe 32000000 		.4byte	.LVL67
+ 2496 0202 40000000 		.4byte	.LFE66
+ 2497 0206 0400     		.2byte	0x4
+ 2498 0208 F3       		.byte	0xf3
+ 2499 0209 01       		.uleb128 0x1
+ 2500 020a 51       		.byte	0x51
+ 2501 020b 9F       		.byte	0x9f
+ 2502 020c 00000000 		.4byte	0
+ 2503 0210 00000000 		.4byte	0
+ 2504              		.section	.debug_aranges,"",%progbits
+ 2505 0000 3C000000 		.4byte	0x3c
+ 2506 0004 0200     		.2byte	0x2
+ 2507 0006 00000000 		.4byte	.Ldebug_info0
+ 2508 000a 04       		.byte	0x4
+ 2509 000b 00       		.byte	0
+ 2510 000c 0000     		.2byte	0
+ 2511 000e 0000     		.2byte	0
+ 2512 0010 00000000 		.4byte	.LFB63
+ 2513 0014 7C000000 		.4byte	.LFE63-.LFB63
+ 2514 0018 00000000 		.4byte	.LFB64
+ 2515 001c E8000000 		.4byte	.LFE64-.LFB64
+ 2516 0020 00000000 		.4byte	.LFB65
+ 2517 0024 7C000000 		.4byte	.LFE65-.LFB65
+ 2518 0028 00000000 		.4byte	.LFB66
+ 2519 002c 40000000 		.4byte	.LFE66-.LFB66
+ 2520 0030 00000000 		.4byte	.LFB67
+ 2521 0034 C4000000 		.4byte	.LFE67-.LFB67
+ 2522 0038 00000000 		.4byte	0
+ 2523 003c 00000000 		.4byte	0
+ 2524              		.section	.debug_ranges,"",%progbits
+ 2525              	.Ldebug_ranges0:
+ 2526 0000 00000000 		.4byte	.LFB63
+ 2527 0004 7C000000 		.4byte	.LFE63
+ 2528 0008 00000000 		.4byte	.LFB64
+ 2529 000c E8000000 		.4byte	.LFE64
+ 2530 0010 00000000 		.4byte	.LFB65
+ 2531 0014 7C000000 		.4byte	.LFE65
+ 2532 0018 00000000 		.4byte	.LFB66
+ 2533 001c 40000000 		.4byte	.LFE66
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 51
+
+
+ 2534 0020 00000000 		.4byte	.LFB67
+ 2535 0024 C4000000 		.4byte	.LFE67
+ 2536 0028 00000000 		.4byte	0
+ 2537 002c 00000000 		.4byte	0
+ 2538              		.section	.debug_line,"",%progbits
+ 2539              	.Ldebug_line0:
+ 2540 0000 67020000 		.section	.debug_str,"MS",%progbits,1
+ 2540      02008F01 
+ 2540      00000201 
+ 2540      FB0E0D00 
+ 2540      01010101 
+ 2541              	.LASF40:
+ 2542 0000 6E756C6C 		.ascii	"null_record\000"
+ 2542      5F726563 
+ 2542      6F726400 
+ 2543              	.LASF52:
+ 2544 000c 55415254 		.ascii	"UART_1_Start\000"
+ 2544      5F315F53 
+ 2544      74617274 
+ 2544      00
+ 2545              	.LASF41:
+ 2546 0019 6578616D 		.ascii	"example_record\000"
+ 2546      706C655F 
+ 2546      7265636F 
+ 2546      726400
+ 2547              	.LASF47:
+ 2548 0028 46535F46 		.ascii	"FS_FClose\000"
+ 2548      436C6F73 
+ 2548      6500
+ 2549              	.LASF43:
+ 2550 0032 55415254 		.ascii	"UART_1_PutString\000"
+ 2550      5F315F50 
+ 2550      75745374 
+ 2550      72696E67 
+ 2550      00
+ 2551              	.LASF20:
+ 2552 0043 5265636F 		.ascii	"Record\000"
+ 2552      726400
+ 2553              	.LASF9:
+ 2554 004a 5F5F696E 		.ascii	"__int32_t\000"
+ 2554      7433325F 
+ 2554      7400
+ 2555              	.LASF35:
+ 2556 0054 73746570 		.ascii	"step\000"
+ 2556      00
+ 2557              	.LASF44:
+ 2558 0059 46535F46 		.ascii	"FS_FormatSD\000"
+ 2558      6F726D61 
+ 2558      74534400 
+ 2559              	.LASF23:
+ 2560 0065 7265636F 		.ascii	"record\000"
+ 2560      726400
+ 2561              	.LASF12:
+ 2562 006c 646F7562 		.ascii	"double\000"
+ 2562      6C6500
+ 2563              	.LASF36:
+ 2564 0073 63757272 		.ascii	"curr_records\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 52
+
+
+ 2564      5F726563 
+ 2564      6F726473 
+ 2564      00
+ 2565              	.LASF24:
+ 2566 0080 7046696C 		.ascii	"pFile\000"
+ 2566      6500
+ 2567              	.LASF33:
+ 2568 0086 746F5F61 		.ascii	"to_add\000"
+ 2568      646400
+ 2569              	.LASF31:
+ 2570 008d 53445F72 		.ascii	"SD_readRecords\000"
+ 2570      65616452 
+ 2570      65636F72 
+ 2570      647300
+ 2571              	.LASF11:
+ 2572 009c 666C6F61 		.ascii	"float\000"
+ 2572      7400
+ 2573              	.LASF50:
+ 2574 00a2 46535F52 		.ascii	"FS_Read\000"
+ 2574      65616400 
+ 2575              	.LASF29:
+ 2576 00aa 6E756D5F 		.ascii	"num_records\000"
+ 2576      7265636F 
+ 2576      72647300 
+ 2577              	.LASF32:
+ 2578 00b6 53445F61 		.ascii	"SD_addRecord\000"
+ 2578      64645265 
+ 2578      636F7264 
+ 2578      00
+ 2579              	.LASF55:
+ 2580 00c3 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2580      43313120 
+ 2580      352E342E 
+ 2580      31203230 
+ 2580      31363036 
+ 2581 00f6 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2581      20726576 
+ 2581      6973696F 
+ 2581      6E203233 
+ 2581      37373135 
+ 2582 0129 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2582      66756E63 
+ 2582      74696F6E 
+ 2582      2D736563 
+ 2582      74696F6E 
+ 2583              	.LASF17:
+ 2584 0151 7469746C 		.ascii	"title\000"
+ 2584      6500
+ 2585              	.LASF5:
+ 2586 0157 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2586      20756E73 
+ 2586      69676E65 
+ 2586      6420696E 
+ 2586      7400
+ 2587              	.LASF3:
+ 2588 0169 73686F72 		.ascii	"short unsigned int\000"
+ 2588      7420756E 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 53
+
+
+ 2588      7369676E 
+ 2588      65642069 
+ 2588      6E7400
+ 2589              	.LASF39:
+ 2590 017c 7265636F 		.ascii	"record_size\000"
+ 2590      72645F73 
+ 2590      697A6500 
+ 2591              	.LASF54:
+ 2592 0188 46535F47 		.ascii	"FS_GetVolumeName\000"
+ 2592      6574566F 
+ 2592      6C756D65 
+ 2592      4E616D65 
+ 2592      00
+ 2593              	.LASF28:
+ 2594 0199 7265635F 		.ascii	"rec_index\000"
+ 2594      696E6465 
+ 2594      7800
+ 2595              	.LASF37:
+ 2596 01a3 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2596      52784275 
+ 2596      66666572 
+ 2596      00
+ 2597              	.LASF1:
+ 2598 01b0 756E7369 		.ascii	"unsigned char\000"
+ 2598      676E6564 
+ 2598      20636861 
+ 2598      7200
+ 2599              	.LASF45:
+ 2600 01be 46535F46 		.ascii	"FS_FOpen\000"
+ 2600      4F70656E 
+ 2600      00
+ 2601              	.LASF46:
+ 2602 01c7 46535F57 		.ascii	"FS_Write\000"
+ 2602      72697465 
+ 2602      00
+ 2603              	.LASF49:
+ 2604 01d0 46535F46 		.ascii	"FS_FSeek\000"
+ 2604      5365656B 
+ 2604      00
+ 2605              	.LASF34:
+ 2606 01d9 6D61696E 		.ascii	"main\000"
+ 2606      00
+ 2607              	.LASF30:
+ 2608 01de 64625F73 		.ascii	"db_size\000"
+ 2608      697A6500 
+ 2609              	.LASF42:
+ 2610 01e6 55415254 		.ascii	"UART_1_PutChar\000"
+ 2610      5F315F50 
+ 2610      75744368 
+ 2610      617200
+ 2611              	.LASF8:
+ 2612 01f5 756E7369 		.ascii	"unsigned int\000"
+ 2612      676E6564 
+ 2612      20696E74 
+ 2612      00
+ 2613              	.LASF7:
+ 2614 0202 6C6F6E67 		.ascii	"long long unsigned int\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 54
+
+
+ 2614      206C6F6E 
+ 2614      6720756E 
+ 2614      7369676E 
+ 2614      65642069 
+ 2615              	.LASF18:
+ 2616 0219 75736572 		.ascii	"username\000"
+ 2616      6E616D65 
+ 2616      00
+ 2617              	.LASF16:
+ 2618 0222 46535F46 		.ascii	"FS_FILE\000"
+ 2618      494C4500 
+ 2619              	.LASF15:
+ 2620 022a 73697A65 		.ascii	"sizetype\000"
+ 2620      74797065 
+ 2620      00
+ 2621              	.LASF26:
+ 2622 0233 77726974 		.ascii	"write_example\000"
+ 2622      655F6578 
+ 2622      616D706C 
+ 2622      6500
+ 2623              	.LASF6:
+ 2624 0241 6C6F6E67 		.ascii	"long long int\000"
+ 2624      206C6F6E 
+ 2624      6720696E 
+ 2624      7400
+ 2625              	.LASF56:
+ 2626 024f 6D61696E 		.ascii	"main.c\000"
+ 2626      2E6300
+ 2627              	.LASF13:
+ 2628 0256 63686172 		.ascii	"char\000"
+ 2628      00
+ 2629              	.LASF48:
+ 2630 025b 46535F47 		.ascii	"FS_GetFileSize\000"
+ 2630      65744669 
+ 2630      6C655369 
+ 2630      7A6500
+ 2631              	.LASF10:
+ 2632 026a 696E7433 		.ascii	"int32_t\000"
+ 2632      325F7400 
+ 2633              	.LASF2:
+ 2634 0272 73686F72 		.ascii	"short int\000"
+ 2634      7420696E 
+ 2634      7400
+ 2635              	.LASF53:
+ 2636 027c 46535F49 		.ascii	"FS_Init\000"
+ 2636      6E697400 
+ 2637              	.LASF25:
+ 2638 0284 7364566F 		.ascii	"sdVolName\000"
+ 2638      6C4E616D 
+ 2638      6500
+ 2639              	.LASF4:
+ 2640 028e 6C6F6E67 		.ascii	"long int\000"
+ 2640      20696E74 
+ 2640      00
+ 2641              	.LASF38:
+ 2642 0297 73644669 		.ascii	"sdFile\000"
+ 2642      6C6500
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXfWhtF.s 			page 55
+
+
+ 2643              	.LASF14:
+ 2644 029e 6C6F6E67 		.ascii	"long double\000"
+ 2644      20646F75 
+ 2644      626C6500 
+ 2645              	.LASF0:
+ 2646 02aa 7369676E 		.ascii	"signed char\000"
+ 2646      65642063 
+ 2646      68617200 
+ 2647              	.LASF22:
+ 2648 02b6 53445F63 		.ascii	"SD_createDB\000"
+ 2648      72656174 
+ 2648      65444200 
+ 2649              	.LASF21:
+ 2650 02c2 73657269 		.ascii	"serial_print_record\000"
+ 2650      616C5F70 
+ 2650      72696E74 
+ 2650      5F726563 
+ 2650      6F726400 
+ 2651              	.LASF27:
+ 2652 02d6 5F426F6F 		.ascii	"_Bool\000"
+ 2652      6C00
+ 2653              	.LASF57:
+ 2654 02dc 433A5C55 		.ascii	"C:\\Users\\bkettle\\OneDrive\\School\\6.115\\projec"
+ 2654      73657273 
+ 2654      5C626B65 
+ 2654      74746C65 
+ 2654      5C4F6E65 
+ 2655 0309 745C7073 		.ascii	"t\\psoc\\Password Keeper\\SD Card Test.cydsn\000"
+ 2655      6F635C50 
+ 2655      61737377 
+ 2655      6F726420 
+ 2655      4B656570 
+ 2656              	.LASF51:
+ 2657 0333 43794465 		.ascii	"CyDelay\000"
+ 2657      6C617900 
+ 2658              	.LASF19:
+ 2659 033b 70617373 		.ascii	"password\000"
+ 2659      776F7264 
+ 2659      00
+ 2660              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,4840 @@
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"pk_serialfuncs.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.clr_last_serial_cmd,"ax",%progbits
+  20              		.align	2
+  21              		.global	clr_last_serial_cmd
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	clr_last_serial_cmd, %function
+  25              	clr_last_serial_cmd:
+  26              	.LFB64:
+  27              		.file 1 "pk_serialfuncs.c"
+   1:pk_serialfuncs.c **** /* defines functions
+   2:pk_serialfuncs.c ****     for interfacing with the user
+   3:pk_serialfuncs.c ****     over serial.
+   4:pk_serialfuncs.c **** */
+   5:pk_serialfuncs.c ****     
+   6:pk_serialfuncs.c **** #include <pk_serialfuncs.h>
+   7:pk_serialfuncs.c **** #include <pk_sdrecorddb.h>
+   8:pk_serialfuncs.c **** #include <pk_usb.h>
+   9:pk_serialfuncs.c **** 
+  10:pk_serialfuncs.c **** /*******************************
+  11:pk_serialfuncs.c **** *       UART STUFF             *
+  12:pk_serialfuncs.c **** *******************************/
+  13:pk_serialfuncs.c **** 
+  14:pk_serialfuncs.c **** 
+  15:pk_serialfuncs.c **** // last serial command holds the previous command
+  16:pk_serialfuncs.c **** // while rx_buffer holds the one currently being
+  17:pk_serialfuncs.c **** // typed. last serial command is updated on enter
+  18:pk_serialfuncs.c **** char rx_buffer[30];
+  19:pk_serialfuncs.c **** int rx_buff_length;
+  20:pk_serialfuncs.c **** char last_serial_cmd[30];
+  21:pk_serialfuncs.c **** int last_serial_cmd_length = 30;
+  22:pk_serialfuncs.c **** //void clr_rx_buffer(){ 
+  23:pk_serialfuncs.c **** //    memset(rx_buffer, 0, 30); 
+  24:pk_serialfuncs.c **** //    rx_buff_length = 0;
+  25:pk_serialfuncs.c **** //};
+  26:pk_serialfuncs.c **** void clr_last_serial_cmd(){ 
+  28              		.loc 1 26 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 2
+
+
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  27:pk_serialfuncs.c ****     memset(last_serial_cmd, 0, last_serial_cmd_length); 
+  36              		.loc 1 27 0
+  37 0002 034B     		ldr	r3, .L3
+  38 0004 1A68     		ldr	r2, [r3]
+  39 0006 0021     		movs	r1, #0
+  40 0008 0248     		ldr	r0, .L3+4
+  41 000a FFF7FEFF 		bl	memset
+  42              	.LVL0:
+  43 000e 08BD     		pop	{r3, pc}
+  44              	.L4:
+  45              		.align	2
+  46              	.L3:
+  47 0010 00000000 		.word	.LANCHOR0
+  48 0014 00000000 		.word	last_serial_cmd
+  49              		.cfi_endproc
+  50              	.LFE64:
+  51              		.size	clr_last_serial_cmd, .-clr_last_serial_cmd
+  52              		.section	.text.update_rx_buffer,"ax",%progbits
+  53              		.align	2
+  54              		.global	update_rx_buffer
+  55              		.thumb
+  56              		.thumb_func
+  57              		.type	update_rx_buffer, %function
+  58              	update_rx_buffer:
+  59              	.LFB65:
+  28:pk_serialfuncs.c **** }
+  29:pk_serialfuncs.c **** 
+  30:pk_serialfuncs.c **** Record new_record = {"","",""};
+  31:pk_serialfuncs.c **** 
+  32:pk_serialfuncs.c **** // Serial Main Menu
+  33:pk_serialfuncs.c **** SerialMenu main_menu = {
+  34:pk_serialfuncs.c ****     3,
+  35:pk_serialfuncs.c ****     "Main Menu",
+  36:pk_serialfuncs.c ****     {
+  37:pk_serialfuncs.c ****         "Add new record",
+  38:pk_serialfuncs.c ****         "View all records",
+  39:pk_serialfuncs.c ****         "Generate Password"
+  40:pk_serialfuncs.c ****     }
+  41:pk_serialfuncs.c **** };
+  42:pk_serialfuncs.c **** 
+  43:pk_serialfuncs.c **** // password creation menu
+  44:pk_serialfuncs.c **** SerialMenu pass_menu = {
+  45:pk_serialfuncs.c ****     2,
+  46:pk_serialfuncs.c ****     "Password Menu",
+  47:pk_serialfuncs.c ****     {
+  48:pk_serialfuncs.c ****         "Enter Password",
+  49:pk_serialfuncs.c ****         "Generate Password"
+  50:pk_serialfuncs.c ****     }
+  51:pk_serialfuncs.c **** };
+  52:pk_serialfuncs.c **** 
+  53:pk_serialfuncs.c **** void update_rx_buffer(char to_add) {
+  60              		.loc 1 53 0
+  61              		.cfi_startproc
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 3
+
+
+  62              		@ args = 0, pretend = 0, frame = 8
+  63              		@ frame_needed = 0, uses_anonymous_args = 0
+  64              	.LVL1:
+  65 0000 00B5     		push	{lr}
+  66              		.cfi_def_cfa_offset 4
+  67              		.cfi_offset 14, -4
+  68 0002 83B0     		sub	sp, sp, #12
+  69              		.cfi_def_cfa_offset 16
+  54:pk_serialfuncs.c ****     char str_to_add[2] = {to_add, 0};
+  70              		.loc 1 54 0
+  71 0004 8DF80400 		strb	r0, [sp, #4]
+  72 0008 0023     		movs	r3, #0
+  73 000a 8DF80530 		strb	r3, [sp, #5]
+  55:pk_serialfuncs.c ****     strcat(rx_buffer, str_to_add);
+  74              		.loc 1 55 0
+  75 000e 01A9     		add	r1, sp, #4
+  76 0010 0248     		ldr	r0, .L7
+  77              	.LVL2:
+  78 0012 FFF7FEFF 		bl	strcat
+  79              	.LVL3:
+  56:pk_serialfuncs.c **** }
+  80              		.loc 1 56 0
+  81 0016 03B0     		add	sp, sp, #12
+  82              		.cfi_def_cfa_offset 4
+  83              		@ sp needed
+  84 0018 5DF804FB 		ldr	pc, [sp], #4
+  85              	.L8:
+  86              		.align	2
+  87              	.L7:
+  88 001c 00000000 		.word	rx_buffer
+  89              		.cfi_endproc
+  90              	.LFE65:
+  91              		.size	update_rx_buffer, .-update_rx_buffer
+  92              		.section	.text.serial_print_menu,"ax",%progbits
+  93              		.align	2
+  94              		.global	serial_print_menu
+  95              		.thumb
+  96              		.thumb_func
+  97              		.type	serial_print_menu, %function
+  98              	serial_print_menu:
+  99              	.LFB66:
+  57:pk_serialfuncs.c **** 
+  58:pk_serialfuncs.c **** void serial_print_menu(SerialMenu menu) {
+ 100              		.loc 1 58 0
+ 101              		.cfi_startproc
+ 102              		@ args = 224, pretend = 16, frame = 8
+ 103              		@ frame_needed = 0, uses_anonymous_args = 0
+ 104 0000 84B0     		sub	sp, sp, #16
+ 105              		.cfi_def_cfa_offset 16
+ 106 0002 10B5     		push	{r4, lr}
+ 107              		.cfi_def_cfa_offset 24
+ 108              		.cfi_offset 4, -24
+ 109              		.cfi_offset 14, -20
+ 110 0004 82B0     		sub	sp, sp, #8
+ 111              		.cfi_def_cfa_offset 32
+ 112 0006 04AC     		add	r4, sp, #16
+ 113 0008 84E80F00 		stmia	r4, {r0, r1, r2, r3}
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 4
+
+
+  59:pk_serialfuncs.c ****     USB_print("\n\r");
+ 114              		.loc 1 59 0
+ 115 000c 1748     		ldr	r0, .L13
+ 116 000e FFF7FEFF 		bl	USB_print
+ 117              	.LVL4:
+  60:pk_serialfuncs.c ****     USB_print(menu.title);
+ 118              		.loc 1 60 0
+ 119 0012 05A8     		add	r0, sp, #20
+ 120 0014 FFF7FEFF 		bl	USB_print
+ 121              	.LVL5:
+  61:pk_serialfuncs.c ****     USB_print(":\n\r");
+ 122              		.loc 1 61 0
+ 123 0018 1548     		ldr	r0, .L13+4
+ 124 001a FFF7FEFF 		bl	USB_print
+ 125              	.LVL6:
+ 126              	.LBB2:
+  62:pk_serialfuncs.c ****     for (int i = 0; i<menu.size; i++) {
+ 127              		.loc 1 62 0
+ 128 001e 0024     		movs	r4, #0
+ 129 0020 18E0     		b	.L10
+ 130              	.LVL7:
+ 131              	.L11:
+ 132              	.LBB3:
+  63:pk_serialfuncs.c ****         // print item number (max of 9 items)
+  64:pk_serialfuncs.c ****         // just does it by ascii conversion
+  65:pk_serialfuncs.c ****         char itemnum[2] = {(char) (i + 0x31), 0};
+ 133              		.loc 1 65 0 discriminator 3
+ 134 0022 04F13103 		add	r3, r4, #49
+ 135 0026 8DF80430 		strb	r3, [sp, #4]
+ 136 002a 0023     		movs	r3, #0
+ 137 002c 8DF80530 		strb	r3, [sp, #5]
+  66:pk_serialfuncs.c ****         USB_print(itemnum);
+ 138              		.loc 1 66 0 discriminator 3
+ 139 0030 01A8     		add	r0, sp, #4
+ 140 0032 FFF7FEFF 		bl	USB_print
+ 141              	.LVL8:
+  67:pk_serialfuncs.c ****         USB_print(". ");
+ 142              		.loc 1 67 0 discriminator 3
+ 143 0036 0F48     		ldr	r0, .L13+8
+ 144 0038 FFF7FEFF 		bl	USB_print
+ 145              	.LVL9:
+  68:pk_serialfuncs.c ****         USB_print(menu.items[i]);
+ 146              		.loc 1 68 0 discriminator 3
+ 147 003c 04EB8403 		add	r3, r4, r4, lsl #2
+ 148 0040 9800     		lsls	r0, r3, #2
+ 149 0042 1830     		adds	r0, r0, #24
+ 150 0044 04AB     		add	r3, sp, #16
+ 151 0046 1844     		add	r0, r0, r3
+ 152 0048 FFF7FEFF 		bl	USB_print
+ 153              	.LVL10:
+  69:pk_serialfuncs.c ****         USB_print("\n\r");
+ 154              		.loc 1 69 0 discriminator 3
+ 155 004c 0748     		ldr	r0, .L13
+ 156 004e FFF7FEFF 		bl	USB_print
+ 157              	.LVL11:
+ 158              	.LBE3:
+  62:pk_serialfuncs.c ****         // print item number (max of 9 items)
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 5
+
+
+ 159              		.loc 1 62 0 discriminator 3
+ 160 0052 0134     		adds	r4, r4, #1
+ 161              	.LVL12:
+ 162              	.L10:
+  62:pk_serialfuncs.c ****         // print item number (max of 9 items)
+ 163              		.loc 1 62 0 is_stmt 0 discriminator 1
+ 164 0054 049B     		ldr	r3, [sp, #16]
+ 165 0056 9C42     		cmp	r4, r3
+ 166 0058 E3DB     		blt	.L11
+ 167              	.LBE2:
+  70:pk_serialfuncs.c ****     }
+  71:pk_serialfuncs.c ****     USB_print("\n\rEnter the choice you want: ");
+ 168              		.loc 1 71 0 is_stmt 1
+ 169 005a 0748     		ldr	r0, .L13+12
+ 170 005c FFF7FEFF 		bl	USB_print
+ 171              	.LVL13:
+  72:pk_serialfuncs.c **** }
+ 172              		.loc 1 72 0
+ 173 0060 02B0     		add	sp, sp, #8
+ 174              		.cfi_def_cfa_offset 24
+ 175              		@ sp needed
+ 176 0062 BDE81040 		pop	{r4, lr}
+ 177              		.cfi_restore 14
+ 178              		.cfi_restore 4
+ 179              		.cfi_def_cfa_offset 16
+ 180              	.LVL14:
+ 181 0066 04B0     		add	sp, sp, #16
+ 182              		.cfi_def_cfa_offset 0
+ 183 0068 7047     		bx	lr
+ 184              	.L14:
+ 185 006a 00BF     		.align	2
+ 186              	.L13:
+ 187 006c 00000000 		.word	.LC1
+ 188 0070 04000000 		.word	.LC2
+ 189 0074 08000000 		.word	.LC3
+ 190 0078 0C000000 		.word	.LC4
+ 191              		.cfi_endproc
+ 192              	.LFE66:
+ 193              		.size	serial_print_menu, .-serial_print_menu
+ 194              		.section	.text.serial_print_record,"ax",%progbits
+ 195              		.align	2
+ 196              		.global	serial_print_record
+ 197              		.thumb
+ 198              		.thumb_func
+ 199              		.type	serial_print_record, %function
+ 200              	serial_print_record:
+ 201              	.LFB67:
+  73:pk_serialfuncs.c **** 
+  74:pk_serialfuncs.c **** void serial_print_record(Record record) {
+ 202              		.loc 1 74 0
+ 203              		.cfi_startproc
+ 204              		@ args = 64, pretend = 16, frame = 32
+ 205              		@ frame_needed = 0, uses_anonymous_args = 0
+ 206 0000 84B0     		sub	sp, sp, #16
+ 207              		.cfi_def_cfa_offset 16
+ 208 0002 00B5     		push	{lr}
+ 209              		.cfi_def_cfa_offset 20
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 6
+
+
+ 210              		.cfi_offset 14, -20
+ 211 0004 89B0     		sub	sp, sp, #36
+ 212              		.cfi_def_cfa_offset 56
+ 213 0006 0DF1280E 		add	lr, sp, #40
+ 214 000a 8EE80F00 		stmia	lr, {r0, r1, r2, r3}
+  75:pk_serialfuncs.c ****     // prints a record's info to the serial monitor in a nice way
+  76:pk_serialfuncs.c ****     USB_print("\n\r\n\r   ");
+ 215              		.loc 1 76 0
+ 216 000e 1B48     		ldr	r0, .L19
+ 217 0010 FFF7FEFF 		bl	USB_print
+ 218              	.LVL15:
+  77:pk_serialfuncs.c ****     char star_line[30] = {0};
+ 219              		.loc 1 77 0
+ 220 0014 1E22     		movs	r2, #30
+ 221 0016 0021     		movs	r1, #0
+ 222 0018 6846     		mov	r0, sp
+ 223 001a FFF7FEFF 		bl	memset
+ 224              	.LVL16:
+ 225              	.LBB4:
+  78:pk_serialfuncs.c ****     for (int i=0; i<29; i++) {
+ 226              		.loc 1 78 0
+ 227 001e 0023     		movs	r3, #0
+ 228 0020 05E0     		b	.L16
+ 229              	.LVL17:
+ 230              	.L17:
+  79:pk_serialfuncs.c ****         star_line[i] = '*';
+ 231              		.loc 1 79 0 discriminator 3
+ 232 0022 08AA     		add	r2, sp, #32
+ 233 0024 1A44     		add	r2, r2, r3
+ 234 0026 2A21     		movs	r1, #42
+ 235 0028 02F8201C 		strb	r1, [r2, #-32]
+  78:pk_serialfuncs.c ****     for (int i=0; i<29; i++) {
+ 236              		.loc 1 78 0 discriminator 3
+ 237 002c 0133     		adds	r3, r3, #1
+ 238              	.LVL18:
+ 239              	.L16:
+  78:pk_serialfuncs.c ****     for (int i=0; i<29; i++) {
+ 240              		.loc 1 78 0 is_stmt 0 discriminator 1
+ 241 002e 1C2B     		cmp	r3, #28
+ 242 0030 F7DD     		ble	.L17
+ 243              	.LBE4:
+  80:pk_serialfuncs.c ****     }
+  81:pk_serialfuncs.c ****     star_line[29] = 0;
+ 244              		.loc 1 81 0 is_stmt 1
+ 245 0032 0023     		movs	r3, #0
+ 246              	.LVL19:
+ 247 0034 8DF81D30 		strb	r3, [sp, #29]
+  82:pk_serialfuncs.c ****     USB_print(star_line);
+ 248              		.loc 1 82 0
+ 249 0038 6846     		mov	r0, sp
+ 250 003a FFF7FEFF 		bl	USB_print
+ 251              	.LVL20:
+  83:pk_serialfuncs.c ****     USB_print("\n\r   * Title: ");
+ 252              		.loc 1 83 0
+ 253 003e 1048     		ldr	r0, .L19+4
+ 254 0040 FFF7FEFF 		bl	USB_print
+ 255              	.LVL21:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 7
+
+
+  84:pk_serialfuncs.c ****     USB_print(record.title);
+ 256              		.loc 1 84 0
+ 257 0044 0AA8     		add	r0, sp, #40
+ 258 0046 FFF7FEFF 		bl	USB_print
+ 259              	.LVL22:
+  85:pk_serialfuncs.c ****     USB_print("\n\r   * Username: ");
+ 260              		.loc 1 85 0
+ 261 004a 0E48     		ldr	r0, .L19+8
+ 262 004c FFF7FEFF 		bl	USB_print
+ 263              	.LVL23:
+  86:pk_serialfuncs.c ****     USB_print(record.username);
+ 264              		.loc 1 86 0
+ 265 0050 0DF13200 		add	r0, sp, #50
+ 266 0054 FFF7FEFF 		bl	USB_print
+ 267              	.LVL24:
+  87:pk_serialfuncs.c ****     USB_print("\n\r   * Password: ");
+ 268              		.loc 1 87 0
+ 269 0058 0B48     		ldr	r0, .L19+12
+ 270 005a FFF7FEFF 		bl	USB_print
+ 271              	.LVL25:
+  88:pk_serialfuncs.c ****     USB_print(record.password);
+ 272              		.loc 1 88 0
+ 273 005e 0DF15500 		add	r0, sp, #85
+ 274 0062 FFF7FEFF 		bl	USB_print
+ 275              	.LVL26:
+  89:pk_serialfuncs.c ****     USB_print("\n\r   ");
+ 276              		.loc 1 89 0
+ 277 0066 0948     		ldr	r0, .L19+16
+ 278 0068 FFF7FEFF 		bl	USB_print
+ 279              	.LVL27:
+  90:pk_serialfuncs.c ****     USB_print(star_line);
+ 280              		.loc 1 90 0
+ 281 006c 6846     		mov	r0, sp
+ 282 006e FFF7FEFF 		bl	USB_print
+ 283              	.LVL28:
+  91:pk_serialfuncs.c **** }
+ 284              		.loc 1 91 0
+ 285 0072 09B0     		add	sp, sp, #36
+ 286              		.cfi_def_cfa_offset 20
+ 287              		@ sp needed
+ 288 0074 5DF804EB 		ldr	lr, [sp], #4
+ 289              		.cfi_restore 14
+ 290              		.cfi_def_cfa_offset 16
+ 291 0078 04B0     		add	sp, sp, #16
+ 292              		.cfi_def_cfa_offset 0
+ 293 007a 7047     		bx	lr
+ 294              	.L20:
+ 295              		.align	2
+ 296              	.L19:
+ 297 007c 2C000000 		.word	.LC5
+ 298 0080 34000000 		.word	.LC6
+ 299 0084 44000000 		.word	.LC7
+ 300 0088 58000000 		.word	.LC8
+ 301 008c 6C000000 		.word	.LC9
+ 302              		.cfi_endproc
+ 303              	.LFE67:
+ 304              		.size	serial_print_record, .-serial_print_record
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 8
+
+
+ 305              		.section	.text.serial_inv_cmd,"ax",%progbits
+ 306              		.align	2
+ 307              		.global	serial_inv_cmd
+ 308              		.thumb
+ 309              		.thumb_func
+ 310              		.type	serial_inv_cmd, %function
+ 311              	serial_inv_cmd:
+ 312              	.LFB68:
+  92:pk_serialfuncs.c **** 
+  93:pk_serialfuncs.c **** void serial_inv_cmd() {
+ 313              		.loc 1 93 0
+ 314              		.cfi_startproc
+ 315              		@ args = 0, pretend = 0, frame = 0
+ 316              		@ frame_needed = 0, uses_anonymous_args = 0
+ 317 0000 08B5     		push	{r3, lr}
+ 318              		.cfi_def_cfa_offset 8
+ 319              		.cfi_offset 3, -8
+ 320              		.cfi_offset 14, -4
+  94:pk_serialfuncs.c ****     USB_print("\n\rInvalid Command!");
+ 321              		.loc 1 94 0
+ 322 0002 0248     		ldr	r0, .L23
+ 323 0004 FFF7FEFF 		bl	USB_print
+ 324              	.LVL29:
+ 325 0008 08BD     		pop	{r3, pc}
+ 326              	.L24:
+ 327 000a 00BF     		.align	2
+ 328              	.L23:
+ 329 000c 74000000 		.word	.LC10
+ 330              		.cfi_endproc
+ 331              	.LFE68:
+ 332              		.size	serial_inv_cmd, .-serial_inv_cmd
+ 333              		.section	.text.generate_password,"ax",%progbits
+ 334              		.align	2
+ 335              		.global	generate_password
+ 336              		.thumb
+ 337              		.thumb_func
+ 338              		.type	generate_password, %function
+ 339              	generate_password:
+ 340              	.LFB69:
+  95:pk_serialfuncs.c **** }
+  96:pk_serialfuncs.c **** 
+  97:pk_serialfuncs.c **** // generate a password
+  98:pk_serialfuncs.c **** void generate_password(char* out) {
+ 341              		.loc 1 98 0
+ 342              		.cfi_startproc
+ 343              		@ args = 0, pretend = 0, frame = 0
+ 344              		@ frame_needed = 0, uses_anonymous_args = 0
+ 345              	.LVL30:
+ 346 0000 38B5     		push	{r3, r4, r5, lr}
+ 347              		.cfi_def_cfa_offset 16
+ 348              		.cfi_offset 3, -16
+ 349              		.cfi_offset 4, -12
+ 350              		.cfi_offset 5, -8
+ 351              		.cfi_offset 14, -4
+ 352 0002 0546     		mov	r5, r0
+ 353              	.LVL31:
+ 354              	.LBB5:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 9
+
+
+  99:pk_serialfuncs.c ****     /* generate a 16-character ascii
+ 100:pk_serialfuncs.c ****         password using the PRS component
+ 101:pk_serialfuncs.c ****     */
+ 102:pk_serialfuncs.c ****     char current_char = 0;
+ 103:pk_serialfuncs.c ****     for (int i = 0; i<16; i++) {
+ 355              		.loc 1 103 0
+ 356 0004 0024     		movs	r4, #0
+ 357 0006 11E0     		b	.L26
+ 358              	.LVL32:
+ 359              	.L29:
+ 104:pk_serialfuncs.c ****         current_char = (char) PRS_Read();
+ 360              		.loc 1 104 0
+ 361 0008 FFF7FEFF 		bl	PRS_Read
+ 362              	.LVL33:
+ 363 000c C0B2     		uxtb	r0, r0
+ 364              	.LVL34:
+ 105:pk_serialfuncs.c ****         while ((int) current_char < 33 || (int) current_char > 126) {
+ 365              		.loc 1 105 0
+ 366 000e 04E0     		b	.L27
+ 367              	.L28:
+ 106:pk_serialfuncs.c ****             // if outside of valid range of characters, generate new character
+ 107:pk_serialfuncs.c ****             // spaces are not allowed, to include them change 33 to 32
+ 108:pk_serialfuncs.c ****             PRS_Step();
+ 368              		.loc 1 108 0
+ 369 0010 FFF7FEFF 		bl	PRS_Step
+ 370              	.LVL35:
+ 109:pk_serialfuncs.c ****             current_char = (char) PRS_Read();
+ 371              		.loc 1 109 0
+ 372 0014 FFF7FEFF 		bl	PRS_Read
+ 373              	.LVL36:
+ 374 0018 C0B2     		uxtb	r0, r0
+ 375              	.LVL37:
+ 376              	.L27:
+ 105:pk_serialfuncs.c ****         while ((int) current_char < 33 || (int) current_char > 126) {
+ 377              		.loc 1 105 0
+ 378 001a A0F12103 		sub	r3, r0, #33
+ 379 001e DBB2     		uxtb	r3, r3
+ 380 0020 5D2B     		cmp	r3, #93
+ 381 0022 F5D8     		bhi	.L28
+ 110:pk_serialfuncs.c ****         }
+ 111:pk_serialfuncs.c ****         out[i] = current_char;
+ 382              		.loc 1 111 0 discriminator 2
+ 383 0024 2855     		strb	r0, [r5, r4]
+ 112:pk_serialfuncs.c ****         // move to next PRS value
+ 113:pk_serialfuncs.c ****         PRS_Step();
+ 384              		.loc 1 113 0 discriminator 2
+ 385 0026 FFF7FEFF 		bl	PRS_Step
+ 386              	.LVL38:
+ 103:pk_serialfuncs.c ****         current_char = (char) PRS_Read();
+ 387              		.loc 1 103 0 discriminator 2
+ 388 002a 0134     		adds	r4, r4, #1
+ 389              	.LVL39:
+ 390              	.L26:
+ 103:pk_serialfuncs.c ****         current_char = (char) PRS_Read();
+ 391              		.loc 1 103 0 is_stmt 0 discriminator 1
+ 392 002c 0F2C     		cmp	r4, #15
+ 393 002e EBDD     		ble	.L29
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 10
+
+
+ 394              	.LBE5:
+ 114:pk_serialfuncs.c ****     }
+ 115:pk_serialfuncs.c ****     out[16] = 0; // null terminate password
+ 395              		.loc 1 115 0 is_stmt 1
+ 396 0030 0023     		movs	r3, #0
+ 397 0032 2B74     		strb	r3, [r5, #16]
+ 398 0034 38BD     		pop	{r3, r4, r5, pc}
+ 399              		.cfi_endproc
+ 400              	.LFE69:
+ 401              		.size	generate_password, .-generate_password
+ 402 0036 00BF     		.section	.text.serial_print_dt,"ax",%progbits
+ 403              		.align	2
+ 404              		.global	serial_print_dt
+ 405              		.thumb
+ 406              		.thumb_func
+ 407              		.type	serial_print_dt, %function
+ 408              	serial_print_dt:
+ 409              	.LFB70:
+ 116:pk_serialfuncs.c **** }
+ 117:pk_serialfuncs.c **** 
+ 118:pk_serialfuncs.c **** // for the rtc, just debugging stuff
+ 119:pk_serialfuncs.c **** void serial_print_dt(DateTime dt) {
+ 410              		.loc 1 119 0
+ 411              		.cfi_startproc
+ 412              		@ args = 0, pretend = 0, frame = 48
+ 413              		@ frame_needed = 0, uses_anonymous_args = 0
+ 414 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 415              		.cfi_def_cfa_offset 32
+ 416              		.cfi_offset 4, -32
+ 417              		.cfi_offset 5, -28
+ 418              		.cfi_offset 6, -24
+ 419              		.cfi_offset 7, -20
+ 420              		.cfi_offset 8, -16
+ 421              		.cfi_offset 9, -12
+ 422              		.cfi_offset 10, -8
+ 423              		.cfi_offset 14, -4
+ 424 0004 92B0     		sub	sp, sp, #72
+ 425              		.cfi_def_cfa_offset 104
+ 426 0006 06AC     		add	r4, sp, #24
+ 427 0008 84E80300 		stmia	r4, {r0, r1}
+ 120:pk_serialfuncs.c ****     USB_print("\n\rdatetime: ");
+ 428              		.loc 1 120 0
+ 429 000c 1C48     		ldr	r0, .L33
+ 430 000e FFF7FEFF 		bl	USB_print
+ 431              	.LVL40:
+ 121:pk_serialfuncs.c ****     char to_send[40];
+ 122:pk_serialfuncs.c ****     sprintf(to_send, "%d-%d-%d %d:%d:%2.0d unix: %d", dt_getYear(dt), \
+ 432              		.loc 1 122 0
+ 433 0012 94E80300 		ldmia	r4, {r0, r1}
+ 434 0016 FFF7FEFF 		bl	dt_getYear
+ 435              	.LVL41:
+ 436 001a 0546     		mov	r5, r0
+ 123:pk_serialfuncs.c ****         dt_getMonth(dt), dt_getDay(dt), dt_getHour(dt), \
+ 437              		.loc 1 123 0
+ 438 001c 94E80300 		ldmia	r4, {r0, r1}
+ 439 0020 FFF7FEFF 		bl	dt_getMonth
+ 440              	.LVL42:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 11
+
+
+ 441 0024 0646     		mov	r6, r0
+ 442 0026 94E80300 		ldmia	r4, {r0, r1}
+ 443 002a FFF7FEFF 		bl	dt_getDay
+ 444              	.LVL43:
+ 445 002e 0746     		mov	r7, r0
+ 446 0030 94E80300 		ldmia	r4, {r0, r1}
+ 447 0034 FFF7FEFF 		bl	dt_getHour
+ 448              	.LVL44:
+ 449 0038 8046     		mov	r8, r0
+ 124:pk_serialfuncs.c ****         dt_getMinute(dt), dt_getSecond(dt), dt_getUnixtime(dt));
+ 450              		.loc 1 124 0
+ 451 003a 94E80300 		ldmia	r4, {r0, r1}
+ 452 003e FFF7FEFF 		bl	dt_getMinute
+ 453              	.LVL45:
+ 454 0042 8146     		mov	r9, r0
+ 455 0044 94E80300 		ldmia	r4, {r0, r1}
+ 456 0048 FFF7FEFF 		bl	dt_getSecond
+ 457              	.LVL46:
+ 458 004c 8246     		mov	r10, r0
+ 122:pk_serialfuncs.c ****         dt_getMonth(dt), dt_getDay(dt), dt_getHour(dt), \
+ 459              		.loc 1 122 0
+ 460 004e 94E80300 		ldmia	r4, {r0, r1}
+ 461 0052 FFF7FEFF 		bl	dt_getUnixtime
+ 462              	.LVL47:
+ 463 0056 0490     		str	r0, [sp, #16]
+ 464 0058 CDF80CA0 		str	r10, [sp, #12]
+ 465 005c CDF80890 		str	r9, [sp, #8]
+ 466 0060 CDF80480 		str	r8, [sp, #4]
+ 467 0064 0097     		str	r7, [sp]
+ 468 0066 3346     		mov	r3, r6
+ 469 0068 2A46     		mov	r2, r5
+ 470 006a 0649     		ldr	r1, .L33+4
+ 471 006c 08A8     		add	r0, sp, #32
+ 472 006e FFF7FEFF 		bl	sprintf
+ 473              	.LVL48:
+ 125:pk_serialfuncs.c ****     USB_print(to_send);
+ 474              		.loc 1 125 0
+ 475 0072 08A8     		add	r0, sp, #32
+ 476 0074 FFF7FEFF 		bl	USB_print
+ 477              	.LVL49:
+ 126:pk_serialfuncs.c **** }
+ 478              		.loc 1 126 0
+ 479 0078 12B0     		add	sp, sp, #72
+ 480              		.cfi_def_cfa_offset 32
+ 481              		@ sp needed
+ 482 007a BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 483              	.L34:
+ 484 007e 00BF     		.align	2
+ 485              	.L33:
+ 486 0080 88000000 		.word	.LC11
+ 487 0084 98000000 		.word	.LC12
+ 488              		.cfi_endproc
+ 489              	.LFE70:
+ 490              		.size	serial_print_dt, .-serial_print_dt
+ 491              		.section	.text.RX_INT,"ax",%progbits
+ 492              		.align	2
+ 493              		.global	RX_INT
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 12
+
+
+ 494              		.thumb
+ 495              		.thumb_func
+ 496              		.type	RX_INT, %function
+ 497              	RX_INT:
+ 498              	.LFB71:
+ 127:pk_serialfuncs.c **** 
+ 128:pk_serialfuncs.c **** // this ISR is unnecessary because we don't use the UART
+ 129:pk_serialfuncs.c **** // anymore. Need to handle USB Serial commands another way
+ 130:pk_serialfuncs.c **** // though.
+ 131:pk_serialfuncs.c **** // Input is now handled by pk_usb USB_handleInput,
+ 132:pk_serialfuncs.c **** // this is just here for fun
+ 133:pk_serialfuncs.c **** CY_ISR(RX_INT) {
+ 499              		.loc 1 133 0
+ 500              		.cfi_startproc
+ 501              		@ args = 0, pretend = 0, frame = 0
+ 502              		@ frame_needed = 0, uses_anonymous_args = 0
+ 503 0000 10B5     		push	{r4, lr}
+ 504              		.cfi_def_cfa_offset 8
+ 505              		.cfi_offset 4, -8
+ 506              		.cfi_offset 14, -4
+ 134:pk_serialfuncs.c ****     char rec_char = UART_1_ReadRxData();
+ 507              		.loc 1 134 0
+ 508 0002 FFF7FEFF 		bl	UART_1_ReadRxData
+ 509              	.LVL50:
+ 135:pk_serialfuncs.c ****     if (rec_char == 0xD) {
+ 510              		.loc 1 135 0
+ 511 0006 0D28     		cmp	r0, #13
+ 512 0008 06D1     		bne	.L36
+ 513              	.LBB6:
+ 136:pk_serialfuncs.c ****         // move buffer into last_serial_cmd on enter
+ 137:pk_serialfuncs.c ****         strcpy(last_serial_cmd, rx_buffer);
+ 514              		.loc 1 137 0
+ 515 000a 0949     		ldr	r1, .L39
+ 516 000c 0948     		ldr	r0, .L39+4
+ 517              	.LVL51:
+ 518 000e FFF7FEFF 		bl	strcpy
+ 519              	.LVL52:
+ 138:pk_serialfuncs.c ****         clr_rx_buffer();
+ 520              		.loc 1 138 0
+ 521 0012 FFF7FEFF 		bl	clr_rx_buffer
+ 522              	.LVL53:
+ 523              	.LBE6:
+ 524 0016 10BD     		pop	{r4, pc}
+ 525              	.LVL54:
+ 526              	.L36:
+ 527 0018 0446     		mov	r4, r0
+ 139:pk_serialfuncs.c ****     }       
+ 140:pk_serialfuncs.c ****     else {
+ 141:pk_serialfuncs.c ****         UART_1_PutChar(rec_char);    // echo recieved character
+ 528              		.loc 1 141 0
+ 529 001a FFF7FEFF 		bl	UART_1_PutChar
+ 530              	.LVL55:
+ 142:pk_serialfuncs.c ****         // add non-enter characters to rx buffer
+ 143:pk_serialfuncs.c ****         rx_buffer[rx_buff_length] = rec_char;
+ 531              		.loc 1 143 0
+ 532 001e 064A     		ldr	r2, .L39+8
+ 533 0020 1368     		ldr	r3, [r2]
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 13
+
+
+ 534 0022 0349     		ldr	r1, .L39
+ 535 0024 CC54     		strb	r4, [r1, r3]
+ 144:pk_serialfuncs.c ****         rx_buffer[rx_buff_length + 1] = 0;
+ 536              		.loc 1 144 0
+ 537 0026 0133     		adds	r3, r3, #1
+ 538 0028 0020     		movs	r0, #0
+ 539 002a C854     		strb	r0, [r1, r3]
+ 145:pk_serialfuncs.c ****         rx_buff_length += 1;
+ 540              		.loc 1 145 0
+ 541 002c 1360     		str	r3, [r2]
+ 542 002e 10BD     		pop	{r4, pc}
+ 543              	.L40:
+ 544              		.align	2
+ 545              	.L39:
+ 546 0030 00000000 		.word	rx_buffer
+ 547 0034 00000000 		.word	last_serial_cmd
+ 548 0038 00000000 		.word	rx_buff_length
+ 549              		.cfi_endproc
+ 550              	.LFE71:
+ 551              		.size	RX_INT, .-RX_INT
+ 552              		.section	.text.serial_menu_init,"ax",%progbits
+ 553              		.align	2
+ 554              		.global	serial_menu_init
+ 555              		.thumb
+ 556              		.thumb_func
+ 557              		.type	serial_menu_init, %function
+ 558              	serial_menu_init:
+ 559              	.LFB72:
+ 146:pk_serialfuncs.c ****     }
+ 147:pk_serialfuncs.c **** }
+ 148:pk_serialfuncs.c **** 
+ 149:pk_serialfuncs.c **** /****************************************
+ 150:pk_serialfuncs.c **** *         SERIAL MENU FSM               *
+ 151:pk_serialfuncs.c **** ****************************************/
+ 152:pk_serialfuncs.c **** 
+ 153:pk_serialfuncs.c **** // Serial state variables
+ 154:pk_serialfuncs.c **** int s_main_state = S_MAIN_MENU;
+ 155:pk_serialfuncs.c **** int s_sec_state = 0; // secondary state
+ 156:pk_serialfuncs.c **** 
+ 157:pk_serialfuncs.c **** void serial_menu_init() {
+ 560              		.loc 1 157 0
+ 561              		.cfi_startproc
+ 562              		@ args = 0, pretend = 0, frame = 0
+ 563              		@ frame_needed = 0, uses_anonymous_args = 0
+ 564              		@ link register save eliminated.
+ 158:pk_serialfuncs.c ****     //rx_buff_length = 0;
+ 159:pk_serialfuncs.c ****     s_main_state = S_STARTUP;
+ 565              		.loc 1 159 0
+ 566 0000 0022     		movs	r2, #0
+ 567 0002 014B     		ldr	r3, .L42
+ 568 0004 5A60     		str	r2, [r3, #4]
+ 569 0006 7047     		bx	lr
+ 570              	.L43:
+ 571              		.align	2
+ 572              	.L42:
+ 573 0008 00000000 		.word	.LANCHOR0
+ 574              		.cfi_endproc
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 14
+
+
+ 575              	.LFE72:
+ 576              		.size	serial_menu_init, .-serial_menu_init
+ 577              		.section	.text.serial_fsm,"ax",%progbits
+ 578              		.align	2
+ 579              		.global	serial_fsm
+ 580              		.thumb
+ 581              		.thumb_func
+ 582              		.type	serial_fsm, %function
+ 583              	serial_fsm:
+ 584              	.LFB73:
+ 160:pk_serialfuncs.c **** }
+ 161:pk_serialfuncs.c **** 
+ 162:pk_serialfuncs.c **** void serial_fsm() {
+ 585              		.loc 1 162 0
+ 586              		.cfi_startproc
+ 587              		@ args = 0, pretend = 0, frame = 24
+ 588              		@ frame_needed = 0, uses_anonymous_args = 0
+ 589 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 590              		.cfi_def_cfa_offset 20
+ 591              		.cfi_offset 4, -20
+ 592              		.cfi_offset 5, -16
+ 593              		.cfi_offset 6, -12
+ 594              		.cfi_offset 7, -8
+ 595              		.cfi_offset 14, -4
+ 596 0002 BBB0     		sub	sp, sp, #236
+ 597              		.cfi_def_cfa_offset 256
+ 163:pk_serialfuncs.c ****     // step to the next random value
+ 164:pk_serialfuncs.c ****     PRS_Step();
+ 598              		.loc 1 164 0
+ 599 0004 FFF7FEFF 		bl	PRS_Step
+ 600              	.LVL56:
+ 165:pk_serialfuncs.c ****     // update last_serial_cmd based on input
+ 166:pk_serialfuncs.c ****     USB_handleInput(last_serial_cmd);
+ 601              		.loc 1 166 0
+ 602 0008 B04C     		ldr	r4, .L69
+ 603 000a 2046     		mov	r0, r4
+ 604 000c FFF7FEFF 		bl	USB_handleInput
+ 605              	.LVL57:
+ 167:pk_serialfuncs.c ****     
+ 168:pk_serialfuncs.c ****     LED_Write(last_serial_cmd[0] != 0);
+ 606              		.loc 1 168 0
+ 607 0010 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 608 0012 0030     		adds	r0, r0, #0
+ 609 0014 18BF     		it	ne
+ 610 0016 0120     		movne	r0, #1
+ 611 0018 FFF7FEFF 		bl	LED_Write
+ 612              	.LVL58:
+ 169:pk_serialfuncs.c ****     switch (s_main_state) {
+ 613              		.loc 1 169 0
+ 614 001c AC4B     		ldr	r3, .L69+4
+ 615 001e 5B68     		ldr	r3, [r3, #4]
+ 616 0020 012B     		cmp	r3, #1
+ 617 0022 13D0     		beq	.L46
+ 618 0024 022B     		cmp	r3, #2
+ 619 0026 52D0     		beq	.L47
+ 620 0028 002B     		cmp	r3, #0
+ 621 002a 40F04C81 		bne	.L44
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 15
+
+
+ 170:pk_serialfuncs.c ****         case S_WAIT:
+ 171:pk_serialfuncs.c ****         break;
+ 172:pk_serialfuncs.c ****         case S_STARTUP:
+ 173:pk_serialfuncs.c ****             serial_print_menu(main_menu);
+ 622              		.loc 1 173 0
+ 623 002e A84C     		ldr	r4, .L69+4
+ 624 0030 D022     		movs	r2, #208
+ 625 0032 04F11801 		add	r1, r4, #24
+ 626 0036 6846     		mov	r0, sp
+ 627 0038 FFF7FEFF 		bl	memcpy
+ 628              	.LVL59:
+ 629 003c 04F10803 		add	r3, r4, #8
+ 630 0040 0FCB     		ldmia	r3, {r0, r1, r2, r3}
+ 631 0042 FFF7FEFF 		bl	serial_print_menu
+ 632              	.LVL60:
+ 174:pk_serialfuncs.c ****             s_main_state = S_MAIN_MENU;
+ 633              		.loc 1 174 0
+ 634 0046 0123     		movs	r3, #1
+ 635 0048 6360     		str	r3, [r4, #4]
+ 175:pk_serialfuncs.c ****         break;
+ 636              		.loc 1 175 0
+ 637 004a 3CE1     		b	.L44
+ 638              	.L46:
+ 176:pk_serialfuncs.c ****         case S_MAIN_MENU:
+ 177:pk_serialfuncs.c ****             if (last_serial_cmd[0] != 0) {
+ 639              		.loc 1 177 0
+ 640 004c 9F4B     		ldr	r3, .L69
+ 641 004e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 642 0050 002B     		cmp	r3, #0
+ 643 0052 00F03881 		beq	.L44
+ 644              	.LBB7:
+ 178:pk_serialfuncs.c ****                 int cmd = atoi(last_serial_cmd);
+ 645              		.loc 1 178 0
+ 646 0056 9D48     		ldr	r0, .L69
+ 647 0058 FFF7FEFF 		bl	atoi
+ 648              	.LVL61:
+ 179:pk_serialfuncs.c ****                 switch(cmd) {
+ 649              		.loc 1 179 0
+ 650 005c 0446     		mov	r4, r0
+ 651 005e 10B1     		cbz	r0, .L50
+ 652 0060 0128     		cmp	r0, #1
+ 653 0062 0FD0     		beq	.L51
+ 654 0064 18E0     		b	.L67
+ 655              	.L50:
+ 180:pk_serialfuncs.c ****                     // first case is if atoi returned 0
+ 181:pk_serialfuncs.c ****                     // ie letters, etc
+ 182:pk_serialfuncs.c ****                     case INVALID_CMD:
+ 183:pk_serialfuncs.c ****                         serial_inv_cmd();
+ 656              		.loc 1 183 0
+ 657 0066 FFF7FEFF 		bl	serial_inv_cmd
+ 658              	.LVL62:
+ 184:pk_serialfuncs.c ****                         serial_print_menu(main_menu);
+ 659              		.loc 1 184 0
+ 660 006a 994C     		ldr	r4, .L69+4
+ 661              	.LVL63:
+ 662 006c D022     		movs	r2, #208
+ 663 006e 04F11801 		add	r1, r4, #24
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 16
+
+
+ 664 0072 6846     		mov	r0, sp
+ 665 0074 FFF7FEFF 		bl	memcpy
+ 666              	.LVL64:
+ 667 0078 04F10803 		add	r3, r4, #8
+ 668 007c 0FCB     		ldmia	r3, {r0, r1, r2, r3}
+ 669 007e FFF7FEFF 		bl	serial_print_menu
+ 670              	.LVL65:
+ 185:pk_serialfuncs.c ****                     break;
+ 671              		.loc 1 185 0
+ 672 0082 21E0     		b	.L52
+ 673              	.LVL66:
+ 674              	.L51:
+ 186:pk_serialfuncs.c ****                     case S_MAIN_ADD:
+ 187:pk_serialfuncs.c ****                         s_main_state = S_ADD_RECORD;
+ 675              		.loc 1 187 0
+ 676 0084 0222     		movs	r2, #2
+ 677 0086 924B     		ldr	r3, .L69+4
+ 678 0088 5A60     		str	r2, [r3, #4]
+ 188:pk_serialfuncs.c ****                         s_sec_state = ADD_REC_START;
+ 679              		.loc 1 188 0
+ 680 008a 0022     		movs	r2, #0
+ 681 008c 914B     		ldr	r3, .L69+8
+ 682 008e 1A60     		str	r2, [r3]
+ 189:pk_serialfuncs.c ****                         USB_print("\n\rAdd record...");
+ 683              		.loc 1 189 0
+ 684 0090 9148     		ldr	r0, .L69+12
+ 685              	.LVL67:
+ 686 0092 FFF7FEFF 		bl	USB_print
+ 687              	.LVL68:
+ 190:pk_serialfuncs.c ****                     break;
+ 688              		.loc 1 190 0
+ 689 0096 17E0     		b	.L52
+ 690              	.LVL69:
+ 691              	.L67:
+ 692              	.LBB8:
+ 191:pk_serialfuncs.c ****                     default:
+ 192:pk_serialfuncs.c ****                         {
+ 193:pk_serialfuncs.c ****                         USB_print("\n\rGot Command: ");
+ 693              		.loc 1 193 0
+ 694 0098 9048     		ldr	r0, .L69+16
+ 695              	.LVL70:
+ 696 009a FFF7FEFF 		bl	USB_print
+ 697              	.LVL71:
+ 194:pk_serialfuncs.c ****                         char to_send[5];
+ 195:pk_serialfuncs.c ****                         sprintf(to_send, "%d %s", cmd, last_serial_cmd);
+ 698              		.loc 1 195 0
+ 699 009e 8B4B     		ldr	r3, .L69
+ 700 00a0 2246     		mov	r2, r4
+ 701 00a2 8F49     		ldr	r1, .L69+20
+ 702 00a4 35A8     		add	r0, sp, #212
+ 703 00a6 FFF7FEFF 		bl	sprintf
+ 704              	.LVL72:
+ 196:pk_serialfuncs.c ****                         USB_print(to_send);
+ 705              		.loc 1 196 0
+ 706 00aa 35A8     		add	r0, sp, #212
+ 707 00ac FFF7FEFF 		bl	USB_print
+ 708              	.LVL73:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 17
+
+
+ 197:pk_serialfuncs.c ****                         serial_print_menu(main_menu);
+ 709              		.loc 1 197 0
+ 710 00b0 874C     		ldr	r4, .L69+4
+ 711              	.LVL74:
+ 712 00b2 D022     		movs	r2, #208
+ 713 00b4 04F11801 		add	r1, r4, #24
+ 714 00b8 6846     		mov	r0, sp
+ 715 00ba FFF7FEFF 		bl	memcpy
+ 716              	.LVL75:
+ 717 00be 04F10803 		add	r3, r4, #8
+ 718 00c2 0FCB     		ldmia	r3, {r0, r1, r2, r3}
+ 719 00c4 FFF7FEFF 		bl	serial_print_menu
+ 720              	.LVL76:
+ 721              	.L52:
+ 722              	.LBE8:
+ 198:pk_serialfuncs.c ****                         }
+ 199:pk_serialfuncs.c ****                     break;
+ 200:pk_serialfuncs.c ****                 }
+ 201:pk_serialfuncs.c ****                 // always reset last_serial_cmd
+ 202:pk_serialfuncs.c ****                 // after handling an inputted command
+ 203:pk_serialfuncs.c ****                 //last_serial_cmd[0] = 0;
+ 204:pk_serialfuncs.c ****                 clr_last_serial_cmd();
+ 723              		.loc 1 204 0
+ 724 00c8 FFF7FEFF 		bl	clr_last_serial_cmd
+ 725              	.LVL77:
+ 726 00cc FBE0     		b	.L44
+ 727              	.L47:
+ 728              	.LBE7:
+ 205:pk_serialfuncs.c ****             };
+ 206:pk_serialfuncs.c ****         break;
+ 207:pk_serialfuncs.c ****         case S_ADD_RECORD:
+ 208:pk_serialfuncs.c ****             switch(s_sec_state) {
+ 729              		.loc 1 208 0
+ 730 00ce 814B     		ldr	r3, .L69+8
+ 731 00d0 1B68     		ldr	r3, [r3]
+ 732 00d2 052B     		cmp	r3, #5
+ 733 00d4 00F2F780 		bhi	.L44
+ 734 00d8 DFE813F0 		tbh	[pc, r3, lsl #1]
+ 735              	.L54:
+ 736 00dc 0600     		.2byte	(.L53-.L54)/2
+ 737 00de 1B00     		.2byte	(.L55-.L54)/2
+ 738 00e0 3400     		.2byte	(.L56-.L54)/2
+ 739 00e2 5A00     		.2byte	(.L57-.L54)/2
+ 740 00e4 B700     		.2byte	(.L58-.L54)/2
+ 741 00e6 D900     		.2byte	(.L59-.L54)/2
+ 742              		.p2align 1
+ 743              	.L53:
+ 209:pk_serialfuncs.c ****                 case ADD_REC_START:
+ 210:pk_serialfuncs.c ****                     // clear the current record
+ 211:pk_serialfuncs.c ****                     new_record = (Record){"","",""};
+ 744              		.loc 1 211 0
+ 745 00e8 7E4C     		ldr	r4, .L69+24
+ 746 00ea 7F4E     		ldr	r6, .L69+28
+ 747 00ec 04F14007 		add	r7, r4, #64
+ 748              	.L60:
+ 749 00f0 3546     		mov	r5, r6
+ 750 00f2 2068     		ldr	r0, [r4]	@ unaligned
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 18
+
+
+ 751 00f4 6168     		ldr	r1, [r4, #4]	@ unaligned
+ 752 00f6 A268     		ldr	r2, [r4, #8]	@ unaligned
+ 753 00f8 E368     		ldr	r3, [r4, #12]	@ unaligned
+ 754 00fa 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 755 00fc 1034     		adds	r4, r4, #16
+ 756 00fe 2E46     		mov	r6, r5
+ 757 0100 BC42     		cmp	r4, r7
+ 758 0102 F5D1     		bne	.L60
+ 212:pk_serialfuncs.c ****                     USB_print("\n\rEnter Record Title: ");
+ 759              		.loc 1 212 0
+ 760 0104 7948     		ldr	r0, .L69+32
+ 761 0106 FFF7FEFF 		bl	USB_print
+ 762              	.LVL78:
+ 213:pk_serialfuncs.c ****                     s_sec_state = ADD_REC_TITLE;
+ 763              		.loc 1 213 0
+ 764 010a 0122     		movs	r2, #1
+ 765 010c 714B     		ldr	r3, .L69+8
+ 766 010e 1A60     		str	r2, [r3]
+ 214:pk_serialfuncs.c ****                 break;
+ 767              		.loc 1 214 0
+ 768 0110 D9E0     		b	.L44
+ 769              	.L55:
+ 215:pk_serialfuncs.c ****                 case ADD_REC_TITLE:
+ 216:pk_serialfuncs.c ****                     // once something has been entered
+ 217:pk_serialfuncs.c ****                     if (last_serial_cmd[0] != 0) {
+ 770              		.loc 1 217 0
+ 771 0112 6E4B     		ldr	r3, .L69
+ 772 0114 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 773 0116 002B     		cmp	r3, #0
+ 774 0118 00F0D580 		beq	.L44
+ 218:pk_serialfuncs.c ****                         // update curr record with title
+ 219:pk_serialfuncs.c ****                         strcpy(new_record.title, last_serial_cmd);
+ 775              		.loc 1 219 0
+ 776 011c 6D4C     		ldr	r4, .L69+8
+ 777 011e 251D     		adds	r5, r4, #4
+ 778 0120 6A49     		ldr	r1, .L69
+ 779 0122 2846     		mov	r0, r5
+ 780 0124 FFF7FEFF 		bl	strcpy
+ 781              	.LVL79:
+ 220:pk_serialfuncs.c ****                         clr_last_serial_cmd();
+ 782              		.loc 1 220 0
+ 783 0128 FFF7FEFF 		bl	clr_last_serial_cmd
+ 784              	.LVL80:
+ 221:pk_serialfuncs.c ****                         // set up for username entry
+ 222:pk_serialfuncs.c ****                         USB_print("\n\rEnter username for ");
+ 785              		.loc 1 222 0
+ 786 012c 7048     		ldr	r0, .L69+36
+ 787 012e FFF7FEFF 		bl	USB_print
+ 788              	.LVL81:
+ 223:pk_serialfuncs.c ****                         USB_print(new_record.title);
+ 789              		.loc 1 223 0
+ 790 0132 2846     		mov	r0, r5
+ 791 0134 FFF7FEFF 		bl	USB_print
+ 792              	.LVL82:
+ 224:pk_serialfuncs.c ****                         USB_print(": ");
+ 793              		.loc 1 224 0
+ 794 0138 6E48     		ldr	r0, .L69+40
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 19
+
+
+ 795 013a FFF7FEFF 		bl	USB_print
+ 796              	.LVL83:
+ 225:pk_serialfuncs.c ****                         s_sec_state = ADD_REC_UNAME;
+ 797              		.loc 1 225 0
+ 798 013e 0223     		movs	r3, #2
+ 799 0140 2360     		str	r3, [r4]
+ 800 0142 C0E0     		b	.L44
+ 801              	.L56:
+ 226:pk_serialfuncs.c ****                     }
+ 227:pk_serialfuncs.c ****                 break;
+ 228:pk_serialfuncs.c ****                 case ADD_REC_UNAME:
+ 229:pk_serialfuncs.c ****                     // once a title has been entered
+ 230:pk_serialfuncs.c ****                     if (last_serial_cmd[0] != 0) {
+ 802              		.loc 1 230 0
+ 803 0144 614B     		ldr	r3, .L69
+ 804 0146 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 805 0148 002B     		cmp	r3, #0
+ 806 014a 00F0BC80 		beq	.L44
+ 231:pk_serialfuncs.c ****                         // update curr record with username
+ 232:pk_serialfuncs.c ****                         strcpy(new_record.username, last_serial_cmd);
+ 807              		.loc 1 232 0
+ 808 014e 614D     		ldr	r5, .L69+8
+ 809 0150 05F10E04 		add	r4, r5, #14
+ 810 0154 5D49     		ldr	r1, .L69
+ 811 0156 2046     		mov	r0, r4
+ 812 0158 FFF7FEFF 		bl	strcpy
+ 813              	.LVL84:
+ 233:pk_serialfuncs.c ****                         clr_last_serial_cmd();
+ 814              		.loc 1 233 0
+ 815 015c FFF7FEFF 		bl	clr_last_serial_cmd
+ 816              	.LVL85:
+ 234:pk_serialfuncs.c ****                         // set up for pw entry
+ 235:pk_serialfuncs.c ****                         USB_print("\n\rPassword for user ");
+ 817              		.loc 1 235 0
+ 818 0160 6548     		ldr	r0, .L69+44
+ 819 0162 FFF7FEFF 		bl	USB_print
+ 820              	.LVL86:
+ 236:pk_serialfuncs.c ****                         USB_print(new_record.username);
+ 821              		.loc 1 236 0
+ 822 0166 2046     		mov	r0, r4
+ 823 0168 FFF7FEFF 		bl	USB_print
+ 824              	.LVL87:
+ 237:pk_serialfuncs.c ****                         USB_print(": ");
+ 825              		.loc 1 237 0
+ 826 016c 6148     		ldr	r0, .L69+40
+ 827 016e FFF7FEFF 		bl	USB_print
+ 828              	.LVL88:
+ 238:pk_serialfuncs.c ****                         serial_print_menu(pass_menu);
+ 829              		.loc 1 238 0
+ 830 0172 574C     		ldr	r4, .L69+4
+ 831 0174 D022     		movs	r2, #208
+ 832 0176 04F1F801 		add	r1, r4, #248
+ 833 017a 6846     		mov	r0, sp
+ 834 017c FFF7FEFF 		bl	memcpy
+ 835              	.LVL89:
+ 836 0180 04F1E803 		add	r3, r4, #232
+ 837 0184 0FCB     		ldmia	r3, {r0, r1, r2, r3}
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 20
+
+
+ 838 0186 FFF7FEFF 		bl	serial_print_menu
+ 839              	.LVL90:
+ 239:pk_serialfuncs.c ****                         s_sec_state = ADD_REC_PASS_MENU;
+ 840              		.loc 1 239 0
+ 841 018a 0323     		movs	r3, #3
+ 842 018c 2B60     		str	r3, [r5]
+ 843 018e 9AE0     		b	.L44
+ 844              	.L57:
+ 240:pk_serialfuncs.c ****                     }
+ 241:pk_serialfuncs.c ****                 break;
+ 242:pk_serialfuncs.c ****                 case ADD_REC_PASS_MENU:
+ 243:pk_serialfuncs.c ****                     if (last_serial_cmd[0] != 0) {
+ 845              		.loc 1 243 0
+ 846 0190 4E4B     		ldr	r3, .L69
+ 847 0192 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 848 0194 002B     		cmp	r3, #0
+ 849 0196 00F09680 		beq	.L44
+ 850              	.LBB9:
+ 244:pk_serialfuncs.c ****                         // listen for menu entry
+ 245:pk_serialfuncs.c ****                         int cmd = atoi(last_serial_cmd);
+ 851              		.loc 1 245 0
+ 852 019a 4C48     		ldr	r0, .L69
+ 853 019c FFF7FEFF 		bl	atoi
+ 854              	.LVL91:
+ 246:pk_serialfuncs.c ****                         switch(cmd) {
+ 855              		.loc 1 246 0
+ 856 01a0 0128     		cmp	r0, #1
+ 857 01a2 12D0     		beq	.L62
+ 858 01a4 0228     		cmp	r0, #2
+ 859 01a6 1ED0     		beq	.L63
+ 860 01a8 0028     		cmp	r0, #0
+ 861 01aa 4BD1     		bne	.L61
+ 247:pk_serialfuncs.c ****                             // first case is if atoi returned 0
+ 248:pk_serialfuncs.c ****                             // ie letters, etc
+ 249:pk_serialfuncs.c ****                             case INVALID_CMD:
+ 250:pk_serialfuncs.c ****                                 serial_inv_cmd();
+ 862              		.loc 1 250 0
+ 863 01ac FFF7FEFF 		bl	serial_inv_cmd
+ 864              	.LVL92:
+ 251:pk_serialfuncs.c ****                                 serial_print_menu(pass_menu);
+ 865              		.loc 1 251 0
+ 866 01b0 474C     		ldr	r4, .L69+4
+ 867 01b2 D022     		movs	r2, #208
+ 868 01b4 04F1F801 		add	r1, r4, #248
+ 869 01b8 6846     		mov	r0, sp
+ 870 01ba FFF7FEFF 		bl	memcpy
+ 871              	.LVL93:
+ 872 01be 04F1E803 		add	r3, r4, #232
+ 873 01c2 0FCB     		ldmia	r3, {r0, r1, r2, r3}
+ 874 01c4 FFF7FEFF 		bl	serial_print_menu
+ 875              	.LVL94:
+ 252:pk_serialfuncs.c ****                             break;
+ 876              		.loc 1 252 0
+ 877 01c8 3CE0     		b	.L61
+ 878              	.LVL95:
+ 879              	.L62:
+ 253:pk_serialfuncs.c ****                             case PASS_MENU_ENTER:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 21
+
+
+ 254:pk_serialfuncs.c ****                                 USB_print("\n\rEnter Password for user ");
+ 880              		.loc 1 254 0
+ 881 01ca 4C48     		ldr	r0, .L69+48
+ 882              	.LVL96:
+ 883 01cc FFF7FEFF 		bl	USB_print
+ 884              	.LVL97:
+ 255:pk_serialfuncs.c ****                                 USB_print(new_record.username);
+ 885              		.loc 1 255 0
+ 886 01d0 404C     		ldr	r4, .L69+8
+ 887 01d2 04F10E00 		add	r0, r4, #14
+ 888 01d6 FFF7FEFF 		bl	USB_print
+ 889              	.LVL98:
+ 256:pk_serialfuncs.c ****                                 USB_print(": ");
+ 890              		.loc 1 256 0
+ 891 01da 4648     		ldr	r0, .L69+40
+ 892 01dc FFF7FEFF 		bl	USB_print
+ 893              	.LVL99:
+ 257:pk_serialfuncs.c ****                                 s_sec_state = ADD_REC_PASS_ENTRY;
+ 894              		.loc 1 257 0
+ 895 01e0 0423     		movs	r3, #4
+ 896 01e2 2360     		str	r3, [r4]
+ 258:pk_serialfuncs.c ****                             break;
+ 897              		.loc 1 258 0
+ 898 01e4 2EE0     		b	.L61
+ 899              	.LVL100:
+ 900              	.L63:
+ 901              	.LBB10:
+ 259:pk_serialfuncs.c ****                             case PASS_MENU_GEN:
+ 260:pk_serialfuncs.c ****                                 {
+ 261:pk_serialfuncs.c ****                                 USB_print("\n\rGenerating password! ");
+ 902              		.loc 1 261 0
+ 903 01e6 4648     		ldr	r0, .L69+52
+ 904              	.LVL101:
+ 905 01e8 FFF7FEFF 		bl	USB_print
+ 906              	.LVL102:
+ 262:pk_serialfuncs.c ****                                 
+ 263:pk_serialfuncs.c ****                                 // generate password
+ 264:pk_serialfuncs.c ****                                 char pass[17];
+ 265:pk_serialfuncs.c ****                                 generate_password(pass);
+ 907              		.loc 1 265 0
+ 908 01ec 35A8     		add	r0, sp, #212
+ 909 01ee FFF7FEFF 		bl	generate_password
+ 910              	.LVL103:
+ 266:pk_serialfuncs.c ****                                 strcpy(new_record.password, pass);
+ 911              		.loc 1 266 0
+ 912 01f2 384E     		ldr	r6, .L69+8
+ 913 01f4 371D     		adds	r7, r6, #4
+ 914 01f6 06F13104 		add	r4, r6, #49
+ 915 01fa 35A9     		add	r1, sp, #212
+ 916 01fc 2046     		mov	r0, r4
+ 917 01fe FFF7FEFF 		bl	strcpy
+ 918              	.LVL104:
+ 267:pk_serialfuncs.c ****                                 USB_print("\n\rGenerated Password for user ");
+ 919              		.loc 1 267 0
+ 920 0202 4048     		ldr	r0, .L69+56
+ 921 0204 FFF7FEFF 		bl	USB_print
+ 922              	.LVL105:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 22
+
+
+ 268:pk_serialfuncs.c ****                                 USB_print(new_record.username);
+ 923              		.loc 1 268 0
+ 924 0208 06F10E00 		add	r0, r6, #14
+ 925 020c FFF7FEFF 		bl	USB_print
+ 926              	.LVL106:
+ 269:pk_serialfuncs.c ****                                 USB_print(": ");
+ 927              		.loc 1 269 0
+ 928 0210 3848     		ldr	r0, .L69+40
+ 929 0212 FFF7FEFF 		bl	USB_print
+ 930              	.LVL107:
+ 270:pk_serialfuncs.c ****                                 USB_print(new_record.password);
+ 931              		.loc 1 270 0
+ 932 0216 2046     		mov	r0, r4
+ 933 0218 FFF7FEFF 		bl	USB_print
+ 934              	.LVL108:
+ 271:pk_serialfuncs.c ****                                 serial_print_record(new_record);
+ 935              		.loc 1 271 0
+ 936 021c 6C46     		mov	r4, sp
+ 937 021e 06F11405 		add	r5, r6, #20
+ 938 0222 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 939 0224 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 940 0226 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 941 0228 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 942 022a 95E80F00 		ldmia	r5, {r0, r1, r2, r3}
+ 943 022e 84E80F00 		stmia	r4, {r0, r1, r2, r3}
+ 944 0232 97E80F00 		ldmia	r7, {r0, r1, r2, r3}
+ 945 0236 FFF7FEFF 		bl	serial_print_record
+ 946              	.LVL109:
+ 272:pk_serialfuncs.c ****                                 USB_print("\n\r\n\rEnter 'y' to confirm, anything else to cancel.")
+ 947              		.loc 1 272 0
+ 948 023a 3348     		ldr	r0, .L69+60
+ 949 023c FFF7FEFF 		bl	USB_print
+ 950              	.LVL110:
+ 273:pk_serialfuncs.c ****                                 s_sec_state = ADD_REC_CONFIRM;
+ 951              		.loc 1 273 0
+ 952 0240 0523     		movs	r3, #5
+ 953 0242 3360     		str	r3, [r6]
+ 954              	.L61:
+ 955              	.LBE10:
+ 274:pk_serialfuncs.c ****                                 }
+ 275:pk_serialfuncs.c ****                             break;
+ 276:pk_serialfuncs.c ****                         }
+ 277:pk_serialfuncs.c ****                         clr_last_serial_cmd();
+ 956              		.loc 1 277 0
+ 957 0244 FFF7FEFF 		bl	clr_last_serial_cmd
+ 958              	.LVL111:
+ 959 0248 3DE0     		b	.L44
+ 960              	.L58:
+ 961              	.LBE9:
+ 278:pk_serialfuncs.c ****                     }
+ 279:pk_serialfuncs.c ****                 break;
+ 280:pk_serialfuncs.c ****                 case ADD_REC_PASS_ENTRY:
+ 281:pk_serialfuncs.c ****                     // password entry option, password entered
+ 282:pk_serialfuncs.c ****                     if (last_serial_cmd[0] != 0) {
+ 962              		.loc 1 282 0
+ 963 024a 204B     		ldr	r3, .L69
+ 964 024c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 23
+
+
+ 965 024e 002B     		cmp	r3, #0
+ 966 0250 39D0     		beq	.L44
+ 283:pk_serialfuncs.c ****                         // update curr record with username
+ 284:pk_serialfuncs.c ****                         strcpy(new_record.password, last_serial_cmd);
+ 967              		.loc 1 284 0
+ 968 0252 204E     		ldr	r6, .L69+8
+ 969 0254 371D     		adds	r7, r6, #4
+ 970 0256 1D49     		ldr	r1, .L69
+ 971 0258 06F13100 		add	r0, r6, #49
+ 972 025c FFF7FEFF 		bl	strcpy
+ 973              	.LVL112:
+ 285:pk_serialfuncs.c ****                         clr_last_serial_cmd();
+ 974              		.loc 1 285 0
+ 975 0260 FFF7FEFF 		bl	clr_last_serial_cmd
+ 976              	.LVL113:
+ 286:pk_serialfuncs.c ****                         // echo full record and prompt user to confirm
+ 287:pk_serialfuncs.c ****                         serial_print_record(new_record);
+ 977              		.loc 1 287 0
+ 978 0264 6C46     		mov	r4, sp
+ 979 0266 06F11405 		add	r5, r6, #20
+ 980 026a 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 981 026c 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 982 026e 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 983 0270 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 984 0272 95E80F00 		ldmia	r5, {r0, r1, r2, r3}
+ 985 0276 84E80F00 		stmia	r4, {r0, r1, r2, r3}
+ 986 027a 97E80F00 		ldmia	r7, {r0, r1, r2, r3}
+ 987 027e FFF7FEFF 		bl	serial_print_record
+ 988              	.LVL114:
+ 288:pk_serialfuncs.c ****                         USB_print("\n\r\n\rEnter 'y' to confirm, anything else to cancel.");
+ 989              		.loc 1 288 0
+ 990 0282 2148     		ldr	r0, .L69+60
+ 991 0284 FFF7FEFF 		bl	USB_print
+ 992              	.LVL115:
+ 289:pk_serialfuncs.c ****                         s_sec_state = ADD_REC_CONFIRM;
+ 993              		.loc 1 289 0
+ 994 0288 0523     		movs	r3, #5
+ 995 028a 3360     		str	r3, [r6]
+ 996 028c 1BE0     		b	.L44
+ 997              	.L59:
+ 290:pk_serialfuncs.c ****                     }
+ 291:pk_serialfuncs.c ****                 break;
+ 292:pk_serialfuncs.c ****                 case ADD_REC_CONFIRM:
+ 293:pk_serialfuncs.c ****                     // once a password is entered, confirm
+ 294:pk_serialfuncs.c ****                     if (last_serial_cmd[0] != 0) {
+ 998              		.loc 1 294 0
+ 999 028e 0F4B     		ldr	r3, .L69
+ 1000 0290 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1001 0292 C3B1     		cbz	r3, .L44
+ 295:pk_serialfuncs.c ****                         if (last_serial_cmd[0] == 'y') {
+ 1002              		.loc 1 295 0
+ 1003 0294 792B     		cmp	r3, #121
+ 1004 0296 03D1     		bne	.L65
+ 296:pk_serialfuncs.c ****                             // new_record should be complete
+ 297:pk_serialfuncs.c ****                             // save the new record to sd
+ 298:pk_serialfuncs.c ****                             SD_addRecord(&new_record);
+ 1005              		.loc 1 298 0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 24
+
+
+ 1006 0298 1348     		ldr	r0, .L69+28
+ 1007 029a FFF7FEFF 		bl	SD_addRecord
+ 1008              	.LVL116:
+ 1009 029e 02E0     		b	.L66
+ 1010              	.L65:
+ 299:pk_serialfuncs.c ****                         } else {
+ 300:pk_serialfuncs.c ****                             USB_print("\n\rCancelling!");
+ 1011              		.loc 1 300 0
+ 1012 02a0 1A48     		ldr	r0, .L69+64
+ 1013 02a2 FFF7FEFF 		bl	USB_print
+ 1014              	.LVL117:
+ 1015              	.L66:
+ 301:pk_serialfuncs.c ****                         }
+ 302:pk_serialfuncs.c ****                         clr_last_serial_cmd();
+ 1016              		.loc 1 302 0
+ 1017 02a6 FFF7FEFF 		bl	clr_last_serial_cmd
+ 1018              	.LVL118:
+ 303:pk_serialfuncs.c ****                         s_main_state = S_MAIN_MENU;
+ 1019              		.loc 1 303 0
+ 1020 02aa 094C     		ldr	r4, .L69+4
+ 1021 02ac 0123     		movs	r3, #1
+ 1022 02ae 6360     		str	r3, [r4, #4]
+ 304:pk_serialfuncs.c ****                         serial_print_menu(main_menu);
+ 1023              		.loc 1 304 0
+ 1024 02b0 D022     		movs	r2, #208
+ 1025 02b2 04F11801 		add	r1, r4, #24
+ 1026 02b6 6846     		mov	r0, sp
+ 1027 02b8 FFF7FEFF 		bl	memcpy
+ 1028              	.LVL119:
+ 1029 02bc 04F10803 		add	r3, r4, #8
+ 1030 02c0 0FCB     		ldmia	r3, {r0, r1, r2, r3}
+ 1031 02c2 FFF7FEFF 		bl	serial_print_menu
+ 1032              	.LVL120:
+ 1033              	.L44:
+ 305:pk_serialfuncs.c ****                     }
+ 306:pk_serialfuncs.c ****                 break;
+ 307:pk_serialfuncs.c ****             }
+ 308:pk_serialfuncs.c ****         break;
+ 309:pk_serialfuncs.c ****     }
+ 310:pk_serialfuncs.c **** }
+ 1034              		.loc 1 310 0
+ 1035 02c6 3BB0     		add	sp, sp, #236
+ 1036              		.cfi_def_cfa_offset 20
+ 1037              		@ sp needed
+ 1038 02c8 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 1039              	.L70:
+ 1040 02ca 00BF     		.align	2
+ 1041              	.L69:
+ 1042 02cc 00000000 		.word	last_serial_cmd
+ 1043 02d0 00000000 		.word	.LANCHOR0
+ 1044 02d4 00000000 		.word	.LANCHOR1
+ 1045 02d8 B8000000 		.word	.LC13
+ 1046 02dc C8000000 		.word	.LC14
+ 1047 02e0 D8000000 		.word	.LC15
+ 1048 02e4 00000000 		.word	.LANCHOR2
+ 1049 02e8 04000000 		.word	.LANCHOR1+4
+ 1050 02ec E0000000 		.word	.LC16
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 25
+
+
+ 1051 02f0 F8000000 		.word	.LC17
+ 1052 02f4 10010000 		.word	.LC18
+ 1053 02f8 14010000 		.word	.LC19
+ 1054 02fc 2C010000 		.word	.LC20
+ 1055 0300 48010000 		.word	.LC21
+ 1056 0304 60010000 		.word	.LC22
+ 1057 0308 80010000 		.word	.LC23
+ 1058 030c B4010000 		.word	.LC24
+ 1059              		.cfi_endproc
+ 1060              	.LFE73:
+ 1061              		.size	serial_fsm, .-serial_fsm
+ 1062              		.global	pass_menu
+ 1063              		.global	main_menu
+ 1064              		.global	last_serial_cmd_length
+ 1065              		.comm	last_serial_cmd,30,4
+ 1066              		.comm	rx_buff_length,4,4
+ 1067              		.comm	rx_buffer,30,4
+ 1068              		.comm	ascii_to_hid,768,4
+ 1069              		.comm	KB_Data,8,4
+ 1070              		.comm	KB_Initialized,1,1
+ 1071              		.comm	pFile,4,4
+ 1072              		.comm	sdVolName,10,4
+ 1073              		.comm	sdFile,9,4
+ 1074              		.global	s_sec_state
+ 1075              		.global	s_main_state
+ 1076              		.global	new_record
+ 1077              		.comm	record_size,4,4
+ 1078              		.section	.rodata
+ 1079              		.align	2
+ 1080              		.set	.LANCHOR2,. + 0
+ 1081              	.LC0:
+ 1082 0000 00       		.ascii	"\000"
+ 1083 0001 00000000 		.space	9
+ 1083      00000000 
+ 1083      00
+ 1084 000a 00       		.ascii	"\000"
+ 1085 000b 00000000 		.space	34
+ 1085      00000000 
+ 1085      00000000 
+ 1085      00000000 
+ 1085      00000000 
+ 1086 002d 00       		.ascii	"\000"
+ 1087 002e 00000000 		.space	18
+ 1087      00000000 
+ 1087      00000000 
+ 1087      00000000 
+ 1087      0000
+ 1088              		.data
+ 1089              		.align	2
+ 1090              		.set	.LANCHOR0,. + 0
+ 1091              		.type	last_serial_cmd_length, %object
+ 1092              		.size	last_serial_cmd_length, 4
+ 1093              	last_serial_cmd_length:
+ 1094 0000 1E000000 		.word	30
+ 1095              		.type	s_main_state, %object
+ 1096              		.size	s_main_state, 4
+ 1097              	s_main_state:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 26
+
+
+ 1098 0004 01000000 		.word	1
+ 1099              		.type	main_menu, %object
+ 1100              		.size	main_menu, 224
+ 1101              	main_menu:
+ 1102 0008 03000000 		.word	3
+ 1103 000c 4D61696E 		.ascii	"Main Menu\000"
+ 1103      204D656E 
+ 1103      7500
+ 1104 0016 00000000 		.space	10
+ 1104      00000000 
+ 1104      0000
+ 1105 0020 41646420 		.ascii	"Add new record\000"
+ 1105      6E657720 
+ 1105      7265636F 
+ 1105      726400
+ 1106 002f 00000000 		.space	5
+ 1106      00
+ 1107 0034 56696577 		.ascii	"View all records\000"
+ 1107      20616C6C 
+ 1107      20726563 
+ 1107      6F726473 
+ 1107      00
+ 1108 0045 000000   		.space	3
+ 1109 0048 47656E65 		.ascii	"Generate Password\000"
+ 1109      72617465 
+ 1109      20506173 
+ 1109      73776F72 
+ 1109      6400
+ 1110 005a 0000     		.space	2
+ 1111 005c 00000000 		.space	140
+ 1111      00000000 
+ 1111      00000000 
+ 1111      00000000 
+ 1111      00000000 
+ 1112              		.type	pass_menu, %object
+ 1113              		.size	pass_menu, 224
+ 1114              	pass_menu:
+ 1115 00e8 02000000 		.word	2
+ 1116 00ec 50617373 		.ascii	"Password Menu\000"
+ 1116      776F7264 
+ 1116      204D656E 
+ 1116      7500
+ 1117 00fa 00000000 		.space	6
+ 1117      0000
+ 1118 0100 456E7465 		.ascii	"Enter Password\000"
+ 1118      72205061 
+ 1118      7373776F 
+ 1118      726400
+ 1119 010f 00000000 		.space	5
+ 1119      00
+ 1120 0114 47656E65 		.ascii	"Generate Password\000"
+ 1120      72617465 
+ 1120      20506173 
+ 1120      73776F72 
+ 1120      6400
+ 1121 0126 0000     		.space	2
+ 1122 0128 00000000 		.space	160
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 27
+
+
+ 1122      00000000 
+ 1122      00000000 
+ 1122      00000000 
+ 1122      00000000 
+ 1123              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 1124              		.align	2
+ 1125              	.LC1:
+ 1126 0000 0A0D00   		.ascii	"\012\015\000"
+ 1127 0003 00       		.space	1
+ 1128              	.LC2:
+ 1129 0004 3A0A0D00 		.ascii	":\012\015\000"
+ 1130              	.LC3:
+ 1131 0008 2E2000   		.ascii	". \000"
+ 1132 000b 00       		.space	1
+ 1133              	.LC4:
+ 1134 000c 0A0D456E 		.ascii	"\012\015Enter the choice you want: \000"
+ 1134      74657220 
+ 1134      74686520 
+ 1134      63686F69 
+ 1134      63652079 
+ 1135 002a 0000     		.space	2
+ 1136              	.LC5:
+ 1137 002c 0A0D0A0D 		.ascii	"\012\015\012\015   \000"
+ 1137      20202000 
+ 1138              	.LC6:
+ 1139 0034 0A0D2020 		.ascii	"\012\015   * Title: \000"
+ 1139      202A2054 
+ 1139      69746C65 
+ 1139      3A2000
+ 1140 0043 00       		.space	1
+ 1141              	.LC7:
+ 1142 0044 0A0D2020 		.ascii	"\012\015   * Username: \000"
+ 1142      202A2055 
+ 1142      7365726E 
+ 1142      616D653A 
+ 1142      2000
+ 1143 0056 0000     		.space	2
+ 1144              	.LC8:
+ 1145 0058 0A0D2020 		.ascii	"\012\015   * Password: \000"
+ 1145      202A2050 
+ 1145      61737377 
+ 1145      6F72643A 
+ 1145      2000
+ 1146 006a 0000     		.space	2
+ 1147              	.LC9:
+ 1148 006c 0A0D2020 		.ascii	"\012\015   \000"
+ 1148      2000
+ 1149 0072 0000     		.space	2
+ 1150              	.LC10:
+ 1151 0074 0A0D496E 		.ascii	"\012\015Invalid Command!\000"
+ 1151      76616C69 
+ 1151      6420436F 
+ 1151      6D6D616E 
+ 1151      642100
+ 1152 0087 00       		.space	1
+ 1153              	.LC11:
+ 1154 0088 0A0D6461 		.ascii	"\012\015datetime: \000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 28
+
+
+ 1154      74657469 
+ 1154      6D653A20 
+ 1154      00
+ 1155 0095 000000   		.space	3
+ 1156              	.LC12:
+ 1157 0098 25642D25 		.ascii	"%d-%d-%d %d:%d:%2.0d unix: %d\000"
+ 1157      642D2564 
+ 1157      2025643A 
+ 1157      25643A25 
+ 1157      322E3064 
+ 1158 00b6 0000     		.space	2
+ 1159              	.LC13:
+ 1160 00b8 0A0D4164 		.ascii	"\012\015Add record...\000"
+ 1160      64207265 
+ 1160      636F7264 
+ 1160      2E2E2E00 
+ 1161              	.LC14:
+ 1162 00c8 0A0D476F 		.ascii	"\012\015Got Command: \000"
+ 1162      7420436F 
+ 1162      6D6D616E 
+ 1162      643A2000 
+ 1163              	.LC15:
+ 1164 00d8 25642025 		.ascii	"%d %s\000"
+ 1164      7300
+ 1165 00de 0000     		.space	2
+ 1166              	.LC16:
+ 1167 00e0 0A0D456E 		.ascii	"\012\015Enter Record Title: \000"
+ 1167      74657220 
+ 1167      5265636F 
+ 1167      72642054 
+ 1167      69746C65 
+ 1168 00f7 00       		.space	1
+ 1169              	.LC17:
+ 1170 00f8 0A0D456E 		.ascii	"\012\015Enter username for \000"
+ 1170      74657220 
+ 1170      75736572 
+ 1170      6E616D65 
+ 1170      20666F72 
+ 1171 010e 0000     		.space	2
+ 1172              	.LC18:
+ 1173 0110 3A2000   		.ascii	": \000"
+ 1174 0113 00       		.space	1
+ 1175              	.LC19:
+ 1176 0114 0A0D5061 		.ascii	"\012\015Password for user \000"
+ 1176      7373776F 
+ 1176      72642066 
+ 1176      6F722075 
+ 1176      73657220 
+ 1177 0129 000000   		.space	3
+ 1178              	.LC20:
+ 1179 012c 0A0D456E 		.ascii	"\012\015Enter Password for user \000"
+ 1179      74657220 
+ 1179      50617373 
+ 1179      776F7264 
+ 1179      20666F72 
+ 1180 0147 00       		.space	1
+ 1181              	.LC21:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 29
+
+
+ 1182 0148 0A0D4765 		.ascii	"\012\015Generating password! \000"
+ 1182      6E657261 
+ 1182      74696E67 
+ 1182      20706173 
+ 1182      73776F72 
+ 1183              	.LC22:
+ 1184 0160 0A0D4765 		.ascii	"\012\015Generated Password for user \000"
+ 1184      6E657261 
+ 1184      74656420 
+ 1184      50617373 
+ 1184      776F7264 
+ 1185 017f 00       		.space	1
+ 1186              	.LC23:
+ 1187 0180 0A0D0A0D 		.ascii	"\012\015\012\015Enter 'y' to confirm, anything else"
+ 1187      456E7465 
+ 1187      72202779 
+ 1187      2720746F 
+ 1187      20636F6E 
+ 1188 01a7 20746F20 		.ascii	" to cancel.\000"
+ 1188      63616E63 
+ 1188      656C2E00 
+ 1189 01b3 00       		.space	1
+ 1190              	.LC24:
+ 1191 01b4 0A0D4361 		.ascii	"\012\015Cancelling!\000"
+ 1191      6E63656C 
+ 1191      6C696E67 
+ 1191      2100
+ 1192              		.bss
+ 1193              		.align	2
+ 1194              		.set	.LANCHOR1,. + 0
+ 1195              		.type	s_sec_state, %object
+ 1196              		.size	s_sec_state, 4
+ 1197              	s_sec_state:
+ 1198 0000 00000000 		.space	4
+ 1199              		.type	new_record, %object
+ 1200              		.size	new_record, 64
+ 1201              	new_record:
+ 1202 0004 00000000 		.space	64
+ 1202      00000000 
+ 1202      00000000 
+ 1202      00000000 
+ 1202      00000000 
+ 1203              		.text
+ 1204              	.Letext0:
+ 1205              		.file 2 "./pk_record.h"
+ 1206              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1207              		.file 4 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1208              		.file 5 "Generated_Source\\PSoC5/cytypes.h"
+ 1209              		.file 6 "..\\..\\..\\..\\..\\..\\development\\hardware\\DS3231-PSoC/ds3231.h"
+ 1210              		.file 7 "./pk_serialfuncs.h"
+ 1211              		.file 8 "..\\emFile_V322c\\Code\\Include\\PSoC5/FS_Types.h"
+ 1212              		.file 9 "./pk_usb.h"
+ 1213              		.file 10 "Generated_Source\\PSoC5/core_cm3.h"
+ 1214              		.file 11 "./pk_sdrecorddb.h"
+ 1215              		.file 12 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4
+ 1216              		.file 13 "Generated_Source\\PSoC5/PRS.h"
+ 1217              		.file 14 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 30
+
+
+ 1218              		.file 15 "Generated_Source\\PSoC5/UART_1.h"
+ 1219              		.file 16 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4
+ 1220              		.file 17 "Generated_Source\\PSoC5/LED.h"
+ 1221              		.section	.debug_info,"",%progbits
+ 1222              	.Ldebug_info0:
+ 1223 0000 480E0000 		.4byte	0xe48
+ 1224 0004 0400     		.2byte	0x4
+ 1225 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1226 000a 04       		.byte	0x4
+ 1227 000b 01       		.uleb128 0x1
+ 1228 000c ED030000 		.4byte	.LASF90
+ 1229 0010 0C       		.byte	0xc
+ 1230 0011 80000000 		.4byte	.LASF91
+ 1231 0015 C3000000 		.4byte	.LASF92
+ 1232 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1233 001d 00000000 		.4byte	0
+ 1234 0021 00000000 		.4byte	.Ldebug_line0
+ 1235 0025 02       		.uleb128 0x2
+ 1236 0026 40       		.byte	0x40
+ 1237 0027 02       		.byte	0x2
+ 1238 0028 0C       		.byte	0xc
+ 1239 0029 52000000 		.4byte	0x52
+ 1240 002d 03       		.uleb128 0x3
+ 1241 002e BD000000 		.4byte	.LASF0
+ 1242 0032 02       		.byte	0x2
+ 1243 0033 0D       		.byte	0xd
+ 1244 0034 52000000 		.4byte	0x52
+ 1245 0038 00       		.byte	0
+ 1246 0039 03       		.uleb128 0x3
+ 1247 003a 81030000 		.4byte	.LASF1
+ 1248 003e 02       		.byte	0x2
+ 1249 003f 0E       		.byte	0xe
+ 1250 0040 70000000 		.4byte	0x70
+ 1251 0044 0A       		.byte	0xa
+ 1252 0045 03       		.uleb128 0x3
+ 1253 0046 77000000 		.4byte	.LASF2
+ 1254 004a 02       		.byte	0x2
+ 1255 004b 0F       		.byte	0xf
+ 1256 004c 80000000 		.4byte	0x80
+ 1257 0050 2D       		.byte	0x2d
+ 1258 0051 00       		.byte	0
+ 1259 0052 04       		.uleb128 0x4
+ 1260 0053 69000000 		.4byte	0x69
+ 1261 0057 62000000 		.4byte	0x62
+ 1262 005b 05       		.uleb128 0x5
+ 1263 005c 62000000 		.4byte	0x62
+ 1264 0060 09       		.byte	0x9
+ 1265 0061 00       		.byte	0
+ 1266 0062 06       		.uleb128 0x6
+ 1267 0063 04       		.byte	0x4
+ 1268 0064 07       		.byte	0x7
+ 1269 0065 49000000 		.4byte	.LASF3
+ 1270 0069 06       		.uleb128 0x6
+ 1271 006a 01       		.byte	0x1
+ 1272 006b 08       		.byte	0x8
+ 1273 006c 77020000 		.4byte	.LASF4
+ 1274 0070 04       		.uleb128 0x4
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 31
+
+
+ 1275 0071 69000000 		.4byte	0x69
+ 1276 0075 80000000 		.4byte	0x80
+ 1277 0079 05       		.uleb128 0x5
+ 1278 007a 62000000 		.4byte	0x62
+ 1279 007e 22       		.byte	0x22
+ 1280 007f 00       		.byte	0
+ 1281 0080 04       		.uleb128 0x4
+ 1282 0081 69000000 		.4byte	0x69
+ 1283 0085 90000000 		.4byte	0x90
+ 1284 0089 05       		.uleb128 0x5
+ 1285 008a 62000000 		.4byte	0x62
+ 1286 008e 12       		.byte	0x12
+ 1287 008f 00       		.byte	0
+ 1288 0090 07       		.uleb128 0x7
+ 1289 0091 52010000 		.4byte	.LASF6
+ 1290 0095 02       		.byte	0x2
+ 1291 0096 10       		.byte	0x10
+ 1292 0097 25000000 		.4byte	0x25
+ 1293 009b 06       		.uleb128 0x6
+ 1294 009c 01       		.byte	0x1
+ 1295 009d 06       		.byte	0x6
+ 1296 009e 0D020000 		.4byte	.LASF5
+ 1297 00a2 07       		.uleb128 0x7
+ 1298 00a3 8F010000 		.4byte	.LASF7
+ 1299 00a7 03       		.byte	0x3
+ 1300 00a8 1D       		.byte	0x1d
+ 1301 00a9 AD000000 		.4byte	0xad
+ 1302 00ad 06       		.uleb128 0x6
+ 1303 00ae 01       		.byte	0x1
+ 1304 00af 08       		.byte	0x8
+ 1305 00b0 E1010000 		.4byte	.LASF8
+ 1306 00b4 06       		.uleb128 0x6
+ 1307 00b5 02       		.byte	0x2
+ 1308 00b6 05       		.byte	0x5
+ 1309 00b7 38000000 		.4byte	.LASF9
+ 1310 00bb 06       		.uleb128 0x6
+ 1311 00bc 02       		.byte	0x2
+ 1312 00bd 07       		.byte	0x7
+ 1313 00be 5F020000 		.4byte	.LASF10
+ 1314 00c2 07       		.uleb128 0x7
+ 1315 00c3 03020000 		.4byte	.LASF11
+ 1316 00c7 03       		.byte	0x3
+ 1317 00c8 3F       		.byte	0x3f
+ 1318 00c9 CD000000 		.4byte	0xcd
+ 1319 00cd 06       		.uleb128 0x6
+ 1320 00ce 04       		.byte	0x4
+ 1321 00cf 05       		.byte	0x5
+ 1322 00d0 7C010000 		.4byte	.LASF12
+ 1323 00d4 06       		.uleb128 0x6
+ 1324 00d5 04       		.byte	0x4
+ 1325 00d6 07       		.byte	0x7
+ 1326 00d7 10030000 		.4byte	.LASF13
+ 1327 00db 06       		.uleb128 0x6
+ 1328 00dc 08       		.byte	0x8
+ 1329 00dd 05       		.byte	0x5
+ 1330 00de 59010000 		.4byte	.LASF14
+ 1331 00e2 06       		.uleb128 0x6
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 32
+
+
+ 1332 00e3 08       		.byte	0x8
+ 1333 00e4 07       		.byte	0x7
+ 1334 00e5 19020000 		.4byte	.LASF15
+ 1335 00e9 08       		.uleb128 0x8
+ 1336 00ea 04       		.byte	0x4
+ 1337 00eb 05       		.byte	0x5
+ 1338 00ec 696E7400 		.ascii	"int\000"
+ 1339 00f0 06       		.uleb128 0x6
+ 1340 00f1 04       		.byte	0x4
+ 1341 00f2 07       		.byte	0x7
+ 1342 00f3 3E020000 		.4byte	.LASF16
+ 1343 00f7 07       		.uleb128 0x7
+ 1344 00f8 AA000000 		.4byte	.LASF17
+ 1345 00fc 04       		.byte	0x4
+ 1346 00fd 18       		.byte	0x18
+ 1347 00fe A2000000 		.4byte	0xa2
+ 1348 0102 07       		.uleb128 0x7
+ 1349 0103 89020000 		.4byte	.LASF18
+ 1350 0107 04       		.byte	0x4
+ 1351 0108 2C       		.byte	0x2c
+ 1352 0109 C2000000 		.4byte	0xc2
+ 1353 010d 09       		.uleb128 0x9
+ 1354 010e 67010000 		.4byte	.LASF19
+ 1355 0112 05       		.byte	0x5
+ 1356 0113 E701     		.2byte	0x1e7
+ 1357 0115 9B000000 		.4byte	0x9b
+ 1358 0119 06       		.uleb128 0x6
+ 1359 011a 04       		.byte	0x4
+ 1360 011b 04       		.byte	0x4
+ 1361 011c 4C010000 		.4byte	.LASF20
+ 1362 0120 06       		.uleb128 0x6
+ 1363 0121 08       		.byte	0x8
+ 1364 0122 04       		.byte	0x4
+ 1365 0123 34030000 		.4byte	.LASF21
+ 1366 0127 06       		.uleb128 0x6
+ 1367 0128 08       		.byte	0x8
+ 1368 0129 04       		.byte	0x4
+ 1369 012a 6B000000 		.4byte	.LASF22
+ 1370 012e 0A       		.uleb128 0xa
+ 1371 012f 04       		.byte	0x4
+ 1372 0130 69000000 		.4byte	0x69
+ 1373 0134 02       		.uleb128 0x2
+ 1374 0135 06       		.byte	0x6
+ 1375 0136 06       		.byte	0x6
+ 1376 0137 1F       		.byte	0x1f
+ 1377 0138 7E010000 		.4byte	0x17e
+ 1378 013c 03       		.uleb128 0x3
+ 1379 013d 0F000000 		.4byte	.LASF23
+ 1380 0141 06       		.byte	0x6
+ 1381 0142 20       		.byte	0x20
+ 1382 0143 F7000000 		.4byte	0xf7
+ 1383 0147 00       		.byte	0
+ 1384 0148 0B       		.uleb128 0xb
+ 1385 0149 6D00     		.ascii	"m\000"
+ 1386 014b 06       		.byte	0x6
+ 1387 014c 21       		.byte	0x21
+ 1388 014d F7000000 		.4byte	0xf7
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 33
+
+
+ 1389 0151 01       		.byte	0x1
+ 1390 0152 0B       		.uleb128 0xb
+ 1391 0153 6400     		.ascii	"d\000"
+ 1392 0155 06       		.byte	0x6
+ 1393 0156 22       		.byte	0x22
+ 1394 0157 F7000000 		.4byte	0xf7
+ 1395 015b 02       		.byte	0x2
+ 1396 015c 0B       		.uleb128 0xb
+ 1397 015d 686800   		.ascii	"hh\000"
+ 1398 0160 06       		.byte	0x6
+ 1399 0161 23       		.byte	0x23
+ 1400 0162 F7000000 		.4byte	0xf7
+ 1401 0166 03       		.byte	0x3
+ 1402 0167 0B       		.uleb128 0xb
+ 1403 0168 6D6D00   		.ascii	"mm\000"
+ 1404 016b 06       		.byte	0x6
+ 1405 016c 24       		.byte	0x24
+ 1406 016d F7000000 		.4byte	0xf7
+ 1407 0171 04       		.byte	0x4
+ 1408 0172 0B       		.uleb128 0xb
+ 1409 0173 737300   		.ascii	"ss\000"
+ 1410 0176 06       		.byte	0x6
+ 1411 0177 25       		.byte	0x25
+ 1412 0178 F7000000 		.4byte	0xf7
+ 1413 017c 05       		.byte	0x5
+ 1414 017d 00       		.byte	0
+ 1415 017e 07       		.uleb128 0x7
+ 1416 017f A3010000 		.4byte	.LASF24
+ 1417 0183 06       		.byte	0x6
+ 1418 0184 26       		.byte	0x26
+ 1419 0185 34010000 		.4byte	0x134
+ 1420 0189 02       		.uleb128 0x2
+ 1421 018a E0       		.byte	0xe0
+ 1422 018b 07       		.byte	0x7
+ 1423 018c 10       		.byte	0x10
+ 1424 018d B6010000 		.4byte	0x1b6
+ 1425 0191 03       		.uleb128 0x3
+ 1426 0192 60030000 		.4byte	.LASF25
+ 1427 0196 07       		.byte	0x7
+ 1428 0197 11       		.byte	0x11
+ 1429 0198 E9000000 		.4byte	0xe9
+ 1430 019c 00       		.byte	0
+ 1431 019d 03       		.uleb128 0x3
+ 1432 019e BD000000 		.4byte	.LASF0
+ 1433 01a2 07       		.byte	0x7
+ 1434 01a3 12       		.byte	0x12
+ 1435 01a4 B6010000 		.4byte	0x1b6
+ 1436 01a8 04       		.byte	0x4
+ 1437 01a9 03       		.uleb128 0x3
+ 1438 01aa 5A030000 		.4byte	.LASF26
+ 1439 01ae 07       		.byte	0x7
+ 1440 01af 13       		.byte	0x13
+ 1441 01b0 C6010000 		.4byte	0x1c6
+ 1442 01b4 18       		.byte	0x18
+ 1443 01b5 00       		.byte	0
+ 1444 01b6 04       		.uleb128 0x4
+ 1445 01b7 69000000 		.4byte	0x69
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 34
+
+
+ 1446 01bb C6010000 		.4byte	0x1c6
+ 1447 01bf 05       		.uleb128 0x5
+ 1448 01c0 62000000 		.4byte	0x62
+ 1449 01c4 13       		.byte	0x13
+ 1450 01c5 00       		.byte	0
+ 1451 01c6 04       		.uleb128 0x4
+ 1452 01c7 69000000 		.4byte	0x69
+ 1453 01cb DC010000 		.4byte	0x1dc
+ 1454 01cf 05       		.uleb128 0x5
+ 1455 01d0 62000000 		.4byte	0x62
+ 1456 01d4 09       		.byte	0x9
+ 1457 01d5 05       		.uleb128 0x5
+ 1458 01d6 62000000 		.4byte	0x62
+ 1459 01da 13       		.byte	0x13
+ 1460 01db 00       		.byte	0
+ 1461 01dc 07       		.uleb128 0x7
+ 1462 01dd 91020000 		.4byte	.LASF27
+ 1463 01e1 07       		.byte	0x7
+ 1464 01e2 14       		.byte	0x14
+ 1465 01e3 89010000 		.4byte	0x189
+ 1466 01e7 07       		.uleb128 0x7
+ 1467 01e8 EF010000 		.4byte	.LASF28
+ 1468 01ec 08       		.byte	0x8
+ 1469 01ed 7E       		.byte	0x7e
+ 1470 01ee F2010000 		.4byte	0x1f2
+ 1471 01f2 0C       		.uleb128 0xc
+ 1472 01f3 EF010000 		.4byte	.LASF28
+ 1473 01f7 0A       		.uleb128 0xa
+ 1474 01f8 04       		.byte	0x4
+ 1475 01f9 E7010000 		.4byte	0x1e7
+ 1476 01fd 02       		.uleb128 0x2
+ 1477 01fe 08       		.byte	0x8
+ 1478 01ff 09       		.byte	0x9
+ 1479 0200 21       		.byte	0x21
+ 1480 0201 1E020000 		.4byte	0x21e
+ 1481 0205 0B       		.uleb128 0xb
+ 1482 0206 75696400 		.ascii	"uid\000"
+ 1483 020a 09       		.byte	0x9
+ 1484 020b 22       		.byte	0x22
+ 1485 020c E9000000 		.4byte	0xe9
+ 1486 0210 00       		.byte	0
+ 1487 0211 03       		.uleb128 0x3
+ 1488 0212 85010000 		.4byte	.LASF29
+ 1489 0216 09       		.byte	0x9
+ 1490 0217 23       		.byte	0x23
+ 1491 0218 1E020000 		.4byte	0x21e
+ 1492 021c 04       		.byte	0x4
+ 1493 021d 00       		.byte	0
+ 1494 021e 06       		.uleb128 0x6
+ 1495 021f 01       		.byte	0x1
+ 1496 0220 02       		.byte	0x2
+ 1497 0221 7C020000 		.4byte	.LASF30
+ 1498 0225 07       		.uleb128 0x7
+ 1499 0226 14000000 		.4byte	.LASF31
+ 1500 022a 09       		.byte	0x9
+ 1501 022b 24       		.byte	0x24
+ 1502 022c FD010000 		.4byte	0x1fd
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 35
+
+
+ 1503 0230 0D       		.uleb128 0xd
+ 1504 0231 4B020000 		.4byte	.LASF41
+ 1505 0235 01       		.byte	0x1
+ 1506 0236 1A       		.byte	0x1a
+ 1507 0237 00000000 		.4byte	.LFB64
+ 1508 023b 18000000 		.4byte	.LFE64-.LFB64
+ 1509 023f 01       		.uleb128 0x1
+ 1510 0240 9C       		.byte	0x9c
+ 1511 0241 5E020000 		.4byte	0x25e
+ 1512 0245 0E       		.uleb128 0xe
+ 1513 0246 0E000000 		.4byte	.LVL0
+ 1514 024a 5D0D0000 		.4byte	0xd5d
+ 1515 024e 0F       		.uleb128 0xf
+ 1516 024f 01       		.uleb128 0x1
+ 1517 0250 50       		.byte	0x50
+ 1518 0251 05       		.uleb128 0x5
+ 1519 0252 03       		.byte	0x3
+ 1520 0253 00000000 		.4byte	last_serial_cmd
+ 1521 0257 0F       		.uleb128 0xf
+ 1522 0258 01       		.uleb128 0x1
+ 1523 0259 51       		.byte	0x51
+ 1524 025a 01       		.uleb128 0x1
+ 1525 025b 30       		.byte	0x30
+ 1526 025c 00       		.byte	0
+ 1527 025d 00       		.byte	0
+ 1528 025e 10       		.uleb128 0x10
+ 1529 025f 9C020000 		.4byte	.LASF32
+ 1530 0263 01       		.byte	0x1
+ 1531 0264 35       		.byte	0x35
+ 1532 0265 00000000 		.4byte	.LFB65
+ 1533 0269 20000000 		.4byte	.LFE65-.LFB65
+ 1534 026d 01       		.uleb128 0x1
+ 1535 026e 9C       		.byte	0x9c
+ 1536 026f AA020000 		.4byte	0x2aa
+ 1537 0273 11       		.uleb128 0x11
+ 1538 0274 DC020000 		.4byte	.LASF34
+ 1539 0278 01       		.byte	0x1
+ 1540 0279 35       		.byte	0x35
+ 1541 027a 69000000 		.4byte	0x69
+ 1542 027e 00000000 		.4byte	.LLST0
+ 1543 0282 12       		.uleb128 0x12
+ 1544 0283 B8010000 		.4byte	.LASF36
+ 1545 0287 01       		.byte	0x1
+ 1546 0288 36       		.byte	0x36
+ 1547 0289 AA020000 		.4byte	0x2aa
+ 1548 028d 02       		.uleb128 0x2
+ 1549 028e 91       		.byte	0x91
+ 1550 028f 74       		.sleb128 -12
+ 1551 0290 0E       		.uleb128 0xe
+ 1552 0291 16000000 		.4byte	.LVL3
+ 1553 0295 660D0000 		.4byte	0xd66
+ 1554 0299 0F       		.uleb128 0xf
+ 1555 029a 01       		.uleb128 0x1
+ 1556 029b 50       		.byte	0x50
+ 1557 029c 05       		.uleb128 0x5
+ 1558 029d 03       		.byte	0x3
+ 1559 029e 00000000 		.4byte	rx_buffer
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 36
+
+
+ 1560 02a2 0F       		.uleb128 0xf
+ 1561 02a3 01       		.uleb128 0x1
+ 1562 02a4 51       		.byte	0x51
+ 1563 02a5 02       		.uleb128 0x2
+ 1564 02a6 91       		.byte	0x91
+ 1565 02a7 74       		.sleb128 -12
+ 1566 02a8 00       		.byte	0
+ 1567 02a9 00       		.byte	0
+ 1568 02aa 04       		.uleb128 0x4
+ 1569 02ab 69000000 		.4byte	0x69
+ 1570 02af BA020000 		.4byte	0x2ba
+ 1571 02b3 05       		.uleb128 0x5
+ 1572 02b4 62000000 		.4byte	0x62
+ 1573 02b8 01       		.byte	0x1
+ 1574 02b9 00       		.byte	0
+ 1575 02ba 10       		.uleb128 0x10
+ 1576 02bb 98000000 		.4byte	.LASF33
+ 1577 02bf 01       		.byte	0x1
+ 1578 02c0 3A       		.byte	0x3a
+ 1579 02c1 00000000 		.4byte	.LFB66
+ 1580 02c5 7C000000 		.4byte	.LFE66-.LFB66
+ 1581 02c9 01       		.uleb128 0x1
+ 1582 02ca 9C       		.byte	0x9c
+ 1583 02cb C4030000 		.4byte	0x3c4
+ 1584 02cf 13       		.uleb128 0x13
+ 1585 02d0 1E000000 		.4byte	.LASF35
+ 1586 02d4 01       		.byte	0x1
+ 1587 02d5 3A       		.byte	0x3a
+ 1588 02d6 DC010000 		.4byte	0x1dc
+ 1589 02da 02       		.uleb128 0x2
+ 1590 02db 91       		.byte	0x91
+ 1591 02dc 70       		.sleb128 -16
+ 1592 02dd 14       		.uleb128 0x14
+ 1593 02de 1E000000 		.4byte	.LBB2
+ 1594 02e2 3C000000 		.4byte	.LBE2-.LBB2
+ 1595 02e6 6E030000 		.4byte	0x36e
+ 1596 02ea 15       		.uleb128 0x15
+ 1597 02eb 6900     		.ascii	"i\000"
+ 1598 02ed 01       		.byte	0x1
+ 1599 02ee 3E       		.byte	0x3e
+ 1600 02ef E9000000 		.4byte	0xe9
+ 1601 02f3 2D000000 		.4byte	.LLST1
+ 1602 02f7 16       		.uleb128 0x16
+ 1603 02f8 22000000 		.4byte	.LBB3
+ 1604 02fc 30000000 		.4byte	.LBE3-.LBB3
+ 1605 0300 12       		.uleb128 0x12
+ 1606 0301 94030000 		.4byte	.LASF37
+ 1607 0305 01       		.byte	0x1
+ 1608 0306 41       		.byte	0x41
+ 1609 0307 AA020000 		.4byte	0x2aa
+ 1610 030b 02       		.uleb128 0x2
+ 1611 030c 91       		.byte	0x91
+ 1612 030d 64       		.sleb128 -28
+ 1613 030e 17       		.uleb128 0x17
+ 1614 030f 36000000 		.4byte	.LVL8
+ 1615 0313 710D0000 		.4byte	0xd71
+ 1616 0317 22030000 		.4byte	0x322
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 37
+
+
+ 1617 031b 0F       		.uleb128 0xf
+ 1618 031c 01       		.uleb128 0x1
+ 1619 031d 50       		.byte	0x50
+ 1620 031e 02       		.uleb128 0x2
+ 1621 031f 91       		.byte	0x91
+ 1622 0320 44       		.sleb128 -60
+ 1623 0321 00       		.byte	0
+ 1624 0322 17       		.uleb128 0x17
+ 1625 0323 3C000000 		.4byte	.LVL9
+ 1626 0327 710D0000 		.4byte	0xd71
+ 1627 032b 39030000 		.4byte	0x339
+ 1628 032f 0F       		.uleb128 0xf
+ 1629 0330 01       		.uleb128 0x1
+ 1630 0331 50       		.byte	0x50
+ 1631 0332 05       		.uleb128 0x5
+ 1632 0333 03       		.byte	0x3
+ 1633 0334 08000000 		.4byte	.LC3
+ 1634 0338 00       		.byte	0
+ 1635 0339 17       		.uleb128 0x17
+ 1636 033a 4C000000 		.4byte	.LVL10
+ 1637 033e 710D0000 		.4byte	0xd71
+ 1638 0342 59030000 		.4byte	0x359
+ 1639 0346 0F       		.uleb128 0xf
+ 1640 0347 01       		.uleb128 0x1
+ 1641 0348 50       		.byte	0x50
+ 1642 0349 0E       		.uleb128 0xe
+ 1643 034a 74       		.byte	0x74
+ 1644 034b 00       		.sleb128 0
+ 1645 034c 32       		.byte	0x32
+ 1646 034d 24       		.byte	0x24
+ 1647 034e 74       		.byte	0x74
+ 1648 034f 00       		.sleb128 0
+ 1649 0350 22       		.byte	0x22
+ 1650 0351 32       		.byte	0x32
+ 1651 0352 24       		.byte	0x24
+ 1652 0353 91       		.byte	0x91
+ 1653 0354 70       		.sleb128 -16
+ 1654 0355 22       		.byte	0x22
+ 1655 0356 38       		.byte	0x38
+ 1656 0357 1C       		.byte	0x1c
+ 1657 0358 00       		.byte	0
+ 1658 0359 0E       		.uleb128 0xe
+ 1659 035a 52000000 		.4byte	.LVL11
+ 1660 035e 710D0000 		.4byte	0xd71
+ 1661 0362 0F       		.uleb128 0xf
+ 1662 0363 01       		.uleb128 0x1
+ 1663 0364 50       		.byte	0x50
+ 1664 0365 05       		.uleb128 0x5
+ 1665 0366 03       		.byte	0x3
+ 1666 0367 00000000 		.4byte	.LC1
+ 1667 036b 00       		.byte	0
+ 1668 036c 00       		.byte	0
+ 1669 036d 00       		.byte	0
+ 1670 036e 17       		.uleb128 0x17
+ 1671 036f 12000000 		.4byte	.LVL4
+ 1672 0373 710D0000 		.4byte	0xd71
+ 1673 0377 85030000 		.4byte	0x385
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 38
+
+
+ 1674 037b 0F       		.uleb128 0xf
+ 1675 037c 01       		.uleb128 0x1
+ 1676 037d 50       		.byte	0x50
+ 1677 037e 05       		.uleb128 0x5
+ 1678 037f 03       		.byte	0x3
+ 1679 0380 00000000 		.4byte	.LC1
+ 1680 0384 00       		.byte	0
+ 1681 0385 17       		.uleb128 0x17
+ 1682 0386 18000000 		.4byte	.LVL5
+ 1683 038a 710D0000 		.4byte	0xd71
+ 1684 038e 99030000 		.4byte	0x399
+ 1685 0392 0F       		.uleb128 0xf
+ 1686 0393 01       		.uleb128 0x1
+ 1687 0394 50       		.byte	0x50
+ 1688 0395 02       		.uleb128 0x2
+ 1689 0396 91       		.byte	0x91
+ 1690 0397 54       		.sleb128 -44
+ 1691 0398 00       		.byte	0
+ 1692 0399 17       		.uleb128 0x17
+ 1693 039a 1E000000 		.4byte	.LVL6
+ 1694 039e 710D0000 		.4byte	0xd71
+ 1695 03a2 B0030000 		.4byte	0x3b0
+ 1696 03a6 0F       		.uleb128 0xf
+ 1697 03a7 01       		.uleb128 0x1
+ 1698 03a8 50       		.byte	0x50
+ 1699 03a9 05       		.uleb128 0x5
+ 1700 03aa 03       		.byte	0x3
+ 1701 03ab 04000000 		.4byte	.LC2
+ 1702 03af 00       		.byte	0
+ 1703 03b0 0E       		.uleb128 0xe
+ 1704 03b1 60000000 		.4byte	.LVL13
+ 1705 03b5 710D0000 		.4byte	0xd71
+ 1706 03b9 0F       		.uleb128 0xf
+ 1707 03ba 01       		.uleb128 0x1
+ 1708 03bb 50       		.byte	0x50
+ 1709 03bc 05       		.uleb128 0x5
+ 1710 03bd 03       		.byte	0x3
+ 1711 03be 0C000000 		.4byte	.LC4
+ 1712 03c2 00       		.byte	0
+ 1713 03c3 00       		.byte	0
+ 1714 03c4 10       		.uleb128 0x10
+ 1715 03c5 BF030000 		.4byte	.LASF38
+ 1716 03c9 01       		.byte	0x1
+ 1717 03ca 4A       		.byte	0x4a
+ 1718 03cb 00000000 		.4byte	.LFB67
+ 1719 03cf 90000000 		.4byte	.LFE67-.LFB67
+ 1720 03d3 01       		.uleb128 0x1
+ 1721 03d4 9C       		.byte	0x9c
+ 1722 03d5 02050000 		.4byte	0x502
+ 1723 03d9 13       		.uleb128 0x13
+ 1724 03da 42000000 		.4byte	.LASF39
+ 1725 03de 01       		.byte	0x1
+ 1726 03df 4A       		.byte	0x4a
+ 1727 03e0 90000000 		.4byte	0x90
+ 1728 03e4 02       		.uleb128 0x2
+ 1729 03e5 91       		.byte	0x91
+ 1730 03e6 70       		.sleb128 -16
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 39
+
+
+ 1731 03e7 12       		.uleb128 0x12
+ 1732 03e8 A4030000 		.4byte	.LASF40
+ 1733 03ec 01       		.byte	0x1
+ 1734 03ed 4D       		.byte	0x4d
+ 1735 03ee 02050000 		.4byte	0x502
+ 1736 03f2 02       		.uleb128 0x2
+ 1737 03f3 91       		.byte	0x91
+ 1738 03f4 48       		.sleb128 -56
+ 1739 03f5 14       		.uleb128 0x14
+ 1740 03f6 1E000000 		.4byte	.LBB4
+ 1741 03fa 14000000 		.4byte	.LBE4-.LBB4
+ 1742 03fe 10040000 		.4byte	0x410
+ 1743 0402 15       		.uleb128 0x15
+ 1744 0403 6900     		.ascii	"i\000"
+ 1745 0405 01       		.byte	0x1
+ 1746 0406 4E       		.byte	0x4e
+ 1747 0407 E9000000 		.4byte	0xe9
+ 1748 040b 4C000000 		.4byte	.LLST2
+ 1749 040f 00       		.byte	0
+ 1750 0410 17       		.uleb128 0x17
+ 1751 0411 14000000 		.4byte	.LVL15
+ 1752 0415 710D0000 		.4byte	0xd71
+ 1753 0419 27040000 		.4byte	0x427
+ 1754 041d 0F       		.uleb128 0xf
+ 1755 041e 01       		.uleb128 0x1
+ 1756 041f 50       		.byte	0x50
+ 1757 0420 05       		.uleb128 0x5
+ 1758 0421 03       		.byte	0x3
+ 1759 0422 2C000000 		.4byte	.LC5
+ 1760 0426 00       		.byte	0
+ 1761 0427 17       		.uleb128 0x17
+ 1762 0428 1E000000 		.4byte	.LVL16
+ 1763 042c 5D0D0000 		.4byte	0xd5d
+ 1764 0430 45040000 		.4byte	0x445
+ 1765 0434 0F       		.uleb128 0xf
+ 1766 0435 01       		.uleb128 0x1
+ 1767 0436 50       		.byte	0x50
+ 1768 0437 02       		.uleb128 0x2
+ 1769 0438 7D       		.byte	0x7d
+ 1770 0439 00       		.sleb128 0
+ 1771 043a 0F       		.uleb128 0xf
+ 1772 043b 01       		.uleb128 0x1
+ 1773 043c 51       		.byte	0x51
+ 1774 043d 01       		.uleb128 0x1
+ 1775 043e 30       		.byte	0x30
+ 1776 043f 0F       		.uleb128 0xf
+ 1777 0440 01       		.uleb128 0x1
+ 1778 0441 52       		.byte	0x52
+ 1779 0442 01       		.uleb128 0x1
+ 1780 0443 4E       		.byte	0x4e
+ 1781 0444 00       		.byte	0
+ 1782 0445 17       		.uleb128 0x17
+ 1783 0446 3E000000 		.4byte	.LVL20
+ 1784 044a 710D0000 		.4byte	0xd71
+ 1785 044e 59040000 		.4byte	0x459
+ 1786 0452 0F       		.uleb128 0xf
+ 1787 0453 01       		.uleb128 0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 40
+
+
+ 1788 0454 50       		.byte	0x50
+ 1789 0455 02       		.uleb128 0x2
+ 1790 0456 7D       		.byte	0x7d
+ 1791 0457 00       		.sleb128 0
+ 1792 0458 00       		.byte	0
+ 1793 0459 17       		.uleb128 0x17
+ 1794 045a 44000000 		.4byte	.LVL21
+ 1795 045e 710D0000 		.4byte	0xd71
+ 1796 0462 70040000 		.4byte	0x470
+ 1797 0466 0F       		.uleb128 0xf
+ 1798 0467 01       		.uleb128 0x1
+ 1799 0468 50       		.byte	0x50
+ 1800 0469 05       		.uleb128 0x5
+ 1801 046a 03       		.byte	0x3
+ 1802 046b 34000000 		.4byte	.LC6
+ 1803 046f 00       		.byte	0
+ 1804 0470 17       		.uleb128 0x17
+ 1805 0471 4A000000 		.4byte	.LVL22
+ 1806 0475 710D0000 		.4byte	0xd71
+ 1807 0479 84040000 		.4byte	0x484
+ 1808 047d 0F       		.uleb128 0xf
+ 1809 047e 01       		.uleb128 0x1
+ 1810 047f 50       		.byte	0x50
+ 1811 0480 02       		.uleb128 0x2
+ 1812 0481 91       		.byte	0x91
+ 1813 0482 50       		.sleb128 -48
+ 1814 0483 00       		.byte	0
+ 1815 0484 17       		.uleb128 0x17
+ 1816 0485 50000000 		.4byte	.LVL23
+ 1817 0489 710D0000 		.4byte	0xd71
+ 1818 048d 9B040000 		.4byte	0x49b
+ 1819 0491 0F       		.uleb128 0xf
+ 1820 0492 01       		.uleb128 0x1
+ 1821 0493 50       		.byte	0x50
+ 1822 0494 05       		.uleb128 0x5
+ 1823 0495 03       		.byte	0x3
+ 1824 0496 44000000 		.4byte	.LC7
+ 1825 049a 00       		.byte	0
+ 1826 049b 17       		.uleb128 0x17
+ 1827 049c 58000000 		.4byte	.LVL24
+ 1828 04a0 710D0000 		.4byte	0xd71
+ 1829 04a4 AF040000 		.4byte	0x4af
+ 1830 04a8 0F       		.uleb128 0xf
+ 1831 04a9 01       		.uleb128 0x1
+ 1832 04aa 50       		.byte	0x50
+ 1833 04ab 02       		.uleb128 0x2
+ 1834 04ac 91       		.byte	0x91
+ 1835 04ad 5A       		.sleb128 -38
+ 1836 04ae 00       		.byte	0
+ 1837 04af 17       		.uleb128 0x17
+ 1838 04b0 5E000000 		.4byte	.LVL25
+ 1839 04b4 710D0000 		.4byte	0xd71
+ 1840 04b8 C6040000 		.4byte	0x4c6
+ 1841 04bc 0F       		.uleb128 0xf
+ 1842 04bd 01       		.uleb128 0x1
+ 1843 04be 50       		.byte	0x50
+ 1844 04bf 05       		.uleb128 0x5
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 41
+
+
+ 1845 04c0 03       		.byte	0x3
+ 1846 04c1 58000000 		.4byte	.LC8
+ 1847 04c5 00       		.byte	0
+ 1848 04c6 17       		.uleb128 0x17
+ 1849 04c7 66000000 		.4byte	.LVL26
+ 1850 04cb 710D0000 		.4byte	0xd71
+ 1851 04cf DA040000 		.4byte	0x4da
+ 1852 04d3 0F       		.uleb128 0xf
+ 1853 04d4 01       		.uleb128 0x1
+ 1854 04d5 50       		.byte	0x50
+ 1855 04d6 02       		.uleb128 0x2
+ 1856 04d7 91       		.byte	0x91
+ 1857 04d8 7D       		.sleb128 -3
+ 1858 04d9 00       		.byte	0
+ 1859 04da 17       		.uleb128 0x17
+ 1860 04db 6C000000 		.4byte	.LVL27
+ 1861 04df 710D0000 		.4byte	0xd71
+ 1862 04e3 F1040000 		.4byte	0x4f1
+ 1863 04e7 0F       		.uleb128 0xf
+ 1864 04e8 01       		.uleb128 0x1
+ 1865 04e9 50       		.byte	0x50
+ 1866 04ea 05       		.uleb128 0x5
+ 1867 04eb 03       		.byte	0x3
+ 1868 04ec 6C000000 		.4byte	.LC9
+ 1869 04f0 00       		.byte	0
+ 1870 04f1 0E       		.uleb128 0xe
+ 1871 04f2 72000000 		.4byte	.LVL28
+ 1872 04f6 710D0000 		.4byte	0xd71
+ 1873 04fa 0F       		.uleb128 0xf
+ 1874 04fb 01       		.uleb128 0x1
+ 1875 04fc 50       		.byte	0x50
+ 1876 04fd 02       		.uleb128 0x2
+ 1877 04fe 7D       		.byte	0x7d
+ 1878 04ff 00       		.sleb128 0
+ 1879 0500 00       		.byte	0
+ 1880 0501 00       		.byte	0
+ 1881 0502 04       		.uleb128 0x4
+ 1882 0503 69000000 		.4byte	0x69
+ 1883 0507 12050000 		.4byte	0x512
+ 1884 050b 05       		.uleb128 0x5
+ 1885 050c 62000000 		.4byte	0x62
+ 1886 0510 1D       		.byte	0x1d
+ 1887 0511 00       		.byte	0
+ 1888 0512 0D       		.uleb128 0xd
+ 1889 0513 16010000 		.4byte	.LASF42
+ 1890 0517 01       		.byte	0x1
+ 1891 0518 5D       		.byte	0x5d
+ 1892 0519 00000000 		.4byte	.LFB68
+ 1893 051d 10000000 		.4byte	.LFE68-.LFB68
+ 1894 0521 01       		.uleb128 0x1
+ 1895 0522 9C       		.byte	0x9c
+ 1896 0523 3B050000 		.4byte	0x53b
+ 1897 0527 0E       		.uleb128 0xe
+ 1898 0528 08000000 		.4byte	.LVL29
+ 1899 052c 710D0000 		.4byte	0xd71
+ 1900 0530 0F       		.uleb128 0xf
+ 1901 0531 01       		.uleb128 0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 42
+
+
+ 1902 0532 50       		.byte	0x50
+ 1903 0533 05       		.uleb128 0x5
+ 1904 0534 03       		.byte	0x3
+ 1905 0535 74000000 		.4byte	.LC10
+ 1906 0539 00       		.byte	0
+ 1907 053a 00       		.byte	0
+ 1908 053b 10       		.uleb128 0x10
+ 1909 053c CF010000 		.4byte	.LASF43
+ 1910 0540 01       		.byte	0x1
+ 1911 0541 62       		.byte	0x62
+ 1912 0542 00000000 		.4byte	.LFB69
+ 1913 0546 36000000 		.4byte	.LFE69-.LFB69
+ 1914 054a 01       		.uleb128 0x1
+ 1915 054b 9C       		.byte	0x9c
+ 1916 054c AA050000 		.4byte	0x5aa
+ 1917 0550 18       		.uleb128 0x18
+ 1918 0551 6F757400 		.ascii	"out\000"
+ 1919 0555 01       		.byte	0x1
+ 1920 0556 62       		.byte	0x62
+ 1921 0557 2E010000 		.4byte	0x12e
+ 1922 055b 6B000000 		.4byte	.LLST3
+ 1923 055f 19       		.uleb128 0x19
+ 1924 0560 D3030000 		.4byte	.LASF44
+ 1925 0564 01       		.byte	0x1
+ 1926 0565 66       		.byte	0x66
+ 1927 0566 69000000 		.4byte	0x69
+ 1928 056a 89000000 		.4byte	.LLST4
+ 1929 056e 16       		.uleb128 0x16
+ 1930 056f 04000000 		.4byte	.LBB5
+ 1931 0573 2C000000 		.4byte	.LBE5-.LBB5
+ 1932 0577 15       		.uleb128 0x15
+ 1933 0578 6900     		.ascii	"i\000"
+ 1934 057a 01       		.byte	0x1
+ 1935 057b 67       		.byte	0x67
+ 1936 057c E9000000 		.4byte	0xe9
+ 1937 0580 B3000000 		.4byte	.LLST5
+ 1938 0584 1A       		.uleb128 0x1a
+ 1939 0585 0C000000 		.4byte	.LVL33
+ 1940 0589 7C0D0000 		.4byte	0xd7c
+ 1941 058d 1A       		.uleb128 0x1a
+ 1942 058e 14000000 		.4byte	.LVL35
+ 1943 0592 870D0000 		.4byte	0xd87
+ 1944 0596 1A       		.uleb128 0x1a
+ 1945 0597 18000000 		.4byte	.LVL36
+ 1946 059b 7C0D0000 		.4byte	0xd7c
+ 1947 059f 1A       		.uleb128 0x1a
+ 1948 05a0 2A000000 		.4byte	.LVL38
+ 1949 05a4 870D0000 		.4byte	0xd87
+ 1950 05a8 00       		.byte	0
+ 1951 05a9 00       		.byte	0
+ 1952 05aa 10       		.uleb128 0x10
+ 1953 05ab F3020000 		.4byte	.LASF45
+ 1954 05af 01       		.byte	0x1
+ 1955 05b0 77       		.byte	0x77
+ 1956 05b1 00000000 		.4byte	.LFB70
+ 1957 05b5 88000000 		.4byte	.LFE70-.LFB70
+ 1958 05b9 01       		.uleb128 0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 43
+
+
+ 1959 05ba 9C       		.byte	0x9c
+ 1960 05bb 8A060000 		.4byte	0x68a
+ 1961 05bf 1B       		.uleb128 0x1b
+ 1962 05c0 647400   		.ascii	"dt\000"
+ 1963 05c3 01       		.byte	0x1
+ 1964 05c4 77       		.byte	0x77
+ 1965 05c5 7E010000 		.4byte	0x17e
+ 1966 05c9 03       		.uleb128 0x3
+ 1967 05ca 91       		.byte	0x91
+ 1968 05cb B07F     		.sleb128 -80
+ 1969 05cd 12       		.uleb128 0x12
+ 1970 05ce 9C030000 		.4byte	.LASF46
+ 1971 05d2 01       		.byte	0x1
+ 1972 05d3 79       		.byte	0x79
+ 1973 05d4 8A060000 		.4byte	0x68a
+ 1974 05d8 03       		.uleb128 0x3
+ 1975 05d9 91       		.byte	0x91
+ 1976 05da B87F     		.sleb128 -72
+ 1977 05dc 17       		.uleb128 0x17
+ 1978 05dd 12000000 		.4byte	.LVL40
+ 1979 05e1 710D0000 		.4byte	0xd71
+ 1980 05e5 F3050000 		.4byte	0x5f3
+ 1981 05e9 0F       		.uleb128 0xf
+ 1982 05ea 01       		.uleb128 0x1
+ 1983 05eb 50       		.byte	0x50
+ 1984 05ec 05       		.uleb128 0x5
+ 1985 05ed 03       		.byte	0x3
+ 1986 05ee 88000000 		.4byte	.LC11
+ 1987 05f2 00       		.byte	0
+ 1988 05f3 1A       		.uleb128 0x1a
+ 1989 05f4 1A000000 		.4byte	.LVL41
+ 1990 05f8 920D0000 		.4byte	0xd92
+ 1991 05fc 1A       		.uleb128 0x1a
+ 1992 05fd 24000000 		.4byte	.LVL42
+ 1993 0601 9D0D0000 		.4byte	0xd9d
+ 1994 0605 1A       		.uleb128 0x1a
+ 1995 0606 2E000000 		.4byte	.LVL43
+ 1996 060a A80D0000 		.4byte	0xda8
+ 1997 060e 1A       		.uleb128 0x1a
+ 1998 060f 38000000 		.4byte	.LVL44
+ 1999 0613 B30D0000 		.4byte	0xdb3
+ 2000 0617 1A       		.uleb128 0x1a
+ 2001 0618 42000000 		.4byte	.LVL45
+ 2002 061c BE0D0000 		.4byte	0xdbe
+ 2003 0620 1A       		.uleb128 0x1a
+ 2004 0621 4C000000 		.4byte	.LVL46
+ 2005 0625 C90D0000 		.4byte	0xdc9
+ 2006 0629 1A       		.uleb128 0x1a
+ 2007 062a 56000000 		.4byte	.LVL47
+ 2008 062e D40D0000 		.4byte	0xdd4
+ 2009 0632 17       		.uleb128 0x17
+ 2010 0633 72000000 		.4byte	.LVL48
+ 2011 0637 DF0D0000 		.4byte	0xddf
+ 2012 063b 78060000 		.4byte	0x678
+ 2013 063f 0F       		.uleb128 0xf
+ 2014 0640 01       		.uleb128 0x1
+ 2015 0641 50       		.byte	0x50
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 44
+
+
+ 2016 0642 03       		.uleb128 0x3
+ 2017 0643 91       		.byte	0x91
+ 2018 0644 B87F     		.sleb128 -72
+ 2019 0646 0F       		.uleb128 0xf
+ 2020 0647 01       		.uleb128 0x1
+ 2021 0648 51       		.byte	0x51
+ 2022 0649 05       		.uleb128 0x5
+ 2023 064a 03       		.byte	0x3
+ 2024 064b 98000000 		.4byte	.LC12
+ 2025 064f 0F       		.uleb128 0xf
+ 2026 0650 01       		.uleb128 0x1
+ 2027 0651 52       		.byte	0x52
+ 2028 0652 02       		.uleb128 0x2
+ 2029 0653 75       		.byte	0x75
+ 2030 0654 00       		.sleb128 0
+ 2031 0655 0F       		.uleb128 0xf
+ 2032 0656 01       		.uleb128 0x1
+ 2033 0657 53       		.byte	0x53
+ 2034 0658 02       		.uleb128 0x2
+ 2035 0659 76       		.byte	0x76
+ 2036 065a 00       		.sleb128 0
+ 2037 065b 0F       		.uleb128 0xf
+ 2038 065c 02       		.uleb128 0x2
+ 2039 065d 7D       		.byte	0x7d
+ 2040 065e 00       		.sleb128 0
+ 2041 065f 02       		.uleb128 0x2
+ 2042 0660 77       		.byte	0x77
+ 2043 0661 00       		.sleb128 0
+ 2044 0662 0F       		.uleb128 0xf
+ 2045 0663 02       		.uleb128 0x2
+ 2046 0664 7D       		.byte	0x7d
+ 2047 0665 04       		.sleb128 4
+ 2048 0666 02       		.uleb128 0x2
+ 2049 0667 78       		.byte	0x78
+ 2050 0668 00       		.sleb128 0
+ 2051 0669 0F       		.uleb128 0xf
+ 2052 066a 02       		.uleb128 0x2
+ 2053 066b 7D       		.byte	0x7d
+ 2054 066c 08       		.sleb128 8
+ 2055 066d 02       		.uleb128 0x2
+ 2056 066e 79       		.byte	0x79
+ 2057 066f 00       		.sleb128 0
+ 2058 0670 0F       		.uleb128 0xf
+ 2059 0671 02       		.uleb128 0x2
+ 2060 0672 7D       		.byte	0x7d
+ 2061 0673 0C       		.sleb128 12
+ 2062 0674 02       		.uleb128 0x2
+ 2063 0675 7A       		.byte	0x7a
+ 2064 0676 00       		.sleb128 0
+ 2065 0677 00       		.byte	0
+ 2066 0678 0E       		.uleb128 0xe
+ 2067 0679 78000000 		.4byte	.LVL49
+ 2068 067d 710D0000 		.4byte	0xd71
+ 2069 0681 0F       		.uleb128 0xf
+ 2070 0682 01       		.uleb128 0x1
+ 2071 0683 50       		.byte	0x50
+ 2072 0684 03       		.uleb128 0x3
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 45
+
+
+ 2073 0685 91       		.byte	0x91
+ 2074 0686 B87F     		.sleb128 -72
+ 2075 0688 00       		.byte	0
+ 2076 0689 00       		.byte	0
+ 2077 068a 04       		.uleb128 0x4
+ 2078 068b 69000000 		.4byte	0x69
+ 2079 068f 9A060000 		.4byte	0x69a
+ 2080 0693 05       		.uleb128 0x5
+ 2081 0694 62000000 		.4byte	0x62
+ 2082 0698 27       		.byte	0x27
+ 2083 0699 00       		.byte	0
+ 2084 069a 10       		.uleb128 0x10
+ 2085 069b C8010000 		.4byte	.LASF47
+ 2086 069f 01       		.byte	0x1
+ 2087 06a0 85       		.byte	0x85
+ 2088 06a1 00000000 		.4byte	.LFB71
+ 2089 06a5 3C000000 		.4byte	.LFE71-.LFB71
+ 2090 06a9 01       		.uleb128 0x1
+ 2091 06aa 9C       		.byte	0x9c
+ 2092 06ab 20070000 		.4byte	0x720
+ 2093 06af 19       		.uleb128 0x19
+ 2094 06b0 22030000 		.4byte	.LASF48
+ 2095 06b4 01       		.byte	0x1
+ 2096 06b5 86       		.byte	0x86
+ 2097 06b6 69000000 		.4byte	0x69
+ 2098 06ba D2000000 		.4byte	.LLST6
+ 2099 06be 14       		.uleb128 0x14
+ 2100 06bf 0A000000 		.4byte	.LBB6
+ 2101 06c3 0C000000 		.4byte	.LBE6-.LBB6
+ 2102 06c7 06070000 		.4byte	0x706
+ 2103 06cb 1C       		.uleb128 0x1c
+ 2104 06cc AD020000 		.4byte	.LASF81
+ 2105 06d0 01       		.byte	0x1
+ 2106 06d1 8A       		.byte	0x8a
+ 2107 06d2 E9000000 		.4byte	0xe9
+ 2108 06d6 DC060000 		.4byte	0x6dc
+ 2109 06da 1D       		.uleb128 0x1d
+ 2110 06db 00       		.byte	0
+ 2111 06dc 17       		.uleb128 0x17
+ 2112 06dd 12000000 		.4byte	.LVL52
+ 2113 06e1 EA0D0000 		.4byte	0xdea
+ 2114 06e5 FC060000 		.4byte	0x6fc
+ 2115 06e9 0F       		.uleb128 0xf
+ 2116 06ea 01       		.uleb128 0x1
+ 2117 06eb 50       		.byte	0x50
+ 2118 06ec 05       		.uleb128 0x5
+ 2119 06ed 03       		.byte	0x3
+ 2120 06ee 00000000 		.4byte	last_serial_cmd
+ 2121 06f2 0F       		.uleb128 0xf
+ 2122 06f3 01       		.uleb128 0x1
+ 2123 06f4 51       		.byte	0x51
+ 2124 06f5 05       		.uleb128 0x5
+ 2125 06f6 03       		.byte	0x3
+ 2126 06f7 00000000 		.4byte	rx_buffer
+ 2127 06fb 00       		.byte	0
+ 2128 06fc 1A       		.uleb128 0x1a
+ 2129 06fd 16000000 		.4byte	.LVL53
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 46
+
+
+ 2130 0701 F50D0000 		.4byte	0xdf5
+ 2131 0705 00       		.byte	0
+ 2132 0706 1A       		.uleb128 0x1a
+ 2133 0707 06000000 		.4byte	.LVL50
+ 2134 070b 000E0000 		.4byte	0xe00
+ 2135 070f 0E       		.uleb128 0xe
+ 2136 0710 1E000000 		.4byte	.LVL55
+ 2137 0714 0B0E0000 		.4byte	0xe0b
+ 2138 0718 0F       		.uleb128 0xf
+ 2139 0719 01       		.uleb128 0x1
+ 2140 071a 50       		.byte	0x50
+ 2141 071b 02       		.uleb128 0x2
+ 2142 071c 74       		.byte	0x74
+ 2143 071d 00       		.sleb128 0
+ 2144 071e 00       		.byte	0
+ 2145 071f 00       		.byte	0
+ 2146 0720 1E       		.uleb128 0x1e
+ 2147 0721 A1040000 		.4byte	.LASF93
+ 2148 0725 01       		.byte	0x1
+ 2149 0726 9D       		.byte	0x9d
+ 2150 0727 00000000 		.4byte	.LFB72
+ 2151 072b 0C000000 		.4byte	.LFE72-.LFB72
+ 2152 072f 01       		.uleb128 0x1
+ 2153 0730 9C       		.byte	0x9c
+ 2154 0731 0D       		.uleb128 0xd
+ 2155 0732 B2000000 		.4byte	.LASF49
+ 2156 0736 01       		.byte	0x1
+ 2157 0737 A2       		.byte	0xa2
+ 2158 0738 00000000 		.4byte	.LFB73
+ 2159 073c 10030000 		.4byte	.LFE73-.LFB73
+ 2160 0740 01       		.uleb128 0x1
+ 2161 0741 9C       		.byte	0x9c
+ 2162 0742 EC0B0000 		.4byte	0xbec
+ 2163 0746 14       		.uleb128 0x14
+ 2164 0747 56000000 		.4byte	.LBB7
+ 2165 074b 78000000 		.4byte	.LBE7-.LBB7
+ 2166 074f 65080000 		.4byte	0x865
+ 2167 0753 15       		.uleb128 0x15
+ 2168 0754 636D6400 		.ascii	"cmd\000"
+ 2169 0758 01       		.byte	0x1
+ 2170 0759 B2       		.byte	0xb2
+ 2171 075a E9000000 		.4byte	0xe9
+ 2172 075e F0000000 		.4byte	.LLST7
+ 2173 0762 14       		.uleb128 0x14
+ 2174 0763 98000000 		.4byte	.LBB8
+ 2175 0767 30000000 		.4byte	.LBE8-.LBB8
+ 2176 076b FE070000 		.4byte	0x7fe
+ 2177 076f 12       		.uleb128 0x12
+ 2178 0770 9C030000 		.4byte	.LASF46
+ 2179 0774 01       		.byte	0x1
+ 2180 0775 C2       		.byte	0xc2
+ 2181 0776 EC0B0000 		.4byte	0xbec
+ 2182 077a 02       		.uleb128 0x2
+ 2183 077b 91       		.byte	0x91
+ 2184 077c 54       		.sleb128 -44
+ 2185 077d 17       		.uleb128 0x17
+ 2186 077e 9E000000 		.4byte	.LVL71
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 47
+
+
+ 2187 0782 710D0000 		.4byte	0xd71
+ 2188 0786 94070000 		.4byte	0x794
+ 2189 078a 0F       		.uleb128 0xf
+ 2190 078b 01       		.uleb128 0x1
+ 2191 078c 50       		.byte	0x50
+ 2192 078d 05       		.uleb128 0x5
+ 2193 078e 03       		.byte	0x3
+ 2194 078f C8000000 		.4byte	.LC14
+ 2195 0793 00       		.byte	0
+ 2196 0794 17       		.uleb128 0x17
+ 2197 0795 AA000000 		.4byte	.LVL72
+ 2198 0799 DF0D0000 		.4byte	0xddf
+ 2199 079d C0070000 		.4byte	0x7c0
+ 2200 07a1 0F       		.uleb128 0xf
+ 2201 07a2 01       		.uleb128 0x1
+ 2202 07a3 50       		.byte	0x50
+ 2203 07a4 02       		.uleb128 0x2
+ 2204 07a5 91       		.byte	0x91
+ 2205 07a6 54       		.sleb128 -44
+ 2206 07a7 0F       		.uleb128 0xf
+ 2207 07a8 01       		.uleb128 0x1
+ 2208 07a9 51       		.byte	0x51
+ 2209 07aa 05       		.uleb128 0x5
+ 2210 07ab 03       		.byte	0x3
+ 2211 07ac D8000000 		.4byte	.LC15
+ 2212 07b0 0F       		.uleb128 0xf
+ 2213 07b1 01       		.uleb128 0x1
+ 2214 07b2 52       		.byte	0x52
+ 2215 07b3 02       		.uleb128 0x2
+ 2216 07b4 74       		.byte	0x74
+ 2217 07b5 00       		.sleb128 0
+ 2218 07b6 0F       		.uleb128 0xf
+ 2219 07b7 01       		.uleb128 0x1
+ 2220 07b8 53       		.byte	0x53
+ 2221 07b9 05       		.uleb128 0x5
+ 2222 07ba 03       		.byte	0x3
+ 2223 07bb 00000000 		.4byte	last_serial_cmd
+ 2224 07bf 00       		.byte	0
+ 2225 07c0 17       		.uleb128 0x17
+ 2226 07c1 B0000000 		.4byte	.LVL73
+ 2227 07c5 710D0000 		.4byte	0xd71
+ 2228 07c9 D4070000 		.4byte	0x7d4
+ 2229 07cd 0F       		.uleb128 0xf
+ 2230 07ce 01       		.uleb128 0x1
+ 2231 07cf 50       		.byte	0x50
+ 2232 07d0 02       		.uleb128 0x2
+ 2233 07d1 91       		.byte	0x91
+ 2234 07d2 54       		.sleb128 -44
+ 2235 07d3 00       		.byte	0
+ 2236 07d4 17       		.uleb128 0x17
+ 2237 07d5 BE000000 		.4byte	.LVL75
+ 2238 07d9 160E0000 		.4byte	0xe16
+ 2239 07dd F4070000 		.4byte	0x7f4
+ 2240 07e1 0F       		.uleb128 0xf
+ 2241 07e2 01       		.uleb128 0x1
+ 2242 07e3 50       		.byte	0x50
+ 2243 07e4 02       		.uleb128 0x2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 48
+
+
+ 2244 07e5 7D       		.byte	0x7d
+ 2245 07e6 00       		.sleb128 0
+ 2246 07e7 0F       		.uleb128 0xf
+ 2247 07e8 01       		.uleb128 0x1
+ 2248 07e9 51       		.byte	0x51
+ 2249 07ea 02       		.uleb128 0x2
+ 2250 07eb 74       		.byte	0x74
+ 2251 07ec 18       		.sleb128 24
+ 2252 07ed 0F       		.uleb128 0xf
+ 2253 07ee 01       		.uleb128 0x1
+ 2254 07ef 52       		.byte	0x52
+ 2255 07f0 02       		.uleb128 0x2
+ 2256 07f1 08       		.byte	0x8
+ 2257 07f2 D0       		.byte	0xd0
+ 2258 07f3 00       		.byte	0
+ 2259 07f4 1A       		.uleb128 0x1a
+ 2260 07f5 C8000000 		.4byte	.LVL76
+ 2261 07f9 BA020000 		.4byte	0x2ba
+ 2262 07fd 00       		.byte	0
+ 2263 07fe 17       		.uleb128 0x17
+ 2264 07ff 5C000000 		.4byte	.LVL61
+ 2265 0803 1F0E0000 		.4byte	0xe1f
+ 2266 0807 12080000 		.4byte	0x812
+ 2267 080b 0F       		.uleb128 0xf
+ 2268 080c 01       		.uleb128 0x1
+ 2269 080d 50       		.byte	0x50
+ 2270 080e 02       		.uleb128 0x2
+ 2271 080f 74       		.byte	0x74
+ 2272 0810 00       		.sleb128 0
+ 2273 0811 00       		.byte	0
+ 2274 0812 1A       		.uleb128 0x1a
+ 2275 0813 6A000000 		.4byte	.LVL62
+ 2276 0817 12050000 		.4byte	0x512
+ 2277 081b 17       		.uleb128 0x17
+ 2278 081c 78000000 		.4byte	.LVL64
+ 2279 0820 160E0000 		.4byte	0xe16
+ 2280 0824 3B080000 		.4byte	0x83b
+ 2281 0828 0F       		.uleb128 0xf
+ 2282 0829 01       		.uleb128 0x1
+ 2283 082a 50       		.byte	0x50
+ 2284 082b 02       		.uleb128 0x2
+ 2285 082c 7D       		.byte	0x7d
+ 2286 082d 00       		.sleb128 0
+ 2287 082e 0F       		.uleb128 0xf
+ 2288 082f 01       		.uleb128 0x1
+ 2289 0830 51       		.byte	0x51
+ 2290 0831 02       		.uleb128 0x2
+ 2291 0832 74       		.byte	0x74
+ 2292 0833 18       		.sleb128 24
+ 2293 0834 0F       		.uleb128 0xf
+ 2294 0835 01       		.uleb128 0x1
+ 2295 0836 52       		.byte	0x52
+ 2296 0837 02       		.uleb128 0x2
+ 2297 0838 08       		.byte	0x8
+ 2298 0839 D0       		.byte	0xd0
+ 2299 083a 00       		.byte	0
+ 2300 083b 1A       		.uleb128 0x1a
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 49
+
+
+ 2301 083c 82000000 		.4byte	.LVL65
+ 2302 0840 BA020000 		.4byte	0x2ba
+ 2303 0844 17       		.uleb128 0x17
+ 2304 0845 96000000 		.4byte	.LVL68
+ 2305 0849 710D0000 		.4byte	0xd71
+ 2306 084d 5B080000 		.4byte	0x85b
+ 2307 0851 0F       		.uleb128 0xf
+ 2308 0852 01       		.uleb128 0x1
+ 2309 0853 50       		.byte	0x50
+ 2310 0854 05       		.uleb128 0x5
+ 2311 0855 03       		.byte	0x3
+ 2312 0856 B8000000 		.4byte	.LC13
+ 2313 085a 00       		.byte	0
+ 2314 085b 1A       		.uleb128 0x1a
+ 2315 085c CC000000 		.4byte	.LVL77
+ 2316 0860 30020000 		.4byte	0x230
+ 2317 0864 00       		.byte	0
+ 2318 0865 14       		.uleb128 0x14
+ 2319 0866 9A010000 		.4byte	.LBB9
+ 2320 086a B0000000 		.4byte	.LBE9-.LBB9
+ 2321 086e E8090000 		.4byte	0x9e8
+ 2322 0872 15       		.uleb128 0x15
+ 2323 0873 636D6400 		.ascii	"cmd\000"
+ 2324 0877 01       		.byte	0x1
+ 2325 0878 F5       		.byte	0xf5
+ 2326 0879 E9000000 		.4byte	0xe9
+ 2327 087d 3A010000 		.4byte	.LLST8
+ 2328 0881 14       		.uleb128 0x14
+ 2329 0882 E6010000 		.4byte	.LBB10
+ 2330 0886 5E000000 		.4byte	.LBE10-.LBB10
+ 2331 088a 55090000 		.4byte	0x955
+ 2332 088e 1F       		.uleb128 0x1f
+ 2333 088f 72020000 		.4byte	.LASF50
+ 2334 0893 01       		.byte	0x1
+ 2335 0894 0801     		.2byte	0x108
+ 2336 0896 FC0B0000 		.4byte	0xbfc
+ 2337 089a 02       		.uleb128 0x2
+ 2338 089b 91       		.byte	0x91
+ 2339 089c 54       		.sleb128 -44
+ 2340 089d 17       		.uleb128 0x17
+ 2341 089e EC010000 		.4byte	.LVL102
+ 2342 08a2 710D0000 		.4byte	0xd71
+ 2343 08a6 B4080000 		.4byte	0x8b4
+ 2344 08aa 0F       		.uleb128 0xf
+ 2345 08ab 01       		.uleb128 0x1
+ 2346 08ac 50       		.byte	0x50
+ 2347 08ad 05       		.uleb128 0x5
+ 2348 08ae 03       		.byte	0x3
+ 2349 08af 48010000 		.4byte	.LC21
+ 2350 08b3 00       		.byte	0
+ 2351 08b4 17       		.uleb128 0x17
+ 2352 08b5 F2010000 		.4byte	.LVL103
+ 2353 08b9 3B050000 		.4byte	0x53b
+ 2354 08bd C8080000 		.4byte	0x8c8
+ 2355 08c1 0F       		.uleb128 0xf
+ 2356 08c2 01       		.uleb128 0x1
+ 2357 08c3 50       		.byte	0x50
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 50
+
+
+ 2358 08c4 02       		.uleb128 0x2
+ 2359 08c5 91       		.byte	0x91
+ 2360 08c6 54       		.sleb128 -44
+ 2361 08c7 00       		.byte	0
+ 2362 08c8 17       		.uleb128 0x17
+ 2363 08c9 02020000 		.4byte	.LVL104
+ 2364 08cd EA0D0000 		.4byte	0xdea
+ 2365 08d1 E2080000 		.4byte	0x8e2
+ 2366 08d5 0F       		.uleb128 0xf
+ 2367 08d6 01       		.uleb128 0x1
+ 2368 08d7 50       		.byte	0x50
+ 2369 08d8 02       		.uleb128 0x2
+ 2370 08d9 74       		.byte	0x74
+ 2371 08da 00       		.sleb128 0
+ 2372 08db 0F       		.uleb128 0xf
+ 2373 08dc 01       		.uleb128 0x1
+ 2374 08dd 51       		.byte	0x51
+ 2375 08de 02       		.uleb128 0x2
+ 2376 08df 91       		.byte	0x91
+ 2377 08e0 54       		.sleb128 -44
+ 2378 08e1 00       		.byte	0
+ 2379 08e2 17       		.uleb128 0x17
+ 2380 08e3 08020000 		.4byte	.LVL105
+ 2381 08e7 710D0000 		.4byte	0xd71
+ 2382 08eb F9080000 		.4byte	0x8f9
+ 2383 08ef 0F       		.uleb128 0xf
+ 2384 08f0 01       		.uleb128 0x1
+ 2385 08f1 50       		.byte	0x50
+ 2386 08f2 05       		.uleb128 0x5
+ 2387 08f3 03       		.byte	0x3
+ 2388 08f4 60010000 		.4byte	.LC22
+ 2389 08f8 00       		.byte	0
+ 2390 08f9 17       		.uleb128 0x17
+ 2391 08fa 10020000 		.4byte	.LVL106
+ 2392 08fe 710D0000 		.4byte	0xd71
+ 2393 0902 0D090000 		.4byte	0x90d
+ 2394 0906 0F       		.uleb128 0xf
+ 2395 0907 01       		.uleb128 0x1
+ 2396 0908 50       		.byte	0x50
+ 2397 0909 02       		.uleb128 0x2
+ 2398 090a 76       		.byte	0x76
+ 2399 090b 0E       		.sleb128 14
+ 2400 090c 00       		.byte	0
+ 2401 090d 17       		.uleb128 0x17
+ 2402 090e 16020000 		.4byte	.LVL107
+ 2403 0912 710D0000 		.4byte	0xd71
+ 2404 0916 24090000 		.4byte	0x924
+ 2405 091a 0F       		.uleb128 0xf
+ 2406 091b 01       		.uleb128 0x1
+ 2407 091c 50       		.byte	0x50
+ 2408 091d 05       		.uleb128 0x5
+ 2409 091e 03       		.byte	0x3
+ 2410 091f 10010000 		.4byte	.LC18
+ 2411 0923 00       		.byte	0
+ 2412 0924 17       		.uleb128 0x17
+ 2413 0925 1C020000 		.4byte	.LVL108
+ 2414 0929 710D0000 		.4byte	0xd71
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 51
+
+
+ 2415 092d 38090000 		.4byte	0x938
+ 2416 0931 0F       		.uleb128 0xf
+ 2417 0932 01       		.uleb128 0x1
+ 2418 0933 50       		.byte	0x50
+ 2419 0934 02       		.uleb128 0x2
+ 2420 0935 74       		.byte	0x74
+ 2421 0936 00       		.sleb128 0
+ 2422 0937 00       		.byte	0
+ 2423 0938 1A       		.uleb128 0x1a
+ 2424 0939 3A020000 		.4byte	.LVL109
+ 2425 093d C4030000 		.4byte	0x3c4
+ 2426 0941 0E       		.uleb128 0xe
+ 2427 0942 40020000 		.4byte	.LVL110
+ 2428 0946 710D0000 		.4byte	0xd71
+ 2429 094a 0F       		.uleb128 0xf
+ 2430 094b 01       		.uleb128 0x1
+ 2431 094c 50       		.byte	0x50
+ 2432 094d 05       		.uleb128 0x5
+ 2433 094e 03       		.byte	0x3
+ 2434 094f 80010000 		.4byte	.LC23
+ 2435 0953 00       		.byte	0
+ 2436 0954 00       		.byte	0
+ 2437 0955 17       		.uleb128 0x17
+ 2438 0956 A0010000 		.4byte	.LVL91
+ 2439 095a 1F0E0000 		.4byte	0xe1f
+ 2440 095e 69090000 		.4byte	0x969
+ 2441 0962 0F       		.uleb128 0xf
+ 2442 0963 01       		.uleb128 0x1
+ 2443 0964 50       		.byte	0x50
+ 2444 0965 02       		.uleb128 0x2
+ 2445 0966 74       		.byte	0x74
+ 2446 0967 00       		.sleb128 0
+ 2447 0968 00       		.byte	0
+ 2448 0969 1A       		.uleb128 0x1a
+ 2449 096a B0010000 		.4byte	.LVL92
+ 2450 096e 12050000 		.4byte	0x512
+ 2451 0972 17       		.uleb128 0x17
+ 2452 0973 BE010000 		.4byte	.LVL93
+ 2453 0977 160E0000 		.4byte	0xe16
+ 2454 097b 93090000 		.4byte	0x993
+ 2455 097f 0F       		.uleb128 0xf
+ 2456 0980 01       		.uleb128 0x1
+ 2457 0981 50       		.byte	0x50
+ 2458 0982 02       		.uleb128 0x2
+ 2459 0983 7D       		.byte	0x7d
+ 2460 0984 00       		.sleb128 0
+ 2461 0985 0F       		.uleb128 0xf
+ 2462 0986 01       		.uleb128 0x1
+ 2463 0987 51       		.byte	0x51
+ 2464 0988 03       		.uleb128 0x3
+ 2465 0989 74       		.byte	0x74
+ 2466 098a F801     		.sleb128 248
+ 2467 098c 0F       		.uleb128 0xf
+ 2468 098d 01       		.uleb128 0x1
+ 2469 098e 52       		.byte	0x52
+ 2470 098f 02       		.uleb128 0x2
+ 2471 0990 08       		.byte	0x8
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 52
+
+
+ 2472 0991 D0       		.byte	0xd0
+ 2473 0992 00       		.byte	0
+ 2474 0993 1A       		.uleb128 0x1a
+ 2475 0994 C8010000 		.4byte	.LVL94
+ 2476 0998 BA020000 		.4byte	0x2ba
+ 2477 099c 17       		.uleb128 0x17
+ 2478 099d D0010000 		.4byte	.LVL97
+ 2479 09a1 710D0000 		.4byte	0xd71
+ 2480 09a5 B3090000 		.4byte	0x9b3
+ 2481 09a9 0F       		.uleb128 0xf
+ 2482 09aa 01       		.uleb128 0x1
+ 2483 09ab 50       		.byte	0x50
+ 2484 09ac 05       		.uleb128 0x5
+ 2485 09ad 03       		.byte	0x3
+ 2486 09ae 2C010000 		.4byte	.LC20
+ 2487 09b2 00       		.byte	0
+ 2488 09b3 17       		.uleb128 0x17
+ 2489 09b4 DA010000 		.4byte	.LVL98
+ 2490 09b8 710D0000 		.4byte	0xd71
+ 2491 09bc C7090000 		.4byte	0x9c7
+ 2492 09c0 0F       		.uleb128 0xf
+ 2493 09c1 01       		.uleb128 0x1
+ 2494 09c2 50       		.byte	0x50
+ 2495 09c3 02       		.uleb128 0x2
+ 2496 09c4 74       		.byte	0x74
+ 2497 09c5 0E       		.sleb128 14
+ 2498 09c6 00       		.byte	0
+ 2499 09c7 17       		.uleb128 0x17
+ 2500 09c8 E0010000 		.4byte	.LVL99
+ 2501 09cc 710D0000 		.4byte	0xd71
+ 2502 09d0 DE090000 		.4byte	0x9de
+ 2503 09d4 0F       		.uleb128 0xf
+ 2504 09d5 01       		.uleb128 0x1
+ 2505 09d6 50       		.byte	0x50
+ 2506 09d7 05       		.uleb128 0x5
+ 2507 09d8 03       		.byte	0x3
+ 2508 09d9 10010000 		.4byte	.LC18
+ 2509 09dd 00       		.byte	0
+ 2510 09de 1A       		.uleb128 0x1a
+ 2511 09df 48020000 		.4byte	.LVL111
+ 2512 09e3 30020000 		.4byte	0x230
+ 2513 09e7 00       		.byte	0
+ 2514 09e8 1A       		.uleb128 0x1a
+ 2515 09e9 08000000 		.4byte	.LVL56
+ 2516 09ed 870D0000 		.4byte	0xd87
+ 2517 09f1 17       		.uleb128 0x17
+ 2518 09f2 10000000 		.4byte	.LVL57
+ 2519 09f6 2A0E0000 		.4byte	0xe2a
+ 2520 09fa 050A0000 		.4byte	0xa05
+ 2521 09fe 0F       		.uleb128 0xf
+ 2522 09ff 01       		.uleb128 0x1
+ 2523 0a00 50       		.byte	0x50
+ 2524 0a01 02       		.uleb128 0x2
+ 2525 0a02 74       		.byte	0x74
+ 2526 0a03 00       		.sleb128 0
+ 2527 0a04 00       		.byte	0
+ 2528 0a05 1A       		.uleb128 0x1a
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 53
+
+
+ 2529 0a06 1C000000 		.4byte	.LVL58
+ 2530 0a0a 350E0000 		.4byte	0xe35
+ 2531 0a0e 17       		.uleb128 0x17
+ 2532 0a0f 3C000000 		.4byte	.LVL59
+ 2533 0a13 160E0000 		.4byte	0xe16
+ 2534 0a17 2E0A0000 		.4byte	0xa2e
+ 2535 0a1b 0F       		.uleb128 0xf
+ 2536 0a1c 01       		.uleb128 0x1
+ 2537 0a1d 50       		.byte	0x50
+ 2538 0a1e 02       		.uleb128 0x2
+ 2539 0a1f 7D       		.byte	0x7d
+ 2540 0a20 00       		.sleb128 0
+ 2541 0a21 0F       		.uleb128 0xf
+ 2542 0a22 01       		.uleb128 0x1
+ 2543 0a23 51       		.byte	0x51
+ 2544 0a24 02       		.uleb128 0x2
+ 2545 0a25 74       		.byte	0x74
+ 2546 0a26 18       		.sleb128 24
+ 2547 0a27 0F       		.uleb128 0xf
+ 2548 0a28 01       		.uleb128 0x1
+ 2549 0a29 52       		.byte	0x52
+ 2550 0a2a 02       		.uleb128 0x2
+ 2551 0a2b 08       		.byte	0x8
+ 2552 0a2c D0       		.byte	0xd0
+ 2553 0a2d 00       		.byte	0
+ 2554 0a2e 1A       		.uleb128 0x1a
+ 2555 0a2f 46000000 		.4byte	.LVL60
+ 2556 0a33 BA020000 		.4byte	0x2ba
+ 2557 0a37 17       		.uleb128 0x17
+ 2558 0a38 0A010000 		.4byte	.LVL78
+ 2559 0a3c 710D0000 		.4byte	0xd71
+ 2560 0a40 4E0A0000 		.4byte	0xa4e
+ 2561 0a44 0F       		.uleb128 0xf
+ 2562 0a45 01       		.uleb128 0x1
+ 2563 0a46 50       		.byte	0x50
+ 2564 0a47 05       		.uleb128 0x5
+ 2565 0a48 03       		.byte	0x3
+ 2566 0a49 E0000000 		.4byte	.LC16
+ 2567 0a4d 00       		.byte	0
+ 2568 0a4e 17       		.uleb128 0x17
+ 2569 0a4f 28010000 		.4byte	.LVL79
+ 2570 0a53 EA0D0000 		.4byte	0xdea
+ 2571 0a57 6B0A0000 		.4byte	0xa6b
+ 2572 0a5b 0F       		.uleb128 0xf
+ 2573 0a5c 01       		.uleb128 0x1
+ 2574 0a5d 50       		.byte	0x50
+ 2575 0a5e 02       		.uleb128 0x2
+ 2576 0a5f 75       		.byte	0x75
+ 2577 0a60 00       		.sleb128 0
+ 2578 0a61 0F       		.uleb128 0xf
+ 2579 0a62 01       		.uleb128 0x1
+ 2580 0a63 51       		.byte	0x51
+ 2581 0a64 05       		.uleb128 0x5
+ 2582 0a65 03       		.byte	0x3
+ 2583 0a66 00000000 		.4byte	last_serial_cmd
+ 2584 0a6a 00       		.byte	0
+ 2585 0a6b 1A       		.uleb128 0x1a
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 54
+
+
+ 2586 0a6c 2C010000 		.4byte	.LVL80
+ 2587 0a70 30020000 		.4byte	0x230
+ 2588 0a74 17       		.uleb128 0x17
+ 2589 0a75 32010000 		.4byte	.LVL81
+ 2590 0a79 710D0000 		.4byte	0xd71
+ 2591 0a7d 8B0A0000 		.4byte	0xa8b
+ 2592 0a81 0F       		.uleb128 0xf
+ 2593 0a82 01       		.uleb128 0x1
+ 2594 0a83 50       		.byte	0x50
+ 2595 0a84 05       		.uleb128 0x5
+ 2596 0a85 03       		.byte	0x3
+ 2597 0a86 F8000000 		.4byte	.LC17
+ 2598 0a8a 00       		.byte	0
+ 2599 0a8b 17       		.uleb128 0x17
+ 2600 0a8c 38010000 		.4byte	.LVL82
+ 2601 0a90 710D0000 		.4byte	0xd71
+ 2602 0a94 9F0A0000 		.4byte	0xa9f
+ 2603 0a98 0F       		.uleb128 0xf
+ 2604 0a99 01       		.uleb128 0x1
+ 2605 0a9a 50       		.byte	0x50
+ 2606 0a9b 02       		.uleb128 0x2
+ 2607 0a9c 75       		.byte	0x75
+ 2608 0a9d 00       		.sleb128 0
+ 2609 0a9e 00       		.byte	0
+ 2610 0a9f 17       		.uleb128 0x17
+ 2611 0aa0 3E010000 		.4byte	.LVL83
+ 2612 0aa4 710D0000 		.4byte	0xd71
+ 2613 0aa8 B60A0000 		.4byte	0xab6
+ 2614 0aac 0F       		.uleb128 0xf
+ 2615 0aad 01       		.uleb128 0x1
+ 2616 0aae 50       		.byte	0x50
+ 2617 0aaf 05       		.uleb128 0x5
+ 2618 0ab0 03       		.byte	0x3
+ 2619 0ab1 10010000 		.4byte	.LC18
+ 2620 0ab5 00       		.byte	0
+ 2621 0ab6 17       		.uleb128 0x17
+ 2622 0ab7 5C010000 		.4byte	.LVL84
+ 2623 0abb EA0D0000 		.4byte	0xdea
+ 2624 0abf D30A0000 		.4byte	0xad3
+ 2625 0ac3 0F       		.uleb128 0xf
+ 2626 0ac4 01       		.uleb128 0x1
+ 2627 0ac5 50       		.byte	0x50
+ 2628 0ac6 02       		.uleb128 0x2
+ 2629 0ac7 74       		.byte	0x74
+ 2630 0ac8 00       		.sleb128 0
+ 2631 0ac9 0F       		.uleb128 0xf
+ 2632 0aca 01       		.uleb128 0x1
+ 2633 0acb 51       		.byte	0x51
+ 2634 0acc 05       		.uleb128 0x5
+ 2635 0acd 03       		.byte	0x3
+ 2636 0ace 00000000 		.4byte	last_serial_cmd
+ 2637 0ad2 00       		.byte	0
+ 2638 0ad3 1A       		.uleb128 0x1a
+ 2639 0ad4 60010000 		.4byte	.LVL85
+ 2640 0ad8 30020000 		.4byte	0x230
+ 2641 0adc 17       		.uleb128 0x17
+ 2642 0add 66010000 		.4byte	.LVL86
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 55
+
+
+ 2643 0ae1 710D0000 		.4byte	0xd71
+ 2644 0ae5 F30A0000 		.4byte	0xaf3
+ 2645 0ae9 0F       		.uleb128 0xf
+ 2646 0aea 01       		.uleb128 0x1
+ 2647 0aeb 50       		.byte	0x50
+ 2648 0aec 05       		.uleb128 0x5
+ 2649 0aed 03       		.byte	0x3
+ 2650 0aee 14010000 		.4byte	.LC19
+ 2651 0af2 00       		.byte	0
+ 2652 0af3 17       		.uleb128 0x17
+ 2653 0af4 6C010000 		.4byte	.LVL87
+ 2654 0af8 710D0000 		.4byte	0xd71
+ 2655 0afc 070B0000 		.4byte	0xb07
+ 2656 0b00 0F       		.uleb128 0xf
+ 2657 0b01 01       		.uleb128 0x1
+ 2658 0b02 50       		.byte	0x50
+ 2659 0b03 02       		.uleb128 0x2
+ 2660 0b04 74       		.byte	0x74
+ 2661 0b05 00       		.sleb128 0
+ 2662 0b06 00       		.byte	0
+ 2663 0b07 17       		.uleb128 0x17
+ 2664 0b08 72010000 		.4byte	.LVL88
+ 2665 0b0c 710D0000 		.4byte	0xd71
+ 2666 0b10 1E0B0000 		.4byte	0xb1e
+ 2667 0b14 0F       		.uleb128 0xf
+ 2668 0b15 01       		.uleb128 0x1
+ 2669 0b16 50       		.byte	0x50
+ 2670 0b17 05       		.uleb128 0x5
+ 2671 0b18 03       		.byte	0x3
+ 2672 0b19 10010000 		.4byte	.LC18
+ 2673 0b1d 00       		.byte	0
+ 2674 0b1e 17       		.uleb128 0x17
+ 2675 0b1f 80010000 		.4byte	.LVL89
+ 2676 0b23 160E0000 		.4byte	0xe16
+ 2677 0b27 3F0B0000 		.4byte	0xb3f
+ 2678 0b2b 0F       		.uleb128 0xf
+ 2679 0b2c 01       		.uleb128 0x1
+ 2680 0b2d 50       		.byte	0x50
+ 2681 0b2e 02       		.uleb128 0x2
+ 2682 0b2f 7D       		.byte	0x7d
+ 2683 0b30 00       		.sleb128 0
+ 2684 0b31 0F       		.uleb128 0xf
+ 2685 0b32 01       		.uleb128 0x1
+ 2686 0b33 51       		.byte	0x51
+ 2687 0b34 03       		.uleb128 0x3
+ 2688 0b35 74       		.byte	0x74
+ 2689 0b36 F801     		.sleb128 248
+ 2690 0b38 0F       		.uleb128 0xf
+ 2691 0b39 01       		.uleb128 0x1
+ 2692 0b3a 52       		.byte	0x52
+ 2693 0b3b 02       		.uleb128 0x2
+ 2694 0b3c 08       		.byte	0x8
+ 2695 0b3d D0       		.byte	0xd0
+ 2696 0b3e 00       		.byte	0
+ 2697 0b3f 1A       		.uleb128 0x1a
+ 2698 0b40 8A010000 		.4byte	.LVL90
+ 2699 0b44 BA020000 		.4byte	0x2ba
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 56
+
+
+ 2700 0b48 17       		.uleb128 0x17
+ 2701 0b49 60020000 		.4byte	.LVL112
+ 2702 0b4d EA0D0000 		.4byte	0xdea
+ 2703 0b51 620B0000 		.4byte	0xb62
+ 2704 0b55 0F       		.uleb128 0xf
+ 2705 0b56 01       		.uleb128 0x1
+ 2706 0b57 50       		.byte	0x50
+ 2707 0b58 02       		.uleb128 0x2
+ 2708 0b59 76       		.byte	0x76
+ 2709 0b5a 31       		.sleb128 49
+ 2710 0b5b 0F       		.uleb128 0xf
+ 2711 0b5c 01       		.uleb128 0x1
+ 2712 0b5d 51       		.byte	0x51
+ 2713 0b5e 02       		.uleb128 0x2
+ 2714 0b5f 74       		.byte	0x74
+ 2715 0b60 00       		.sleb128 0
+ 2716 0b61 00       		.byte	0
+ 2717 0b62 1A       		.uleb128 0x1a
+ 2718 0b63 64020000 		.4byte	.LVL113
+ 2719 0b67 30020000 		.4byte	0x230
+ 2720 0b6b 1A       		.uleb128 0x1a
+ 2721 0b6c 82020000 		.4byte	.LVL114
+ 2722 0b70 C4030000 		.4byte	0x3c4
+ 2723 0b74 17       		.uleb128 0x17
+ 2724 0b75 88020000 		.4byte	.LVL115
+ 2725 0b79 710D0000 		.4byte	0xd71
+ 2726 0b7d 8B0B0000 		.4byte	0xb8b
+ 2727 0b81 0F       		.uleb128 0xf
+ 2728 0b82 01       		.uleb128 0x1
+ 2729 0b83 50       		.byte	0x50
+ 2730 0b84 05       		.uleb128 0x5
+ 2731 0b85 03       		.byte	0x3
+ 2732 0b86 80010000 		.4byte	.LC23
+ 2733 0b8a 00       		.byte	0
+ 2734 0b8b 17       		.uleb128 0x17
+ 2735 0b8c 9E020000 		.4byte	.LVL116
+ 2736 0b90 400E0000 		.4byte	0xe40
+ 2737 0b94 A20B0000 		.4byte	0xba2
+ 2738 0b98 0F       		.uleb128 0xf
+ 2739 0b99 01       		.uleb128 0x1
+ 2740 0b9a 50       		.byte	0x50
+ 2741 0b9b 05       		.uleb128 0x5
+ 2742 0b9c 03       		.byte	0x3
+ 2743 0b9d 04000000 		.4byte	.LANCHOR1+4
+ 2744 0ba1 00       		.byte	0
+ 2745 0ba2 17       		.uleb128 0x17
+ 2746 0ba3 A6020000 		.4byte	.LVL117
+ 2747 0ba7 710D0000 		.4byte	0xd71
+ 2748 0bab B90B0000 		.4byte	0xbb9
+ 2749 0baf 0F       		.uleb128 0xf
+ 2750 0bb0 01       		.uleb128 0x1
+ 2751 0bb1 50       		.byte	0x50
+ 2752 0bb2 05       		.uleb128 0x5
+ 2753 0bb3 03       		.byte	0x3
+ 2754 0bb4 B4010000 		.4byte	.LC24
+ 2755 0bb8 00       		.byte	0
+ 2756 0bb9 1A       		.uleb128 0x1a
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 57
+
+
+ 2757 0bba AA020000 		.4byte	.LVL118
+ 2758 0bbe 30020000 		.4byte	0x230
+ 2759 0bc2 17       		.uleb128 0x17
+ 2760 0bc3 BC020000 		.4byte	.LVL119
+ 2761 0bc7 160E0000 		.4byte	0xe16
+ 2762 0bcb E20B0000 		.4byte	0xbe2
+ 2763 0bcf 0F       		.uleb128 0xf
+ 2764 0bd0 01       		.uleb128 0x1
+ 2765 0bd1 50       		.byte	0x50
+ 2766 0bd2 02       		.uleb128 0x2
+ 2767 0bd3 7D       		.byte	0x7d
+ 2768 0bd4 00       		.sleb128 0
+ 2769 0bd5 0F       		.uleb128 0xf
+ 2770 0bd6 01       		.uleb128 0x1
+ 2771 0bd7 51       		.byte	0x51
+ 2772 0bd8 02       		.uleb128 0x2
+ 2773 0bd9 74       		.byte	0x74
+ 2774 0bda 18       		.sleb128 24
+ 2775 0bdb 0F       		.uleb128 0xf
+ 2776 0bdc 01       		.uleb128 0x1
+ 2777 0bdd 52       		.byte	0x52
+ 2778 0bde 02       		.uleb128 0x2
+ 2779 0bdf 08       		.byte	0x8
+ 2780 0be0 D0       		.byte	0xd0
+ 2781 0be1 00       		.byte	0
+ 2782 0be2 1A       		.uleb128 0x1a
+ 2783 0be3 C6020000 		.4byte	.LVL120
+ 2784 0be7 BA020000 		.4byte	0x2ba
+ 2785 0beb 00       		.byte	0
+ 2786 0bec 04       		.uleb128 0x4
+ 2787 0bed 69000000 		.4byte	0x69
+ 2788 0bf1 FC0B0000 		.4byte	0xbfc
+ 2789 0bf5 05       		.uleb128 0x5
+ 2790 0bf6 62000000 		.4byte	0x62
+ 2791 0bfa 04       		.byte	0x4
+ 2792 0bfb 00       		.byte	0
+ 2793 0bfc 04       		.uleb128 0x4
+ 2794 0bfd 69000000 		.4byte	0x69
+ 2795 0c01 0C0C0000 		.4byte	0xc0c
+ 2796 0c05 05       		.uleb128 0x5
+ 2797 0c06 62000000 		.4byte	0x62
+ 2798 0c0a 10       		.byte	0x10
+ 2799 0c0b 00       		.byte	0
+ 2800 0c0c 20       		.uleb128 0x20
+ 2801 0c0d F7010000 		.4byte	.LASF51
+ 2802 0c11 02       		.byte	0x2
+ 2803 0c12 11       		.byte	0x11
+ 2804 0c13 E9000000 		.4byte	0xe9
+ 2805 0c17 05       		.uleb128 0x5
+ 2806 0c18 03       		.byte	0x3
+ 2807 0c19 00000000 		.4byte	record_size
+ 2808 0c1d 21       		.uleb128 0x21
+ 2809 0c1e E0030000 		.4byte	.LASF52
+ 2810 0c22 0A       		.byte	0xa
+ 2811 0c23 1207     		.2byte	0x712
+ 2812 0c25 290C0000 		.4byte	0xc29
+ 2813 0c29 22       		.uleb128 0x22
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 58
+
+
+ 2814 0c2a 02010000 		.4byte	0x102
+ 2815 0c2e 20       		.uleb128 0x20
+ 2816 0c2f 3B030000 		.4byte	.LASF53
+ 2817 0c33 01       		.byte	0x1
+ 2818 0c34 1E       		.byte	0x1e
+ 2819 0c35 90000000 		.4byte	0x90
+ 2820 0c39 05       		.uleb128 0x5
+ 2821 0c3a 03       		.byte	0x3
+ 2822 0c3b 00000000 		.4byte	new_record
+ 2823 0c3f 20       		.uleb128 0x20
+ 2824 0c40 B2040000 		.4byte	.LASF54
+ 2825 0c44 01       		.byte	0x1
+ 2826 0c45 9A       		.byte	0x9a
+ 2827 0c46 E9000000 		.4byte	0xe9
+ 2828 0c4a 05       		.uleb128 0x5
+ 2829 0c4b 03       		.byte	0x3
+ 2830 0c4c 00000000 		.4byte	s_main_state
+ 2831 0c50 20       		.uleb128 0x20
+ 2832 0c51 52000000 		.4byte	.LASF55
+ 2833 0c55 01       		.byte	0x1
+ 2834 0c56 9B       		.byte	0x9b
+ 2835 0c57 E9000000 		.4byte	0xe9
+ 2836 0c5b 05       		.uleb128 0x5
+ 2837 0c5c 03       		.byte	0x3
+ 2838 0c5d 00000000 		.4byte	s_sec_state
+ 2839 0c61 04       		.uleb128 0x4
+ 2840 0c62 69000000 		.4byte	0x69
+ 2841 0c66 710C0000 		.4byte	0xc71
+ 2842 0c6a 05       		.uleb128 0x5
+ 2843 0c6b 62000000 		.4byte	0x62
+ 2844 0c6f 08       		.byte	0x8
+ 2845 0c70 00       		.byte	0
+ 2846 0c71 20       		.uleb128 0x20
+ 2847 0c72 7A030000 		.4byte	.LASF56
+ 2848 0c76 0B       		.byte	0xb
+ 2849 0c77 10       		.byte	0x10
+ 2850 0c78 610C0000 		.4byte	0xc61
+ 2851 0c7c 05       		.uleb128 0x5
+ 2852 0c7d 03       		.byte	0x3
+ 2853 0c7e 00000000 		.4byte	sdFile
+ 2854 0c82 20       		.uleb128 0x20
+ 2855 0c83 AE030000 		.4byte	.LASF57
+ 2856 0c87 0B       		.byte	0xb
+ 2857 0c88 11       		.byte	0x11
+ 2858 0c89 52000000 		.4byte	0x52
+ 2859 0c8d 05       		.uleb128 0x5
+ 2860 0c8e 03       		.byte	0x3
+ 2861 0c8f 00000000 		.4byte	sdVolName
+ 2862 0c93 20       		.uleb128 0x20
+ 2863 0c94 38020000 		.4byte	.LASF58
+ 2864 0c98 0B       		.byte	0xb
+ 2865 0c99 12       		.byte	0x12
+ 2866 0c9a F7010000 		.4byte	0x1f7
+ 2867 0c9e 05       		.uleb128 0x5
+ 2868 0c9f 03       		.byte	0x3
+ 2869 0ca0 00000000 		.4byte	pFile
+ 2870 0ca4 20       		.uleb128 0x20
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 59
+
+
+ 2871 0ca5 7B040000 		.4byte	.LASF59
+ 2872 0ca9 09       		.byte	0x9
+ 2873 0caa 1F       		.byte	0x1f
+ 2874 0cab 1E020000 		.4byte	0x21e
+ 2875 0caf 05       		.uleb128 0x5
+ 2876 0cb0 03       		.byte	0x3
+ 2877 0cb1 00000000 		.4byte	KB_Initialized
+ 2878 0cb5 04       		.uleb128 0x4
+ 2879 0cb6 0D010000 		.4byte	0x10d
+ 2880 0cba C50C0000 		.4byte	0xcc5
+ 2881 0cbe 05       		.uleb128 0x5
+ 2882 0cbf 62000000 		.4byte	0x62
+ 2883 0cc3 07       		.byte	0x7
+ 2884 0cc4 00       		.byte	0
+ 2885 0cc5 20       		.uleb128 0x20
+ 2886 0cc6 65030000 		.4byte	.LASF60
+ 2887 0cca 09       		.byte	0x9
+ 2888 0ccb 20       		.byte	0x20
+ 2889 0ccc B50C0000 		.4byte	0xcb5
+ 2890 0cd0 05       		.uleb128 0x5
+ 2891 0cd1 03       		.byte	0x3
+ 2892 0cd2 00000000 		.4byte	KB_Data
+ 2893 0cd6 04       		.uleb128 0x4
+ 2894 0cd7 25020000 		.4byte	0x225
+ 2895 0cdb E60C0000 		.4byte	0xce6
+ 2896 0cdf 05       		.uleb128 0x5
+ 2897 0ce0 62000000 		.4byte	0x62
+ 2898 0ce4 5F       		.byte	0x5f
+ 2899 0ce5 00       		.byte	0
+ 2900 0ce6 20       		.uleb128 0x20
+ 2901 0ce7 34010000 		.4byte	.LASF61
+ 2902 0ceb 09       		.byte	0x9
+ 2903 0cec 27       		.byte	0x27
+ 2904 0ced D60C0000 		.4byte	0xcd6
+ 2905 0cf1 05       		.uleb128 0x5
+ 2906 0cf2 03       		.byte	0x3
+ 2907 0cf3 00000000 		.4byte	ascii_to_hid
+ 2908 0cf7 20       		.uleb128 0x20
+ 2909 0cf8 99010000 		.4byte	.LASF62
+ 2910 0cfc 01       		.byte	0x1
+ 2911 0cfd 12       		.byte	0x12
+ 2912 0cfe 02050000 		.4byte	0x502
+ 2913 0d02 05       		.uleb128 0x5
+ 2914 0d03 03       		.byte	0x3
+ 2915 0d04 00000000 		.4byte	rx_buffer
+ 2916 0d08 20       		.uleb128 0x20
+ 2917 0d09 BB020000 		.4byte	.LASF63
+ 2918 0d0d 01       		.byte	0x1
+ 2919 0d0e 13       		.byte	0x13
+ 2920 0d0f E9000000 		.4byte	0xe9
+ 2921 0d13 05       		.uleb128 0x5
+ 2922 0d14 03       		.byte	0x3
+ 2923 0d15 00000000 		.4byte	rx_buff_length
+ 2924 0d19 20       		.uleb128 0x20
+ 2925 0d1a C9040000 		.4byte	.LASF64
+ 2926 0d1e 01       		.byte	0x1
+ 2927 0d1f 14       		.byte	0x14
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 60
+
+
+ 2928 0d20 02050000 		.4byte	0x502
+ 2929 0d24 05       		.uleb128 0x5
+ 2930 0d25 03       		.byte	0x3
+ 2931 0d26 00000000 		.4byte	last_serial_cmd
+ 2932 0d2a 20       		.uleb128 0x20
+ 2933 0d2b 8A040000 		.4byte	.LASF65
+ 2934 0d2f 01       		.byte	0x1
+ 2935 0d30 15       		.byte	0x15
+ 2936 0d31 E9000000 		.4byte	0xe9
+ 2937 0d35 05       		.uleb128 0x5
+ 2938 0d36 03       		.byte	0x3
+ 2939 0d37 00000000 		.4byte	last_serial_cmd_length
+ 2940 0d3b 20       		.uleb128 0x20
+ 2941 0d3c 50030000 		.4byte	.LASF66
+ 2942 0d40 01       		.byte	0x1
+ 2943 0d41 21       		.byte	0x21
+ 2944 0d42 DC010000 		.4byte	0x1dc
+ 2945 0d46 05       		.uleb128 0x5
+ 2946 0d47 03       		.byte	0x3
+ 2947 0d48 00000000 		.4byte	main_menu
+ 2948 0d4c 20       		.uleb128 0x20
+ 2949 0d4d 46030000 		.4byte	.LASF67
+ 2950 0d51 01       		.byte	0x1
+ 2951 0d52 2C       		.byte	0x2c
+ 2952 0d53 DC010000 		.4byte	0x1dc
+ 2953 0d57 05       		.uleb128 0x5
+ 2954 0d58 03       		.byte	0x3
+ 2955 0d59 00000000 		.4byte	pass_menu
+ 2956 0d5d 23       		.uleb128 0x23
+ 2957 0d5e 6C010000 		.4byte	.LASF84
+ 2958 0d62 6C010000 		.4byte	.LASF84
+ 2959 0d66 24       		.uleb128 0x24
+ 2960 0d67 82020000 		.4byte	.LASF68
+ 2961 0d6b 82020000 		.4byte	.LASF68
+ 2962 0d6f 0C       		.byte	0xc
+ 2963 0d70 1A       		.byte	0x1a
+ 2964 0d71 24       		.uleb128 0x24
+ 2965 0d72 8A030000 		.4byte	.LASF69
+ 2966 0d76 8A030000 		.4byte	.LASF69
+ 2967 0d7a 09       		.byte	0x9
+ 2968 0d7b 11       		.byte	0x11
+ 2969 0d7c 24       		.uleb128 0x24
+ 2970 0d7d 2B030000 		.4byte	.LASF70
+ 2971 0d81 2B030000 		.4byte	.LASF70
+ 2972 0d85 0D       		.byte	0xd
+ 2973 0d86 6D       		.byte	0x6d
+ 2974 0d87 24       		.uleb128 0x24
+ 2975 0d88 73010000 		.4byte	.LASF71
+ 2976 0d8c 73010000 		.4byte	.LASF71
+ 2977 0d90 0D       		.byte	0xd
+ 2978 0d91 69       		.byte	0x69
+ 2979 0d92 24       		.uleb128 0x24
+ 2980 0d93 41010000 		.4byte	.LASF72
+ 2981 0d97 41010000 		.4byte	.LASF72
+ 2982 0d9b 06       		.byte	0x6
+ 2983 0d9c 29       		.byte	0x29
+ 2984 0d9d 24       		.uleb128 0x24
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 61
+
+
+ 2985 0d9e AC010000 		.4byte	.LASF73
+ 2986 0da2 AC010000 		.4byte	.LASF73
+ 2987 0da6 06       		.byte	0x6
+ 2988 0da7 2B       		.byte	0x2b
+ 2989 0da8 24       		.uleb128 0x24
+ 2990 0da9 BF040000 		.4byte	.LASF74
+ 2991 0dad BF040000 		.4byte	.LASF74
+ 2992 0db1 06       		.byte	0x6
+ 2993 0db2 2D       		.byte	0x2d
+ 2994 0db3 24       		.uleb128 0x24
+ 2995 0db4 2D000000 		.4byte	.LASF75
+ 2996 0db8 2D000000 		.4byte	.LASF75
+ 2997 0dbc 06       		.byte	0x6
+ 2998 0dbd 2F       		.byte	0x2f
+ 2999 0dbe 24       		.uleb128 0x24
+ 3000 0dbf 5E000000 		.4byte	.LASF76
+ 3001 0dc3 5E000000 		.4byte	.LASF76
+ 3002 0dc7 06       		.byte	0x6
+ 3003 0dc8 31       		.byte	0x31
+ 3004 0dc9 24       		.uleb128 0x24
+ 3005 0dca 03030000 		.4byte	.LASF77
+ 3006 0dce 03030000 		.4byte	.LASF77
+ 3007 0dd2 06       		.byte	0x6
+ 3008 0dd3 33       		.byte	0x33
+ 3009 0dd4 24       		.uleb128 0x24
+ 3010 0dd5 00000000 		.4byte	.LASF78
+ 3011 0dd9 00000000 		.4byte	.LASF78
+ 3012 0ddd 06       		.byte	0x6
+ 3013 0dde 3B       		.byte	0x3b
+ 3014 0ddf 24       		.uleb128 0x24
+ 3015 0de0 30020000 		.4byte	.LASF79
+ 3016 0de4 30020000 		.4byte	.LASF79
+ 3017 0de8 0E       		.byte	0xe
+ 3018 0de9 E7       		.byte	0xe7
+ 3019 0dea 24       		.uleb128 0x24
+ 3020 0deb B8030000 		.4byte	.LASF80
+ 3021 0def B8030000 		.4byte	.LASF80
+ 3022 0df3 0C       		.byte	0xc
+ 3023 0df4 1E       		.byte	0x1e
+ 3024 0df5 24       		.uleb128 0x24
+ 3025 0df6 AD020000 		.4byte	.LASF81
+ 3026 0dfa AD020000 		.4byte	.LASF81
+ 3027 0dfe 01       		.byte	0x1
+ 3028 0dff 8A       		.byte	0x8a
+ 3029 0e00 24       		.uleb128 0x24
+ 3030 0e01 CA020000 		.4byte	.LASF82
+ 3031 0e05 CA020000 		.4byte	.LASF82
+ 3032 0e09 0F       		.byte	0xf
+ 3033 0e0a 6F       		.byte	0x6f
+ 3034 0e0b 24       		.uleb128 0x24
+ 3035 0e0c 25010000 		.4byte	.LASF83
+ 3036 0e10 25010000 		.4byte	.LASF83
+ 3037 0e14 0F       		.byte	0xf
+ 3038 0e15 8A       		.byte	0x8a
+ 3039 0e16 23       		.uleb128 0x23
+ 3040 0e17 91000000 		.4byte	.LASF85
+ 3041 0e1b 91000000 		.4byte	.LASF85
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 62
+
+
+ 3042 0e1f 24       		.uleb128 0x24
+ 3043 0e20 C3010000 		.4byte	.LASF86
+ 3044 0e24 C3010000 		.4byte	.LASF86
+ 3045 0e28 10       		.byte	0x10
+ 3046 0e29 4D       		.byte	0x4d
+ 3047 0e2a 24       		.uleb128 0x24
+ 3048 0e2b E3020000 		.4byte	.LASF87
+ 3049 0e2f E3020000 		.4byte	.LASF87
+ 3050 0e33 09       		.byte	0x9
+ 3051 0e34 0F       		.byte	0xf
+ 3052 0e35 24       		.uleb128 0x24
+ 3053 0e36 23000000 		.4byte	.LASF88
+ 3054 0e3a 23000000 		.4byte	.LASF88
+ 3055 0e3e 11       		.byte	0x11
+ 3056 0e3f 26       		.byte	0x26
+ 3057 0e40 24       		.uleb128 0x24
+ 3058 0e41 6D030000 		.4byte	.LASF89
+ 3059 0e45 6D030000 		.4byte	.LASF89
+ 3060 0e49 0B       		.byte	0xb
+ 3061 0e4a 16       		.byte	0x16
+ 3062 0e4b 00       		.byte	0
+ 3063              		.section	.debug_abbrev,"",%progbits
+ 3064              	.Ldebug_abbrev0:
+ 3065 0000 01       		.uleb128 0x1
+ 3066 0001 11       		.uleb128 0x11
+ 3067 0002 01       		.byte	0x1
+ 3068 0003 25       		.uleb128 0x25
+ 3069 0004 0E       		.uleb128 0xe
+ 3070 0005 13       		.uleb128 0x13
+ 3071 0006 0B       		.uleb128 0xb
+ 3072 0007 03       		.uleb128 0x3
+ 3073 0008 0E       		.uleb128 0xe
+ 3074 0009 1B       		.uleb128 0x1b
+ 3075 000a 0E       		.uleb128 0xe
+ 3076 000b 55       		.uleb128 0x55
+ 3077 000c 17       		.uleb128 0x17
+ 3078 000d 11       		.uleb128 0x11
+ 3079 000e 01       		.uleb128 0x1
+ 3080 000f 10       		.uleb128 0x10
+ 3081 0010 17       		.uleb128 0x17
+ 3082 0011 00       		.byte	0
+ 3083 0012 00       		.byte	0
+ 3084 0013 02       		.uleb128 0x2
+ 3085 0014 13       		.uleb128 0x13
+ 3086 0015 01       		.byte	0x1
+ 3087 0016 0B       		.uleb128 0xb
+ 3088 0017 0B       		.uleb128 0xb
+ 3089 0018 3A       		.uleb128 0x3a
+ 3090 0019 0B       		.uleb128 0xb
+ 3091 001a 3B       		.uleb128 0x3b
+ 3092 001b 0B       		.uleb128 0xb
+ 3093 001c 01       		.uleb128 0x1
+ 3094 001d 13       		.uleb128 0x13
+ 3095 001e 00       		.byte	0
+ 3096 001f 00       		.byte	0
+ 3097 0020 03       		.uleb128 0x3
+ 3098 0021 0D       		.uleb128 0xd
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 63
+
+
+ 3099 0022 00       		.byte	0
+ 3100 0023 03       		.uleb128 0x3
+ 3101 0024 0E       		.uleb128 0xe
+ 3102 0025 3A       		.uleb128 0x3a
+ 3103 0026 0B       		.uleb128 0xb
+ 3104 0027 3B       		.uleb128 0x3b
+ 3105 0028 0B       		.uleb128 0xb
+ 3106 0029 49       		.uleb128 0x49
+ 3107 002a 13       		.uleb128 0x13
+ 3108 002b 38       		.uleb128 0x38
+ 3109 002c 0B       		.uleb128 0xb
+ 3110 002d 00       		.byte	0
+ 3111 002e 00       		.byte	0
+ 3112 002f 04       		.uleb128 0x4
+ 3113 0030 01       		.uleb128 0x1
+ 3114 0031 01       		.byte	0x1
+ 3115 0032 49       		.uleb128 0x49
+ 3116 0033 13       		.uleb128 0x13
+ 3117 0034 01       		.uleb128 0x1
+ 3118 0035 13       		.uleb128 0x13
+ 3119 0036 00       		.byte	0
+ 3120 0037 00       		.byte	0
+ 3121 0038 05       		.uleb128 0x5
+ 3122 0039 21       		.uleb128 0x21
+ 3123 003a 00       		.byte	0
+ 3124 003b 49       		.uleb128 0x49
+ 3125 003c 13       		.uleb128 0x13
+ 3126 003d 2F       		.uleb128 0x2f
+ 3127 003e 0B       		.uleb128 0xb
+ 3128 003f 00       		.byte	0
+ 3129 0040 00       		.byte	0
+ 3130 0041 06       		.uleb128 0x6
+ 3131 0042 24       		.uleb128 0x24
+ 3132 0043 00       		.byte	0
+ 3133 0044 0B       		.uleb128 0xb
+ 3134 0045 0B       		.uleb128 0xb
+ 3135 0046 3E       		.uleb128 0x3e
+ 3136 0047 0B       		.uleb128 0xb
+ 3137 0048 03       		.uleb128 0x3
+ 3138 0049 0E       		.uleb128 0xe
+ 3139 004a 00       		.byte	0
+ 3140 004b 00       		.byte	0
+ 3141 004c 07       		.uleb128 0x7
+ 3142 004d 16       		.uleb128 0x16
+ 3143 004e 00       		.byte	0
+ 3144 004f 03       		.uleb128 0x3
+ 3145 0050 0E       		.uleb128 0xe
+ 3146 0051 3A       		.uleb128 0x3a
+ 3147 0052 0B       		.uleb128 0xb
+ 3148 0053 3B       		.uleb128 0x3b
+ 3149 0054 0B       		.uleb128 0xb
+ 3150 0055 49       		.uleb128 0x49
+ 3151 0056 13       		.uleb128 0x13
+ 3152 0057 00       		.byte	0
+ 3153 0058 00       		.byte	0
+ 3154 0059 08       		.uleb128 0x8
+ 3155 005a 24       		.uleb128 0x24
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 64
+
+
+ 3156 005b 00       		.byte	0
+ 3157 005c 0B       		.uleb128 0xb
+ 3158 005d 0B       		.uleb128 0xb
+ 3159 005e 3E       		.uleb128 0x3e
+ 3160 005f 0B       		.uleb128 0xb
+ 3161 0060 03       		.uleb128 0x3
+ 3162 0061 08       		.uleb128 0x8
+ 3163 0062 00       		.byte	0
+ 3164 0063 00       		.byte	0
+ 3165 0064 09       		.uleb128 0x9
+ 3166 0065 16       		.uleb128 0x16
+ 3167 0066 00       		.byte	0
+ 3168 0067 03       		.uleb128 0x3
+ 3169 0068 0E       		.uleb128 0xe
+ 3170 0069 3A       		.uleb128 0x3a
+ 3171 006a 0B       		.uleb128 0xb
+ 3172 006b 3B       		.uleb128 0x3b
+ 3173 006c 05       		.uleb128 0x5
+ 3174 006d 49       		.uleb128 0x49
+ 3175 006e 13       		.uleb128 0x13
+ 3176 006f 00       		.byte	0
+ 3177 0070 00       		.byte	0
+ 3178 0071 0A       		.uleb128 0xa
+ 3179 0072 0F       		.uleb128 0xf
+ 3180 0073 00       		.byte	0
+ 3181 0074 0B       		.uleb128 0xb
+ 3182 0075 0B       		.uleb128 0xb
+ 3183 0076 49       		.uleb128 0x49
+ 3184 0077 13       		.uleb128 0x13
+ 3185 0078 00       		.byte	0
+ 3186 0079 00       		.byte	0
+ 3187 007a 0B       		.uleb128 0xb
+ 3188 007b 0D       		.uleb128 0xd
+ 3189 007c 00       		.byte	0
+ 3190 007d 03       		.uleb128 0x3
+ 3191 007e 08       		.uleb128 0x8
+ 3192 007f 3A       		.uleb128 0x3a
+ 3193 0080 0B       		.uleb128 0xb
+ 3194 0081 3B       		.uleb128 0x3b
+ 3195 0082 0B       		.uleb128 0xb
+ 3196 0083 49       		.uleb128 0x49
+ 3197 0084 13       		.uleb128 0x13
+ 3198 0085 38       		.uleb128 0x38
+ 3199 0086 0B       		.uleb128 0xb
+ 3200 0087 00       		.byte	0
+ 3201 0088 00       		.byte	0
+ 3202 0089 0C       		.uleb128 0xc
+ 3203 008a 13       		.uleb128 0x13
+ 3204 008b 00       		.byte	0
+ 3205 008c 03       		.uleb128 0x3
+ 3206 008d 0E       		.uleb128 0xe
+ 3207 008e 3C       		.uleb128 0x3c
+ 3208 008f 19       		.uleb128 0x19
+ 3209 0090 00       		.byte	0
+ 3210 0091 00       		.byte	0
+ 3211 0092 0D       		.uleb128 0xd
+ 3212 0093 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 65
+
+
+ 3213 0094 01       		.byte	0x1
+ 3214 0095 3F       		.uleb128 0x3f
+ 3215 0096 19       		.uleb128 0x19
+ 3216 0097 03       		.uleb128 0x3
+ 3217 0098 0E       		.uleb128 0xe
+ 3218 0099 3A       		.uleb128 0x3a
+ 3219 009a 0B       		.uleb128 0xb
+ 3220 009b 3B       		.uleb128 0x3b
+ 3221 009c 0B       		.uleb128 0xb
+ 3222 009d 11       		.uleb128 0x11
+ 3223 009e 01       		.uleb128 0x1
+ 3224 009f 12       		.uleb128 0x12
+ 3225 00a0 06       		.uleb128 0x6
+ 3226 00a1 40       		.uleb128 0x40
+ 3227 00a2 18       		.uleb128 0x18
+ 3228 00a3 9742     		.uleb128 0x2117
+ 3229 00a5 19       		.uleb128 0x19
+ 3230 00a6 01       		.uleb128 0x1
+ 3231 00a7 13       		.uleb128 0x13
+ 3232 00a8 00       		.byte	0
+ 3233 00a9 00       		.byte	0
+ 3234 00aa 0E       		.uleb128 0xe
+ 3235 00ab 898201   		.uleb128 0x4109
+ 3236 00ae 01       		.byte	0x1
+ 3237 00af 11       		.uleb128 0x11
+ 3238 00b0 01       		.uleb128 0x1
+ 3239 00b1 31       		.uleb128 0x31
+ 3240 00b2 13       		.uleb128 0x13
+ 3241 00b3 00       		.byte	0
+ 3242 00b4 00       		.byte	0
+ 3243 00b5 0F       		.uleb128 0xf
+ 3244 00b6 8A8201   		.uleb128 0x410a
+ 3245 00b9 00       		.byte	0
+ 3246 00ba 02       		.uleb128 0x2
+ 3247 00bb 18       		.uleb128 0x18
+ 3248 00bc 9142     		.uleb128 0x2111
+ 3249 00be 18       		.uleb128 0x18
+ 3250 00bf 00       		.byte	0
+ 3251 00c0 00       		.byte	0
+ 3252 00c1 10       		.uleb128 0x10
+ 3253 00c2 2E       		.uleb128 0x2e
+ 3254 00c3 01       		.byte	0x1
+ 3255 00c4 3F       		.uleb128 0x3f
+ 3256 00c5 19       		.uleb128 0x19
+ 3257 00c6 03       		.uleb128 0x3
+ 3258 00c7 0E       		.uleb128 0xe
+ 3259 00c8 3A       		.uleb128 0x3a
+ 3260 00c9 0B       		.uleb128 0xb
+ 3261 00ca 3B       		.uleb128 0x3b
+ 3262 00cb 0B       		.uleb128 0xb
+ 3263 00cc 27       		.uleb128 0x27
+ 3264 00cd 19       		.uleb128 0x19
+ 3265 00ce 11       		.uleb128 0x11
+ 3266 00cf 01       		.uleb128 0x1
+ 3267 00d0 12       		.uleb128 0x12
+ 3268 00d1 06       		.uleb128 0x6
+ 3269 00d2 40       		.uleb128 0x40
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 66
+
+
+ 3270 00d3 18       		.uleb128 0x18
+ 3271 00d4 9742     		.uleb128 0x2117
+ 3272 00d6 19       		.uleb128 0x19
+ 3273 00d7 01       		.uleb128 0x1
+ 3274 00d8 13       		.uleb128 0x13
+ 3275 00d9 00       		.byte	0
+ 3276 00da 00       		.byte	0
+ 3277 00db 11       		.uleb128 0x11
+ 3278 00dc 05       		.uleb128 0x5
+ 3279 00dd 00       		.byte	0
+ 3280 00de 03       		.uleb128 0x3
+ 3281 00df 0E       		.uleb128 0xe
+ 3282 00e0 3A       		.uleb128 0x3a
+ 3283 00e1 0B       		.uleb128 0xb
+ 3284 00e2 3B       		.uleb128 0x3b
+ 3285 00e3 0B       		.uleb128 0xb
+ 3286 00e4 49       		.uleb128 0x49
+ 3287 00e5 13       		.uleb128 0x13
+ 3288 00e6 02       		.uleb128 0x2
+ 3289 00e7 17       		.uleb128 0x17
+ 3290 00e8 00       		.byte	0
+ 3291 00e9 00       		.byte	0
+ 3292 00ea 12       		.uleb128 0x12
+ 3293 00eb 34       		.uleb128 0x34
+ 3294 00ec 00       		.byte	0
+ 3295 00ed 03       		.uleb128 0x3
+ 3296 00ee 0E       		.uleb128 0xe
+ 3297 00ef 3A       		.uleb128 0x3a
+ 3298 00f0 0B       		.uleb128 0xb
+ 3299 00f1 3B       		.uleb128 0x3b
+ 3300 00f2 0B       		.uleb128 0xb
+ 3301 00f3 49       		.uleb128 0x49
+ 3302 00f4 13       		.uleb128 0x13
+ 3303 00f5 02       		.uleb128 0x2
+ 3304 00f6 18       		.uleb128 0x18
+ 3305 00f7 00       		.byte	0
+ 3306 00f8 00       		.byte	0
+ 3307 00f9 13       		.uleb128 0x13
+ 3308 00fa 05       		.uleb128 0x5
+ 3309 00fb 00       		.byte	0
+ 3310 00fc 03       		.uleb128 0x3
+ 3311 00fd 0E       		.uleb128 0xe
+ 3312 00fe 3A       		.uleb128 0x3a
+ 3313 00ff 0B       		.uleb128 0xb
+ 3314 0100 3B       		.uleb128 0x3b
+ 3315 0101 0B       		.uleb128 0xb
+ 3316 0102 49       		.uleb128 0x49
+ 3317 0103 13       		.uleb128 0x13
+ 3318 0104 02       		.uleb128 0x2
+ 3319 0105 18       		.uleb128 0x18
+ 3320 0106 00       		.byte	0
+ 3321 0107 00       		.byte	0
+ 3322 0108 14       		.uleb128 0x14
+ 3323 0109 0B       		.uleb128 0xb
+ 3324 010a 01       		.byte	0x1
+ 3325 010b 11       		.uleb128 0x11
+ 3326 010c 01       		.uleb128 0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 67
+
+
+ 3327 010d 12       		.uleb128 0x12
+ 3328 010e 06       		.uleb128 0x6
+ 3329 010f 01       		.uleb128 0x1
+ 3330 0110 13       		.uleb128 0x13
+ 3331 0111 00       		.byte	0
+ 3332 0112 00       		.byte	0
+ 3333 0113 15       		.uleb128 0x15
+ 3334 0114 34       		.uleb128 0x34
+ 3335 0115 00       		.byte	0
+ 3336 0116 03       		.uleb128 0x3
+ 3337 0117 08       		.uleb128 0x8
+ 3338 0118 3A       		.uleb128 0x3a
+ 3339 0119 0B       		.uleb128 0xb
+ 3340 011a 3B       		.uleb128 0x3b
+ 3341 011b 0B       		.uleb128 0xb
+ 3342 011c 49       		.uleb128 0x49
+ 3343 011d 13       		.uleb128 0x13
+ 3344 011e 02       		.uleb128 0x2
+ 3345 011f 17       		.uleb128 0x17
+ 3346 0120 00       		.byte	0
+ 3347 0121 00       		.byte	0
+ 3348 0122 16       		.uleb128 0x16
+ 3349 0123 0B       		.uleb128 0xb
+ 3350 0124 01       		.byte	0x1
+ 3351 0125 11       		.uleb128 0x11
+ 3352 0126 01       		.uleb128 0x1
+ 3353 0127 12       		.uleb128 0x12
+ 3354 0128 06       		.uleb128 0x6
+ 3355 0129 00       		.byte	0
+ 3356 012a 00       		.byte	0
+ 3357 012b 17       		.uleb128 0x17
+ 3358 012c 898201   		.uleb128 0x4109
+ 3359 012f 01       		.byte	0x1
+ 3360 0130 11       		.uleb128 0x11
+ 3361 0131 01       		.uleb128 0x1
+ 3362 0132 31       		.uleb128 0x31
+ 3363 0133 13       		.uleb128 0x13
+ 3364 0134 01       		.uleb128 0x1
+ 3365 0135 13       		.uleb128 0x13
+ 3366 0136 00       		.byte	0
+ 3367 0137 00       		.byte	0
+ 3368 0138 18       		.uleb128 0x18
+ 3369 0139 05       		.uleb128 0x5
+ 3370 013a 00       		.byte	0
+ 3371 013b 03       		.uleb128 0x3
+ 3372 013c 08       		.uleb128 0x8
+ 3373 013d 3A       		.uleb128 0x3a
+ 3374 013e 0B       		.uleb128 0xb
+ 3375 013f 3B       		.uleb128 0x3b
+ 3376 0140 0B       		.uleb128 0xb
+ 3377 0141 49       		.uleb128 0x49
+ 3378 0142 13       		.uleb128 0x13
+ 3379 0143 02       		.uleb128 0x2
+ 3380 0144 17       		.uleb128 0x17
+ 3381 0145 00       		.byte	0
+ 3382 0146 00       		.byte	0
+ 3383 0147 19       		.uleb128 0x19
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 68
+
+
+ 3384 0148 34       		.uleb128 0x34
+ 3385 0149 00       		.byte	0
+ 3386 014a 03       		.uleb128 0x3
+ 3387 014b 0E       		.uleb128 0xe
+ 3388 014c 3A       		.uleb128 0x3a
+ 3389 014d 0B       		.uleb128 0xb
+ 3390 014e 3B       		.uleb128 0x3b
+ 3391 014f 0B       		.uleb128 0xb
+ 3392 0150 49       		.uleb128 0x49
+ 3393 0151 13       		.uleb128 0x13
+ 3394 0152 02       		.uleb128 0x2
+ 3395 0153 17       		.uleb128 0x17
+ 3396 0154 00       		.byte	0
+ 3397 0155 00       		.byte	0
+ 3398 0156 1A       		.uleb128 0x1a
+ 3399 0157 898201   		.uleb128 0x4109
+ 3400 015a 00       		.byte	0
+ 3401 015b 11       		.uleb128 0x11
+ 3402 015c 01       		.uleb128 0x1
+ 3403 015d 31       		.uleb128 0x31
+ 3404 015e 13       		.uleb128 0x13
+ 3405 015f 00       		.byte	0
+ 3406 0160 00       		.byte	0
+ 3407 0161 1B       		.uleb128 0x1b
+ 3408 0162 05       		.uleb128 0x5
+ 3409 0163 00       		.byte	0
+ 3410 0164 03       		.uleb128 0x3
+ 3411 0165 08       		.uleb128 0x8
+ 3412 0166 3A       		.uleb128 0x3a
+ 3413 0167 0B       		.uleb128 0xb
+ 3414 0168 3B       		.uleb128 0x3b
+ 3415 0169 0B       		.uleb128 0xb
+ 3416 016a 49       		.uleb128 0x49
+ 3417 016b 13       		.uleb128 0x13
+ 3418 016c 02       		.uleb128 0x2
+ 3419 016d 18       		.uleb128 0x18
+ 3420 016e 00       		.byte	0
+ 3421 016f 00       		.byte	0
+ 3422 0170 1C       		.uleb128 0x1c
+ 3423 0171 2E       		.uleb128 0x2e
+ 3424 0172 01       		.byte	0x1
+ 3425 0173 3F       		.uleb128 0x3f
+ 3426 0174 19       		.uleb128 0x19
+ 3427 0175 03       		.uleb128 0x3
+ 3428 0176 0E       		.uleb128 0xe
+ 3429 0177 3A       		.uleb128 0x3a
+ 3430 0178 0B       		.uleb128 0xb
+ 3431 0179 3B       		.uleb128 0x3b
+ 3432 017a 0B       		.uleb128 0xb
+ 3433 017b 49       		.uleb128 0x49
+ 3434 017c 13       		.uleb128 0x13
+ 3435 017d 3C       		.uleb128 0x3c
+ 3436 017e 19       		.uleb128 0x19
+ 3437 017f 01       		.uleb128 0x1
+ 3438 0180 13       		.uleb128 0x13
+ 3439 0181 00       		.byte	0
+ 3440 0182 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 69
+
+
+ 3441 0183 1D       		.uleb128 0x1d
+ 3442 0184 18       		.uleb128 0x18
+ 3443 0185 00       		.byte	0
+ 3444 0186 00       		.byte	0
+ 3445 0187 00       		.byte	0
+ 3446 0188 1E       		.uleb128 0x1e
+ 3447 0189 2E       		.uleb128 0x2e
+ 3448 018a 00       		.byte	0
+ 3449 018b 3F       		.uleb128 0x3f
+ 3450 018c 19       		.uleb128 0x19
+ 3451 018d 03       		.uleb128 0x3
+ 3452 018e 0E       		.uleb128 0xe
+ 3453 018f 3A       		.uleb128 0x3a
+ 3454 0190 0B       		.uleb128 0xb
+ 3455 0191 3B       		.uleb128 0x3b
+ 3456 0192 0B       		.uleb128 0xb
+ 3457 0193 11       		.uleb128 0x11
+ 3458 0194 01       		.uleb128 0x1
+ 3459 0195 12       		.uleb128 0x12
+ 3460 0196 06       		.uleb128 0x6
+ 3461 0197 40       		.uleb128 0x40
+ 3462 0198 18       		.uleb128 0x18
+ 3463 0199 9742     		.uleb128 0x2117
+ 3464 019b 19       		.uleb128 0x19
+ 3465 019c 00       		.byte	0
+ 3466 019d 00       		.byte	0
+ 3467 019e 1F       		.uleb128 0x1f
+ 3468 019f 34       		.uleb128 0x34
+ 3469 01a0 00       		.byte	0
+ 3470 01a1 03       		.uleb128 0x3
+ 3471 01a2 0E       		.uleb128 0xe
+ 3472 01a3 3A       		.uleb128 0x3a
+ 3473 01a4 0B       		.uleb128 0xb
+ 3474 01a5 3B       		.uleb128 0x3b
+ 3475 01a6 05       		.uleb128 0x5
+ 3476 01a7 49       		.uleb128 0x49
+ 3477 01a8 13       		.uleb128 0x13
+ 3478 01a9 02       		.uleb128 0x2
+ 3479 01aa 18       		.uleb128 0x18
+ 3480 01ab 00       		.byte	0
+ 3481 01ac 00       		.byte	0
+ 3482 01ad 20       		.uleb128 0x20
+ 3483 01ae 34       		.uleb128 0x34
+ 3484 01af 00       		.byte	0
+ 3485 01b0 03       		.uleb128 0x3
+ 3486 01b1 0E       		.uleb128 0xe
+ 3487 01b2 3A       		.uleb128 0x3a
+ 3488 01b3 0B       		.uleb128 0xb
+ 3489 01b4 3B       		.uleb128 0x3b
+ 3490 01b5 0B       		.uleb128 0xb
+ 3491 01b6 49       		.uleb128 0x49
+ 3492 01b7 13       		.uleb128 0x13
+ 3493 01b8 3F       		.uleb128 0x3f
+ 3494 01b9 19       		.uleb128 0x19
+ 3495 01ba 02       		.uleb128 0x2
+ 3496 01bb 18       		.uleb128 0x18
+ 3497 01bc 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 70
+
+
+ 3498 01bd 00       		.byte	0
+ 3499 01be 21       		.uleb128 0x21
+ 3500 01bf 34       		.uleb128 0x34
+ 3501 01c0 00       		.byte	0
+ 3502 01c1 03       		.uleb128 0x3
+ 3503 01c2 0E       		.uleb128 0xe
+ 3504 01c3 3A       		.uleb128 0x3a
+ 3505 01c4 0B       		.uleb128 0xb
+ 3506 01c5 3B       		.uleb128 0x3b
+ 3507 01c6 05       		.uleb128 0x5
+ 3508 01c7 49       		.uleb128 0x49
+ 3509 01c8 13       		.uleb128 0x13
+ 3510 01c9 3F       		.uleb128 0x3f
+ 3511 01ca 19       		.uleb128 0x19
+ 3512 01cb 3C       		.uleb128 0x3c
+ 3513 01cc 19       		.uleb128 0x19
+ 3514 01cd 00       		.byte	0
+ 3515 01ce 00       		.byte	0
+ 3516 01cf 22       		.uleb128 0x22
+ 3517 01d0 35       		.uleb128 0x35
+ 3518 01d1 00       		.byte	0
+ 3519 01d2 49       		.uleb128 0x49
+ 3520 01d3 13       		.uleb128 0x13
+ 3521 01d4 00       		.byte	0
+ 3522 01d5 00       		.byte	0
+ 3523 01d6 23       		.uleb128 0x23
+ 3524 01d7 2E       		.uleb128 0x2e
+ 3525 01d8 00       		.byte	0
+ 3526 01d9 3F       		.uleb128 0x3f
+ 3527 01da 19       		.uleb128 0x19
+ 3528 01db 3C       		.uleb128 0x3c
+ 3529 01dc 19       		.uleb128 0x19
+ 3530 01dd 6E       		.uleb128 0x6e
+ 3531 01de 0E       		.uleb128 0xe
+ 3532 01df 03       		.uleb128 0x3
+ 3533 01e0 0E       		.uleb128 0xe
+ 3534 01e1 00       		.byte	0
+ 3535 01e2 00       		.byte	0
+ 3536 01e3 24       		.uleb128 0x24
+ 3537 01e4 2E       		.uleb128 0x2e
+ 3538 01e5 00       		.byte	0
+ 3539 01e6 3F       		.uleb128 0x3f
+ 3540 01e7 19       		.uleb128 0x19
+ 3541 01e8 3C       		.uleb128 0x3c
+ 3542 01e9 19       		.uleb128 0x19
+ 3543 01ea 6E       		.uleb128 0x6e
+ 3544 01eb 0E       		.uleb128 0xe
+ 3545 01ec 03       		.uleb128 0x3
+ 3546 01ed 0E       		.uleb128 0xe
+ 3547 01ee 3A       		.uleb128 0x3a
+ 3548 01ef 0B       		.uleb128 0xb
+ 3549 01f0 3B       		.uleb128 0x3b
+ 3550 01f1 0B       		.uleb128 0xb
+ 3551 01f2 00       		.byte	0
+ 3552 01f3 00       		.byte	0
+ 3553 01f4 00       		.byte	0
+ 3554              		.section	.debug_loc,"",%progbits
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 71
+
+
+ 3555              	.Ldebug_loc0:
+ 3556              	.LLST0:
+ 3557 0000 00000000 		.4byte	.LVL1
+ 3558 0004 12000000 		.4byte	.LVL2
+ 3559 0008 0100     		.2byte	0x1
+ 3560 000a 50       		.byte	0x50
+ 3561 000b 12000000 		.4byte	.LVL2
+ 3562 000f 15000000 		.4byte	.LVL3-1
+ 3563 0013 0200     		.2byte	0x2
+ 3564 0015 71       		.byte	0x71
+ 3565 0016 00       		.sleb128 0
+ 3566 0017 15000000 		.4byte	.LVL3-1
+ 3567 001b 20000000 		.4byte	.LFE65
+ 3568 001f 0400     		.2byte	0x4
+ 3569 0021 F3       		.byte	0xf3
+ 3570 0022 01       		.uleb128 0x1
+ 3571 0023 50       		.byte	0x50
+ 3572 0024 9F       		.byte	0x9f
+ 3573 0025 00000000 		.4byte	0
+ 3574 0029 00000000 		.4byte	0
+ 3575              	.LLST1:
+ 3576 002d 1E000000 		.4byte	.LVL6
+ 3577 0031 22000000 		.4byte	.LVL7
+ 3578 0035 0200     		.2byte	0x2
+ 3579 0037 30       		.byte	0x30
+ 3580 0038 9F       		.byte	0x9f
+ 3581 0039 22000000 		.4byte	.LVL7
+ 3582 003d 66000000 		.4byte	.LVL14
+ 3583 0041 0100     		.2byte	0x1
+ 3584 0043 54       		.byte	0x54
+ 3585 0044 00000000 		.4byte	0
+ 3586 0048 00000000 		.4byte	0
+ 3587              	.LLST2:
+ 3588 004c 1E000000 		.4byte	.LVL16
+ 3589 0050 22000000 		.4byte	.LVL17
+ 3590 0054 0200     		.2byte	0x2
+ 3591 0056 30       		.byte	0x30
+ 3592 0057 9F       		.byte	0x9f
+ 3593 0058 22000000 		.4byte	.LVL17
+ 3594 005c 34000000 		.4byte	.LVL19
+ 3595 0060 0100     		.2byte	0x1
+ 3596 0062 53       		.byte	0x53
+ 3597 0063 00000000 		.4byte	0
+ 3598 0067 00000000 		.4byte	0
+ 3599              	.LLST3:
+ 3600 006b 00000000 		.4byte	.LVL30
+ 3601 006f 08000000 		.4byte	.LVL32
+ 3602 0073 0100     		.2byte	0x1
+ 3603 0075 50       		.byte	0x50
+ 3604 0076 08000000 		.4byte	.LVL32
+ 3605 007a 36000000 		.4byte	.LFE69
+ 3606 007e 0100     		.2byte	0x1
+ 3607 0080 55       		.byte	0x55
+ 3608 0081 00000000 		.4byte	0
+ 3609 0085 00000000 		.4byte	0
+ 3610              	.LLST4:
+ 3611 0089 04000000 		.4byte	.LVL31
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 72
+
+
+ 3612 008d 08000000 		.4byte	.LVL32
+ 3613 0091 0200     		.2byte	0x2
+ 3614 0093 30       		.byte	0x30
+ 3615 0094 9F       		.byte	0x9f
+ 3616 0095 0E000000 		.4byte	.LVL34
+ 3617 0099 13000000 		.4byte	.LVL35-1
+ 3618 009d 0100     		.2byte	0x1
+ 3619 009f 50       		.byte	0x50
+ 3620 00a0 1A000000 		.4byte	.LVL37
+ 3621 00a4 29000000 		.4byte	.LVL38-1
+ 3622 00a8 0100     		.2byte	0x1
+ 3623 00aa 50       		.byte	0x50
+ 3624 00ab 00000000 		.4byte	0
+ 3625 00af 00000000 		.4byte	0
+ 3626              	.LLST5:
+ 3627 00b3 04000000 		.4byte	.LVL31
+ 3628 00b7 08000000 		.4byte	.LVL32
+ 3629 00bb 0200     		.2byte	0x2
+ 3630 00bd 30       		.byte	0x30
+ 3631 00be 9F       		.byte	0x9f
+ 3632 00bf 08000000 		.4byte	.LVL32
+ 3633 00c3 36000000 		.4byte	.LFE69
+ 3634 00c7 0100     		.2byte	0x1
+ 3635 00c9 54       		.byte	0x54
+ 3636 00ca 00000000 		.4byte	0
+ 3637 00ce 00000000 		.4byte	0
+ 3638              	.LLST6:
+ 3639 00d2 06000000 		.4byte	.LVL50
+ 3640 00d6 0E000000 		.4byte	.LVL51
+ 3641 00da 0100     		.2byte	0x1
+ 3642 00dc 50       		.byte	0x50
+ 3643 00dd 18000000 		.4byte	.LVL54
+ 3644 00e1 1D000000 		.4byte	.LVL55-1
+ 3645 00e5 0100     		.2byte	0x1
+ 3646 00e7 50       		.byte	0x50
+ 3647 00e8 00000000 		.4byte	0
+ 3648 00ec 00000000 		.4byte	0
+ 3649              	.LLST7:
+ 3650 00f0 5C000000 		.4byte	.LVL61
+ 3651 00f4 69000000 		.4byte	.LVL62-1
+ 3652 00f8 0100     		.2byte	0x1
+ 3653 00fa 50       		.byte	0x50
+ 3654 00fb 69000000 		.4byte	.LVL62-1
+ 3655 00ff 6C000000 		.4byte	.LVL63
+ 3656 0103 0100     		.2byte	0x1
+ 3657 0105 54       		.byte	0x54
+ 3658 0106 84000000 		.4byte	.LVL66
+ 3659 010a 92000000 		.4byte	.LVL67
+ 3660 010e 0100     		.2byte	0x1
+ 3661 0110 50       		.byte	0x50
+ 3662 0111 92000000 		.4byte	.LVL67
+ 3663 0115 98000000 		.4byte	.LVL69
+ 3664 0119 0100     		.2byte	0x1
+ 3665 011b 54       		.byte	0x54
+ 3666 011c 98000000 		.4byte	.LVL69
+ 3667 0120 9A000000 		.4byte	.LVL70
+ 3668 0124 0100     		.2byte	0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 73
+
+
+ 3669 0126 50       		.byte	0x50
+ 3670 0127 9A000000 		.4byte	.LVL70
+ 3671 012b B2000000 		.4byte	.LVL74
+ 3672 012f 0100     		.2byte	0x1
+ 3673 0131 54       		.byte	0x54
+ 3674 0132 00000000 		.4byte	0
+ 3675 0136 00000000 		.4byte	0
+ 3676              	.LLST8:
+ 3677 013a A0010000 		.4byte	.LVL91
+ 3678 013e AF010000 		.4byte	.LVL92-1
+ 3679 0142 0100     		.2byte	0x1
+ 3680 0144 50       		.byte	0x50
+ 3681 0145 CA010000 		.4byte	.LVL95
+ 3682 0149 CC010000 		.4byte	.LVL96
+ 3683 014d 0100     		.2byte	0x1
+ 3684 014f 50       		.byte	0x50
+ 3685 0150 E6010000 		.4byte	.LVL100
+ 3686 0154 E8010000 		.4byte	.LVL101
+ 3687 0158 0100     		.2byte	0x1
+ 3688 015a 50       		.byte	0x50
+ 3689 015b 00000000 		.4byte	0
+ 3690 015f 00000000 		.4byte	0
+ 3691              		.section	.debug_aranges,"",%progbits
+ 3692 0000 64000000 		.4byte	0x64
+ 3693 0004 0200     		.2byte	0x2
+ 3694 0006 00000000 		.4byte	.Ldebug_info0
+ 3695 000a 04       		.byte	0x4
+ 3696 000b 00       		.byte	0
+ 3697 000c 0000     		.2byte	0
+ 3698 000e 0000     		.2byte	0
+ 3699 0010 00000000 		.4byte	.LFB64
+ 3700 0014 18000000 		.4byte	.LFE64-.LFB64
+ 3701 0018 00000000 		.4byte	.LFB65
+ 3702 001c 20000000 		.4byte	.LFE65-.LFB65
+ 3703 0020 00000000 		.4byte	.LFB66
+ 3704 0024 7C000000 		.4byte	.LFE66-.LFB66
+ 3705 0028 00000000 		.4byte	.LFB67
+ 3706 002c 90000000 		.4byte	.LFE67-.LFB67
+ 3707 0030 00000000 		.4byte	.LFB68
+ 3708 0034 10000000 		.4byte	.LFE68-.LFB68
+ 3709 0038 00000000 		.4byte	.LFB69
+ 3710 003c 36000000 		.4byte	.LFE69-.LFB69
+ 3711 0040 00000000 		.4byte	.LFB70
+ 3712 0044 88000000 		.4byte	.LFE70-.LFB70
+ 3713 0048 00000000 		.4byte	.LFB71
+ 3714 004c 3C000000 		.4byte	.LFE71-.LFB71
+ 3715 0050 00000000 		.4byte	.LFB72
+ 3716 0054 0C000000 		.4byte	.LFE72-.LFB72
+ 3717 0058 00000000 		.4byte	.LFB73
+ 3718 005c 10030000 		.4byte	.LFE73-.LFB73
+ 3719 0060 00000000 		.4byte	0
+ 3720 0064 00000000 		.4byte	0
+ 3721              		.section	.debug_ranges,"",%progbits
+ 3722              	.Ldebug_ranges0:
+ 3723 0000 00000000 		.4byte	.LFB64
+ 3724 0004 18000000 		.4byte	.LFE64
+ 3725 0008 00000000 		.4byte	.LFB65
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 74
+
+
+ 3726 000c 20000000 		.4byte	.LFE65
+ 3727 0010 00000000 		.4byte	.LFB66
+ 3728 0014 7C000000 		.4byte	.LFE66
+ 3729 0018 00000000 		.4byte	.LFB67
+ 3730 001c 90000000 		.4byte	.LFE67
+ 3731 0020 00000000 		.4byte	.LFB68
+ 3732 0024 10000000 		.4byte	.LFE68
+ 3733 0028 00000000 		.4byte	.LFB69
+ 3734 002c 36000000 		.4byte	.LFE69
+ 3735 0030 00000000 		.4byte	.LFB70
+ 3736 0034 88000000 		.4byte	.LFE70
+ 3737 0038 00000000 		.4byte	.LFB71
+ 3738 003c 3C000000 		.4byte	.LFE71
+ 3739 0040 00000000 		.4byte	.LFB72
+ 3740 0044 0C000000 		.4byte	.LFE72
+ 3741 0048 00000000 		.4byte	.LFB73
+ 3742 004c 10030000 		.4byte	.LFE73
+ 3743 0050 00000000 		.4byte	0
+ 3744 0054 00000000 		.4byte	0
+ 3745              		.section	.debug_line,"",%progbits
+ 3746              	.Ldebug_line0:
+ 3747 0000 2F040000 		.section	.debug_str,"MS",%progbits,1
+ 3747      0200B902 
+ 3747      00000201 
+ 3747      FB0E0D00 
+ 3747      01010101 
+ 3748              	.LASF78:
+ 3749 0000 64745F67 		.ascii	"dt_getUnixtime\000"
+ 3749      6574556E 
+ 3749      69787469 
+ 3749      6D6500
+ 3750              	.LASF23:
+ 3751 000f 794F6666 		.ascii	"yOff\000"
+ 3751      00
+ 3752              	.LASF31:
+ 3753 0014 6869645F 		.ascii	"hid_usage\000"
+ 3753      75736167 
+ 3753      6500
+ 3754              	.LASF35:
+ 3755 001e 6D656E75 		.ascii	"menu\000"
+ 3755      00
+ 3756              	.LASF88:
+ 3757 0023 4C45445F 		.ascii	"LED_Write\000"
+ 3757      57726974 
+ 3757      6500
+ 3758              	.LASF75:
+ 3759 002d 64745F67 		.ascii	"dt_getHour\000"
+ 3759      6574486F 
+ 3759      757200
+ 3760              	.LASF9:
+ 3761 0038 73686F72 		.ascii	"short int\000"
+ 3761      7420696E 
+ 3761      7400
+ 3762              	.LASF39:
+ 3763 0042 7265636F 		.ascii	"record\000"
+ 3763      726400
+ 3764              	.LASF3:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 75
+
+
+ 3765 0049 73697A65 		.ascii	"sizetype\000"
+ 3765      74797065 
+ 3765      00
+ 3766              	.LASF55:
+ 3767 0052 735F7365 		.ascii	"s_sec_state\000"
+ 3767      635F7374 
+ 3767      61746500 
+ 3768              	.LASF76:
+ 3769 005e 64745F67 		.ascii	"dt_getMinute\000"
+ 3769      65744D69 
+ 3769      6E757465 
+ 3769      00
+ 3770              	.LASF22:
+ 3771 006b 6C6F6E67 		.ascii	"long double\000"
+ 3771      20646F75 
+ 3771      626C6500 
+ 3772              	.LASF2:
+ 3773 0077 70617373 		.ascii	"password\000"
+ 3773      776F7264 
+ 3773      00
+ 3774              	.LASF91:
+ 3775 0080 706B5F73 		.ascii	"pk_serialfuncs.c\000"
+ 3775      65726961 
+ 3775      6C66756E 
+ 3775      63732E63 
+ 3775      00
+ 3776              	.LASF85:
+ 3777 0091 6D656D63 		.ascii	"memcpy\000"
+ 3777      707900
+ 3778              	.LASF33:
+ 3779 0098 73657269 		.ascii	"serial_print_menu\000"
+ 3779      616C5F70 
+ 3779      72696E74 
+ 3779      5F6D656E 
+ 3779      7500
+ 3780              	.LASF17:
+ 3781 00aa 75696E74 		.ascii	"uint8_t\000"
+ 3781      385F7400 
+ 3782              	.LASF49:
+ 3783 00b2 73657269 		.ascii	"serial_fsm\000"
+ 3783      616C5F66 
+ 3783      736D00
+ 3784              	.LASF0:
+ 3785 00bd 7469746C 		.ascii	"title\000"
+ 3785      6500
+ 3786              	.LASF92:
+ 3787 00c3 433A5C55 		.ascii	"C:\\Users\\bkettle\\OneDrive\\School\\6.115\\projec"
+ 3787      73657273 
+ 3787      5C626B65 
+ 3787      74746C65 
+ 3787      5C4F6E65 
+ 3788 00f0 745C7073 		.ascii	"t\\psoc\\Password Keeper\\Complete.cydsn\000"
+ 3788      6F635C50 
+ 3788      61737377 
+ 3788      6F726420 
+ 3788      4B656570 
+ 3789              	.LASF42:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 76
+
+
+ 3790 0116 73657269 		.ascii	"serial_inv_cmd\000"
+ 3790      616C5F69 
+ 3790      6E765F63 
+ 3790      6D6400
+ 3791              	.LASF83:
+ 3792 0125 55415254 		.ascii	"UART_1_PutChar\000"
+ 3792      5F315F50 
+ 3792      75744368 
+ 3792      617200
+ 3793              	.LASF61:
+ 3794 0134 61736369 		.ascii	"ascii_to_hid\000"
+ 3794      695F746F 
+ 3794      5F686964 
+ 3794      00
+ 3795              	.LASF72:
+ 3796 0141 64745F67 		.ascii	"dt_getYear\000"
+ 3796      65745965 
+ 3796      617200
+ 3797              	.LASF20:
+ 3798 014c 666C6F61 		.ascii	"float\000"
+ 3798      7400
+ 3799              	.LASF6:
+ 3800 0152 5265636F 		.ascii	"Record\000"
+ 3800      726400
+ 3801              	.LASF14:
+ 3802 0159 6C6F6E67 		.ascii	"long long int\000"
+ 3802      206C6F6E 
+ 3802      6720696E 
+ 3802      7400
+ 3803              	.LASF19:
+ 3804 0167 696E7438 		.ascii	"int8\000"
+ 3804      00
+ 3805              	.LASF84:
+ 3806 016c 6D656D73 		.ascii	"memset\000"
+ 3806      657400
+ 3807              	.LASF71:
+ 3808 0173 5052535F 		.ascii	"PRS_Step\000"
+ 3808      53746570 
+ 3808      00
+ 3809              	.LASF12:
+ 3810 017c 6C6F6E67 		.ascii	"long int\000"
+ 3810      20696E74 
+ 3810      00
+ 3811              	.LASF29:
+ 3812 0185 75707065 		.ascii	"uppercase\000"
+ 3812      72636173 
+ 3812      6500
+ 3813              	.LASF7:
+ 3814 018f 5F5F7569 		.ascii	"__uint8_t\000"
+ 3814      6E74385F 
+ 3814      7400
+ 3815              	.LASF62:
+ 3816 0199 72785F62 		.ascii	"rx_buffer\000"
+ 3816      75666665 
+ 3816      7200
+ 3817              	.LASF24:
+ 3818 01a3 44617465 		.ascii	"DateTime\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 77
+
+
+ 3818      54696D65 
+ 3818      00
+ 3819              	.LASF73:
+ 3820 01ac 64745F67 		.ascii	"dt_getMonth\000"
+ 3820      65744D6F 
+ 3820      6E746800 
+ 3821              	.LASF36:
+ 3822 01b8 7374725F 		.ascii	"str_to_add\000"
+ 3822      746F5F61 
+ 3822      646400
+ 3823              	.LASF86:
+ 3824 01c3 61746F69 		.ascii	"atoi\000"
+ 3824      00
+ 3825              	.LASF47:
+ 3826 01c8 52585F49 		.ascii	"RX_INT\000"
+ 3826      4E5400
+ 3827              	.LASF43:
+ 3828 01cf 67656E65 		.ascii	"generate_password\000"
+ 3828      72617465 
+ 3828      5F706173 
+ 3828      73776F72 
+ 3828      6400
+ 3829              	.LASF8:
+ 3830 01e1 756E7369 		.ascii	"unsigned char\000"
+ 3830      676E6564 
+ 3830      20636861 
+ 3830      7200
+ 3831              	.LASF28:
+ 3832 01ef 46535F46 		.ascii	"FS_FILE\000"
+ 3832      494C4500 
+ 3833              	.LASF51:
+ 3834 01f7 7265636F 		.ascii	"record_size\000"
+ 3834      72645F73 
+ 3834      697A6500 
+ 3835              	.LASF11:
+ 3836 0203 5F5F696E 		.ascii	"__int32_t\000"
+ 3836      7433325F 
+ 3836      7400
+ 3837              	.LASF5:
+ 3838 020d 7369676E 		.ascii	"signed char\000"
+ 3838      65642063 
+ 3838      68617200 
+ 3839              	.LASF15:
+ 3840 0219 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3840      206C6F6E 
+ 3840      6720756E 
+ 3840      7369676E 
+ 3840      65642069 
+ 3841              	.LASF79:
+ 3842 0230 73707269 		.ascii	"sprintf\000"
+ 3842      6E746600 
+ 3843              	.LASF58:
+ 3844 0238 7046696C 		.ascii	"pFile\000"
+ 3844      6500
+ 3845              	.LASF16:
+ 3846 023e 756E7369 		.ascii	"unsigned int\000"
+ 3846      676E6564 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 78
+
+
+ 3846      20696E74 
+ 3846      00
+ 3847              	.LASF41:
+ 3848 024b 636C725F 		.ascii	"clr_last_serial_cmd\000"
+ 3848      6C617374 
+ 3848      5F736572 
+ 3848      69616C5F 
+ 3848      636D6400 
+ 3849              	.LASF10:
+ 3850 025f 73686F72 		.ascii	"short unsigned int\000"
+ 3850      7420756E 
+ 3850      7369676E 
+ 3850      65642069 
+ 3850      6E7400
+ 3851              	.LASF50:
+ 3852 0272 70617373 		.ascii	"pass\000"
+ 3852      00
+ 3853              	.LASF4:
+ 3854 0277 63686172 		.ascii	"char\000"
+ 3854      00
+ 3855              	.LASF30:
+ 3856 027c 5F426F6F 		.ascii	"_Bool\000"
+ 3856      6C00
+ 3857              	.LASF68:
+ 3858 0282 73747263 		.ascii	"strcat\000"
+ 3858      617400
+ 3859              	.LASF18:
+ 3860 0289 696E7433 		.ascii	"int32_t\000"
+ 3860      325F7400 
+ 3861              	.LASF27:
+ 3862 0291 53657269 		.ascii	"SerialMenu\000"
+ 3862      616C4D65 
+ 3862      6E7500
+ 3863              	.LASF32:
+ 3864 029c 75706461 		.ascii	"update_rx_buffer\000"
+ 3864      74655F72 
+ 3864      785F6275 
+ 3864      66666572 
+ 3864      00
+ 3865              	.LASF81:
+ 3866 02ad 636C725F 		.ascii	"clr_rx_buffer\000"
+ 3866      72785F62 
+ 3866      75666665 
+ 3866      7200
+ 3867              	.LASF63:
+ 3868 02bb 72785F62 		.ascii	"rx_buff_length\000"
+ 3868      7566665F 
+ 3868      6C656E67 
+ 3868      746800
+ 3869              	.LASF82:
+ 3870 02ca 55415254 		.ascii	"UART_1_ReadRxData\000"
+ 3870      5F315F52 
+ 3870      65616452 
+ 3870      78446174 
+ 3870      6100
+ 3871              	.LASF34:
+ 3872 02dc 746F5F61 		.ascii	"to_add\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 79
+
+
+ 3872      646400
+ 3873              	.LASF87:
+ 3874 02e3 5553425F 		.ascii	"USB_handleInput\000"
+ 3874      68616E64 
+ 3874      6C65496E 
+ 3874      70757400 
+ 3875              	.LASF45:
+ 3876 02f3 73657269 		.ascii	"serial_print_dt\000"
+ 3876      616C5F70 
+ 3876      72696E74 
+ 3876      5F647400 
+ 3877              	.LASF77:
+ 3878 0303 64745F67 		.ascii	"dt_getSecond\000"
+ 3878      65745365 
+ 3878      636F6E64 
+ 3878      00
+ 3879              	.LASF13:
+ 3880 0310 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3880      20756E73 
+ 3880      69676E65 
+ 3880      6420696E 
+ 3880      7400
+ 3881              	.LASF48:
+ 3882 0322 7265635F 		.ascii	"rec_char\000"
+ 3882      63686172 
+ 3882      00
+ 3883              	.LASF70:
+ 3884 032b 5052535F 		.ascii	"PRS_Read\000"
+ 3884      52656164 
+ 3884      00
+ 3885              	.LASF21:
+ 3886 0334 646F7562 		.ascii	"double\000"
+ 3886      6C6500
+ 3887              	.LASF53:
+ 3888 033b 6E65775F 		.ascii	"new_record\000"
+ 3888      7265636F 
+ 3888      726400
+ 3889              	.LASF67:
+ 3890 0346 70617373 		.ascii	"pass_menu\000"
+ 3890      5F6D656E 
+ 3890      7500
+ 3891              	.LASF66:
+ 3892 0350 6D61696E 		.ascii	"main_menu\000"
+ 3892      5F6D656E 
+ 3892      7500
+ 3893              	.LASF26:
+ 3894 035a 6974656D 		.ascii	"items\000"
+ 3894      7300
+ 3895              	.LASF25:
+ 3896 0360 73697A65 		.ascii	"size\000"
+ 3896      00
+ 3897              	.LASF60:
+ 3898 0365 4B425F44 		.ascii	"KB_Data\000"
+ 3898      61746100 
+ 3899              	.LASF89:
+ 3900 036d 53445F61 		.ascii	"SD_addRecord\000"
+ 3900      64645265 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 80
+
+
+ 3900      636F7264 
+ 3900      00
+ 3901              	.LASF56:
+ 3902 037a 73644669 		.ascii	"sdFile\000"
+ 3902      6C6500
+ 3903              	.LASF1:
+ 3904 0381 75736572 		.ascii	"username\000"
+ 3904      6E616D65 
+ 3904      00
+ 3905              	.LASF69:
+ 3906 038a 5553425F 		.ascii	"USB_print\000"
+ 3906      7072696E 
+ 3906      7400
+ 3907              	.LASF37:
+ 3908 0394 6974656D 		.ascii	"itemnum\000"
+ 3908      6E756D00 
+ 3909              	.LASF46:
+ 3910 039c 746F5F73 		.ascii	"to_send\000"
+ 3910      656E6400 
+ 3911              	.LASF40:
+ 3912 03a4 73746172 		.ascii	"star_line\000"
+ 3912      5F6C696E 
+ 3912      6500
+ 3913              	.LASF57:
+ 3914 03ae 7364566F 		.ascii	"sdVolName\000"
+ 3914      6C4E616D 
+ 3914      6500
+ 3915              	.LASF80:
+ 3916 03b8 73747263 		.ascii	"strcpy\000"
+ 3916      707900
+ 3917              	.LASF38:
+ 3918 03bf 73657269 		.ascii	"serial_print_record\000"
+ 3918      616C5F70 
+ 3918      72696E74 
+ 3918      5F726563 
+ 3918      6F726400 
+ 3919              	.LASF44:
+ 3920 03d3 63757272 		.ascii	"current_char\000"
+ 3920      656E745F 
+ 3920      63686172 
+ 3920      00
+ 3921              	.LASF52:
+ 3922 03e0 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 3922      52784275 
+ 3922      66666572 
+ 3922      00
+ 3923              	.LASF90:
+ 3924 03ed 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 3924      43313120 
+ 3924      352E342E 
+ 3924      31203230 
+ 3924      31363036 
+ 3925 0420 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 3925      20726576 
+ 3925      6973696F 
+ 3925      6E203233 
+ 3925      37373135 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccIklNDa.s 			page 81
+
+
+ 3926 0453 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 3926      66756E63 
+ 3926      74696F6E 
+ 3926      2D736563 
+ 3926      74696F6E 
+ 3927              	.LASF59:
+ 3928 047b 4B425F49 		.ascii	"KB_Initialized\000"
+ 3928      6E697469 
+ 3928      616C697A 
+ 3928      656400
+ 3929              	.LASF65:
+ 3930 048a 6C617374 		.ascii	"last_serial_cmd_length\000"
+ 3930      5F736572 
+ 3930      69616C5F 
+ 3930      636D645F 
+ 3930      6C656E67 
+ 3931              	.LASF93:
+ 3932 04a1 73657269 		.ascii	"serial_menu_init\000"
+ 3932      616C5F6D 
+ 3932      656E755F 
+ 3932      696E6974 
+ 3932      00
+ 3933              	.LASF54:
+ 3934 04b2 735F6D61 		.ascii	"s_main_state\000"
+ 3934      696E5F73 
+ 3934      74617465 
+ 3934      00
+ 3935              	.LASF74:
+ 3936 04bf 64745F67 		.ascii	"dt_getDay\000"
+ 3936      65744461 
+ 3936      7900
+ 3937              	.LASF64:
+ 3938 04c9 6C617374 		.ascii	"last_serial_cmd\000"
+ 3938      5F736572 
+ 3938      69616C5F 
+ 3938      636D6400 
+ 3939              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

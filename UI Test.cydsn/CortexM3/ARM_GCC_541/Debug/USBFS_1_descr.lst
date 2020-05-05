@@ -1,0 +1,1353 @@
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"USBFS_1_descr.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	USBFS_1_TABLE
+  20              		.global	USBFS_1_DEVICE0_TABLE
+  21              		.global	USBFS_1_DEVICE0_CONFIGURATION0_TABLE
+  22              		.global	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE_CLASS
+  23              		.global	USBFS_1_DEVICE0_CONFIGURATION0_EP_SETTINGS_TABLE
+  24              		.global	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_TABLE
+  25              		.global	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_TABLE
+  26              		.global	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_FEATURE_RPT_TABLE
+  27              		.comm	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_FEATURE_BUF,2,4
+  28              		.comm	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_FEATURE_RPT_SCB,4,4
+  29              		.global	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_IN_RPT_TABLE
+  30              		.comm	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_IN_BUF,9,4
+  31              		.comm	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_IN_RPT_SCB,4,4
+  32              		.global	USBFS_1_HIDREPORT_DESCRIPTOR1
+  33              		.global	USBFS_1_STRING_DESCRIPTORS
+  34              		.global	USBFS_1_DEVICE0_CONFIGURATION0_DESCR
+  35              		.global	USBFS_1_DEVICE0_DESCR
+  36              		.section	.rodata
+  37              		.align	2
+  38              		.type	USBFS_1_TABLE, %object
+  39              		.size	USBFS_1_TABLE, 8
+  40              	USBFS_1_TABLE:
+  41 0000 01       		.byte	1
+  42 0001 000000   		.space	3
+  43 0004 00000000 		.word	USBFS_1_DEVICE0_TABLE
+  44              		.type	USBFS_1_DEVICE0_TABLE, %object
+  45              		.size	USBFS_1_DEVICE0_TABLE, 24
+  46              	USBFS_1_DEVICE0_TABLE:
+  47 0008 01       		.byte	1
+  48 0009 000000   		.space	3
+  49 000c 00000000 		.word	USBFS_1_DEVICE0_DESCR
+  50 0010 00       		.byte	0
+  51 0011 000000   		.space	3
+  52 0014 00000000 		.word	0
+  53 0018 01       		.byte	1
+  54 0019 000000   		.space	3
+  55 001c 00000000 		.word	USBFS_1_DEVICE0_CONFIGURATION0_TABLE
+  56              		.type	USBFS_1_DEVICE0_CONFIGURATION0_TABLE, %object
+  57              		.size	USBFS_1_DEVICE0_CONFIGURATION0_TABLE, 32
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 2
+
+
+  58              	USBFS_1_DEVICE0_CONFIGURATION0_TABLE:
+  59 0020 01       		.byte	1
+  60 0021 000000   		.space	3
+  61 0024 00000000 		.word	USBFS_1_DEVICE0_CONFIGURATION0_DESCR
+  62 0028 01       		.byte	1
+  63 0029 000000   		.space	3
+  64 002c 00000000 		.word	USBFS_1_DEVICE0_CONFIGURATION0_EP_SETTINGS_TABLE
+  65 0030 01       		.byte	1
+  66 0031 000000   		.space	3
+  67 0034 00000000 		.word	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_TABLE
+  68 0038 00       		.byte	0
+  69 0039 000000   		.space	3
+  70 003c 00000000 		.word	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE_CLASS
+  71              		.type	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE_CLASS, %object
+  72              		.size	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE_CLASS, 1
+  73              	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE_CLASS:
+  74 0040 03       		.byte	3
+  75 0041 000000   		.space	3
+  76              		.type	USBFS_1_DEVICE0_CONFIGURATION0_EP_SETTINGS_TABLE, %object
+  77              		.size	USBFS_1_DEVICE0_CONFIGURATION0_EP_SETTINGS_TABLE, 8
+  78              	USBFS_1_DEVICE0_CONFIGURATION0_EP_SETTINGS_TABLE:
+  79 0044 00       		.byte	0
+  80 0045 00       		.byte	0
+  81 0046 81       		.byte	-127
+  82 0047 03       		.byte	3
+  83 0048 0800     		.short	8
+  84 004a 03       		.byte	3
+  85 004b 00       		.space	1
+  86              		.type	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_TABLE, %object
+  87              		.size	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_TABLE, 8
+  88              	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_TABLE:
+  89 004c 01       		.byte	1
+  90 004d 000000   		.space	3
+  91 0050 00000000 		.word	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_TABLE
+  92              		.type	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_TABLE, %object
+  93              		.size	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_TABLE, 40
+  94              	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_TABLE:
+  95 0054 00       		.byte	0
+  96 0055 000000   		.space	3
+  97 0058 00000000 		.word	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_IN_RPT_TABLE
+  98 005c 00       		.byte	0
+  99 005d 000000   		.space	3
+ 100 0060 00000000 		.word	0
+ 101 0064 00       		.byte	0
+ 102 0065 000000   		.space	3
+ 103 0068 00000000 		.word	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_FEATURE_RPT_TABLE
+ 104 006c 01       		.byte	1
+ 105 006d 000000   		.space	3
+ 106 0070 00000000 		.word	USBFS_1_HIDREPORT_DESCRIPTOR1
+ 107 0074 01       		.byte	1
+ 108 0075 000000   		.space	3
+ 109 0078 12000000 		.word	USBFS_1_DEVICE0_CONFIGURATION0_DESCR+18
+ 110              		.type	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_FEATURE_RPT_TABLE, %object
+ 111              		.size	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_FEATURE_RPT_TABLE, 12
+ 112              	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_FEATURE_RPT_TABLE:
+ 113 007c 0200     		.short	2
+ 114 007e 0000     		.space	2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 3
+
+
+ 115 0080 00000000 		.word	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_FEATURE_BUF
+ 116 0084 00000000 		.word	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_FEATURE_RPT_SCB
+ 117              		.type	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_IN_RPT_TABLE, %object
+ 118              		.size	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_IN_RPT_TABLE, 12
+ 119              	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_IN_RPT_TABLE:
+ 120 0088 0900     		.short	9
+ 121 008a 0000     		.space	2
+ 122 008c 00000000 		.word	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_IN_BUF
+ 123 0090 00000000 		.word	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_IN_RPT_SCB
+ 124              		.type	USBFS_1_HIDREPORT_DESCRIPTOR1, %object
+ 125              		.size	USBFS_1_HIDREPORT_DESCRIPTOR1, 67
+ 126              	USBFS_1_HIDREPORT_DESCRIPTOR1:
+ 127 0094 3F       		.byte	63
+ 128 0095 00       		.byte	0
+ 129 0096 05       		.byte	5
+ 130 0097 01       		.byte	1
+ 131 0098 09       		.byte	9
+ 132 0099 06       		.byte	6
+ 133 009a A1       		.byte	-95
+ 134 009b 01       		.byte	1
+ 135 009c 05       		.byte	5
+ 136 009d 07       		.byte	7
+ 137 009e 19       		.byte	25
+ 138 009f E0       		.byte	-32
+ 139 00a0 29       		.byte	41
+ 140 00a1 E7       		.byte	-25
+ 141 00a2 15       		.byte	21
+ 142 00a3 00       		.byte	0
+ 143 00a4 25       		.byte	37
+ 144 00a5 01       		.byte	1
+ 145 00a6 75       		.byte	117
+ 146 00a7 01       		.byte	1
+ 147 00a8 95       		.byte	-107
+ 148 00a9 08       		.byte	8
+ 149 00aa 81       		.byte	-127
+ 150 00ab 02       		.byte	2
+ 151 00ac 95       		.byte	-107
+ 152 00ad 01       		.byte	1
+ 153 00ae 75       		.byte	117
+ 154 00af 08       		.byte	8
+ 155 00b0 81       		.byte	-127
+ 156 00b1 01       		.byte	1
+ 157 00b2 95       		.byte	-107
+ 158 00b3 05       		.byte	5
+ 159 00b4 75       		.byte	117
+ 160 00b5 01       		.byte	1
+ 161 00b6 05       		.byte	5
+ 162 00b7 08       		.byte	8
+ 163 00b8 19       		.byte	25
+ 164 00b9 01       		.byte	1
+ 165 00ba 29       		.byte	41
+ 166 00bb 05       		.byte	5
+ 167 00bc B1       		.byte	-79
+ 168 00bd 02       		.byte	2
+ 169 00be 95       		.byte	-107
+ 170 00bf 01       		.byte	1
+ 171 00c0 75       		.byte	117
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 4
+
+
+ 172 00c1 03       		.byte	3
+ 173 00c2 B1       		.byte	-79
+ 174 00c3 01       		.byte	1
+ 175 00c4 95       		.byte	-107
+ 176 00c5 06       		.byte	6
+ 177 00c6 75       		.byte	117
+ 178 00c7 08       		.byte	8
+ 179 00c8 15       		.byte	21
+ 180 00c9 00       		.byte	0
+ 181 00ca 25       		.byte	37
+ 182 00cb 65       		.byte	101
+ 183 00cc 05       		.byte	5
+ 184 00cd 07       		.byte	7
+ 185 00ce 19       		.byte	25
+ 186 00cf 00       		.byte	0
+ 187 00d0 29       		.byte	41
+ 188 00d1 65       		.byte	101
+ 189 00d2 81       		.byte	-127
+ 190 00d3 00       		.byte	0
+ 191 00d4 C0       		.byte	-64
+ 192 00d5 00       		.byte	0
+ 193 00d6 00       		.byte	0
+ 194 00d7 00       		.space	1
+ 195              		.type	USBFS_1_STRING_DESCRIPTORS, %object
+ 196              		.size	USBFS_1_STRING_DESCRIPTORS, 39
+ 197              	USBFS_1_STRING_DESCRIPTORS:
+ 198 00d8 04       		.byte	4
+ 199 00d9 03       		.byte	3
+ 200 00da 09       		.byte	9
+ 201 00db 04       		.byte	4
+ 202 00dc 06       		.byte	6
+ 203 00dd 03       		.byte	3
+ 204 00de 6D       		.byte	109
+ 205 00df 00       		.byte	0
+ 206 00e0 65       		.byte	101
+ 207 00e1 00       		.byte	0
+ 208 00e2 0A       		.byte	10
+ 209 00e3 03       		.byte	3
+ 210 00e4 6B       		.byte	107
+ 211 00e5 00       		.byte	0
+ 212 00e6 65       		.byte	101
+ 213 00e7 00       		.byte	0
+ 214 00e8 65       		.byte	101
+ 215 00e9 00       		.byte	0
+ 216 00ea 62       		.byte	98
+ 217 00eb 00       		.byte	0
+ 218 00ec 12       		.byte	18
+ 219 00ed 03       		.byte	3
+ 220 00ee 6B       		.byte	107
+ 221 00ef 00       		.byte	0
+ 222 00f0 65       		.byte	101
+ 223 00f1 00       		.byte	0
+ 224 00f2 79       		.byte	121
+ 225 00f3 00       		.byte	0
+ 226 00f4 62       		.byte	98
+ 227 00f5 00       		.byte	0
+ 228 00f6 6F       		.byte	111
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 5
+
+
+ 229 00f7 00       		.byte	0
+ 230 00f8 61       		.byte	97
+ 231 00f9 00       		.byte	0
+ 232 00fa 72       		.byte	114
+ 233 00fb 00       		.byte	0
+ 234 00fc 64       		.byte	100
+ 235 00fd 00       		.byte	0
+ 236 00fe 00       		.byte	0
+ 237 00ff 00       		.space	1
+ 238              		.type	USBFS_1_DEVICE0_CONFIGURATION0_DESCR, %object
+ 239              		.size	USBFS_1_DEVICE0_CONFIGURATION0_DESCR, 34
+ 240              	USBFS_1_DEVICE0_CONFIGURATION0_DESCR:
+ 241 0100 09       		.byte	9
+ 242 0101 02       		.byte	2
+ 243 0102 22       		.byte	34
+ 244 0103 00       		.byte	0
+ 245 0104 01       		.byte	1
+ 246 0105 01       		.byte	1
+ 247 0106 03       		.byte	3
+ 248 0107 80       		.byte	-128
+ 249 0108 32       		.byte	50
+ 250 0109 09       		.byte	9
+ 251 010a 04       		.byte	4
+ 252 010b 00       		.byte	0
+ 253 010c 00       		.byte	0
+ 254 010d 01       		.byte	1
+ 255 010e 03       		.byte	3
+ 256 010f 00       		.byte	0
+ 257 0110 00       		.byte	0
+ 258 0111 03       		.byte	3
+ 259 0112 09       		.byte	9
+ 260 0113 21       		.byte	33
+ 261 0114 11       		.byte	17
+ 262 0115 01       		.byte	1
+ 263 0116 00       		.byte	0
+ 264 0117 01       		.byte	1
+ 265 0118 22       		.byte	34
+ 266 0119 3F       		.byte	63
+ 267 011a 00       		.byte	0
+ 268 011b 07       		.byte	7
+ 269 011c 05       		.byte	5
+ 270 011d 81       		.byte	-127
+ 271 011e 03       		.byte	3
+ 272 011f 08       		.byte	8
+ 273 0120 00       		.byte	0
+ 274 0121 0A       		.byte	10
+ 275 0122 0000     		.space	2
+ 276              		.type	USBFS_1_DEVICE0_DESCR, %object
+ 277              		.size	USBFS_1_DEVICE0_DESCR, 18
+ 278              	USBFS_1_DEVICE0_DESCR:
+ 279 0124 12       		.byte	18
+ 280 0125 01       		.byte	1
+ 281 0126 00       		.byte	0
+ 282 0127 02       		.byte	2
+ 283 0128 00       		.byte	0
+ 284 0129 00       		.byte	0
+ 285 012a 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 6
+
+
+ 286 012b 08       		.byte	8
+ 287 012c B4       		.byte	-76
+ 288 012d 04       		.byte	4
+ 289 012e 51       		.byte	81
+ 290 012f 80       		.byte	-128
+ 291 0130 00       		.byte	0
+ 292 0131 00       		.byte	0
+ 293 0132 01       		.byte	1
+ 294 0133 02       		.byte	2
+ 295 0134 00       		.byte	0
+ 296 0135 01       		.byte	1
+ 297              		.text
+ 298              	.Letext0:
+ 299              		.file 1 "Generated_Source\\PSoC5\\cytypes.h"
+ 300              		.file 2 "Generated_Source\\PSoC5\\USBFS_1.h"
+ 301              		.file 3 "Generated_Source\\PSoC5\\USBFS_1_descr.c"
+ 302              		.section	.debug_info,"",%progbits
+ 303              	.Ldebug_info0:
+ 304 0000 E5030000 		.4byte	0x3e5
+ 305 0004 0400     		.2byte	0x4
+ 306 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 307 000a 04       		.byte	0x4
+ 308 000b 01       		.uleb128 0x1
+ 309 000c A7010000 		.4byte	.LASF49
+ 310 0010 0C       		.byte	0xc
+ 311 0011 43040000 		.4byte	.LASF50
+ 312 0015 35020000 		.4byte	.LASF51
+ 313 0019 00000000 		.4byte	.Ldebug_line0
+ 314 001d 02       		.uleb128 0x2
+ 315 001e 01       		.byte	0x1
+ 316 001f 06       		.byte	0x6
+ 317 0020 27050000 		.4byte	.LASF0
+ 318 0024 02       		.uleb128 0x2
+ 319 0025 01       		.byte	0x1
+ 320 0026 08       		.byte	0x8
+ 321 0027 99010000 		.4byte	.LASF1
+ 322 002b 02       		.uleb128 0x2
+ 323 002c 02       		.byte	0x2
+ 324 002d 05       		.byte	0x5
+ 325 002e A5040000 		.4byte	.LASF2
+ 326 0032 02       		.uleb128 0x2
+ 327 0033 02       		.byte	0x2
+ 328 0034 07       		.byte	0x7
+ 329 0035 6D000000 		.4byte	.LASF3
+ 330 0039 02       		.uleb128 0x2
+ 331 003a 04       		.byte	0x4
+ 332 003b 05       		.byte	0x5
+ 333 003c 64000000 		.4byte	.LASF4
+ 334 0040 02       		.uleb128 0x2
+ 335 0041 04       		.byte	0x4
+ 336 0042 07       		.byte	0x7
+ 337 0043 87020000 		.4byte	.LASF5
+ 338 0047 02       		.uleb128 0x2
+ 339 0048 08       		.byte	0x8
+ 340 0049 05       		.byte	0x5
+ 341 004a EC030000 		.4byte	.LASF6
+ 342 004e 02       		.uleb128 0x2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 7
+
+
+ 343 004f 08       		.byte	0x8
+ 344 0050 07       		.byte	0x7
+ 345 0051 A7030000 		.4byte	.LASF7
+ 346 0055 03       		.uleb128 0x3
+ 347 0056 04       		.byte	0x4
+ 348 0057 05       		.byte	0x5
+ 349 0058 696E7400 		.ascii	"int\000"
+ 350 005c 02       		.uleb128 0x2
+ 351 005d 04       		.byte	0x4
+ 352 005e 07       		.byte	0x7
+ 353 005f 76030000 		.4byte	.LASF8
+ 354 0063 04       		.uleb128 0x4
+ 355 0064 AF040000 		.4byte	.LASF9
+ 356 0068 01       		.byte	0x1
+ 357 0069 E401     		.2byte	0x1e4
+ 358 006b 24000000 		.4byte	0x24
+ 359 006f 04       		.uleb128 0x4
+ 360 0070 F3020000 		.4byte	.LASF10
+ 361 0074 01       		.byte	0x1
+ 362 0075 E501     		.2byte	0x1e5
+ 363 0077 32000000 		.4byte	0x32
+ 364 007b 02       		.uleb128 0x2
+ 365 007c 04       		.byte	0x4
+ 366 007d 04       		.byte	0x4
+ 367 007e 46010000 		.4byte	.LASF11
+ 368 0082 02       		.uleb128 0x2
+ 369 0083 08       		.byte	0x8
+ 370 0084 04       		.byte	0x4
+ 371 0085 EC020000 		.4byte	.LASF12
+ 372 0089 02       		.uleb128 0x2
+ 373 008a 01       		.byte	0x1
+ 374 008b 08       		.byte	0x8
+ 375 008c 09050000 		.4byte	.LASF13
+ 376 0090 05       		.uleb128 0x5
+ 377 0091 63000000 		.4byte	0x63
+ 378 0095 02       		.uleb128 0x2
+ 379 0096 08       		.byte	0x8
+ 380 0097 04       		.byte	0x4
+ 381 0098 0E050000 		.4byte	.LASF14
+ 382 009c 02       		.uleb128 0x2
+ 383 009d 04       		.byte	0x4
+ 384 009e 07       		.byte	0x7
+ 385 009f C5030000 		.4byte	.LASF15
+ 386 00a3 06       		.uleb128 0x6
+ 387 00a4 08       		.byte	0x8
+ 388 00a5 02       		.byte	0x2
+ 389 00a6 9F       		.byte	0x9f
+ 390 00a7 F4000000 		.4byte	0xf4
+ 391 00ab 07       		.uleb128 0x7
+ 392 00ac B5040000 		.4byte	.LASF16
+ 393 00b0 02       		.byte	0x2
+ 394 00b1 A1       		.byte	0xa1
+ 395 00b2 63000000 		.4byte	0x63
+ 396 00b6 00       		.byte	0
+ 397 00b7 07       		.uleb128 0x7
+ 398 00b8 3B010000 		.4byte	.LASF17
+ 399 00bc 02       		.byte	0x2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 8
+
+
+ 400 00bd A2       		.byte	0xa2
+ 401 00be 63000000 		.4byte	0x63
+ 402 00c2 01       		.byte	0x1
+ 403 00c3 07       		.uleb128 0x7
+ 404 00c4 99020000 		.4byte	.LASF18
+ 405 00c8 02       		.byte	0x2
+ 406 00c9 A3       		.byte	0xa3
+ 407 00ca 63000000 		.4byte	0x63
+ 408 00ce 02       		.byte	0x2
+ 409 00cf 07       		.uleb128 0x7
+ 410 00d0 0D000000 		.4byte	.LASF19
+ 411 00d4 02       		.byte	0x2
+ 412 00d5 A4       		.byte	0xa4
+ 413 00d6 63000000 		.4byte	0x63
+ 414 00da 03       		.byte	0x3
+ 415 00db 07       		.uleb128 0x7
+ 416 00dc 9A040000 		.4byte	.LASF20
+ 417 00e0 02       		.byte	0x2
+ 418 00e1 A5       		.byte	0xa5
+ 419 00e2 6F000000 		.4byte	0x6f
+ 420 00e6 04       		.byte	0x4
+ 421 00e7 07       		.uleb128 0x7
+ 422 00e8 9F050000 		.4byte	.LASF21
+ 423 00ec 02       		.byte	0x2
+ 424 00ed A6       		.byte	0xa6
+ 425 00ee 63000000 		.4byte	0x63
+ 426 00f2 06       		.byte	0x6
+ 427 00f3 00       		.byte	0
+ 428 00f4 08       		.uleb128 0x8
+ 429 00f5 D0020000 		.4byte	.LASF22
+ 430 00f9 02       		.byte	0x2
+ 431 00fa A7       		.byte	0xa7
+ 432 00fb A3000000 		.4byte	0xa3
+ 433 00ff 06       		.uleb128 0x6
+ 434 0100 04       		.byte	0x4
+ 435 0101 02       		.byte	0x2
+ 436 0102 A9       		.byte	0xa9
+ 437 0103 20010000 		.4byte	0x120
+ 438 0107 07       		.uleb128 0x7
+ 439 0108 A5000000 		.4byte	.LASF23
+ 440 010c 02       		.byte	0x2
+ 441 010d AB       		.byte	0xab
+ 442 010e 63000000 		.4byte	0x63
+ 443 0112 00       		.byte	0
+ 444 0113 07       		.uleb128 0x7
+ 445 0114 73050000 		.4byte	.LASF24
+ 446 0118 02       		.byte	0x2
+ 447 0119 AC       		.byte	0xac
+ 448 011a 6F000000 		.4byte	0x6f
+ 449 011e 02       		.byte	0x2
+ 450 011f 00       		.byte	0
+ 451 0120 08       		.uleb128 0x8
+ 452 0121 9E020000 		.4byte	.LASF25
+ 453 0125 02       		.byte	0x2
+ 454 0126 AD       		.byte	0xad
+ 455 0127 FF000000 		.4byte	0xff
+ 456 012b 06       		.uleb128 0x6
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 9
+
+
+ 457 012c 0C       		.byte	0xc
+ 458 012d 02       		.byte	0x2
+ 459 012e AF       		.byte	0xaf
+ 460 012f 58010000 		.4byte	0x158
+ 461 0133 07       		.uleb128 0x7
+ 462 0134 5E000000 		.4byte	.LASF26
+ 463 0138 02       		.byte	0x2
+ 464 0139 B1       		.byte	0xb1
+ 465 013a 6F000000 		.4byte	0x6f
+ 466 013e 00       		.byte	0
+ 467 013f 07       		.uleb128 0x7
+ 468 0140 F0000000 		.4byte	.LASF27
+ 469 0144 02       		.byte	0x2
+ 470 0145 B2       		.byte	0xb2
+ 471 0146 58010000 		.4byte	0x158
+ 472 014a 04       		.byte	0x4
+ 473 014b 07       		.uleb128 0x7
+ 474 014c 00000000 		.4byte	.LASF28
+ 475 0150 02       		.byte	0x2
+ 476 0151 B3       		.byte	0xb3
+ 477 0152 5E010000 		.4byte	0x15e
+ 478 0156 08       		.byte	0x8
+ 479 0157 00       		.byte	0
+ 480 0158 09       		.uleb128 0x9
+ 481 0159 04       		.byte	0x4
+ 482 015a 90000000 		.4byte	0x90
+ 483 015e 09       		.uleb128 0x9
+ 484 015f 04       		.byte	0x4
+ 485 0160 20010000 		.4byte	0x120
+ 486 0164 08       		.uleb128 0x8
+ 487 0165 1A050000 		.4byte	.LASF29
+ 488 0169 02       		.byte	0x2
+ 489 016a B4       		.byte	0xb4
+ 490 016b 2B010000 		.4byte	0x12b
+ 491 016f 06       		.uleb128 0x6
+ 492 0170 08       		.byte	0x8
+ 493 0171 02       		.byte	0x2
+ 494 0172 B6       		.byte	0xb6
+ 495 0173 8E010000 		.4byte	0x18e
+ 496 0177 0A       		.uleb128 0xa
+ 497 0178 6300     		.ascii	"c\000"
+ 498 017a 02       		.byte	0x2
+ 499 017b B8       		.byte	0xb8
+ 500 017c 63000000 		.4byte	0x63
+ 501 0180 00       		.byte	0
+ 502 0181 07       		.uleb128 0x7
+ 503 0182 BE030000 		.4byte	.LASF30
+ 504 0186 02       		.byte	0x2
+ 505 0187 B9       		.byte	0xb9
+ 506 0188 8E010000 		.4byte	0x18e
+ 507 018c 04       		.byte	0x4
+ 508 018d 00       		.byte	0
+ 509 018e 09       		.uleb128 0x9
+ 510 018f 04       		.byte	0x4
+ 511 0190 94010000 		.4byte	0x194
+ 512 0194 0B       		.uleb128 0xb
+ 513 0195 08       		.uleb128 0x8
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 10
+
+
+ 514 0196 83030000 		.4byte	.LASF31
+ 515 019a 02       		.byte	0x2
+ 516 019b BA       		.byte	0xba
+ 517 019c 6F010000 		.4byte	0x16f
+ 518 01a0 0C       		.uleb128 0xc
+ 519 01a1 B0010000 		.4byte	0x1b0
+ 520 01a5 B0010000 		.4byte	0x1b0
+ 521 01a9 0D       		.uleb128 0xd
+ 522 01aa 9C000000 		.4byte	0x9c
+ 523 01ae 11       		.byte	0x11
+ 524 01af 00       		.byte	0
+ 525 01b0 0E       		.uleb128 0xe
+ 526 01b1 63000000 		.4byte	0x63
+ 527 01b5 0F       		.uleb128 0xf
+ 528 01b6 91030000 		.4byte	.LASF32
+ 529 01ba 03       		.byte	0x3
+ 530 01bb 24       		.byte	0x24
+ 531 01bc C6010000 		.4byte	0x1c6
+ 532 01c0 05       		.uleb128 0x5
+ 533 01c1 03       		.byte	0x3
+ 534 01c2 00000000 		.4byte	USBFS_1_DEVICE0_DESCR
+ 535 01c6 0E       		.uleb128 0xe
+ 536 01c7 A0010000 		.4byte	0x1a0
+ 537 01cb 0C       		.uleb128 0xc
+ 538 01cc B0010000 		.4byte	0x1b0
+ 539 01d0 DB010000 		.4byte	0x1db
+ 540 01d4 0D       		.uleb128 0xd
+ 541 01d5 9C000000 		.4byte	0x9c
+ 542 01d9 21       		.byte	0x21
+ 543 01da 00       		.byte	0
+ 544 01db 0F       		.uleb128 0xf
+ 545 01dc 80000000 		.4byte	.LASF33
+ 546 01e0 03       		.byte	0x3
+ 547 01e1 37       		.byte	0x37
+ 548 01e2 EC010000 		.4byte	0x1ec
+ 549 01e6 05       		.uleb128 0x5
+ 550 01e7 03       		.byte	0x3
+ 551 01e8 00000000 		.4byte	USBFS_1_DEVICE0_CONFIGURATION0_DESCR
+ 552 01ec 0E       		.uleb128 0xe
+ 553 01ed CB010000 		.4byte	0x1cb
+ 554 01f1 0C       		.uleb128 0xc
+ 555 01f2 01020000 		.4byte	0x201
+ 556 01f6 01020000 		.4byte	0x201
+ 557 01fa 0D       		.uleb128 0xd
+ 558 01fb 9C000000 		.4byte	0x9c
+ 559 01ff 00       		.byte	0
+ 560 0200 00       		.byte	0
+ 561 0201 0E       		.uleb128 0xe
+ 562 0202 95010000 		.4byte	0x195
+ 563 0206 0F       		.uleb128 0xf
+ 564 0207 6A040000 		.4byte	.LASF34
+ 565 020b 03       		.byte	0x3
+ 566 020c E1       		.byte	0xe1
+ 567 020d 17020000 		.4byte	0x217
+ 568 0211 05       		.uleb128 0x5
+ 569 0212 03       		.byte	0x3
+ 570 0213 00000000 		.4byte	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_TABLE
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 11
+
+
+ 571 0217 0E       		.uleb128 0xe
+ 572 0218 F1010000 		.4byte	0x1f1
+ 573 021c 0C       		.uleb128 0xc
+ 574 021d 2C020000 		.4byte	0x22c
+ 575 0221 2C020000 		.4byte	0x22c
+ 576 0225 0D       		.uleb128 0xd
+ 577 0226 9C000000 		.4byte	0x9c
+ 578 022a 00       		.byte	0
+ 579 022b 00       		.byte	0
+ 580 022c 0E       		.uleb128 0xe
+ 581 022d F4000000 		.4byte	0xf4
+ 582 0231 0F       		.uleb128 0xf
+ 583 0232 FA020000 		.4byte	.LASF35
+ 584 0236 03       		.byte	0x3
+ 585 0237 EC       		.byte	0xec
+ 586 0238 42020000 		.4byte	0x242
+ 587 023c 05       		.uleb128 0x5
+ 588 023d 03       		.byte	0x3
+ 589 023e 00000000 		.4byte	USBFS_1_DEVICE0_CONFIGURATION0_EP_SETTINGS_TABLE
+ 590 0242 0E       		.uleb128 0xe
+ 591 0243 1C020000 		.4byte	0x21c
+ 592 0247 0C       		.uleb128 0xc
+ 593 0248 B0010000 		.4byte	0x1b0
+ 594 024c 57020000 		.4byte	0x257
+ 595 0250 0D       		.uleb128 0xd
+ 596 0251 9C000000 		.4byte	0x9c
+ 597 0255 00       		.byte	0
+ 598 0256 00       		.byte	0
+ 599 0257 0F       		.uleb128 0xf
+ 600 0258 DA040000 		.4byte	.LASF36
+ 601 025c 03       		.byte	0x3
+ 602 025d F0       		.byte	0xf0
+ 603 025e 68020000 		.4byte	0x268
+ 604 0262 05       		.uleb128 0x5
+ 605 0263 03       		.byte	0x3
+ 606 0264 00000000 		.4byte	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE_CLASS
+ 607 0268 0E       		.uleb128 0xe
+ 608 0269 47020000 		.4byte	0x247
+ 609 026d 0C       		.uleb128 0xc
+ 610 026e 01020000 		.4byte	0x201
+ 611 0272 7D020000 		.4byte	0x27d
+ 612 0276 0D       		.uleb128 0xd
+ 613 0277 9C000000 		.4byte	0x9c
+ 614 027b 03       		.byte	0x3
+ 615 027c 00       		.byte	0
+ 616 027d 0F       		.uleb128 0xf
+ 617 027e 7A050000 		.4byte	.LASF37
+ 618 0282 03       		.byte	0x3
+ 619 0283 F8       		.byte	0xf8
+ 620 0284 8E020000 		.4byte	0x28e
+ 621 0288 05       		.uleb128 0x5
+ 622 0289 03       		.byte	0x3
+ 623 028a 00000000 		.4byte	USBFS_1_DEVICE0_CONFIGURATION0_TABLE
+ 624 028e 0E       		.uleb128 0xe
+ 625 028f 6D020000 		.4byte	0x26d
+ 626 0293 0C       		.uleb128 0xc
+ 627 0294 01020000 		.4byte	0x201
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 12
+
+
+ 628 0298 A3020000 		.4byte	0x2a3
+ 629 029c 0D       		.uleb128 0xd
+ 630 029d 9C000000 		.4byte	0x9c
+ 631 02a1 02       		.byte	0x2
+ 632 02a2 00       		.byte	0
+ 633 02a3 10       		.uleb128 0x10
+ 634 02a4 BA020000 		.4byte	.LASF38
+ 635 02a8 03       		.byte	0x3
+ 636 02a9 0201     		.2byte	0x102
+ 637 02ab B5020000 		.4byte	0x2b5
+ 638 02af 05       		.uleb128 0x5
+ 639 02b0 03       		.byte	0x3
+ 640 02b1 00000000 		.4byte	USBFS_1_DEVICE0_TABLE
+ 641 02b5 0E       		.uleb128 0xe
+ 642 02b6 93020000 		.4byte	0x293
+ 643 02ba 10       		.uleb128 0x10
+ 644 02bb 8B010000 		.4byte	.LASF39
+ 645 02bf 03       		.byte	0x3
+ 646 02c0 0A01     		.2byte	0x10a
+ 647 02c2 CC020000 		.4byte	0x2cc
+ 648 02c6 05       		.uleb128 0x5
+ 649 02c7 03       		.byte	0x3
+ 650 02c8 00000000 		.4byte	USBFS_1_TABLE
+ 651 02cc 0E       		.uleb128 0xe
+ 652 02cd F1010000 		.4byte	0x1f1
+ 653 02d1 0C       		.uleb128 0xc
+ 654 02d2 B0010000 		.4byte	0x1b0
+ 655 02d6 E1020000 		.4byte	0x2e1
+ 656 02da 0D       		.uleb128 0xd
+ 657 02db 9C000000 		.4byte	0x9c
+ 658 02df 26       		.byte	0x26
+ 659 02e0 00       		.byte	0
+ 660 02e1 0F       		.uleb128 0xf
+ 661 02e2 BF040000 		.4byte	.LASF40
+ 662 02e6 03       		.byte	0x3
+ 663 02e7 65       		.byte	0x65
+ 664 02e8 F2020000 		.4byte	0x2f2
+ 665 02ec 05       		.uleb128 0x5
+ 666 02ed 03       		.byte	0x3
+ 667 02ee 00000000 		.4byte	USBFS_1_STRING_DESCRIPTORS
+ 668 02f2 0E       		.uleb128 0xe
+ 669 02f3 D1020000 		.4byte	0x2d1
+ 670 02f7 0F       		.uleb128 0xf
+ 671 02f8 AC000000 		.4byte	.LASF41
+ 672 02fc 03       		.byte	0x3
+ 673 02fd B2       		.byte	0xb2
+ 674 02fe 20010000 		.4byte	0x120
+ 675 0302 05       		.uleb128 0x5
+ 676 0303 03       		.byte	0x3
+ 677 0304 00000000 		.4byte	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_IN_RPT_SCB
+ 678 0308 0C       		.uleb128 0xc
+ 679 0309 63000000 		.4byte	0x63
+ 680 030d 18030000 		.4byte	0x318
+ 681 0311 0D       		.uleb128 0xd
+ 682 0312 9C000000 		.4byte	0x9c
+ 683 0316 08       		.byte	0x8
+ 684 0317 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 13
+
+
+ 685 0318 0F       		.uleb128 0xf
+ 686 0319 33050000 		.4byte	.LASF42
+ 687 031d 03       		.byte	0x3
+ 688 031e B3       		.byte	0xb3
+ 689 031f 08030000 		.4byte	0x308
+ 690 0323 05       		.uleb128 0x5
+ 691 0324 03       		.byte	0x3
+ 692 0325 00000000 		.4byte	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_IN_BUF
+ 693 0329 0F       		.uleb128 0xf
+ 694 032a FA030000 		.4byte	.LASF43
+ 695 032e 03       		.byte	0x3
+ 696 032f C1       		.byte	0xc1
+ 697 0330 20010000 		.4byte	0x120
+ 698 0334 05       		.uleb128 0x5
+ 699 0335 03       		.byte	0x3
+ 700 0336 00000000 		.4byte	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_FEATURE_RPT_SCB
+ 701 033a 0C       		.uleb128 0xc
+ 702 033b 63000000 		.4byte	0x63
+ 703 033f 4A030000 		.4byte	0x34a
+ 704 0343 0D       		.uleb128 0xd
+ 705 0344 9C000000 		.4byte	0x9c
+ 706 0348 01       		.byte	0x1
+ 707 0349 00       		.byte	0
+ 708 034a 0F       		.uleb128 0xf
+ 709 034b F6000000 		.4byte	.LASF44
+ 710 034f 03       		.byte	0x3
+ 711 0350 C2       		.byte	0xc2
+ 712 0351 3A030000 		.4byte	0x33a
+ 713 0355 05       		.uleb128 0x5
+ 714 0356 03       		.byte	0x3
+ 715 0357 00000000 		.4byte	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_FEATURE_BUF
+ 716 035b 0C       		.uleb128 0xc
+ 717 035c B0010000 		.4byte	0x1b0
+ 718 0360 6B030000 		.4byte	0x36b
+ 719 0364 0D       		.uleb128 0xd
+ 720 0365 9C000000 		.4byte	0x9c
+ 721 0369 42       		.byte	0x42
+ 722 036a 00       		.byte	0
+ 723 036b 0F       		.uleb128 0xf
+ 724 036c CE030000 		.4byte	.LASF45
+ 725 0370 03       		.byte	0x3
+ 726 0371 87       		.byte	0x87
+ 727 0372 7C030000 		.4byte	0x37c
+ 728 0376 05       		.uleb128 0x5
+ 729 0377 03       		.byte	0x3
+ 730 0378 00000000 		.4byte	USBFS_1_HIDREPORT_DESCRIPTOR1
+ 731 037c 0E       		.uleb128 0xe
+ 732 037d 5B030000 		.4byte	0x35b
+ 733 0381 0C       		.uleb128 0xc
+ 734 0382 91030000 		.4byte	0x391
+ 735 0386 91030000 		.4byte	0x391
+ 736 038a 0D       		.uleb128 0xd
+ 737 038b 9C000000 		.4byte	0x9c
+ 738 038f 00       		.byte	0
+ 739 0390 00       		.byte	0
+ 740 0391 0E       		.uleb128 0xe
+ 741 0392 64010000 		.4byte	0x164
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 14
+
+
+ 742 0396 0F       		.uleb128 0xf
+ 743 0397 18000000 		.4byte	.LASF46
+ 744 039b 03       		.byte	0x3
+ 745 039c B9       		.byte	0xb9
+ 746 039d A7030000 		.4byte	0x3a7
+ 747 03a1 05       		.uleb128 0x5
+ 748 03a2 03       		.byte	0x3
+ 749 03a3 00000000 		.4byte	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_IN_RPT_TABLE
+ 750 03a7 0E       		.uleb128 0xe
+ 751 03a8 81030000 		.4byte	0x381
+ 752 03ac 0F       		.uleb128 0xf
+ 753 03ad 2B030000 		.4byte	.LASF47
+ 754 03b1 03       		.byte	0x3
+ 755 03b2 C8       		.byte	0xc8
+ 756 03b3 BD030000 		.4byte	0x3bd
+ 757 03b7 05       		.uleb128 0x5
+ 758 03b8 03       		.byte	0x3
+ 759 03b9 00000000 		.4byte	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_FEATURE_RPT_TABLE
+ 760 03bd 0E       		.uleb128 0xe
+ 761 03be 81030000 		.4byte	0x381
+ 762 03c2 0C       		.uleb128 0xc
+ 763 03c3 01020000 		.4byte	0x201
+ 764 03c7 D2030000 		.4byte	0x3d2
+ 765 03cb 0D       		.uleb128 0xd
+ 766 03cc 9C000000 		.4byte	0x9c
+ 767 03d0 04       		.byte	0x4
+ 768 03d1 00       		.byte	0
+ 769 03d2 0F       		.uleb128 0xf
+ 770 03d3 4C010000 		.4byte	.LASF48
+ 771 03d7 03       		.byte	0x3
+ 772 03d8 D5       		.byte	0xd5
+ 773 03d9 E3030000 		.4byte	0x3e3
+ 774 03dd 05       		.uleb128 0x5
+ 775 03de 03       		.byte	0x3
+ 776 03df 00000000 		.4byte	USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE0_HID_TABLE
+ 777 03e3 0E       		.uleb128 0xe
+ 778 03e4 C2030000 		.4byte	0x3c2
+ 779 03e8 00       		.byte	0
+ 780              		.section	.debug_abbrev,"",%progbits
+ 781              	.Ldebug_abbrev0:
+ 782 0000 01       		.uleb128 0x1
+ 783 0001 11       		.uleb128 0x11
+ 784 0002 01       		.byte	0x1
+ 785 0003 25       		.uleb128 0x25
+ 786 0004 0E       		.uleb128 0xe
+ 787 0005 13       		.uleb128 0x13
+ 788 0006 0B       		.uleb128 0xb
+ 789 0007 03       		.uleb128 0x3
+ 790 0008 0E       		.uleb128 0xe
+ 791 0009 1B       		.uleb128 0x1b
+ 792 000a 0E       		.uleb128 0xe
+ 793 000b 10       		.uleb128 0x10
+ 794 000c 17       		.uleb128 0x17
+ 795 000d 00       		.byte	0
+ 796 000e 00       		.byte	0
+ 797 000f 02       		.uleb128 0x2
+ 798 0010 24       		.uleb128 0x24
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 15
+
+
+ 799 0011 00       		.byte	0
+ 800 0012 0B       		.uleb128 0xb
+ 801 0013 0B       		.uleb128 0xb
+ 802 0014 3E       		.uleb128 0x3e
+ 803 0015 0B       		.uleb128 0xb
+ 804 0016 03       		.uleb128 0x3
+ 805 0017 0E       		.uleb128 0xe
+ 806 0018 00       		.byte	0
+ 807 0019 00       		.byte	0
+ 808 001a 03       		.uleb128 0x3
+ 809 001b 24       		.uleb128 0x24
+ 810 001c 00       		.byte	0
+ 811 001d 0B       		.uleb128 0xb
+ 812 001e 0B       		.uleb128 0xb
+ 813 001f 3E       		.uleb128 0x3e
+ 814 0020 0B       		.uleb128 0xb
+ 815 0021 03       		.uleb128 0x3
+ 816 0022 08       		.uleb128 0x8
+ 817 0023 00       		.byte	0
+ 818 0024 00       		.byte	0
+ 819 0025 04       		.uleb128 0x4
+ 820 0026 16       		.uleb128 0x16
+ 821 0027 00       		.byte	0
+ 822 0028 03       		.uleb128 0x3
+ 823 0029 0E       		.uleb128 0xe
+ 824 002a 3A       		.uleb128 0x3a
+ 825 002b 0B       		.uleb128 0xb
+ 826 002c 3B       		.uleb128 0x3b
+ 827 002d 05       		.uleb128 0x5
+ 828 002e 49       		.uleb128 0x49
+ 829 002f 13       		.uleb128 0x13
+ 830 0030 00       		.byte	0
+ 831 0031 00       		.byte	0
+ 832 0032 05       		.uleb128 0x5
+ 833 0033 35       		.uleb128 0x35
+ 834 0034 00       		.byte	0
+ 835 0035 49       		.uleb128 0x49
+ 836 0036 13       		.uleb128 0x13
+ 837 0037 00       		.byte	0
+ 838 0038 00       		.byte	0
+ 839 0039 06       		.uleb128 0x6
+ 840 003a 13       		.uleb128 0x13
+ 841 003b 01       		.byte	0x1
+ 842 003c 0B       		.uleb128 0xb
+ 843 003d 0B       		.uleb128 0xb
+ 844 003e 3A       		.uleb128 0x3a
+ 845 003f 0B       		.uleb128 0xb
+ 846 0040 3B       		.uleb128 0x3b
+ 847 0041 0B       		.uleb128 0xb
+ 848 0042 01       		.uleb128 0x1
+ 849 0043 13       		.uleb128 0x13
+ 850 0044 00       		.byte	0
+ 851 0045 00       		.byte	0
+ 852 0046 07       		.uleb128 0x7
+ 853 0047 0D       		.uleb128 0xd
+ 854 0048 00       		.byte	0
+ 855 0049 03       		.uleb128 0x3
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 16
+
+
+ 856 004a 0E       		.uleb128 0xe
+ 857 004b 3A       		.uleb128 0x3a
+ 858 004c 0B       		.uleb128 0xb
+ 859 004d 3B       		.uleb128 0x3b
+ 860 004e 0B       		.uleb128 0xb
+ 861 004f 49       		.uleb128 0x49
+ 862 0050 13       		.uleb128 0x13
+ 863 0051 38       		.uleb128 0x38
+ 864 0052 0B       		.uleb128 0xb
+ 865 0053 00       		.byte	0
+ 866 0054 00       		.byte	0
+ 867 0055 08       		.uleb128 0x8
+ 868 0056 16       		.uleb128 0x16
+ 869 0057 00       		.byte	0
+ 870 0058 03       		.uleb128 0x3
+ 871 0059 0E       		.uleb128 0xe
+ 872 005a 3A       		.uleb128 0x3a
+ 873 005b 0B       		.uleb128 0xb
+ 874 005c 3B       		.uleb128 0x3b
+ 875 005d 0B       		.uleb128 0xb
+ 876 005e 49       		.uleb128 0x49
+ 877 005f 13       		.uleb128 0x13
+ 878 0060 00       		.byte	0
+ 879 0061 00       		.byte	0
+ 880 0062 09       		.uleb128 0x9
+ 881 0063 0F       		.uleb128 0xf
+ 882 0064 00       		.byte	0
+ 883 0065 0B       		.uleb128 0xb
+ 884 0066 0B       		.uleb128 0xb
+ 885 0067 49       		.uleb128 0x49
+ 886 0068 13       		.uleb128 0x13
+ 887 0069 00       		.byte	0
+ 888 006a 00       		.byte	0
+ 889 006b 0A       		.uleb128 0xa
+ 890 006c 0D       		.uleb128 0xd
+ 891 006d 00       		.byte	0
+ 892 006e 03       		.uleb128 0x3
+ 893 006f 08       		.uleb128 0x8
+ 894 0070 3A       		.uleb128 0x3a
+ 895 0071 0B       		.uleb128 0xb
+ 896 0072 3B       		.uleb128 0x3b
+ 897 0073 0B       		.uleb128 0xb
+ 898 0074 49       		.uleb128 0x49
+ 899 0075 13       		.uleb128 0x13
+ 900 0076 38       		.uleb128 0x38
+ 901 0077 0B       		.uleb128 0xb
+ 902 0078 00       		.byte	0
+ 903 0079 00       		.byte	0
+ 904 007a 0B       		.uleb128 0xb
+ 905 007b 26       		.uleb128 0x26
+ 906 007c 00       		.byte	0
+ 907 007d 00       		.byte	0
+ 908 007e 00       		.byte	0
+ 909 007f 0C       		.uleb128 0xc
+ 910 0080 01       		.uleb128 0x1
+ 911 0081 01       		.byte	0x1
+ 912 0082 49       		.uleb128 0x49
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 17
+
+
+ 913 0083 13       		.uleb128 0x13
+ 914 0084 01       		.uleb128 0x1
+ 915 0085 13       		.uleb128 0x13
+ 916 0086 00       		.byte	0
+ 917 0087 00       		.byte	0
+ 918 0088 0D       		.uleb128 0xd
+ 919 0089 21       		.uleb128 0x21
+ 920 008a 00       		.byte	0
+ 921 008b 49       		.uleb128 0x49
+ 922 008c 13       		.uleb128 0x13
+ 923 008d 2F       		.uleb128 0x2f
+ 924 008e 0B       		.uleb128 0xb
+ 925 008f 00       		.byte	0
+ 926 0090 00       		.byte	0
+ 927 0091 0E       		.uleb128 0xe
+ 928 0092 26       		.uleb128 0x26
+ 929 0093 00       		.byte	0
+ 930 0094 49       		.uleb128 0x49
+ 931 0095 13       		.uleb128 0x13
+ 932 0096 00       		.byte	0
+ 933 0097 00       		.byte	0
+ 934 0098 0F       		.uleb128 0xf
+ 935 0099 34       		.uleb128 0x34
+ 936 009a 00       		.byte	0
+ 937 009b 03       		.uleb128 0x3
+ 938 009c 0E       		.uleb128 0xe
+ 939 009d 3A       		.uleb128 0x3a
+ 940 009e 0B       		.uleb128 0xb
+ 941 009f 3B       		.uleb128 0x3b
+ 942 00a0 0B       		.uleb128 0xb
+ 943 00a1 49       		.uleb128 0x49
+ 944 00a2 13       		.uleb128 0x13
+ 945 00a3 3F       		.uleb128 0x3f
+ 946 00a4 19       		.uleb128 0x19
+ 947 00a5 02       		.uleb128 0x2
+ 948 00a6 18       		.uleb128 0x18
+ 949 00a7 00       		.byte	0
+ 950 00a8 00       		.byte	0
+ 951 00a9 10       		.uleb128 0x10
+ 952 00aa 34       		.uleb128 0x34
+ 953 00ab 00       		.byte	0
+ 954 00ac 03       		.uleb128 0x3
+ 955 00ad 0E       		.uleb128 0xe
+ 956 00ae 3A       		.uleb128 0x3a
+ 957 00af 0B       		.uleb128 0xb
+ 958 00b0 3B       		.uleb128 0x3b
+ 959 00b1 05       		.uleb128 0x5
+ 960 00b2 49       		.uleb128 0x49
+ 961 00b3 13       		.uleb128 0x13
+ 962 00b4 3F       		.uleb128 0x3f
+ 963 00b5 19       		.uleb128 0x19
+ 964 00b6 02       		.uleb128 0x2
+ 965 00b7 18       		.uleb128 0x18
+ 966 00b8 00       		.byte	0
+ 967 00b9 00       		.byte	0
+ 968 00ba 00       		.byte	0
+ 969              		.section	.debug_aranges,"",%progbits
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 18
+
+
+ 970 0000 14000000 		.4byte	0x14
+ 971 0004 0200     		.2byte	0x2
+ 972 0006 00000000 		.4byte	.Ldebug_info0
+ 973 000a 04       		.byte	0x4
+ 974 000b 00       		.byte	0
+ 975 000c 0000     		.2byte	0
+ 976 000e 0000     		.2byte	0
+ 977 0010 00000000 		.4byte	0
+ 978 0014 00000000 		.4byte	0
+ 979              		.section	.debug_line,"",%progbits
+ 980              	.Ldebug_line0:
+ 981 0000 5D000000 		.section	.debug_str,"MS",%progbits,1
+ 981      02005700 
+ 981      00000201 
+ 981      FB0E0D00 
+ 981      01010101 
+ 982              	.LASF28:
+ 983 0000 70537461 		.ascii	"pStatusBlock\000"
+ 983      74757342 
+ 983      6C6F636B 
+ 983      00
+ 984              	.LASF19:
+ 985 000d 61747472 		.ascii	"attributes\000"
+ 985      69627574 
+ 985      657300
+ 986              	.LASF46:
+ 987 0018 55534246 		.ascii	"USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE"
+ 987      535F315F 
+ 987      44455649 
+ 987      4345305F 
+ 987      434F4E46 
+ 988 004b 305F4849 		.ascii	"0_HID_IN_RPT_TABLE\000"
+ 988      445F494E 
+ 988      5F525054 
+ 988      5F544142 
+ 988      4C4500
+ 989              	.LASF26:
+ 990 005e 636F756E 		.ascii	"count\000"
+ 990      7400
+ 991              	.LASF4:
+ 992 0064 6C6F6E67 		.ascii	"long int\000"
+ 992      20696E74 
+ 992      00
+ 993              	.LASF3:
+ 994 006d 73686F72 		.ascii	"short unsigned int\000"
+ 994      7420756E 
+ 994      7369676E 
+ 994      65642069 
+ 994      6E7400
+ 995              	.LASF33:
+ 996 0080 55534246 		.ascii	"USBFS_1_DEVICE0_CONFIGURATION0_DESCR\000"
+ 996      535F315F 
+ 996      44455649 
+ 996      4345305F 
+ 996      434F4E46 
+ 997              	.LASF23:
+ 998 00a5 73746174 		.ascii	"status\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 19
+
+
+ 998      757300
+ 999              	.LASF41:
+ 1000 00ac 55534246 		.ascii	"USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE"
+ 1000      535F315F 
+ 1000      44455649 
+ 1000      4345305F 
+ 1000      434F4E46 
+ 1001 00df 305F4849 		.ascii	"0_HID_IN_RPT_SCB\000"
+ 1001      445F494E 
+ 1001      5F525054 
+ 1001      5F534342 
+ 1001      00
+ 1002              	.LASF27:
+ 1003 00f0 70446174 		.ascii	"pData\000"
+ 1003      6100
+ 1004              	.LASF44:
+ 1005 00f6 55534246 		.ascii	"USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE"
+ 1005      535F315F 
+ 1005      44455649 
+ 1005      4345305F 
+ 1005      434F4E46 
+ 1006 0129 305F4849 		.ascii	"0_HID_FEATURE_BUF\000"
+ 1006      445F4645 
+ 1006      41545552 
+ 1006      455F4255 
+ 1006      4600
+ 1007              	.LASF17:
+ 1008 013b 616C7453 		.ascii	"altSetting\000"
+ 1008      65747469 
+ 1008      6E6700
+ 1009              	.LASF11:
+ 1010 0146 666C6F61 		.ascii	"float\000"
+ 1010      7400
+ 1011              	.LASF48:
+ 1012 014c 55534246 		.ascii	"USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE"
+ 1012      535F315F 
+ 1012      44455649 
+ 1012      4345305F 
+ 1012      434F4E46 
+ 1013 017f 305F4849 		.ascii	"0_HID_TABLE\000"
+ 1013      445F5441 
+ 1013      424C4500 
+ 1014              	.LASF39:
+ 1015 018b 55534246 		.ascii	"USBFS_1_TABLE\000"
+ 1015      535F315F 
+ 1015      5441424C 
+ 1015      4500
+ 1016              	.LASF1:
+ 1017 0199 756E7369 		.ascii	"unsigned char\000"
+ 1017      676E6564 
+ 1017      20636861 
+ 1017      7200
+ 1018              	.LASF49:
+ 1019 01a7 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1019      43313120 
+ 1019      352E342E 
+ 1019      31203230 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 20
+
+
+ 1019      31363036 
+ 1020 01da 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1020      20726576 
+ 1020      6973696F 
+ 1020      6E203233 
+ 1020      37373135 
+ 1021 020d 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1021      66756E63 
+ 1021      74696F6E 
+ 1021      2D736563 
+ 1021      74696F6E 
+ 1022              	.LASF51:
+ 1023 0235 433A5C55 		.ascii	"C:\\Users\\bkettle\\OneDrive\\School\\6.115\\projec"
+ 1023      73657273 
+ 1023      5C626B65 
+ 1023      74746C65 
+ 1023      5C4F6E65 
+ 1024 0262 745C7073 		.ascii	"t\\psoc\\Password Keeper\\UI Test.cydsn\000"
+ 1024      6F635C50 
+ 1024      61737377 
+ 1024      6F726420 
+ 1024      4B656570 
+ 1025              	.LASF5:
+ 1026 0287 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1026      20756E73 
+ 1026      69676E65 
+ 1026      6420696E 
+ 1026      7400
+ 1027              	.LASF18:
+ 1028 0299 61646472 		.ascii	"addr\000"
+ 1028      00
+ 1029              	.LASF25:
+ 1030 029e 545F5553 		.ascii	"T_USBFS_1_XFER_STATUS_BLOCK\000"
+ 1030      4246535F 
+ 1030      315F5846 
+ 1030      45525F53 
+ 1030      54415455 
+ 1031              	.LASF38:
+ 1032 02ba 55534246 		.ascii	"USBFS_1_DEVICE0_TABLE\000"
+ 1032      535F315F 
+ 1032      44455649 
+ 1032      4345305F 
+ 1032      5441424C 
+ 1033              	.LASF22:
+ 1034 02d0 545F5553 		.ascii	"T_USBFS_1_EP_SETTINGS_BLOCK\000"
+ 1034      4246535F 
+ 1034      315F4550 
+ 1034      5F534554 
+ 1034      54494E47 
+ 1035              	.LASF12:
+ 1036 02ec 646F7562 		.ascii	"double\000"
+ 1036      6C6500
+ 1037              	.LASF10:
+ 1038 02f3 75696E74 		.ascii	"uint16\000"
+ 1038      313600
+ 1039              	.LASF35:
+ 1040 02fa 55534246 		.ascii	"USBFS_1_DEVICE0_CONFIGURATION0_EP_SETTINGS_TABLE\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 21
+
+
+ 1040      535F315F 
+ 1040      44455649 
+ 1040      4345305F 
+ 1040      434F4E46 
+ 1041              	.LASF47:
+ 1042 032b 55534246 		.ascii	"USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE"
+ 1042      535F315F 
+ 1042      44455649 
+ 1042      4345305F 
+ 1042      434F4E46 
+ 1043 035e 305F4849 		.ascii	"0_HID_FEATURE_RPT_TABLE\000"
+ 1043      445F4645 
+ 1043      41545552 
+ 1043      455F5250 
+ 1043      545F5441 
+ 1044              	.LASF8:
+ 1045 0376 756E7369 		.ascii	"unsigned int\000"
+ 1045      676E6564 
+ 1045      20696E74 
+ 1045      00
+ 1046              	.LASF31:
+ 1047 0383 545F5553 		.ascii	"T_USBFS_1_LUT\000"
+ 1047      4246535F 
+ 1047      315F4C55 
+ 1047      5400
+ 1048              	.LASF32:
+ 1049 0391 55534246 		.ascii	"USBFS_1_DEVICE0_DESCR\000"
+ 1049      535F315F 
+ 1049      44455649 
+ 1049      4345305F 
+ 1049      44455343 
+ 1050              	.LASF7:
+ 1051 03a7 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1051      206C6F6E 
+ 1051      6720756E 
+ 1051      7369676E 
+ 1051      65642069 
+ 1052              	.LASF30:
+ 1053 03be 705F6C69 		.ascii	"p_list\000"
+ 1053      737400
+ 1054              	.LASF15:
+ 1055 03c5 73697A65 		.ascii	"sizetype\000"
+ 1055      74797065 
+ 1055      00
+ 1056              	.LASF45:
+ 1057 03ce 55534246 		.ascii	"USBFS_1_HIDREPORT_DESCRIPTOR1\000"
+ 1057      535F315F 
+ 1057      48494452 
+ 1057      45504F52 
+ 1057      545F4445 
+ 1058              	.LASF6:
+ 1059 03ec 6C6F6E67 		.ascii	"long long int\000"
+ 1059      206C6F6E 
+ 1059      6720696E 
+ 1059      7400
+ 1060              	.LASF43:
+ 1061 03fa 55534246 		.ascii	"USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 22
+
+
+ 1061      535F315F 
+ 1061      44455649 
+ 1061      4345305F 
+ 1061      434F4E46 
+ 1062 042d 305F4849 		.ascii	"0_HID_FEATURE_RPT_SCB\000"
+ 1062      445F4645 
+ 1062      41545552 
+ 1062      455F5250 
+ 1062      545F5343 
+ 1063              	.LASF50:
+ 1064 0443 47656E65 		.ascii	"Generated_Source\\PSoC5\\USBFS_1_descr.c\000"
+ 1064      72617465 
+ 1064      645F536F 
+ 1064      75726365 
+ 1064      5C50536F 
+ 1065              	.LASF34:
+ 1066 046a 55534246 		.ascii	"USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_TABLE\000"
+ 1066      535F315F 
+ 1066      44455649 
+ 1066      4345305F 
+ 1066      434F4E46 
+ 1067              	.LASF20:
+ 1068 049a 62756666 		.ascii	"bufferSize\000"
+ 1068      65725369 
+ 1068      7A6500
+ 1069              	.LASF2:
+ 1070 04a5 73686F72 		.ascii	"short int\000"
+ 1070      7420696E 
+ 1070      7400
+ 1071              	.LASF9:
+ 1072 04af 75696E74 		.ascii	"uint8\000"
+ 1072      3800
+ 1073              	.LASF16:
+ 1074 04b5 696E7465 		.ascii	"interface\000"
+ 1074      72666163 
+ 1074      6500
+ 1075              	.LASF40:
+ 1076 04bf 55534246 		.ascii	"USBFS_1_STRING_DESCRIPTORS\000"
+ 1076      535F315F 
+ 1076      53545249 
+ 1076      4E475F44 
+ 1076      45534352 
+ 1077              	.LASF36:
+ 1078 04da 55534246 		.ascii	"USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE_CLASS\000"
+ 1078      535F315F 
+ 1078      44455649 
+ 1078      4345305F 
+ 1078      434F4E46 
+ 1079              	.LASF13:
+ 1080 0509 63686172 		.ascii	"char\000"
+ 1080      00
+ 1081              	.LASF14:
+ 1082 050e 6C6F6E67 		.ascii	"long double\000"
+ 1082      20646F75 
+ 1082      626C6500 
+ 1083              	.LASF29:
+ 1084 051a 545F5553 		.ascii	"T_USBFS_1_TD\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccZOFjq2.s 			page 23
+
+
+ 1084      4246535F 
+ 1084      315F5444 
+ 1084      00
+ 1085              	.LASF0:
+ 1086 0527 7369676E 		.ascii	"signed char\000"
+ 1086      65642063 
+ 1086      68617200 
+ 1087              	.LASF42:
+ 1088 0533 55534246 		.ascii	"USBFS_1_DEVICE0_CONFIGURATION0_INTERFACE0_ALTERNATE"
+ 1088      535F315F 
+ 1088      44455649 
+ 1088      4345305F 
+ 1088      434F4E46 
+ 1089 0566 305F4849 		.ascii	"0_HID_IN_BUF\000"
+ 1089      445F494E 
+ 1089      5F425546 
+ 1089      00
+ 1090              	.LASF24:
+ 1091 0573 6C656E67 		.ascii	"length\000"
+ 1091      746800
+ 1092              	.LASF37:
+ 1093 057a 55534246 		.ascii	"USBFS_1_DEVICE0_CONFIGURATION0_TABLE\000"
+ 1093      535F315F 
+ 1093      44455649 
+ 1093      4345305F 
+ 1093      434F4E46 
+ 1094              	.LASF21:
+ 1095 059f 624D6973 		.ascii	"bMisc\000"
+ 1095      6300
+ 1096              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

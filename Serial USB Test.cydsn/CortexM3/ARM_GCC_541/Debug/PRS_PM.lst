@@ -1,0 +1,985 @@
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"PRS_PM.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.PRS_SaveConfig,"ax",%progbits
+  20              		.align	2
+  21              		.global	PRS_SaveConfig
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	PRS_SaveConfig, %function
+  25              	PRS_SaveConfig:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\PRS_PM.c"
+   1:Generated_Source\PSoC5/PRS_PM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/PRS_PM.c **** * File Name: PRS_PM.c
+   3:Generated_Source\PSoC5/PRS_PM.c **** * Version 2.40
+   4:Generated_Source\PSoC5/PRS_PM.c **** *
+   5:Generated_Source\PSoC5/PRS_PM.c **** * Description:
+   6:Generated_Source\PSoC5/PRS_PM.c **** *  This file provides Sleep APIs for PRS component.
+   7:Generated_Source\PSoC5/PRS_PM.c **** *
+   8:Generated_Source\PSoC5/PRS_PM.c **** * Note:
+   9:Generated_Source\PSoC5/PRS_PM.c **** *  None
+  10:Generated_Source\PSoC5/PRS_PM.c **** *
+  11:Generated_Source\PSoC5/PRS_PM.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/PRS_PM.c **** * Copyright 2008-2013, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/PRS_PM.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  14:Generated_Source\PSoC5/PRS_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  15:Generated_Source\PSoC5/PRS_PM.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/PRS_PM.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/PRS_PM.c **** 
+  18:Generated_Source\PSoC5/PRS_PM.c **** #include "PRS.h"
+  19:Generated_Source\PSoC5/PRS_PM.c **** 
+  20:Generated_Source\PSoC5/PRS_PM.c **** #if ((PRS_TIME_MULTIPLEXING_ENABLE) && (PRS_WAKEUP_BEHAVIOUR == PRS__RESUMEWORK))
+  21:Generated_Source\PSoC5/PRS_PM.c ****     uint8 PRS_sleepState = PRS_NORMAL_SEQUENCE;    
+  22:Generated_Source\PSoC5/PRS_PM.c **** #endif  /* End ((PRS_TIME_MULTIPLEXING_ENABLE) && 
+  23:Generated_Source\PSoC5/PRS_PM.c ****           (PRS_WAKEUP_BEHAVIOUR == PRS__RESUMEWORK)) */
+  24:Generated_Source\PSoC5/PRS_PM.c **** 
+  25:Generated_Source\PSoC5/PRS_PM.c **** 
+  26:Generated_Source\PSoC5/PRS_PM.c **** /*******************************************************************************
+  27:Generated_Source\PSoC5/PRS_PM.c **** * Function Name: PRS_SaveConfig
+  28:Generated_Source\PSoC5/PRS_PM.c **** ********************************************************************************
+  29:Generated_Source\PSoC5/PRS_PM.c **** *
+  30:Generated_Source\PSoC5/PRS_PM.c **** * Summary:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 2
+
+
+  31:Generated_Source\PSoC5/PRS_PM.c **** *  Saves seed and polynomial registers.
+  32:Generated_Source\PSoC5/PRS_PM.c **** *
+  33:Generated_Source\PSoC5/PRS_PM.c **** * Parameters:
+  34:Generated_Source\PSoC5/PRS_PM.c **** *  void
+  35:Generated_Source\PSoC5/PRS_PM.c **** *
+  36:Generated_Source\PSoC5/PRS_PM.c **** * Return:
+  37:Generated_Source\PSoC5/PRS_PM.c **** *  void
+  38:Generated_Source\PSoC5/PRS_PM.c **** *
+  39:Generated_Source\PSoC5/PRS_PM.c **** * Global Variables:
+  40:Generated_Source\PSoC5/PRS_PM.c **** *  PRS_backup - modified when non-retention registers are saved.
+  41:Generated_Source\PSoC5/PRS_PM.c **** *
+  42:Generated_Source\PSoC5/PRS_PM.c **** *******************************************************************************/
+  43:Generated_Source\PSoC5/PRS_PM.c **** void PRS_SaveConfig(void) 
+  44:Generated_Source\PSoC5/PRS_PM.c **** {    
+  28              		.loc 1 44 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  45:Generated_Source\PSoC5/PRS_PM.c ****     #if (PRS_WAKEUP_BEHAVIOUR == PRS__RESUMEWORK)
+  46:Generated_Source\PSoC5/PRS_PM.c ****         /* Save dff register for time mult */
+  47:Generated_Source\PSoC5/PRS_PM.c ****         #if (PRS_TIME_MULTIPLEXING_ENABLE)
+  48:Generated_Source\PSoC5/PRS_PM.c ****             PRS_backup.dffStatus = PRS_STATUS;
+  49:Generated_Source\PSoC5/PRS_PM.c ****             /* Clear normal dff sequence set */
+  50:Generated_Source\PSoC5/PRS_PM.c ****             PRS_sleepState &= ((uint8)~PRS_NORMAL_SEQUENCE);
+  51:Generated_Source\PSoC5/PRS_PM.c ****         #endif  /* End PRS_TIME_MULTIPLEXING_ENABLE */
+  52:Generated_Source\PSoC5/PRS_PM.c ****         
+  53:Generated_Source\PSoC5/PRS_PM.c ****         /* Save A0 and A1 registers */
+  54:Generated_Source\PSoC5/PRS_PM.c ****         #if (PRS_PRS_SIZE <= 32u)
+  55:Generated_Source\PSoC5/PRS_PM.c ****             PRS_backup.seed = PRS_Read();
+  36              		.loc 1 55 0
+  37 0002 FFF7FEFF 		bl	PRS_Read
+  38              	.LVL0:
+  39 0006 014B     		ldr	r3, .L3
+  40 0008 5880     		strh	r0, [r3, #2]	@ movhi
+  41 000a 08BD     		pop	{r3, pc}
+  42              	.L4:
+  43              		.align	2
+  44              	.L3:
+  45 000c 00000000 		.word	PRS_backup
+  46              		.cfi_endproc
+  47              	.LFE0:
+  48              		.size	PRS_SaveConfig, .-PRS_SaveConfig
+  49              		.section	.text.PRS_Sleep,"ax",%progbits
+  50              		.align	2
+  51              		.global	PRS_Sleep
+  52              		.thumb
+  53              		.thumb_func
+  54              		.type	PRS_Sleep, %function
+  55              	PRS_Sleep:
+  56              	.LFB1:
+  56:Generated_Source\PSoC5/PRS_PM.c ****             
+  57:Generated_Source\PSoC5/PRS_PM.c ****         #else
+  58:Generated_Source\PSoC5/PRS_PM.c ****             PRS_backup.seedUpper = PRS_ReadUpper();
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 3
+
+
+  59:Generated_Source\PSoC5/PRS_PM.c ****             PRS_backup.seedLower = PRS_ReadLower();
+  60:Generated_Source\PSoC5/PRS_PM.c ****             
+  61:Generated_Source\PSoC5/PRS_PM.c ****         #endif     /* End (PRS_PRS_SIZE <= 32u) */
+  62:Generated_Source\PSoC5/PRS_PM.c ****         
+  63:Generated_Source\PSoC5/PRS_PM.c ****     #endif  /* End (PRS_WAKEUP_BEHAVIOUR == PRS__RESUMEWORK) */
+  64:Generated_Source\PSoC5/PRS_PM.c **** }
+  65:Generated_Source\PSoC5/PRS_PM.c **** 
+  66:Generated_Source\PSoC5/PRS_PM.c **** 
+  67:Generated_Source\PSoC5/PRS_PM.c **** /*******************************************************************************
+  68:Generated_Source\PSoC5/PRS_PM.c **** * Function Name: PRS_Sleep
+  69:Generated_Source\PSoC5/PRS_PM.c **** ********************************************************************************
+  70:Generated_Source\PSoC5/PRS_PM.c **** *
+  71:Generated_Source\PSoC5/PRS_PM.c **** * Summary:
+  72:Generated_Source\PSoC5/PRS_PM.c **** *  Stops PRS computation and saves PRS configuration.
+  73:Generated_Source\PSoC5/PRS_PM.c **** *
+  74:Generated_Source\PSoC5/PRS_PM.c **** * Parameters:
+  75:Generated_Source\PSoC5/PRS_PM.c **** *  void
+  76:Generated_Source\PSoC5/PRS_PM.c **** *
+  77:Generated_Source\PSoC5/PRS_PM.c **** * Return:
+  78:Generated_Source\PSoC5/PRS_PM.c **** *  void
+  79:Generated_Source\PSoC5/PRS_PM.c **** *
+  80:Generated_Source\PSoC5/PRS_PM.c **** * Global Variables:
+  81:Generated_Source\PSoC5/PRS_PM.c **** *  PRS_backup - modified when non-retention registers are saved.
+  82:Generated_Source\PSoC5/PRS_PM.c **** *
+  83:Generated_Source\PSoC5/PRS_PM.c **** *******************************************************************************/
+  84:Generated_Source\PSoC5/PRS_PM.c **** void PRS_Sleep(void) 
+  85:Generated_Source\PSoC5/PRS_PM.c **** {
+  57              		.loc 1 85 0
+  58              		.cfi_startproc
+  59              		@ args = 0, pretend = 0, frame = 0
+  60              		@ frame_needed = 0, uses_anonymous_args = 0
+  61 0000 08B5     		push	{r3, lr}
+  62              		.cfi_def_cfa_offset 8
+  63              		.cfi_offset 3, -8
+  64              		.cfi_offset 14, -4
+  86:Generated_Source\PSoC5/PRS_PM.c ****     /* Store PRS enable state */
+  87:Generated_Source\PSoC5/PRS_PM.c ****     if(PRS_IS_PRS_ENABLE(PRS_CONTROL_REG))
+  65              		.loc 1 87 0
+  66 0002 084B     		ldr	r3, .L9
+  67 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  68 0006 13F0010F 		tst	r3, #1
+  69 000a 05D0     		beq	.L6
+  88:Generated_Source\PSoC5/PRS_PM.c ****     {
+  89:Generated_Source\PSoC5/PRS_PM.c ****         PRS_backup.enableState = 1u;
+  70              		.loc 1 89 0
+  71 000c 0122     		movs	r2, #1
+  72 000e 064B     		ldr	r3, .L9+4
+  73 0010 1A70     		strb	r2, [r3]
+  90:Generated_Source\PSoC5/PRS_PM.c ****         PRS_Stop();
+  74              		.loc 1 90 0
+  75 0012 FFF7FEFF 		bl	PRS_Stop
+  76              	.LVL1:
+  77 0016 02E0     		b	.L7
+  78              	.L6:
+  91:Generated_Source\PSoC5/PRS_PM.c ****     }
+  92:Generated_Source\PSoC5/PRS_PM.c ****     else
+  93:Generated_Source\PSoC5/PRS_PM.c ****     {
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 4
+
+
+  94:Generated_Source\PSoC5/PRS_PM.c ****         PRS_backup.enableState = 0u;
+  79              		.loc 1 94 0
+  80 0018 0022     		movs	r2, #0
+  81 001a 034B     		ldr	r3, .L9+4
+  82 001c 1A70     		strb	r2, [r3]
+  83              	.L7:
+  95:Generated_Source\PSoC5/PRS_PM.c ****     }
+  96:Generated_Source\PSoC5/PRS_PM.c ****     
+  97:Generated_Source\PSoC5/PRS_PM.c ****     PRS_SaveConfig();
+  84              		.loc 1 97 0
+  85 001e FFF7FEFF 		bl	PRS_SaveConfig
+  86              	.LVL2:
+  87 0022 08BD     		pop	{r3, pc}
+  88              	.L10:
+  89              		.align	2
+  90              	.L9:
+  91 0024 75650040 		.word	1073767797
+  92 0028 00000000 		.word	PRS_backup
+  93              		.cfi_endproc
+  94              	.LFE1:
+  95              		.size	PRS_Sleep, .-PRS_Sleep
+  96              		.section	.text.PRS_RestoreConfig,"ax",%progbits
+  97              		.align	2
+  98              		.global	PRS_RestoreConfig
+  99              		.thumb
+ 100              		.thumb_func
+ 101              		.type	PRS_RestoreConfig, %function
+ 102              	PRS_RestoreConfig:
+ 103              	.LFB2:
+  98:Generated_Source\PSoC5/PRS_PM.c **** }
+  99:Generated_Source\PSoC5/PRS_PM.c **** 
+ 100:Generated_Source\PSoC5/PRS_PM.c **** 
+ 101:Generated_Source\PSoC5/PRS_PM.c **** /*******************************************************************************
+ 102:Generated_Source\PSoC5/PRS_PM.c **** * Function Name: PRS_RestoreConfig
+ 103:Generated_Source\PSoC5/PRS_PM.c **** ********************************************************************************
+ 104:Generated_Source\PSoC5/PRS_PM.c **** *
+ 105:Generated_Source\PSoC5/PRS_PM.c **** * Summary:
+ 106:Generated_Source\PSoC5/PRS_PM.c **** *  Restores seed and polynomial registers.
+ 107:Generated_Source\PSoC5/PRS_PM.c **** *
+ 108:Generated_Source\PSoC5/PRS_PM.c **** * Parameters:
+ 109:Generated_Source\PSoC5/PRS_PM.c **** *  void
+ 110:Generated_Source\PSoC5/PRS_PM.c **** *
+ 111:Generated_Source\PSoC5/PRS_PM.c **** * Return:
+ 112:Generated_Source\PSoC5/PRS_PM.c **** *  void
+ 113:Generated_Source\PSoC5/PRS_PM.c **** *
+ 114:Generated_Source\PSoC5/PRS_PM.c **** *******************************************************************************/
+ 115:Generated_Source\PSoC5/PRS_PM.c **** #if (PRS_WAKEUP_BEHAVIOUR == PRS__RESUMEWORK)
+ 116:Generated_Source\PSoC5/PRS_PM.c ****     #if (PRS_TIME_MULTIPLEXING_ENABLE)
+ 117:Generated_Source\PSoC5/PRS_PM.c ****         void PRS_RestoreConfig(void) 
+ 118:Generated_Source\PSoC5/PRS_PM.c ****         {   
+ 119:Generated_Source\PSoC5/PRS_PM.c ****             /* Restore A0 and A1 registers */
+ 120:Generated_Source\PSoC5/PRS_PM.c ****             #if (PRS_PRS_SIZE <= 32u)
+ 121:Generated_Source\PSoC5/PRS_PM.c ****                 PRS_WriteSeed(PRS_backup.seed);
+ 122:Generated_Source\PSoC5/PRS_PM.c ****             #else
+ 123:Generated_Source\PSoC5/PRS_PM.c ****                 PRS_WriteSeedUpper(PRS_backup.seedUpper);
+ 124:Generated_Source\PSoC5/PRS_PM.c ****                 PRS_WriteSeedLower(PRS_backup.seedLower);
+ 125:Generated_Source\PSoC5/PRS_PM.c ****             #endif  /* End (PRS_PRS_SIZE <= 32u) */
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 5
+
+
+ 126:Generated_Source\PSoC5/PRS_PM.c ****             
+ 127:Generated_Source\PSoC5/PRS_PM.c ****             #if (PRS_RUN_MODE == PRS__CLOCKED)
+ 128:Generated_Source\PSoC5/PRS_PM.c ****                 #if (PRS_PRS_SIZE <= 32u)
+ 129:Generated_Source\PSoC5/PRS_PM.c ****                     PRS_ResetSeedInit(PRS_DEFAULT_SEED);                        
+ 130:Generated_Source\PSoC5/PRS_PM.c ****                 #else
+ 131:Generated_Source\PSoC5/PRS_PM.c ****                     PRS_ResetSeedInitUpper(PRS_DEFAULT_SEED_UPPER);
+ 132:Generated_Source\PSoC5/PRS_PM.c ****                     PRS_ResetSeedInitLower(PRS_DEFAULT_SEED_LOWER); 
+ 133:Generated_Source\PSoC5/PRS_PM.c ****                 #endif  /* End (PRS_PRS_SIZE <= 32u) */ 
+ 134:Generated_Source\PSoC5/PRS_PM.c ****             #endif  /* End (PRS_RUN_MODE == PRS__CLOCKED) */
+ 135:Generated_Source\PSoC5/PRS_PM.c ****             
+ 136:Generated_Source\PSoC5/PRS_PM.c ****             /* Restore dff state for time mult: use async set/reest */
+ 137:Generated_Source\PSoC5/PRS_PM.c ****             /* Set CI, SI, SO, STATE0, STATE1 */
+ 138:Generated_Source\PSoC5/PRS_PM.c ****             PRS_CONTROL_REG = PRS_backup.dffStatus;
+ 139:Generated_Source\PSoC5/PRS_PM.c ****             
+ 140:Generated_Source\PSoC5/PRS_PM.c ****             /* Make pulse, to set trigger to defined state */
+ 141:Generated_Source\PSoC5/PRS_PM.c ****             PRS_EXECUTE_DFF_SET;
+ 142:Generated_Source\PSoC5/PRS_PM.c ****             
+ 143:Generated_Source\PSoC5/PRS_PM.c ****             /* Set normal dff sequence set */
+ 144:Generated_Source\PSoC5/PRS_PM.c ****             PRS_sleepState |= PRS_NORMAL_SEQUENCE;
+ 145:Generated_Source\PSoC5/PRS_PM.c ****         }
+ 146:Generated_Source\PSoC5/PRS_PM.c ****         
+ 147:Generated_Source\PSoC5/PRS_PM.c ****     #else
+ 148:Generated_Source\PSoC5/PRS_PM.c ****         void PRS_RestoreConfig(void) 
+ 149:Generated_Source\PSoC5/PRS_PM.c ****         {   
+ 104              		.loc 1 149 0
+ 105              		.cfi_startproc
+ 106              		@ args = 0, pretend = 0, frame = 0
+ 107              		@ frame_needed = 0, uses_anonymous_args = 0
+ 108 0000 08B5     		push	{r3, lr}
+ 109              		.cfi_def_cfa_offset 8
+ 110              		.cfi_offset 3, -8
+ 111              		.cfi_offset 14, -4
+ 150:Generated_Source\PSoC5/PRS_PM.c ****             /* Restore A0 and A1 registers */
+ 151:Generated_Source\PSoC5/PRS_PM.c ****             #if (PRS_PRS_SIZE <= 32u)
+ 152:Generated_Source\PSoC5/PRS_PM.c ****                 PRS_WriteSeed(PRS_backup.seed);
+ 112              		.loc 1 152 0
+ 113 0002 024B     		ldr	r3, .L13
+ 114 0004 5888     		ldrh	r0, [r3, #2]
+ 115 0006 FFF7FEFF 		bl	PRS_WriteSeed
+ 116              	.LVL3:
+ 117 000a 08BD     		pop	{r3, pc}
+ 118              	.L14:
+ 119              		.align	2
+ 120              	.L13:
+ 121 000c 00000000 		.word	PRS_backup
+ 122              		.cfi_endproc
+ 123              	.LFE2:
+ 124              		.size	PRS_RestoreConfig, .-PRS_RestoreConfig
+ 125              		.section	.text.PRS_Wakeup,"ax",%progbits
+ 126              		.align	2
+ 127              		.global	PRS_Wakeup
+ 128              		.thumb
+ 129              		.thumb_func
+ 130              		.type	PRS_Wakeup, %function
+ 131              	PRS_Wakeup:
+ 132              	.LFB3:
+ 153:Generated_Source\PSoC5/PRS_PM.c ****             #else
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 6
+
+
+ 154:Generated_Source\PSoC5/PRS_PM.c ****                 PRS_WriteSeedUpper(PRS_backup.seedUpper);
+ 155:Generated_Source\PSoC5/PRS_PM.c ****                 PRS_WriteSeedLower(PRS_backup.seedLower);
+ 156:Generated_Source\PSoC5/PRS_PM.c ****             #endif  /* End (PRS_PRS_SIZE <= 32u) */
+ 157:Generated_Source\PSoC5/PRS_PM.c ****             
+ 158:Generated_Source\PSoC5/PRS_PM.c ****             #if (PRS_RUN_MODE == PRS__CLOCKED)
+ 159:Generated_Source\PSoC5/PRS_PM.c ****                 #if (PRS_PRS_SIZE <= 32u)
+ 160:Generated_Source\PSoC5/PRS_PM.c ****                     PRS_ResetSeedInit(PRS_DEFAULT_SEED);                        
+ 161:Generated_Source\PSoC5/PRS_PM.c ****                 #else
+ 162:Generated_Source\PSoC5/PRS_PM.c ****                     PRS_ResetSeedInitUpper(PRS_DEFAULT_SEED_UPPER);
+ 163:Generated_Source\PSoC5/PRS_PM.c ****                     PRS_ResetSeedInitLower(PRS_DEFAULT_SEED_LOWER); 
+ 164:Generated_Source\PSoC5/PRS_PM.c ****                 #endif  /* End (PRS_PRS_SIZE <= 32u) */ 
+ 165:Generated_Source\PSoC5/PRS_PM.c ****             #endif  /* End (PRS_RUN_MODE == PRS__CLOCKED) */
+ 166:Generated_Source\PSoC5/PRS_PM.c ****         }
+ 167:Generated_Source\PSoC5/PRS_PM.c ****         
+ 168:Generated_Source\PSoC5/PRS_PM.c ****     #endif  /* End (PRS_TIME_MULTIPLEXING_ENABLE) */
+ 169:Generated_Source\PSoC5/PRS_PM.c ****     
+ 170:Generated_Source\PSoC5/PRS_PM.c **** #else
+ 171:Generated_Source\PSoC5/PRS_PM.c ****     void PRS_RestoreConfig(void) 
+ 172:Generated_Source\PSoC5/PRS_PM.c ****     {
+ 173:Generated_Source\PSoC5/PRS_PM.c ****         PRS_Init();
+ 174:Generated_Source\PSoC5/PRS_PM.c ****     }
+ 175:Generated_Source\PSoC5/PRS_PM.c ****     
+ 176:Generated_Source\PSoC5/PRS_PM.c **** #endif  /* End (PRS_WAKEUP_BEHAVIOUR == PRS__RESUMEWORK) */
+ 177:Generated_Source\PSoC5/PRS_PM.c **** 
+ 178:Generated_Source\PSoC5/PRS_PM.c **** 
+ 179:Generated_Source\PSoC5/PRS_PM.c **** /*******************************************************************************
+ 180:Generated_Source\PSoC5/PRS_PM.c **** * Function Name: PRS_Wakeup
+ 181:Generated_Source\PSoC5/PRS_PM.c **** ********************************************************************************
+ 182:Generated_Source\PSoC5/PRS_PM.c **** *
+ 183:Generated_Source\PSoC5/PRS_PM.c **** * Summary:
+ 184:Generated_Source\PSoC5/PRS_PM.c **** *  Restores PRS configuration and starts PRS computation. 
+ 185:Generated_Source\PSoC5/PRS_PM.c **** *
+ 186:Generated_Source\PSoC5/PRS_PM.c **** * Parameters:
+ 187:Generated_Source\PSoC5/PRS_PM.c **** *  void
+ 188:Generated_Source\PSoC5/PRS_PM.c **** *
+ 189:Generated_Source\PSoC5/PRS_PM.c **** * Return:
+ 190:Generated_Source\PSoC5/PRS_PM.c **** *  void
+ 191:Generated_Source\PSoC5/PRS_PM.c **** *
+ 192:Generated_Source\PSoC5/PRS_PM.c **** *******************************************************************************/
+ 193:Generated_Source\PSoC5/PRS_PM.c **** #if ((PRS_WAKEUP_BEHAVIOUR == PRS__RESUMEWORK) && (PRS_TIME_MULTIPLEXING_ENABLE))
+ 194:Generated_Source\PSoC5/PRS_PM.c ****     void PRS_Wakeup(void) 
+ 195:Generated_Source\PSoC5/PRS_PM.c **** #else
+ 196:Generated_Source\PSoC5/PRS_PM.c ****     void PRS_Wakeup(void) 
+ 197:Generated_Source\PSoC5/PRS_PM.c **** #endif  /* End ((PRS_WAKEUP_BEHAVIOUR == PRS__RESUMEWORK) && 
+ 198:Generated_Source\PSoC5/PRS_PM.c ****                 (PRS_TIME_MULTIPLEXING_ENABLE)) */
+ 199:Generated_Source\PSoC5/PRS_PM.c **** {
+ 133              		.loc 1 199 0
+ 134              		.cfi_startproc
+ 135              		@ args = 0, pretend = 0, frame = 0
+ 136              		@ frame_needed = 0, uses_anonymous_args = 0
+ 137 0000 08B5     		push	{r3, lr}
+ 138              		.cfi_def_cfa_offset 8
+ 139              		.cfi_offset 3, -8
+ 140              		.cfi_offset 14, -4
+ 200:Generated_Source\PSoC5/PRS_PM.c ****     PRS_RestoreConfig();
+ 141              		.loc 1 200 0
+ 142 0002 FFF7FEFF 		bl	PRS_RestoreConfig
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 7
+
+
+ 143              	.LVL4:
+ 201:Generated_Source\PSoC5/PRS_PM.c ****     
+ 202:Generated_Source\PSoC5/PRS_PM.c ****     /* Restore PRS enable state */
+ 203:Generated_Source\PSoC5/PRS_PM.c ****     if (PRS_backup.enableState != 0u)
+ 144              		.loc 1 203 0
+ 145 0006 034B     		ldr	r3, .L18
+ 146 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 147 000a 0BB1     		cbz	r3, .L15
+ 204:Generated_Source\PSoC5/PRS_PM.c ****     {
+ 205:Generated_Source\PSoC5/PRS_PM.c ****         PRS_Enable();
+ 148              		.loc 1 205 0
+ 149 000c FFF7FEFF 		bl	PRS_Enable
+ 150              	.LVL5:
+ 151              	.L15:
+ 152 0010 08BD     		pop	{r3, pc}
+ 153              	.L19:
+ 154 0012 00BF     		.align	2
+ 155              	.L18:
+ 156 0014 00000000 		.word	PRS_backup
+ 157              		.cfi_endproc
+ 158              	.LFE3:
+ 159              		.size	PRS_Wakeup, .-PRS_Wakeup
+ 160              		.text
+ 161              	.Letext0:
+ 162              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 163              		.file 3 "Generated_Source\\PSoC5\\PRS.h"
+ 164              		.section	.debug_info,"",%progbits
+ 165              	.Ldebug_info0:
+ 166 0000 A5010000 		.4byte	0x1a5
+ 167 0004 0400     		.2byte	0x4
+ 168 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 169 000a 04       		.byte	0x4
+ 170 000b 01       		.uleb128 0x1
+ 171 000c A8000000 		.4byte	.LASF28
+ 172 0010 0C       		.byte	0xc
+ 173 0011 6E010000 		.4byte	.LASF29
+ 174 0015 12000000 		.4byte	.LASF30
+ 175 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 176 001d 00000000 		.4byte	0
+ 177 0021 00000000 		.4byte	.Ldebug_line0
+ 178 0025 02       		.uleb128 0x2
+ 179 0026 01       		.byte	0x1
+ 180 0027 06       		.byte	0x6
+ 181 0028 48020000 		.4byte	.LASF0
+ 182 002c 02       		.uleb128 0x2
+ 183 002d 01       		.byte	0x1
+ 184 002e 08       		.byte	0x8
+ 185 002f 9A000000 		.4byte	.LASF1
+ 186 0033 02       		.uleb128 0x2
+ 187 0034 02       		.byte	0x2
+ 188 0035 05       		.byte	0x5
+ 189 0036 06020000 		.4byte	.LASF2
+ 190 003a 02       		.uleb128 0x2
+ 191 003b 02       		.byte	0x2
+ 192 003c 07       		.byte	0x7
+ 193 003d 6C000000 		.4byte	.LASF3
+ 194 0041 02       		.uleb128 0x2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 8
+
+
+ 195 0042 04       		.byte	0x4
+ 196 0043 05       		.byte	0x5
+ 197 0044 15020000 		.4byte	.LASF4
+ 198 0048 02       		.uleb128 0x2
+ 199 0049 04       		.byte	0x4
+ 200 004a 07       		.byte	0x7
+ 201 004b 3B010000 		.4byte	.LASF5
+ 202 004f 02       		.uleb128 0x2
+ 203 0050 08       		.byte	0x8
+ 204 0051 05       		.byte	0x5
+ 205 0052 D6010000 		.4byte	.LASF6
+ 206 0056 02       		.uleb128 0x2
+ 207 0057 08       		.byte	0x8
+ 208 0058 07       		.byte	0x7
+ 209 0059 AB010000 		.4byte	.LASF7
+ 210 005d 03       		.uleb128 0x3
+ 211 005e 04       		.byte	0x4
+ 212 005f 05       		.byte	0x5
+ 213 0060 696E7400 		.ascii	"int\000"
+ 214 0064 02       		.uleb128 0x2
+ 215 0065 04       		.byte	0x4
+ 216 0066 07       		.byte	0x7
+ 217 0067 9E010000 		.4byte	.LASF8
+ 218 006b 04       		.uleb128 0x4
+ 219 006c 4D010000 		.4byte	.LASF9
+ 220 0070 02       		.byte	0x2
+ 221 0071 E401     		.2byte	0x1e4
+ 222 0073 2C000000 		.4byte	0x2c
+ 223 0077 04       		.uleb128 0x4
+ 224 0078 97010000 		.4byte	.LASF10
+ 225 007c 02       		.byte	0x2
+ 226 007d E501     		.2byte	0x1e5
+ 227 007f 3A000000 		.4byte	0x3a
+ 228 0083 02       		.uleb128 0x2
+ 229 0084 04       		.byte	0x4
+ 230 0085 04       		.byte	0x4
+ 231 0086 94000000 		.4byte	.LASF11
+ 232 008a 02       		.uleb128 0x2
+ 233 008b 08       		.byte	0x8
+ 234 008c 04       		.byte	0x4
+ 235 008d 67010000 		.4byte	.LASF12
+ 236 0091 02       		.uleb128 0x2
+ 237 0092 01       		.byte	0x1
+ 238 0093 08       		.byte	0x8
+ 239 0094 F2010000 		.4byte	.LASF13
+ 240 0098 04       		.uleb128 0x4
+ 241 0099 36010000 		.4byte	.LASF14
+ 242 009d 02       		.byte	0x2
+ 243 009e 8E02     		.2byte	0x28e
+ 244 00a0 A4000000 		.4byte	0xa4
+ 245 00a4 05       		.uleb128 0x5
+ 246 00a5 6B000000 		.4byte	0x6b
+ 247 00a9 02       		.uleb128 0x2
+ 248 00aa 08       		.byte	0x8
+ 249 00ab 04       		.byte	0x4
+ 250 00ac 3C020000 		.4byte	.LASF15
+ 251 00b0 02       		.uleb128 0x2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 9
+
+
+ 252 00b1 04       		.byte	0x4
+ 253 00b2 07       		.byte	0x7
+ 254 00b3 C2010000 		.4byte	.LASF16
+ 255 00b7 06       		.uleb128 0x6
+ 256 00b8 04       		.byte	0x4
+ 257 00b9 03       		.byte	0x3
+ 258 00ba 31       		.byte	0x31
+ 259 00bb D8000000 		.4byte	0xd8
+ 260 00bf 07       		.uleb128 0x7
+ 261 00c0 1E020000 		.4byte	.LASF17
+ 262 00c4 03       		.byte	0x3
+ 263 00c5 33       		.byte	0x33
+ 264 00c6 6B000000 		.4byte	0x6b
+ 265 00ca 00       		.byte	0
+ 266 00cb 07       		.uleb128 0x7
+ 267 00cc 10020000 		.4byte	.LASF18
+ 268 00d0 03       		.byte	0x3
+ 269 00d1 3D       		.byte	0x3d
+ 270 00d2 77000000 		.4byte	0x77
+ 271 00d6 02       		.byte	0x2
+ 272 00d7 00       		.byte	0
+ 273 00d8 08       		.uleb128 0x8
+ 274 00d9 2A020000 		.4byte	.LASF19
+ 275 00dd 03       		.byte	0x3
+ 276 00de 47       		.byte	0x47
+ 277 00df B7000000 		.4byte	0xb7
+ 278 00e3 09       		.uleb128 0x9
+ 279 00e4 F7010000 		.4byte	.LASF20
+ 280 00e8 01       		.byte	0x1
+ 281 00e9 2B       		.byte	0x2b
+ 282 00ea 00000000 		.4byte	.LFB0
+ 283 00ee 10000000 		.4byte	.LFE0-.LFB0
+ 284 00f2 01       		.uleb128 0x1
+ 285 00f3 9C       		.byte	0x9c
+ 286 00f4 02010000 		.4byte	0x102
+ 287 00f8 0A       		.uleb128 0xa
+ 288 00f9 06000000 		.4byte	.LVL0
+ 289 00fd 7C010000 		.4byte	0x17c
+ 290 0101 00       		.byte	0
+ 291 0102 09       		.uleb128 0x9
+ 292 0103 8A000000 		.4byte	.LASF21
+ 293 0107 01       		.byte	0x1
+ 294 0108 54       		.byte	0x54
+ 295 0109 00000000 		.4byte	.LFB1
+ 296 010d 2C000000 		.4byte	.LFE1-.LFB1
+ 297 0111 01       		.uleb128 0x1
+ 298 0112 9C       		.byte	0x9c
+ 299 0113 2A010000 		.4byte	0x12a
+ 300 0117 0A       		.uleb128 0xa
+ 301 0118 16000000 		.4byte	.LVL1
+ 302 011c 87010000 		.4byte	0x187
+ 303 0120 0A       		.uleb128 0xa
+ 304 0121 22000000 		.4byte	.LVL2
+ 305 0125 E3000000 		.4byte	0xe3
+ 306 0129 00       		.byte	0
+ 307 012a 09       		.uleb128 0x9
+ 308 012b 00000000 		.4byte	.LASF22
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 10
+
+
+ 309 012f 01       		.byte	0x1
+ 310 0130 94       		.byte	0x94
+ 311 0131 00000000 		.4byte	.LFB2
+ 312 0135 10000000 		.4byte	.LFE2-.LFB2
+ 313 0139 01       		.uleb128 0x1
+ 314 013a 9C       		.byte	0x9c
+ 315 013b 49010000 		.4byte	0x149
+ 316 013f 0A       		.uleb128 0xa
+ 317 0140 0A000000 		.4byte	.LVL3
+ 318 0144 92010000 		.4byte	0x192
+ 319 0148 00       		.byte	0
+ 320 0149 09       		.uleb128 0x9
+ 321 014a 5C010000 		.4byte	.LASF23
+ 322 014e 01       		.byte	0x1
+ 323 014f C4       		.byte	0xc4
+ 324 0150 00000000 		.4byte	.LFB3
+ 325 0154 18000000 		.4byte	.LFE3-.LFB3
+ 326 0158 01       		.uleb128 0x1
+ 327 0159 9C       		.byte	0x9c
+ 328 015a 71010000 		.4byte	0x171
+ 329 015e 0A       		.uleb128 0xa
+ 330 015f 06000000 		.4byte	.LVL4
+ 331 0163 2A010000 		.4byte	0x12a
+ 332 0167 0A       		.uleb128 0xa
+ 333 0168 10000000 		.4byte	.LVL5
+ 334 016c 9D010000 		.4byte	0x19d
+ 335 0170 00       		.byte	0
+ 336 0171 0B       		.uleb128 0xb
+ 337 0172 7F000000 		.4byte	.LASF31
+ 338 0176 03       		.byte	0x3
+ 339 0177 4B       		.byte	0x4b
+ 340 0178 D8000000 		.4byte	0xd8
+ 341 017c 0C       		.uleb128 0xc
+ 342 017d 8E010000 		.4byte	.LASF24
+ 343 0181 8E010000 		.4byte	.LASF24
+ 344 0185 03       		.byte	0x3
+ 345 0186 6D       		.byte	0x6d
+ 346 0187 0C       		.uleb128 0xc
+ 347 0188 53010000 		.4byte	.LASF25
+ 348 018c 53010000 		.4byte	.LASF25
+ 349 0190 03       		.byte	0x3
+ 350 0191 5A       		.byte	0x5a
+ 351 0192 0C       		.uleb128 0xc
+ 352 0193 E4010000 		.4byte	.LASF26
+ 353 0197 E4010000 		.4byte	.LASF26
+ 354 019b 03       		.byte	0x3
+ 355 019c 6E       		.byte	0x6e
+ 356 019d 0C       		.uleb128 0xc
+ 357 019e CB010000 		.4byte	.LASF27
+ 358 01a2 CB010000 		.4byte	.LASF27
+ 359 01a6 03       		.byte	0x3
+ 360 01a7 58       		.byte	0x58
+ 361 01a8 00       		.byte	0
+ 362              		.section	.debug_abbrev,"",%progbits
+ 363              	.Ldebug_abbrev0:
+ 364 0000 01       		.uleb128 0x1
+ 365 0001 11       		.uleb128 0x11
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 11
+
+
+ 366 0002 01       		.byte	0x1
+ 367 0003 25       		.uleb128 0x25
+ 368 0004 0E       		.uleb128 0xe
+ 369 0005 13       		.uleb128 0x13
+ 370 0006 0B       		.uleb128 0xb
+ 371 0007 03       		.uleb128 0x3
+ 372 0008 0E       		.uleb128 0xe
+ 373 0009 1B       		.uleb128 0x1b
+ 374 000a 0E       		.uleb128 0xe
+ 375 000b 55       		.uleb128 0x55
+ 376 000c 17       		.uleb128 0x17
+ 377 000d 11       		.uleb128 0x11
+ 378 000e 01       		.uleb128 0x1
+ 379 000f 10       		.uleb128 0x10
+ 380 0010 17       		.uleb128 0x17
+ 381 0011 00       		.byte	0
+ 382 0012 00       		.byte	0
+ 383 0013 02       		.uleb128 0x2
+ 384 0014 24       		.uleb128 0x24
+ 385 0015 00       		.byte	0
+ 386 0016 0B       		.uleb128 0xb
+ 387 0017 0B       		.uleb128 0xb
+ 388 0018 3E       		.uleb128 0x3e
+ 389 0019 0B       		.uleb128 0xb
+ 390 001a 03       		.uleb128 0x3
+ 391 001b 0E       		.uleb128 0xe
+ 392 001c 00       		.byte	0
+ 393 001d 00       		.byte	0
+ 394 001e 03       		.uleb128 0x3
+ 395 001f 24       		.uleb128 0x24
+ 396 0020 00       		.byte	0
+ 397 0021 0B       		.uleb128 0xb
+ 398 0022 0B       		.uleb128 0xb
+ 399 0023 3E       		.uleb128 0x3e
+ 400 0024 0B       		.uleb128 0xb
+ 401 0025 03       		.uleb128 0x3
+ 402 0026 08       		.uleb128 0x8
+ 403 0027 00       		.byte	0
+ 404 0028 00       		.byte	0
+ 405 0029 04       		.uleb128 0x4
+ 406 002a 16       		.uleb128 0x16
+ 407 002b 00       		.byte	0
+ 408 002c 03       		.uleb128 0x3
+ 409 002d 0E       		.uleb128 0xe
+ 410 002e 3A       		.uleb128 0x3a
+ 411 002f 0B       		.uleb128 0xb
+ 412 0030 3B       		.uleb128 0x3b
+ 413 0031 05       		.uleb128 0x5
+ 414 0032 49       		.uleb128 0x49
+ 415 0033 13       		.uleb128 0x13
+ 416 0034 00       		.byte	0
+ 417 0035 00       		.byte	0
+ 418 0036 05       		.uleb128 0x5
+ 419 0037 35       		.uleb128 0x35
+ 420 0038 00       		.byte	0
+ 421 0039 49       		.uleb128 0x49
+ 422 003a 13       		.uleb128 0x13
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 12
+
+
+ 423 003b 00       		.byte	0
+ 424 003c 00       		.byte	0
+ 425 003d 06       		.uleb128 0x6
+ 426 003e 13       		.uleb128 0x13
+ 427 003f 01       		.byte	0x1
+ 428 0040 0B       		.uleb128 0xb
+ 429 0041 0B       		.uleb128 0xb
+ 430 0042 3A       		.uleb128 0x3a
+ 431 0043 0B       		.uleb128 0xb
+ 432 0044 3B       		.uleb128 0x3b
+ 433 0045 0B       		.uleb128 0xb
+ 434 0046 01       		.uleb128 0x1
+ 435 0047 13       		.uleb128 0x13
+ 436 0048 00       		.byte	0
+ 437 0049 00       		.byte	0
+ 438 004a 07       		.uleb128 0x7
+ 439 004b 0D       		.uleb128 0xd
+ 440 004c 00       		.byte	0
+ 441 004d 03       		.uleb128 0x3
+ 442 004e 0E       		.uleb128 0xe
+ 443 004f 3A       		.uleb128 0x3a
+ 444 0050 0B       		.uleb128 0xb
+ 445 0051 3B       		.uleb128 0x3b
+ 446 0052 0B       		.uleb128 0xb
+ 447 0053 49       		.uleb128 0x49
+ 448 0054 13       		.uleb128 0x13
+ 449 0055 38       		.uleb128 0x38
+ 450 0056 0B       		.uleb128 0xb
+ 451 0057 00       		.byte	0
+ 452 0058 00       		.byte	0
+ 453 0059 08       		.uleb128 0x8
+ 454 005a 16       		.uleb128 0x16
+ 455 005b 00       		.byte	0
+ 456 005c 03       		.uleb128 0x3
+ 457 005d 0E       		.uleb128 0xe
+ 458 005e 3A       		.uleb128 0x3a
+ 459 005f 0B       		.uleb128 0xb
+ 460 0060 3B       		.uleb128 0x3b
+ 461 0061 0B       		.uleb128 0xb
+ 462 0062 49       		.uleb128 0x49
+ 463 0063 13       		.uleb128 0x13
+ 464 0064 00       		.byte	0
+ 465 0065 00       		.byte	0
+ 466 0066 09       		.uleb128 0x9
+ 467 0067 2E       		.uleb128 0x2e
+ 468 0068 01       		.byte	0x1
+ 469 0069 3F       		.uleb128 0x3f
+ 470 006a 19       		.uleb128 0x19
+ 471 006b 03       		.uleb128 0x3
+ 472 006c 0E       		.uleb128 0xe
+ 473 006d 3A       		.uleb128 0x3a
+ 474 006e 0B       		.uleb128 0xb
+ 475 006f 3B       		.uleb128 0x3b
+ 476 0070 0B       		.uleb128 0xb
+ 477 0071 27       		.uleb128 0x27
+ 478 0072 19       		.uleb128 0x19
+ 479 0073 11       		.uleb128 0x11
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 13
+
+
+ 480 0074 01       		.uleb128 0x1
+ 481 0075 12       		.uleb128 0x12
+ 482 0076 06       		.uleb128 0x6
+ 483 0077 40       		.uleb128 0x40
+ 484 0078 18       		.uleb128 0x18
+ 485 0079 9742     		.uleb128 0x2117
+ 486 007b 19       		.uleb128 0x19
+ 487 007c 01       		.uleb128 0x1
+ 488 007d 13       		.uleb128 0x13
+ 489 007e 00       		.byte	0
+ 490 007f 00       		.byte	0
+ 491 0080 0A       		.uleb128 0xa
+ 492 0081 898201   		.uleb128 0x4109
+ 493 0084 00       		.byte	0
+ 494 0085 11       		.uleb128 0x11
+ 495 0086 01       		.uleb128 0x1
+ 496 0087 31       		.uleb128 0x31
+ 497 0088 13       		.uleb128 0x13
+ 498 0089 00       		.byte	0
+ 499 008a 00       		.byte	0
+ 500 008b 0B       		.uleb128 0xb
+ 501 008c 34       		.uleb128 0x34
+ 502 008d 00       		.byte	0
+ 503 008e 03       		.uleb128 0x3
+ 504 008f 0E       		.uleb128 0xe
+ 505 0090 3A       		.uleb128 0x3a
+ 506 0091 0B       		.uleb128 0xb
+ 507 0092 3B       		.uleb128 0x3b
+ 508 0093 0B       		.uleb128 0xb
+ 509 0094 49       		.uleb128 0x49
+ 510 0095 13       		.uleb128 0x13
+ 511 0096 3F       		.uleb128 0x3f
+ 512 0097 19       		.uleb128 0x19
+ 513 0098 3C       		.uleb128 0x3c
+ 514 0099 19       		.uleb128 0x19
+ 515 009a 00       		.byte	0
+ 516 009b 00       		.byte	0
+ 517 009c 0C       		.uleb128 0xc
+ 518 009d 2E       		.uleb128 0x2e
+ 519 009e 00       		.byte	0
+ 520 009f 3F       		.uleb128 0x3f
+ 521 00a0 19       		.uleb128 0x19
+ 522 00a1 3C       		.uleb128 0x3c
+ 523 00a2 19       		.uleb128 0x19
+ 524 00a3 6E       		.uleb128 0x6e
+ 525 00a4 0E       		.uleb128 0xe
+ 526 00a5 03       		.uleb128 0x3
+ 527 00a6 0E       		.uleb128 0xe
+ 528 00a7 3A       		.uleb128 0x3a
+ 529 00a8 0B       		.uleb128 0xb
+ 530 00a9 3B       		.uleb128 0x3b
+ 531 00aa 0B       		.uleb128 0xb
+ 532 00ab 00       		.byte	0
+ 533 00ac 00       		.byte	0
+ 534 00ad 00       		.byte	0
+ 535              		.section	.debug_aranges,"",%progbits
+ 536 0000 34000000 		.4byte	0x34
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 14
+
+
+ 537 0004 0200     		.2byte	0x2
+ 538 0006 00000000 		.4byte	.Ldebug_info0
+ 539 000a 04       		.byte	0x4
+ 540 000b 00       		.byte	0
+ 541 000c 0000     		.2byte	0
+ 542 000e 0000     		.2byte	0
+ 543 0010 00000000 		.4byte	.LFB0
+ 544 0014 10000000 		.4byte	.LFE0-.LFB0
+ 545 0018 00000000 		.4byte	.LFB1
+ 546 001c 2C000000 		.4byte	.LFE1-.LFB1
+ 547 0020 00000000 		.4byte	.LFB2
+ 548 0024 10000000 		.4byte	.LFE2-.LFB2
+ 549 0028 00000000 		.4byte	.LFB3
+ 550 002c 18000000 		.4byte	.LFE3-.LFB3
+ 551 0030 00000000 		.4byte	0
+ 552 0034 00000000 		.4byte	0
+ 553              		.section	.debug_ranges,"",%progbits
+ 554              	.Ldebug_ranges0:
+ 555 0000 00000000 		.4byte	.LFB0
+ 556 0004 10000000 		.4byte	.LFE0
+ 557 0008 00000000 		.4byte	.LFB1
+ 558 000c 2C000000 		.4byte	.LFE1
+ 559 0010 00000000 		.4byte	.LFB2
+ 560 0014 10000000 		.4byte	.LFE2
+ 561 0018 00000000 		.4byte	.LFB3
+ 562 001c 18000000 		.4byte	.LFE3
+ 563 0020 00000000 		.4byte	0
+ 564 0024 00000000 		.4byte	0
+ 565              		.section	.debug_line,"",%progbits
+ 566              	.Ldebug_line0:
+ 567 0000 9D000000 		.section	.debug_str,"MS",%progbits,1
+ 567      02004C00 
+ 567      00000201 
+ 567      FB0E0D00 
+ 567      01010101 
+ 568              	.LASF22:
+ 569 0000 5052535F 		.ascii	"PRS_RestoreConfig\000"
+ 569      52657374 
+ 569      6F726543 
+ 569      6F6E6669 
+ 569      6700
+ 570              	.LASF30:
+ 571 0012 433A5C55 		.ascii	"C:\\Users\\bkettle\\OneDrive\\School\\6.115\\projec"
+ 571      73657273 
+ 571      5C626B65 
+ 571      74746C65 
+ 571      5C4F6E65 
+ 572 003f 745C7073 		.ascii	"t\\psoc\\Password Keeper\\Serial USB Test.cydsn\000"
+ 572      6F635C50 
+ 572      61737377 
+ 572      6F726420 
+ 572      4B656570 
+ 573              	.LASF3:
+ 574 006c 73686F72 		.ascii	"short unsigned int\000"
+ 574      7420756E 
+ 574      7369676E 
+ 574      65642069 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 15
+
+
+ 574      6E7400
+ 575              	.LASF31:
+ 576 007f 5052535F 		.ascii	"PRS_backup\000"
+ 576      6261636B 
+ 576      757000
+ 577              	.LASF21:
+ 578 008a 5052535F 		.ascii	"PRS_Sleep\000"
+ 578      536C6565 
+ 578      7000
+ 579              	.LASF11:
+ 580 0094 666C6F61 		.ascii	"float\000"
+ 580      7400
+ 581              	.LASF1:
+ 582 009a 756E7369 		.ascii	"unsigned char\000"
+ 582      676E6564 
+ 582      20636861 
+ 582      7200
+ 583              	.LASF28:
+ 584 00a8 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 584      43313120 
+ 584      352E342E 
+ 584      31203230 
+ 584      31363036 
+ 585 00db 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 585      20726576 
+ 585      6973696F 
+ 585      6E203233 
+ 585      37373135 
+ 586 010e 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 586      66756E63 
+ 586      74696F6E 
+ 586      2D736563 
+ 586      74696F6E 
+ 587              	.LASF14:
+ 588 0136 72656738 		.ascii	"reg8\000"
+ 588      00
+ 589              	.LASF5:
+ 590 013b 6C6F6E67 		.ascii	"long unsigned int\000"
+ 590      20756E73 
+ 590      69676E65 
+ 590      6420696E 
+ 590      7400
+ 591              	.LASF9:
+ 592 014d 75696E74 		.ascii	"uint8\000"
+ 592      3800
+ 593              	.LASF25:
+ 594 0153 5052535F 		.ascii	"PRS_Stop\000"
+ 594      53746F70 
+ 594      00
+ 595              	.LASF23:
+ 596 015c 5052535F 		.ascii	"PRS_Wakeup\000"
+ 596      57616B65 
+ 596      757000
+ 597              	.LASF12:
+ 598 0167 646F7562 		.ascii	"double\000"
+ 598      6C6500
+ 599              	.LASF29:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 16
+
+
+ 600 016e 47656E65 		.ascii	"Generated_Source\\PSoC5\\PRS_PM.c\000"
+ 600      72617465 
+ 600      645F536F 
+ 600      75726365 
+ 600      5C50536F 
+ 601              	.LASF24:
+ 602 018e 5052535F 		.ascii	"PRS_Read\000"
+ 602      52656164 
+ 602      00
+ 603              	.LASF10:
+ 604 0197 75696E74 		.ascii	"uint16\000"
+ 604      313600
+ 605              	.LASF8:
+ 606 019e 756E7369 		.ascii	"unsigned int\000"
+ 606      676E6564 
+ 606      20696E74 
+ 606      00
+ 607              	.LASF7:
+ 608 01ab 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 608      206C6F6E 
+ 608      6720756E 
+ 608      7369676E 
+ 608      65642069 
+ 609              	.LASF16:
+ 610 01c2 73697A65 		.ascii	"sizetype\000"
+ 610      74797065 
+ 610      00
+ 611              	.LASF27:
+ 612 01cb 5052535F 		.ascii	"PRS_Enable\000"
+ 612      456E6162 
+ 612      6C6500
+ 613              	.LASF6:
+ 614 01d6 6C6F6E67 		.ascii	"long long int\000"
+ 614      206C6F6E 
+ 614      6720696E 
+ 614      7400
+ 615              	.LASF26:
+ 616 01e4 5052535F 		.ascii	"PRS_WriteSeed\000"
+ 616      57726974 
+ 616      65536565 
+ 616      6400
+ 617              	.LASF13:
+ 618 01f2 63686172 		.ascii	"char\000"
+ 618      00
+ 619              	.LASF20:
+ 620 01f7 5052535F 		.ascii	"PRS_SaveConfig\000"
+ 620      53617665 
+ 620      436F6E66 
+ 620      696700
+ 621              	.LASF2:
+ 622 0206 73686F72 		.ascii	"short int\000"
+ 622      7420696E 
+ 622      7400
+ 623              	.LASF18:
+ 624 0210 73656564 		.ascii	"seed\000"
+ 624      00
+ 625              	.LASF4:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccRqZhYc.s 			page 17
+
+
+ 626 0215 6C6F6E67 		.ascii	"long int\000"
+ 626      20696E74 
+ 626      00
+ 627              	.LASF17:
+ 628 021e 656E6162 		.ascii	"enableState\000"
+ 628      6C655374 
+ 628      61746500 
+ 629              	.LASF19:
+ 630 022a 5052535F 		.ascii	"PRS_BACKUP_STRUCT\000"
+ 630      4241434B 
+ 630      55505F53 
+ 630      54525543 
+ 630      5400
+ 631              	.LASF15:
+ 632 023c 6C6F6E67 		.ascii	"long double\000"
+ 632      20646F75 
+ 632      626C6500 
+ 633              	.LASF0:
+ 634 0248 7369676E 		.ascii	"signed char\000"
+ 634      65642063 
+ 634      68617200 
+ 635              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

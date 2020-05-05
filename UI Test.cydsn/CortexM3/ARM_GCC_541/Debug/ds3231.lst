@@ -1,0 +1,4114 @@
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"ds3231.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.dt_getYear,"ax",%progbits
+  20              		.align	2
+  21              		.global	dt_getYear
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	dt_getYear, %function
+  25              	dt_getYear:
+  26              	.LFB63:
+  27              		.file 1 "..\\..\\..\\..\\..\\..\\development\\hardware\\DS3231-PSoC\\ds3231.c"
+   1:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /* Very simple library for DS3231
+   2:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     on PSoC, inspired by Adafruit's
+   3:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     RTClib. Only crucial functionality
+   4:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     is ported over.
+   5:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+   6:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+   7:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** #include <project.h>
+   8:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** #include <stdlib.h>
+   9:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** #include <stdbool.h>
+  10:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+  11:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** #include <ds3231.h>
+  12:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+  13:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+  14:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+  15:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** // this stuff should go in the header but that's not working
+  16:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint8 RTC_read_buff[10];
+  17:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+  18:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** // return the year from a DateTime struct
+  19:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint16_t dt_getYear(DateTime dt) { return 2000 + dt.yOff; }
+  28              		.loc 1 19 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 82B0     		sub	sp, sp, #8
+  34              		.cfi_def_cfa_offset 8
+  35 0002 02AB     		add	r3, sp, #8
+  36 0004 03E90300 		stmdb	r3, {r0, r1}
+  37              		.loc 1 19 0
+  38 0008 9DF80000 		ldrb	r0, [sp]	@ zero_extendqisi2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 2
+
+
+  39 000c 00F5FA60 		add	r0, r0, #2000
+  40 0010 02B0     		add	sp, sp, #8
+  41              		.cfi_def_cfa_offset 0
+  42              		@ sp needed
+  43 0012 7047     		bx	lr
+  44              		.cfi_endproc
+  45              	.LFE63:
+  46              		.size	dt_getYear, .-dt_getYear
+  47              		.section	.text.dt_getMonth,"ax",%progbits
+  48              		.align	2
+  49              		.global	dt_getMonth
+  50              		.thumb
+  51              		.thumb_func
+  52              		.type	dt_getMonth, %function
+  53              	dt_getMonth:
+  54              	.LFB64:
+  20:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** // return the month from a DateTime struct
+  21:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint8_t dt_getMonth(DateTime dt) { return dt.m; }
+  55              		.loc 1 21 0
+  56              		.cfi_startproc
+  57              		@ args = 0, pretend = 0, frame = 8
+  58              		@ frame_needed = 0, uses_anonymous_args = 0
+  59              		@ link register save eliminated.
+  60 0000 82B0     		sub	sp, sp, #8
+  61              		.cfi_def_cfa_offset 8
+  62 0002 02AB     		add	r3, sp, #8
+  63 0004 03E90300 		stmdb	r3, {r0, r1}
+  64              		.loc 1 21 0
+  65 0008 9DF80100 		ldrb	r0, [sp, #1]	@ zero_extendqisi2
+  66 000c 02B0     		add	sp, sp, #8
+  67              		.cfi_def_cfa_offset 0
+  68              		@ sp needed
+  69 000e 7047     		bx	lr
+  70              		.cfi_endproc
+  71              	.LFE64:
+  72              		.size	dt_getMonth, .-dt_getMonth
+  73              		.section	.text.dt_getDay,"ax",%progbits
+  74              		.align	2
+  75              		.global	dt_getDay
+  76              		.thumb
+  77              		.thumb_func
+  78              		.type	dt_getDay, %function
+  79              	dt_getDay:
+  80              	.LFB65:
+  22:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** // return the day from a DateTime struct
+  23:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint8_t dt_getDay(DateTime dt) { return dt.d; }
+  81              		.loc 1 23 0
+  82              		.cfi_startproc
+  83              		@ args = 0, pretend = 0, frame = 8
+  84              		@ frame_needed = 0, uses_anonymous_args = 0
+  85              		@ link register save eliminated.
+  86 0000 82B0     		sub	sp, sp, #8
+  87              		.cfi_def_cfa_offset 8
+  88 0002 02AB     		add	r3, sp, #8
+  89 0004 03E90300 		stmdb	r3, {r0, r1}
+  90              		.loc 1 23 0
+  91 0008 9DF80200 		ldrb	r0, [sp, #2]	@ zero_extendqisi2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 3
+
+
+  92 000c 02B0     		add	sp, sp, #8
+  93              		.cfi_def_cfa_offset 0
+  94              		@ sp needed
+  95 000e 7047     		bx	lr
+  96              		.cfi_endproc
+  97              	.LFE65:
+  98              		.size	dt_getDay, .-dt_getDay
+  99              		.section	.text.dt_getHour,"ax",%progbits
+ 100              		.align	2
+ 101              		.global	dt_getHour
+ 102              		.thumb
+ 103              		.thumb_func
+ 104              		.type	dt_getHour, %function
+ 105              	dt_getHour:
+ 106              	.LFB66:
+  24:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** // return the hour from a DateTime struct
+  25:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint8_t dt_getHour(DateTime dt) { return dt.hh; }
+ 107              		.loc 1 25 0
+ 108              		.cfi_startproc
+ 109              		@ args = 0, pretend = 0, frame = 8
+ 110              		@ frame_needed = 0, uses_anonymous_args = 0
+ 111              		@ link register save eliminated.
+ 112 0000 82B0     		sub	sp, sp, #8
+ 113              		.cfi_def_cfa_offset 8
+ 114 0002 02AB     		add	r3, sp, #8
+ 115 0004 03E90300 		stmdb	r3, {r0, r1}
+ 116              		.loc 1 25 0
+ 117 0008 9DF80300 		ldrb	r0, [sp, #3]	@ zero_extendqisi2
+ 118 000c 02B0     		add	sp, sp, #8
+ 119              		.cfi_def_cfa_offset 0
+ 120              		@ sp needed
+ 121 000e 7047     		bx	lr
+ 122              		.cfi_endproc
+ 123              	.LFE66:
+ 124              		.size	dt_getHour, .-dt_getHour
+ 125              		.section	.text.dt_getMinute,"ax",%progbits
+ 126              		.align	2
+ 127              		.global	dt_getMinute
+ 128              		.thumb
+ 129              		.thumb_func
+ 130              		.type	dt_getMinute, %function
+ 131              	dt_getMinute:
+ 132              	.LFB67:
+  26:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** // return the minute from a DateTime struct
+  27:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint8_t dt_getMinute(DateTime dt) { return dt.mm; }
+ 133              		.loc 1 27 0
+ 134              		.cfi_startproc
+ 135              		@ args = 0, pretend = 0, frame = 8
+ 136              		@ frame_needed = 0, uses_anonymous_args = 0
+ 137              		@ link register save eliminated.
+ 138 0000 82B0     		sub	sp, sp, #8
+ 139              		.cfi_def_cfa_offset 8
+ 140 0002 02AB     		add	r3, sp, #8
+ 141 0004 03E90300 		stmdb	r3, {r0, r1}
+ 142              		.loc 1 27 0
+ 143 0008 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 144 000c 02B0     		add	sp, sp, #8
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 4
+
+
+ 145              		.cfi_def_cfa_offset 0
+ 146              		@ sp needed
+ 147 000e 7047     		bx	lr
+ 148              		.cfi_endproc
+ 149              	.LFE67:
+ 150              		.size	dt_getMinute, .-dt_getMinute
+ 151              		.section	.text.dt_getSecond,"ax",%progbits
+ 152              		.align	2
+ 153              		.global	dt_getSecond
+ 154              		.thumb
+ 155              		.thumb_func
+ 156              		.type	dt_getSecond, %function
+ 157              	dt_getSecond:
+ 158              	.LFB68:
+  28:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** // return the second from a DateTime struct
+  29:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint8_t dt_getSecond(DateTime dt) { return dt.ss; }
+ 159              		.loc 1 29 0
+ 160              		.cfi_startproc
+ 161              		@ args = 0, pretend = 0, frame = 8
+ 162              		@ frame_needed = 0, uses_anonymous_args = 0
+ 163              		@ link register save eliminated.
+ 164 0000 82B0     		sub	sp, sp, #8
+ 165              		.cfi_def_cfa_offset 8
+ 166 0002 02AB     		add	r3, sp, #8
+ 167 0004 03E90300 		stmdb	r3, {r0, r1}
+ 168              		.loc 1 29 0
+ 169 0008 9DF80500 		ldrb	r0, [sp, #5]	@ zero_extendqisi2
+ 170 000c 02B0     		add	sp, sp, #8
+ 171              		.cfi_def_cfa_offset 0
+ 172              		@ sp needed
+ 173 000e 7047     		bx	lr
+ 174              		.cfi_endproc
+ 175              	.LFE68:
+ 176              		.size	dt_getSecond, .-dt_getSecond
+ 177              		.section	.text.dt_isPM,"ax",%progbits
+ 178              		.align	2
+ 179              		.global	dt_isPM
+ 180              		.thumb
+ 181              		.thumb_func
+ 182              		.type	dt_isPM, %function
+ 183              	dt_isPM:
+ 184              	.LFB69:
+  30:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** // return whether the time is PM from a DateTime struct
+  31:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint8_t dt_isPM(DateTime dt) { return dt.hh >= 12; }
+ 185              		.loc 1 31 0
+ 186              		.cfi_startproc
+ 187              		@ args = 0, pretend = 0, frame = 8
+ 188              		@ frame_needed = 0, uses_anonymous_args = 0
+ 189              		@ link register save eliminated.
+ 190 0000 82B0     		sub	sp, sp, #8
+ 191              		.cfi_def_cfa_offset 8
+ 192 0002 02AB     		add	r3, sp, #8
+ 193 0004 03E90300 		stmdb	r3, {r0, r1}
+ 194              		.loc 1 31 0
+ 195 0008 9DF80300 		ldrb	r0, [sp, #3]	@ zero_extendqisi2
+ 196 000c 0B28     		cmp	r0, #11
+ 197 000e 94BF     		ite	ls
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 5
+
+
+ 198 0010 0020     		movls	r0, #0
+ 199 0012 0120     		movhi	r0, #1
+ 200 0014 02B0     		add	sp, sp, #8
+ 201              		.cfi_def_cfa_offset 0
+ 202              		@ sp needed
+ 203 0016 7047     		bx	lr
+ 204              		.cfi_endproc
+ 205              	.LFE69:
+ 206              		.size	dt_isPM, .-dt_isPM
+ 207              		.section	.text.read_i2c_register,"ax",%progbits
+ 208              		.align	2
+ 209              		.global	read_i2c_register
+ 210              		.thumb
+ 211              		.thumb_func
+ 212              		.type	read_i2c_register, %function
+ 213              	read_i2c_register:
+ 214              	.LFB70:
+  32:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+  33:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+  34:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /*!
+  35:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @brief  Read a byte from an I2C register
+  36:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param addr I2C address
+  37:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param reg Register address
+  38:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @return Register value
+  39:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+  40:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+  41:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint8_t read_i2c_register(uint8_t addr, uint8_t reg) {
+ 215              		.loc 1 41 0
+ 216              		.cfi_startproc
+ 217              		@ args = 0, pretend = 0, frame = 0
+ 218              		@ frame_needed = 0, uses_anonymous_args = 0
+ 219              	.LVL0:
+ 220 0000 38B5     		push	{r3, r4, r5, lr}
+ 221              		.cfi_def_cfa_offset 16
+ 222              		.cfi_offset 3, -16
+ 223              		.cfi_offset 4, -12
+ 224              		.cfi_offset 5, -8
+ 225              		.cfi_offset 14, -4
+ 226 0002 0546     		mov	r5, r0
+ 227 0004 0C46     		mov	r4, r1
+  42:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     I2CRTC_MasterSendStart(addr,0); // send write command to addr
+ 228              		.loc 1 42 0
+ 229 0006 0021     		movs	r1, #0
+ 230              	.LVL1:
+ 231 0008 FFF7FEFF 		bl	I2CRTC_MasterSendStart
+ 232              	.LVL2:
+  43:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     I2CRTC_MasterWriteByte(reg);
+ 233              		.loc 1 43 0
+ 234 000c 2046     		mov	r0, r4
+ 235 000e FFF7FEFF 		bl	I2CRTC_MasterWriteByte
+ 236              	.LVL3:
+  44:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     I2CRTC_MasterSendStop();
+ 237              		.loc 1 44 0
+ 238 0012 FFF7FEFF 		bl	I2CRTC_MasterSendStop
+ 239              	.LVL4:
+  45:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+  46:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     I2CRTC_MasterReadBuf(addr, RTC_read_buff, 1, I2CRTC_MODE_COMPLETE_XFER);
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 6
+
+
+ 240              		.loc 1 46 0
+ 241 0016 044C     		ldr	r4, .L17
+ 242 0018 0023     		movs	r3, #0
+ 243 001a 0122     		movs	r2, #1
+ 244 001c 2146     		mov	r1, r4
+ 245 001e 2846     		mov	r0, r5
+ 246 0020 FFF7FEFF 		bl	I2CRTC_MasterReadBuf
+ 247              	.LVL5:
+  47:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     return RTC_read_buff[0];
+  48:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** }
+ 248              		.loc 1 48 0
+ 249 0024 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 250 0026 38BD     		pop	{r3, r4, r5, pc}
+ 251              	.L18:
+ 252              		.align	2
+ 253              	.L17:
+ 254 0028 00000000 		.word	RTC_read_buff
+ 255              		.cfi_endproc
+ 256              	.LFE70:
+ 257              		.size	read_i2c_register, .-read_i2c_register
+ 258              		.section	.text.write_i2c_register,"ax",%progbits
+ 259              		.align	2
+ 260              		.global	write_i2c_register
+ 261              		.thumb
+ 262              		.thumb_func
+ 263              		.type	write_i2c_register, %function
+ 264              	write_i2c_register:
+ 265              	.LFB71:
+  49:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+  50:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+  51:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /*!
+  52:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @brief  Write a byte to an I2C register
+  53:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param addr I2C address
+  54:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param reg Register address
+  55:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param val Value to write
+  56:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+  57:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+  58:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** void write_i2c_register(uint8_t addr, uint8_t reg, uint8_t val) {
+ 266              		.loc 1 58 0
+ 267              		.cfi_startproc
+ 268              		@ args = 0, pretend = 0, frame = 0
+ 269              		@ frame_needed = 0, uses_anonymous_args = 0
+ 270              	.LVL6:
+ 271 0000 38B5     		push	{r3, r4, r5, lr}
+ 272              		.cfi_def_cfa_offset 16
+ 273              		.cfi_offset 3, -16
+ 274              		.cfi_offset 4, -12
+ 275              		.cfi_offset 5, -8
+ 276              		.cfi_offset 14, -4
+ 277 0002 0D46     		mov	r5, r1
+ 278 0004 1446     		mov	r4, r2
+  59:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   I2CRTC_MasterSendStart(addr,0); // send write command to addr
+ 279              		.loc 1 59 0
+ 280 0006 0021     		movs	r1, #0
+ 281              	.LVL7:
+ 282 0008 FFF7FEFF 		bl	I2CRTC_MasterSendStart
+ 283              	.LVL8:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 7
+
+
+  60:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   I2CRTC_MasterWriteByte(reg);
+ 284              		.loc 1 60 0
+ 285 000c 2846     		mov	r0, r5
+ 286 000e FFF7FEFF 		bl	I2CRTC_MasterWriteByte
+ 287              	.LVL9:
+  61:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   I2CRTC_MasterWriteByte(val);
+ 288              		.loc 1 61 0
+ 289 0012 2046     		mov	r0, r4
+ 290 0014 FFF7FEFF 		bl	I2CRTC_MasterWriteByte
+ 291              	.LVL10:
+  62:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   I2CRTC_MasterSendStop();
+ 292              		.loc 1 62 0
+ 293 0018 FFF7FEFF 		bl	I2CRTC_MasterSendStop
+ 294              	.LVL11:
+ 295 001c 38BD     		pop	{r3, r4, r5, pc}
+ 296              		.cfi_endproc
+ 297              	.LFE71:
+ 298              		.size	write_i2c_register, .-write_i2c_register
+ 299 001e 00BF     		.section	.text.date2days,"ax",%progbits
+ 300              		.align	2
+ 301              		.global	date2days
+ 302              		.thumb
+ 303              		.thumb_func
+ 304              		.type	date2days, %function
+ 305              	date2days:
+ 306              	.LFB72:
+  63:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** }
+  64:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+  65:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+  66:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+  67:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+  68:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** // utility code, some of this could be exposed in the DateTime API if needed
+  69:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+  70:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+  71:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**
+  72:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   Number of days in each month, from January to November. December is not
+  73:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   needed. Omitting it avoids an incompatibility with Paul Stoffregen's Time
+  74:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   library. C.f. https://github.com/adafruit/RTClib/issues/114
+  75:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+  76:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** const uint8_t daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30};
+  77:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+  78:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+  79:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /*!
+  80:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @brief  Given a date, return number of days since 2000/01/01,
+  81:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****             valid for 2000--2099
+  82:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param y Year
+  83:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param m Month
+  84:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param d Day
+  85:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @return Number of days
+  86:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+  87:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+  88:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint16_t date2days(uint16_t y, uint8_t m, uint8_t d) {
+ 307              		.loc 1 88 0
+ 308              		.cfi_startproc
+ 309              		@ args = 0, pretend = 0, frame = 0
+ 310              		@ frame_needed = 0, uses_anonymous_args = 0
+ 311              		@ link register save eliminated.
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 8
+
+
+ 312              	.LVL12:
+ 313 0000 30B4     		push	{r4, r5}
+ 314              		.cfi_def_cfa_offset 8
+ 315              		.cfi_offset 4, -8
+ 316              		.cfi_offset 5, -4
+  89:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   if (y >= 2000)
+ 317              		.loc 1 89 0
+ 318 0002 B0F5FA6F 		cmp	r0, #2000
+ 319 0006 02D3     		bcc	.L22
+  90:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     y -= 2000;
+ 320              		.loc 1 90 0
+ 321 0008 A0F5FA60 		sub	r0, r0, #2000
+ 322              	.LVL13:
+ 323 000c 80B2     		uxth	r0, r0
+ 324              	.LVL14:
+ 325              	.L22:
+  91:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   uint16_t days = d;
+ 326              		.loc 1 91 0
+ 327 000e 92B2     		uxth	r2, r2
+ 328              	.LVL15:
+ 329              	.LBB2:
+  92:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   for (uint8_t i = 1; i < m; ++i)
+ 330              		.loc 1 92 0
+ 331 0010 0123     		movs	r3, #1
+ 332 0012 06E0     		b	.L23
+ 333              	.LVL16:
+ 334              	.L24:
+  93:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     days += pgm_read_byte(daysInMonth + i - 1);
+ 335              		.loc 1 93 0 discriminator 3
+ 336 0014 5C1E     		subs	r4, r3, #1
+ 337 0016 0E4D     		ldr	r5, .L28
+ 338 0018 2C5D     		ldrb	r4, [r5, r4]	@ zero_extendqisi2
+ 339 001a 2244     		add	r2, r2, r4
+ 340              	.LVL17:
+ 341 001c 92B2     		uxth	r2, r2
+ 342              	.LVL18:
+  92:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   for (uint8_t i = 1; i < m; ++i)
+ 343              		.loc 1 92 0 discriminator 3
+ 344 001e 0133     		adds	r3, r3, #1
+ 345              	.LVL19:
+ 346 0020 DBB2     		uxtb	r3, r3
+ 347              	.LVL20:
+ 348              	.L23:
+  92:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   for (uint8_t i = 1; i < m; ++i)
+ 349              		.loc 1 92 0 is_stmt 0 discriminator 1
+ 350 0022 8B42     		cmp	r3, r1
+ 351 0024 F6D3     		bcc	.L24
+ 352              	.LBE2:
+  94:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   if (m > 2 && y % 4 == 0)
+ 353              		.loc 1 94 0 is_stmt 1
+ 354 0026 0229     		cmp	r1, #2
+ 355 0028 04D9     		bls	.L25
+ 356              		.loc 1 94 0 is_stmt 0 discriminator 1
+ 357 002a 10F0030F 		tst	r0, #3
+ 358 002e 01D1     		bne	.L25
+  95:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     ++days;
+ 359              		.loc 1 95 0 is_stmt 1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 9
+
+
+ 360 0030 0132     		adds	r2, r2, #1
+ 361              	.LVL21:
+ 362 0032 92B2     		uxth	r2, r2
+ 363              	.LVL22:
+ 364              	.L25:
+  96:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   return days + 365 * y + (y + 3) / 4 - 1;
+ 365              		.loc 1 96 0
+ 366 0034 C31C     		adds	r3, r0, #3
+ 367              	.LVL23:
+ 368 0036 00EBC001 		add	r1, r0, r0, lsl #3
+ 369              	.LVL24:
+ 370 003a 00EBC100 		add	r0, r0, r1, lsl #3
+ 371              	.LVL25:
+ 372 003e 00EB8000 		add	r0, r0, r0, lsl #2
+ 373 0042 0244     		add	r2, r2, r0
+ 374              	.LVL26:
+ 375 0044 02EBA300 		add	r0, r2, r3, asr #2
+ 376 0048 0138     		subs	r0, r0, #1
+  97:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** }
+ 377              		.loc 1 97 0
+ 378 004a 80B2     		uxth	r0, r0
+ 379 004c 30BC     		pop	{r4, r5}
+ 380              		.cfi_restore 5
+ 381              		.cfi_restore 4
+ 382              		.cfi_def_cfa_offset 0
+ 383 004e 7047     		bx	lr
+ 384              	.L29:
+ 385              		.align	2
+ 386              	.L28:
+ 387 0050 00000000 		.word	.LANCHOR0
+ 388              		.cfi_endproc
+ 389              	.LFE72:
+ 390              		.size	date2days, .-date2days
+ 391              		.section	.text.time2ulong,"ax",%progbits
+ 392              		.align	2
+ 393              		.global	time2ulong
+ 394              		.thumb
+ 395              		.thumb_func
+ 396              		.type	time2ulong, %function
+ 397              	time2ulong:
+ 398              	.LFB73:
+  98:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+  99:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 100:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /*!
+ 101:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @brief  Given a number of days, hours, minutes, and seconds, return the
+ 102:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****    total seconds
+ 103:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param days Days
+ 104:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param h Hours
+ 105:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param m Minutes
+ 106:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param s Seconds
+ 107:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @return Number of seconds total
+ 108:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+ 109:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 110:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint32_t time2ulong(uint16_t days, uint8_t h, uint8_t m, uint8_t s) {
+ 399              		.loc 1 110 0
+ 400              		.cfi_startproc
+ 401              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 10
+
+
+ 402              		@ frame_needed = 0, uses_anonymous_args = 0
+ 403              		@ link register save eliminated.
+ 404              	.LVL27:
+ 405 0000 10B4     		push	{r4}
+ 406              		.cfi_def_cfa_offset 4
+ 407              		.cfi_offset 4, -4
+ 111:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   return ((days * 24UL + h) * 60 + m) * 60 + s;
+ 408              		.loc 1 111 0
+ 409 0002 00EB4000 		add	r0, r0, r0, lsl #1
+ 410              	.LVL28:
+ 411 0006 C400     		lsls	r4, r0, #3
+ 412 0008 2144     		add	r1, r1, r4
+ 413              	.LVL29:
+ 414 000a C1EB0111 		rsb	r1, r1, r1, lsl #4
+ 415 000e 8800     		lsls	r0, r1, #2
+ 416 0010 0244     		add	r2, r2, r0
+ 417              	.LVL30:
+ 418 0012 C2EB0212 		rsb	r2, r2, r2, lsl #4
+ 419 0016 9000     		lsls	r0, r2, #2
+ 112:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** }
+ 420              		.loc 1 112 0
+ 421 0018 1844     		add	r0, r0, r3
+ 422 001a 10BC     		pop	{r4}
+ 423              		.cfi_restore 4
+ 424              		.cfi_def_cfa_offset 0
+ 425 001c 7047     		bx	lr
+ 426              		.cfi_endproc
+ 427              	.LFE73:
+ 428              		.size	time2ulong, .-time2ulong
+ 429 001e 00BF     		.section	.text.dt_fromUnix,"ax",%progbits
+ 430              		.align	2
+ 431              		.global	dt_fromUnix
+ 432              		.thumb
+ 433              		.thumb_func
+ 434              		.type	dt_fromUnix, %function
+ 435              	dt_fromUnix:
+ 436              	.LFB74:
+ 113:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+ 114:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** // these were adapted from DateTime classes to build DateTime structs
+ 115:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 116:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /*!
+ 117:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @brief  Constructor from
+ 118:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         [Unix time](https://en.wikipedia.org/wiki/Unix_time).
+ 119:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     This builds a DateTime from an integer specifying the number of seconds
+ 120:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     elapsed since the epoch: 1970-01-01 00:00:00. This number is analogous
+ 121:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     to Unix time, with two small differences:
+ 122:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****      - The Unix epoch is specified to be at 00:00:00
+ 123:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****        [UTC](https://en.wikipedia.org/wiki/Coordinated_Universal_Time),
+ 124:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****        whereas this class has no notion of time zones. The epoch used in
+ 125:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****        this class is then at 00:00:00 on whatever time zone the user chooses
+ 126:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****        to use, ignoring changes in DST.
+ 127:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****      - Unix time is conventionally represented with signed numbers, whereas
+ 128:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****        this constructor takes an unsigned argument. Because of this, it does
+ 129:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****        _not_ suffer from the
+ 130:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****        [year 2038 problem](https://en.wikipedia.org/wiki/Year_2038_problem).
+ 131:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     If called without argument, it returns the earliest time representable
+ 132:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     by this class: 2000-01-01 00:00:00.
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 11
+
+
+ 133:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @see The `unixtime()` method is the converse of this constructor.
+ 134:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param t Time elapsed in seconds since 1970-01-01 00:00:00.
+ 135:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+ 136:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 137:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** DateTime dt_fromUnix(uint32_t t) {
+ 437              		.loc 1 137 0
+ 438              		.cfi_startproc
+ 439              		@ args = 0, pretend = 0, frame = 0
+ 440              		@ frame_needed = 0, uses_anonymous_args = 0
+ 441              		@ link register save eliminated.
+ 442              	.LVL31:
+ 443 0000 70B4     		push	{r4, r5, r6}
+ 444              		.cfi_def_cfa_offset 12
+ 445              		.cfi_offset 4, -12
+ 446              		.cfi_offset 5, -8
+ 447              		.cfi_offset 6, -4
+ 138:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   t -= SECONDS_FROM_1970_TO_2000; // bring to 2000 timestamp from 1970
+ 448              		.loc 1 138 0
+ 449 0002 294B     		ldr	r3, .L40
+ 450 0004 0B44     		add	r3, r3, r1
+ 451              	.LVL32:
+ 139:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+ 140:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   DateTime dt = {};
+ 452              		.loc 1 140 0
+ 453 0006 0022     		movs	r2, #0
+ 454 0008 0260     		str	r2, [r0]	@ unaligned
+ 141:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   dt.ss = t % 60;
+ 455              		.loc 1 141 0
+ 456 000a 2849     		ldr	r1, .L40+4
+ 457 000c A1FB0325 		umull	r2, r5, r1, r3
+ 458 0010 6D09     		lsrs	r5, r5, #5
+ 459 0012 2C46     		mov	r4, r5
+ 460 0014 C5EB0515 		rsb	r5, r5, r5, lsl #4
+ 461 0018 AA00     		lsls	r2, r5, #2
+ 462 001a 9D1A     		subs	r5, r3, r2
+ 463 001c 4571     		strb	r5, [r0, #5]
+ 464              	.LVL33:
+ 142:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   t /= 60;
+ 143:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   dt.mm = t % 60;
+ 465              		.loc 1 143 0
+ 466 001e A1FB0421 		umull	r2, r1, r1, r4
+ 467 0022 4909     		lsrs	r1, r1, #5
+ 468 0024 C1EB0111 		rsb	r1, r1, r1, lsl #4
+ 469 0028 8A00     		lsls	r2, r1, #2
+ 470 002a A11A     		subs	r1, r4, r2
+ 471 002c 0171     		strb	r1, [r0, #4]
+ 144:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   t /= 60;
+ 472              		.loc 1 144 0
+ 473 002e 204A     		ldr	r2, .L40+8
+ 474 0030 A2FB0312 		umull	r1, r2, r2, r3
+ 475 0034 D20A     		lsrs	r2, r2, #11
+ 476              	.LVL34:
+ 145:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   dt.hh = t % 24;
+ 477              		.loc 1 145 0
+ 478 0036 1F49     		ldr	r1, .L40+12
+ 479 0038 A1FB0241 		umull	r4, r1, r1, r2
+ 480 003c 0909     		lsrs	r1, r1, #4
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 12
+
+
+ 481 003e 01EB4101 		add	r1, r1, r1, lsl #1
+ 482 0042 CC00     		lsls	r4, r1, #3
+ 483 0044 111B     		subs	r1, r2, r4
+ 484 0046 C170     		strb	r1, [r0, #3]
+ 146:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   uint16_t days = t / 24;
+ 485              		.loc 1 146 0
+ 486 0048 1B4C     		ldr	r4, .L40+16
+ 487 004a A4FB0323 		umull	r2, r3, r4, r3
+ 488              	.LVL35:
+ 489 004e 1C0C     		lsrs	r4, r3, #16
+ 490              	.LVL36:
+ 491              	.L34:
+ 147:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   uint8_t leap;
+ 148:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   for (dt.yOff = 0;; ++dt.yOff) {
+ 149:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     leap = dt.yOff % 4 == 0;
+ 492              		.loc 1 149 0
+ 493 0050 0278     		ldrb	r2, [r0]	@ zero_extendqisi2
+ 494 0052 12F00306 		ands	r6, r2, #3
+ 495 0056 0CBF     		ite	eq
+ 496 0058 0123     		moveq	r3, #1
+ 497 005a 0023     		movne	r3, #0
+ 498              	.LVL37:
+ 150:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     if (days < 365U + leap)
+ 499              		.loc 1 150 0
+ 500 005c 03F26D11 		addw	r1, r3, #365
+ 501 0060 8C42     		cmp	r4, r1
+ 502 0062 07D3     		bcc	.L33
+ 151:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****       break;
+ 152:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     days -= 365 + leap;
+ 503              		.loc 1 152 0
+ 504 0064 E31A     		subs	r3, r4, r3
+ 505              	.LVL38:
+ 506 0066 9BB2     		uxth	r3, r3
+ 507 0068 A3F26D13 		subw	r3, r3, #365
+ 508 006c 9CB2     		uxth	r4, r3
+ 509              	.LVL39:
+ 148:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     leap = dt.yOff % 4 == 0;
+ 510              		.loc 1 148 0
+ 511 006e 0132     		adds	r2, r2, #1
+ 512 0070 0270     		strb	r2, [r0]
+ 153:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   }
+ 513              		.loc 1 153 0
+ 514 0072 EDE7     		b	.L34
+ 515              	.LVL40:
+ 516              	.L33:
+ 154:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   for (dt.m = 1; dt.m < 12; ++dt.m) {
+ 517              		.loc 1 154 0
+ 518 0074 0123     		movs	r3, #1
+ 519              	.LVL41:
+ 520 0076 4370     		strb	r3, [r0, #1]
+ 521 0078 0EE0     		b	.L35
+ 522              	.LVL42:
+ 523              	.L38:
+ 524              	.LBB3:
+ 155:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     uint8_t daysPerMonth = pgm_read_byte(daysInMonth + dt.m - 1);
+ 525              		.loc 1 155 0
+ 526 007a 6B1E     		subs	r3, r5, #1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 13
+
+
+ 527 007c 0F4A     		ldr	r2, .L40+20
+ 528 007e D25C     		ldrb	r2, [r2, r3]	@ zero_extendqisi2
+ 529              	.LVL43:
+ 156:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     if (leap && dt.m == 2)
+ 530              		.loc 1 156 0
+ 531 0080 1EB9     		cbnz	r6, .L36
+ 532              		.loc 1 156 0 is_stmt 0 discriminator 1
+ 533 0082 022D     		cmp	r5, #2
+ 534 0084 01D1     		bne	.L36
+ 157:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****       ++daysPerMonth;
+ 535              		.loc 1 157 0 is_stmt 1
+ 536 0086 511C     		adds	r1, r2, #1
+ 537 0088 CAB2     		uxtb	r2, r1
+ 538              	.LVL44:
+ 539              	.L36:
+ 158:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     if (days < daysPerMonth)
+ 540              		.loc 1 158 0
+ 541 008a 92B2     		uxth	r2, r2
+ 542              	.LVL45:
+ 543 008c 9442     		cmp	r4, r2
+ 544 008e 06D3     		bcc	.L37
+ 159:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****       break;
+ 160:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     days -= daysPerMonth;
+ 545              		.loc 1 160 0 discriminator 2
+ 546 0090 A31A     		subs	r3, r4, r2
+ 547 0092 9CB2     		uxth	r4, r3
+ 548              	.LVL46:
+ 549              	.LBE3:
+ 154:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     uint8_t daysPerMonth = pgm_read_byte(daysInMonth + dt.m - 1);
+ 550              		.loc 1 154 0 discriminator 2
+ 551 0094 0135     		adds	r5, r5, #1
+ 552 0096 4570     		strb	r5, [r0, #1]
+ 553              	.L35:
+ 154:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     uint8_t daysPerMonth = pgm_read_byte(daysInMonth + dt.m - 1);
+ 554              		.loc 1 154 0 is_stmt 0 discriminator 1
+ 555 0098 4578     		ldrb	r5, [r0, #1]	@ zero_extendqisi2
+ 556 009a 0B2D     		cmp	r5, #11
+ 557 009c EDD9     		bls	.L38
+ 558              	.L37:
+ 161:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   }
+ 162:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   dt.d = days + 1;
+ 559              		.loc 1 162 0 is_stmt 1
+ 560 009e 631C     		adds	r3, r4, #1
+ 561 00a0 8370     		strb	r3, [r0, #2]
+ 163:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+ 164:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   return dt;
+ 165:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** }
+ 562              		.loc 1 165 0
+ 563 00a2 70BC     		pop	{r4, r5, r6}
+ 564              		.cfi_restore 6
+ 565              		.cfi_restore 5
+ 566              		.cfi_restore 4
+ 567              		.cfi_def_cfa_offset 0
+ 568              	.LVL47:
+ 569 00a4 7047     		bx	lr
+ 570              	.L41:
+ 571 00a6 00BF     		.align	2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 14
+
+
+ 572              	.L40:
+ 573 00a8 80BC92C7 		.word	-946684800
+ 574 00ac 89888888 		.word	-2004318071
+ 575 00b0 C5B3A291 		.word	-1851608123
+ 576 00b4 ABAAAAAA 		.word	-1431655765
+ 577 00b8 07452EC2 		.word	-1037155065
+ 578 00bc 00000000 		.word	.LANCHOR0
+ 579              		.cfi_endproc
+ 580              	.LFE74:
+ 581              		.size	dt_fromUnix, .-dt_fromUnix
+ 582              		.section	.text.dt_fromYMD,"ax",%progbits
+ 583              		.align	2
+ 584              		.global	dt_fromYMD
+ 585              		.thumb
+ 586              		.thumb_func
+ 587              		.type	dt_fromYMD, %function
+ 588              	dt_fromYMD:
+ 589              	.LFB75:
+ 166:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+ 167:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 168:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /*!
+ 169:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @brief  Constructor from (year, month, day, hour, minute, second).
+ 170:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @warning If the provided parameters are not valid (e.g. 31 February),
+ 171:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****            the constructed DateTime will be invalid.
+ 172:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @see   The `isValid()` method can be used to test whether the
+ 173:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****            constructed DateTime is valid.
+ 174:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param year Either the full year (range: 2000--2099) or the offset from
+ 175:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         year 2000 (range: 0--99).
+ 176:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param month Month number (1--12).
+ 177:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param day Day of the month (1--31).
+ 178:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param hour,min,sec Hour (0--23), minute (0--59) and second (0--59).
+ 179:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+ 180:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 181:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** DateTime dt_fromYMD(uint16_t year, uint8_t month, uint8_t day, uint8_t hour,
+ 182:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****                    uint8_t min, uint8_t sec) {
+ 590              		.loc 1 182 0
+ 591              		.cfi_startproc
+ 592              		@ args = 12, pretend = 0, frame = 0
+ 593              		@ frame_needed = 0, uses_anonymous_args = 0
+ 594              		@ link register save eliminated.
+ 595              	.LVL48:
+ 596 0000 10B4     		push	{r4}
+ 597              		.cfi_def_cfa_offset 4
+ 598              		.cfi_offset 4, -4
+ 183:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   DateTime dt = {};
+ 599              		.loc 1 183 0
+ 600 0002 0024     		movs	r4, #0
+ 601 0004 0460     		str	r4, [r0]	@ unaligned
+ 602 0006 8480     		strh	r4, [r0, #4]	@ unaligned
+ 184:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   if (year >= 2000)
+ 603              		.loc 1 184 0
+ 604 0008 B1F5FA6F 		cmp	r1, #2000
+ 605 000c 02D3     		bcc	.L43
+ 185:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     year -= 2000;
+ 606              		.loc 1 185 0
+ 607 000e A1F5FA61 		sub	r1, r1, #2000
+ 608              	.LVL49:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 15
+
+
+ 609 0012 89B2     		uxth	r1, r1
+ 610              	.LVL50:
+ 611              	.L43:
+ 186:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   dt.yOff = year;
+ 612              		.loc 1 186 0
+ 613 0014 0170     		strb	r1, [r0]
+ 187:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   dt.m = month;
+ 614              		.loc 1 187 0
+ 615 0016 4270     		strb	r2, [r0, #1]
+ 188:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   dt.d = day;
+ 616              		.loc 1 188 0
+ 617 0018 8370     		strb	r3, [r0, #2]
+ 189:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   dt.hh = hour;
+ 618              		.loc 1 189 0
+ 619 001a 9DF80430 		ldrb	r3, [sp, #4]	@ zero_extendqisi2
+ 620              	.LVL51:
+ 621 001e C370     		strb	r3, [r0, #3]
+ 190:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   dt.mm = min;
+ 622              		.loc 1 190 0
+ 623 0020 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+ 624 0024 0371     		strb	r3, [r0, #4]
+ 191:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   dt.ss = sec;
+ 625              		.loc 1 191 0
+ 626 0026 9DF80C30 		ldrb	r3, [sp, #12]	@ zero_extendqisi2
+ 627 002a 4371     		strb	r3, [r0, #5]
+ 192:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   return dt;
+ 193:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** }
+ 628              		.loc 1 193 0
+ 629 002c 10BC     		pop	{r4}
+ 630              		.cfi_restore 4
+ 631              		.cfi_def_cfa_offset 0
+ 632              	.LVL52:
+ 633 002e 7047     		bx	lr
+ 634              		.cfi_endproc
+ 635              	.LFE75:
+ 636              		.size	dt_fromYMD, .-dt_fromYMD
+ 637              		.section	.text.dt_getUnixtime,"ax",%progbits
+ 638              		.align	2
+ 639              		.global	dt_getUnixtime
+ 640              		.thumb
+ 641              		.thumb_func
+ 642              		.type	dt_getUnixtime, %function
+ 643              	dt_getUnixtime:
+ 644              	.LFB76:
+ 194:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****                
+ 195:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 196:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /*!
+ 197:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @brief  Return Unix time: seconds since 1 Jan 1970.
+ 198:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @see The `DateTime::DateTime(uint32_t)` constructor is the converse of
+ 199:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         this method.
+ 200:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @return Number of seconds since 1970-01-01 00:00:00.
+ 201:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+ 202:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 203:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint32_t dt_getUnixtime(DateTime dt) {
+ 645              		.loc 1 203 0
+ 646              		.cfi_startproc
+ 647              		@ args = 0, pretend = 0, frame = 8
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 16
+
+
+ 648              		@ frame_needed = 0, uses_anonymous_args = 0
+ 649 0000 00B5     		push	{lr}
+ 650              		.cfi_def_cfa_offset 4
+ 651              		.cfi_offset 14, -4
+ 652 0002 83B0     		sub	sp, sp, #12
+ 653              		.cfi_def_cfa_offset 16
+ 654 0004 02AB     		add	r3, sp, #8
+ 655 0006 03E90300 		stmdb	r3, {r0, r1}
+ 204:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   uint32_t t;
+ 205:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   uint16_t days = date2days(dt.yOff, dt.m, dt.d);
+ 656              		.loc 1 205 0
+ 657 000a 9DF80220 		ldrb	r2, [sp, #2]	@ zero_extendqisi2
+ 658 000e 9DF80110 		ldrb	r1, [sp, #1]	@ zero_extendqisi2
+ 659 0012 9DF80000 		ldrb	r0, [sp]	@ zero_extendqisi2
+ 660 0016 FFF7FEFF 		bl	date2days
+ 661              	.LVL53:
+ 206:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   t = time2ulong(days, dt.hh, dt.mm, dt.ss);
+ 662              		.loc 1 206 0
+ 663 001a 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
+ 664 001e 9DF80420 		ldrb	r2, [sp, #4]	@ zero_extendqisi2
+ 665 0022 9DF80310 		ldrb	r1, [sp, #3]	@ zero_extendqisi2
+ 666 0026 FFF7FEFF 		bl	time2ulong
+ 667              	.LVL54:
+ 207:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   t += SECONDS_FROM_1970_TO_2000; // seconds from 1970 to 2000
+ 208:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+ 209:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   return t;
+ 210:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** }
+ 668              		.loc 1 210 0
+ 669 002a 00F16150 		add	r0, r0, #943718400
+ 670              	.LVL55:
+ 671 002e 00F53510 		add	r0, r0, #2965504
+ 672              	.LVL56:
+ 673 0032 00F56070 		add	r0, r0, #896
+ 674              	.LVL57:
+ 675 0036 03B0     		add	sp, sp, #12
+ 676              		.cfi_def_cfa_offset 4
+ 677              		@ sp needed
+ 678 0038 5DF804FB 		ldr	pc, [sp], #4
+ 679              		.cfi_endproc
+ 680              	.LFE76:
+ 681              		.size	dt_getUnixtime, .-dt_getUnixtime
+ 682              		.section	.text.dt_getSecondstime,"ax",%progbits
+ 683              		.align	2
+ 684              		.global	dt_getSecondstime
+ 685              		.thumb
+ 686              		.thumb_func
+ 687              		.type	dt_getSecondstime, %function
+ 688              	dt_getSecondstime:
+ 689              	.LFB77:
+ 211:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+ 212:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 213:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /*!
+ 214:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @brief  Convert the DateTime to seconds since 1 Jan 2000
+ 215:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     The result can be converted back to a DateTime with:
+ 216:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     ```cpp
+ 217:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     DateTime(SECONDS_FROM_1970_TO_2000 + value)
+ 218:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     ```
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 17
+
+
+ 219:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @return Number of seconds since 2000-01-01 00:00:00.
+ 220:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+ 221:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 222:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint32_t dt_getSecondstime(DateTime dt) {
+ 690              		.loc 1 222 0
+ 691              		.cfi_startproc
+ 692              		@ args = 0, pretend = 0, frame = 8
+ 693              		@ frame_needed = 0, uses_anonymous_args = 0
+ 694 0000 00B5     		push	{lr}
+ 695              		.cfi_def_cfa_offset 4
+ 696              		.cfi_offset 14, -4
+ 697 0002 83B0     		sub	sp, sp, #12
+ 698              		.cfi_def_cfa_offset 16
+ 699 0004 02AB     		add	r3, sp, #8
+ 700 0006 03E90300 		stmdb	r3, {r0, r1}
+ 223:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   uint32_t t;
+ 224:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   uint16_t days = date2days(dt.yOff, dt.m, dt.d);
+ 701              		.loc 1 224 0
+ 702 000a 9DF80220 		ldrb	r2, [sp, #2]	@ zero_extendqisi2
+ 703 000e 9DF80110 		ldrb	r1, [sp, #1]	@ zero_extendqisi2
+ 704 0012 9DF80000 		ldrb	r0, [sp]	@ zero_extendqisi2
+ 705 0016 FFF7FEFF 		bl	date2days
+ 706              	.LVL58:
+ 225:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   t = time2ulong(days, dt.hh, dt.mm, dt.ss);
+ 707              		.loc 1 225 0
+ 708 001a 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
+ 709 001e 9DF80420 		ldrb	r2, [sp, #4]	@ zero_extendqisi2
+ 710 0022 9DF80310 		ldrb	r1, [sp, #3]	@ zero_extendqisi2
+ 711 0026 FFF7FEFF 		bl	time2ulong
+ 712              	.LVL59:
+ 226:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****   return t;
+ 227:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** }
+ 713              		.loc 1 227 0
+ 714 002a 03B0     		add	sp, sp, #12
+ 715              		.cfi_def_cfa_offset 4
+ 716              		@ sp needed
+ 717 002c 5DF804FB 		ldr	pc, [sp], #4
+ 718              		.cfi_endproc
+ 719              	.LFE77:
+ 720              		.size	dt_getSecondstime, .-dt_getSecondstime
+ 721              		.section	.text.bcd2bin,"ax",%progbits
+ 722              		.align	2
+ 723              		.global	bcd2bin
+ 724              		.thumb
+ 725              		.thumb_func
+ 726              		.type	bcd2bin, %function
+ 727              	bcd2bin:
+ 728              	.LFB78:
+ 228:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+ 229:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 230:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /*!
+ 231:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @brief  Convert a binary coded decimal value to binary. RTC stores time/date
+ 232:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****    values as BCD.
+ 233:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param val BCD value
+ 234:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @return Binary value
+ 235:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+ 236:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 18
+
+
+ 237:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint8_t bcd2bin(uint8_t val) { return val - 6 * (val >> 4); }
+ 729              		.loc 1 237 0
+ 730              		.cfi_startproc
+ 731              		@ args = 0, pretend = 0, frame = 0
+ 732              		@ frame_needed = 0, uses_anonymous_args = 0
+ 733              		@ link register save eliminated.
+ 734              	.LVL60:
+ 735              		.loc 1 237 0
+ 736 0000 0309     		lsrs	r3, r0, #4
+ 737 0002 A3EB8303 		sub	r3, r3, r3, lsl #2
+ 738 0006 5A00     		lsls	r2, r3, #1
+ 739 0008 1044     		add	r0, r0, r2
+ 740              	.LVL61:
+ 741 000a C0B2     		uxtb	r0, r0
+ 742 000c 7047     		bx	lr
+ 743              		.cfi_endproc
+ 744              	.LFE78:
+ 745              		.size	bcd2bin, .-bcd2bin
+ 746 000e 00BF     		.section	.text.bin2bcd,"ax",%progbits
+ 747              		.align	2
+ 748              		.global	bin2bcd
+ 749              		.thumb
+ 750              		.thumb_func
+ 751              		.type	bin2bcd, %function
+ 752              	bin2bcd:
+ 753              	.LFB79:
+ 238:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+ 239:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 240:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /*!
+ 241:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @brief  Convert a binary value to BCD format for the RTC registers
+ 242:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param val Binary value
+ 243:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @return BCD value
+ 244:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+ 245:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 246:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** uint8_t bin2bcd(uint8_t val) { return val + 6 * (val / 10); }
+ 754              		.loc 1 246 0
+ 755              		.cfi_startproc
+ 756              		@ args = 0, pretend = 0, frame = 0
+ 757              		@ frame_needed = 0, uses_anonymous_args = 0
+ 758              		@ link register save eliminated.
+ 759              	.LVL62:
+ 760              		.loc 1 246 0
+ 761 0000 044B     		ldr	r3, .L51
+ 762 0002 A3FB0023 		umull	r2, r3, r3, r0
+ 763 0006 DB08     		lsrs	r3, r3, #3
+ 764 0008 03EB4303 		add	r3, r3, r3, lsl #1
+ 765 000c 5A00     		lsls	r2, r3, #1
+ 766 000e 1044     		add	r0, r0, r2
+ 767              	.LVL63:
+ 768 0010 C0B2     		uxtb	r0, r0
+ 769 0012 7047     		bx	lr
+ 770              	.L52:
+ 771              		.align	2
+ 772              	.L51:
+ 773 0014 CDCCCCCC 		.word	-858993459
+ 774              		.cfi_endproc
+ 775              	.LFE79:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 19
+
+
+ 776              		.size	bin2bcd, .-bin2bcd
+ 777              		.section	.text.RTC_setTime,"ax",%progbits
+ 778              		.align	2
+ 779              		.global	RTC_setTime
+ 780              		.thumb
+ 781              		.thumb_func
+ 782              		.type	RTC_setTime, %function
+ 783              	RTC_setTime:
+ 784              	.LFB80:
+ 247:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+ 248:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** // DS3231 stuff!
+ 249:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 250:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /*!
+ 251:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @brief  Set the date and flip the Oscillator Stop Flag
+ 252:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @param dt DateTime object containing the date/time to set
+ 253:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+ 254:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 255:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** void RTC_setTime(DateTime dt) {
+ 785              		.loc 1 255 0
+ 786              		.cfi_startproc
+ 787              		@ args = 0, pretend = 0, frame = 16
+ 788              		@ frame_needed = 0, uses_anonymous_args = 0
+ 789 0000 30B5     		push	{r4, r5, lr}
+ 790              		.cfi_def_cfa_offset 12
+ 791              		.cfi_offset 4, -12
+ 792              		.cfi_offset 5, -8
+ 793              		.cfi_offset 14, -4
+ 794 0002 85B0     		sub	sp, sp, #20
+ 795              		.cfi_def_cfa_offset 32
+ 796 0004 8DE80300 		stmia	sp, {r0, r1}
+ 256:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     //I2CRTC_MasterSendStart(DS3231_ADDRESS,0); // send write command to addr
+ 257:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     //I2CRTC_MasterWriteByte(DS3231_TIME);// start at location 0
+ 258:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     uint8 tx_buff[8] = {
+ 797              		.loc 1 258 0
+ 798 0008 0025     		movs	r5, #0
+ 799 000a 8DF80850 		strb	r5, [sp, #8]
+ 259:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         0,
+ 260:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         bin2bcd(dt_getSecond(dt)),
+ 800              		.loc 1 260 0
+ 801 000e 9DE80300 		ldmia	sp, {r0, r1}
+ 802 0012 FFF7FEFF 		bl	dt_getSecond
+ 803              	.LVL64:
+ 804 0016 FFF7FEFF 		bl	bin2bcd
+ 805              	.LVL65:
+ 258:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         0,
+ 806              		.loc 1 258 0
+ 807 001a 8DF80900 		strb	r0, [sp, #9]
+ 261:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         bin2bcd(dt_getMinute(dt)),
+ 808              		.loc 1 261 0
+ 809 001e 9DE80300 		ldmia	sp, {r0, r1}
+ 810 0022 FFF7FEFF 		bl	dt_getMinute
+ 811              	.LVL66:
+ 812 0026 FFF7FEFF 		bl	bin2bcd
+ 813              	.LVL67:
+ 258:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         0,
+ 814              		.loc 1 258 0
+ 815 002a 8DF80A00 		strb	r0, [sp, #10]
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 20
+
+
+ 262:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         bin2bcd(dt_getHour(dt)),
+ 816              		.loc 1 262 0
+ 817 002e 9DE80300 		ldmia	sp, {r0, r1}
+ 818 0032 FFF7FEFF 		bl	dt_getHour
+ 819              	.LVL68:
+ 820 0036 FFF7FEFF 		bl	bin2bcd
+ 821              	.LVL69:
+ 258:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         0,
+ 822              		.loc 1 258 0
+ 823 003a 8DF80B00 		strb	r0, [sp, #11]
+ 824 003e 8DF80C50 		strb	r5, [sp, #12]
+ 263:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         0,
+ 264:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         bin2bcd(dt_getDay(dt)),
+ 825              		.loc 1 264 0
+ 826 0042 9DE80300 		ldmia	sp, {r0, r1}
+ 827 0046 FFF7FEFF 		bl	dt_getDay
+ 828              	.LVL70:
+ 829 004a FFF7FEFF 		bl	bin2bcd
+ 830              	.LVL71:
+ 258:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         0,
+ 831              		.loc 1 258 0
+ 832 004e 8DF80D00 		strb	r0, [sp, #13]
+ 265:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         bin2bcd(dt_getMonth(dt)),
+ 833              		.loc 1 265 0
+ 834 0052 9DE80300 		ldmia	sp, {r0, r1}
+ 835 0056 FFF7FEFF 		bl	dt_getMonth
+ 836              	.LVL72:
+ 837 005a FFF7FEFF 		bl	bin2bcd
+ 838              	.LVL73:
+ 258:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         0,
+ 839              		.loc 1 258 0
+ 840 005e 8DF80E00 		strb	r0, [sp, #14]
+ 266:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         bin2bcd(dt_getYear(dt)-2000),
+ 841              		.loc 1 266 0
+ 842 0062 9DE80300 		ldmia	sp, {r0, r1}
+ 843 0066 FFF7FEFF 		bl	dt_getYear
+ 844              	.LVL74:
+ 845 006a 3030     		adds	r0, r0, #48
+ 846 006c C0B2     		uxtb	r0, r0
+ 847 006e FFF7FEFF 		bl	bin2bcd
+ 848              	.LVL75:
+ 258:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****         0,
+ 849              		.loc 1 258 0
+ 850 0072 8DF80F00 		strb	r0, [sp, #15]
+ 267:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     };
+ 268:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     I2CRTC_MasterWriteBuf(DS3231_ADDRESS,tx_buff,8,I2CRTC_MODE_COMPLETE_XFER );   // Send read star
+ 851              		.loc 1 268 0
+ 852 0076 2B46     		mov	r3, r5
+ 853 0078 0822     		movs	r2, #8
+ 854 007a 0DEB0201 		add	r1, sp, r2
+ 855 007e 6820     		movs	r0, #104
+ 856 0080 FFF7FEFF 		bl	I2CRTC_MasterWriteBuf
+ 857              	.LVL76:
+ 858              	.L54:
+ 269:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     while(0u == (I2CRTC_MasterStatus() & I2CRTC_MSTAT_WR_CMPLT));      // Waiting for writing
+ 859              		.loc 1 269 0 discriminator 1
+ 860 0084 FFF7FEFF 		bl	I2CRTC_MasterStatus
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 21
+
+
+ 861              	.LVL77:
+ 862 0088 10F0020F 		tst	r0, #2
+ 863 008c FAD0     		beq	.L54
+ 270:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     I2CRTC_MasterClearStatus(); 
+ 864              		.loc 1 270 0
+ 865 008e FFF7FEFF 		bl	I2CRTC_MasterClearStatus
+ 866              	.LVL78:
+ 271:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** }
+ 867              		.loc 1 271 0
+ 868 0092 05B0     		add	sp, sp, #20
+ 869              		.cfi_def_cfa_offset 12
+ 870              		@ sp needed
+ 871 0094 30BD     		pop	{r4, r5, pc}
+ 872              		.cfi_endproc
+ 873              	.LFE80:
+ 874              		.size	RTC_setTime, .-RTC_setTime
+ 875 0096 00BF     		.section	.text.RTC_now,"ax",%progbits
+ 876              		.align	2
+ 877              		.global	RTC_now
+ 878              		.thumb
+ 879              		.thumb_func
+ 880              		.type	RTC_now, %function
+ 881              	RTC_now:
+ 882              	.LFB81:
+ 272:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+ 273:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 274:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /*!
+ 275:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @brief  Get the current date/time
+ 276:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     @return DateTime object with the current date/time
+ 277:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** */
+ 278:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** /**************************************************************************/
+ 279:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** DateTime RTC_now() {
+ 883              		.loc 1 279 0
+ 884              		.cfi_startproc
+ 885              		@ args = 0, pretend = 0, frame = 8
+ 886              		@ frame_needed = 0, uses_anonymous_args = 0
+ 887              	.LVL79:
+ 888 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 889              		.cfi_def_cfa_offset 32
+ 890              		.cfi_offset 4, -32
+ 891              		.cfi_offset 5, -28
+ 892              		.cfi_offset 6, -24
+ 893              		.cfi_offset 7, -20
+ 894              		.cfi_offset 8, -16
+ 895              		.cfi_offset 9, -12
+ 896              		.cfi_offset 10, -8
+ 897              		.cfi_offset 14, -4
+ 898 0004 82B0     		sub	sp, sp, #8
+ 899              		.cfi_def_cfa_offset 40
+ 900 0006 0446     		mov	r4, r0
+ 280:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     uint8 tx_buff[1] = {0};
+ 901              		.loc 1 280 0
+ 902 0008 0023     		movs	r3, #0
+ 903 000a 02A9     		add	r1, sp, #8
+ 904 000c 01F8043D 		strb	r3, [r1, #-4]!
+ 281:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     I2CRTC_MasterWriteBuf(DS3231_ADDRESS,tx_buff,1,I2CRTC_MODE_COMPLETE_XFER );   // Send read star
+ 905              		.loc 1 281 0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 22
+
+
+ 906 0010 0122     		movs	r2, #1
+ 907 0012 6820     		movs	r0, #104
+ 908              	.LVL80:
+ 909 0014 FFF7FEFF 		bl	I2CRTC_MasterWriteBuf
+ 910              	.LVL81:
+ 911              	.L57:
+ 282:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     while(0u == (I2CRTC_MasterStatus() & I2CRTC_MSTAT_WR_CMPLT));      // Waiting for writing
+ 912              		.loc 1 282 0 discriminator 1
+ 913 0018 FFF7FEFF 		bl	I2CRTC_MasterStatus
+ 914              	.LVL82:
+ 915 001c 10F0020F 		tst	r0, #2
+ 916 0020 FAD0     		beq	.L57
+ 283:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     I2CRTC_MasterClearStatus();  
+ 917              		.loc 1 283 0
+ 918 0022 FFF7FEFF 		bl	I2CRTC_MasterClearStatus
+ 919              	.LVL83:
+ 284:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     
+ 285:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     I2CRTC_MasterReadBuf(DS3231_ADDRESS, RTC_read_buff, 7, I2CRTC_MODE_COMPLETE_XFER);
+ 920              		.loc 1 285 0
+ 921 0026 0023     		movs	r3, #0
+ 922 0028 0722     		movs	r2, #7
+ 923 002a 1A49     		ldr	r1, .L60
+ 924 002c 6820     		movs	r0, #104
+ 925 002e FFF7FEFF 		bl	I2CRTC_MasterReadBuf
+ 926              	.LVL84:
+ 927              	.L58:
+ 286:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     while(0u == (I2CRTC_MasterStatus() & I2CRTC_MSTAT_RD_CMPLT));      // Wait for read to finish
+ 928              		.loc 1 286 0 discriminator 1
+ 929 0032 FFF7FEFF 		bl	I2CRTC_MasterStatus
+ 930              	.LVL85:
+ 931 0036 10F0010F 		tst	r0, #1
+ 932 003a FAD0     		beq	.L58
+ 287:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     I2CRTC_MasterClearStatus();
+ 933              		.loc 1 287 0
+ 934 003c FFF7FEFF 		bl	I2CRTC_MasterClearStatus
+ 935              	.LVL86:
+ 288:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     
+ 289:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     uint8_t ss = bcd2bin(RTC_read_buff[0] & 0x7F);
+ 936              		.loc 1 289 0
+ 937 0040 144D     		ldr	r5, .L60
+ 938 0042 2878     		ldrb	r0, [r5]	@ zero_extendqisi2
+ 939 0044 00F07F00 		and	r0, r0, #127
+ 940 0048 FFF7FEFF 		bl	bcd2bin
+ 941              	.LVL87:
+ 942 004c 0646     		mov	r6, r0
+ 943              	.LVL88:
+ 290:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     uint8_t mm = bcd2bin(RTC_read_buff[1]);
+ 944              		.loc 1 290 0
+ 945 004e 6878     		ldrb	r0, [r5, #1]	@ zero_extendqisi2
+ 946 0050 FFF7FEFF 		bl	bcd2bin
+ 947              	.LVL89:
+ 948 0054 0746     		mov	r7, r0
+ 949              	.LVL90:
+ 291:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     uint8_t hh = bcd2bin(RTC_read_buff[2]);
+ 950              		.loc 1 291 0
+ 951 0056 A878     		ldrb	r0, [r5, #2]	@ zero_extendqisi2
+ 952 0058 FFF7FEFF 		bl	bcd2bin
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 23
+
+
+ 953              	.LVL91:
+ 954 005c 8046     		mov	r8, r0
+ 955              	.LVL92:
+ 292:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     uint8_t d = bcd2bin(RTC_read_buff[4]);
+ 956              		.loc 1 292 0
+ 957 005e 2879     		ldrb	r0, [r5, #4]	@ zero_extendqisi2
+ 958 0060 FFF7FEFF 		bl	bcd2bin
+ 959              	.LVL93:
+ 960 0064 8146     		mov	r9, r0
+ 961              	.LVL94:
+ 293:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     uint8_t m = bcd2bin(RTC_read_buff[5]);
+ 962              		.loc 1 293 0
+ 963 0066 6879     		ldrb	r0, [r5, #5]	@ zero_extendqisi2
+ 964 0068 FFF7FEFF 		bl	bcd2bin
+ 965              	.LVL95:
+ 966 006c 8246     		mov	r10, r0
+ 967              	.LVL96:
+ 294:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     uint16_t yOff = bcd2bin(RTC_read_buff[6]);
+ 968              		.loc 1 294 0
+ 969 006e A879     		ldrb	r0, [r5, #6]	@ zero_extendqisi2
+ 970 0070 FFF7FEFF 		bl	bcd2bin
+ 971              	.LVL97:
+ 972 0074 0546     		mov	r5, r0
+ 973              	.LVL98:
+ 295:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     I2CRTC_MasterClearReadBuf();
+ 974              		.loc 1 295 0
+ 975 0076 FFF7FEFF 		bl	I2CRTC_MasterClearReadBuf
+ 976              	.LVL99:
+ 296:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** 
+ 297:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     DateTime dt = {yOff, m, d, hh, mm, ss};
+ 977              		.loc 1 297 0
+ 978 007a 2570     		strb	r5, [r4]
+ 979 007c 84F801A0 		strb	r10, [r4, #1]
+ 980 0080 84F80290 		strb	r9, [r4, #2]
+ 981 0084 84F80380 		strb	r8, [r4, #3]
+ 982 0088 2771     		strb	r7, [r4, #4]
+ 983 008a 6671     		strb	r6, [r4, #5]
+ 298:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c ****     return dt;
+ 299:..\..\..\..\..\..\development\hardware\DS3231-PSoC/ds3231.c **** }
+ 984              		.loc 1 299 0
+ 985 008c 2046     		mov	r0, r4
+ 986 008e 02B0     		add	sp, sp, #8
+ 987              		.cfi_def_cfa_offset 32
+ 988              		@ sp needed
+ 989 0090 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 990              	.LVL100:
+ 991              	.L61:
+ 992              		.align	2
+ 993              	.L60:
+ 994 0094 00000000 		.word	RTC_read_buff
+ 995              		.cfi_endproc
+ 996              	.LFE81:
+ 997              		.size	RTC_now, .-RTC_now
+ 998              		.global	daysInMonth
+ 999              		.comm	RTC_read_buff,10,4
+ 1000              		.section	.rodata
+ 1001              		.align	2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 24
+
+
+ 1002              		.set	.LANCHOR0,. + 0
+ 1003              		.type	daysInMonth, %object
+ 1004              		.size	daysInMonth, 11
+ 1005              	daysInMonth:
+ 1006 0000 1F       		.byte	31
+ 1007 0001 1C       		.byte	28
+ 1008 0002 1F       		.byte	31
+ 1009 0003 1E       		.byte	30
+ 1010 0004 1F       		.byte	31
+ 1011 0005 1E       		.byte	30
+ 1012 0006 1F       		.byte	31
+ 1013 0007 1F       		.byte	31
+ 1014 0008 1E       		.byte	30
+ 1015 0009 1F       		.byte	31
+ 1016 000a 1E       		.byte	30
+ 1017              		.text
+ 1018              	.Letext0:
+ 1019              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1020              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1021              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 1022              		.file 5 "..\\..\\..\\..\\..\\..\\development\\hardware\\DS3231-PSoC/ds3231.h"
+ 1023              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 1024              		.file 7 "Generated_Source\\PSoC5/I2CRTC.h"
+ 1025              		.section	.debug_info,"",%progbits
+ 1026              	.Ldebug_info0:
+ 1027 0000 5F090000 		.4byte	0x95f
+ 1028 0004 0400     		.2byte	0x4
+ 1029 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1030 000a 04       		.byte	0x4
+ 1031 000b 01       		.uleb128 0x1
+ 1032 000c 62020000 		.4byte	.LASF63
+ 1033 0010 0C       		.byte	0xc
+ 1034 0011 F5020000 		.4byte	.LASF64
+ 1035 0015 11000000 		.4byte	.LASF65
+ 1036 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1037 001d 00000000 		.4byte	0
+ 1038 0021 00000000 		.4byte	.Ldebug_line0
+ 1039 0025 02       		.uleb128 0x2
+ 1040 0026 08       		.byte	0x8
+ 1041 0027 07       		.byte	0x7
+ 1042 0028 BD010000 		.4byte	.LASF0
+ 1043 002c 02       		.uleb128 0x2
+ 1044 002d 04       		.byte	0x4
+ 1045 002e 07       		.byte	0x7
+ 1046 002f E8010000 		.4byte	.LASF1
+ 1047 0033 02       		.uleb128 0x2
+ 1048 0034 01       		.byte	0x1
+ 1049 0035 06       		.byte	0x6
+ 1050 0036 A5010000 		.4byte	.LASF2
+ 1051 003a 03       		.uleb128 0x3
+ 1052 003b 31010000 		.4byte	.LASF5
+ 1053 003f 02       		.byte	0x2
+ 1054 0040 1D       		.byte	0x1d
+ 1055 0041 45000000 		.4byte	0x45
+ 1056 0045 02       		.uleb128 0x2
+ 1057 0046 01       		.byte	0x1
+ 1058 0047 08       		.byte	0x8
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 25
+
+
+ 1059 0048 6D010000 		.4byte	.LASF3
+ 1060 004c 02       		.uleb128 0x2
+ 1061 004d 02       		.byte	0x2
+ 1062 004e 05       		.byte	0x5
+ 1063 004f 80000000 		.4byte	.LASF4
+ 1064 0053 03       		.uleb128 0x3
+ 1065 0054 B0000000 		.4byte	.LASF6
+ 1066 0058 02       		.byte	0x2
+ 1067 0059 2B       		.byte	0x2b
+ 1068 005a 5E000000 		.4byte	0x5e
+ 1069 005e 02       		.uleb128 0x2
+ 1070 005f 02       		.byte	0x2
+ 1071 0060 07       		.byte	0x7
+ 1072 0061 4F020000 		.4byte	.LASF7
+ 1073 0065 03       		.uleb128 0x3
+ 1074 0066 9E030000 		.4byte	.LASF8
+ 1075 006a 02       		.byte	0x2
+ 1076 006b 3F       		.byte	0x3f
+ 1077 006c 70000000 		.4byte	0x70
+ 1078 0070 02       		.uleb128 0x2
+ 1079 0071 04       		.byte	0x4
+ 1080 0072 05       		.byte	0x5
+ 1081 0073 03010000 		.4byte	.LASF9
+ 1082 0077 03       		.uleb128 0x3
+ 1083 0078 A5000000 		.4byte	.LASF10
+ 1084 007c 02       		.byte	0x2
+ 1085 007d 41       		.byte	0x41
+ 1086 007e 82000000 		.4byte	0x82
+ 1087 0082 02       		.uleb128 0x2
+ 1088 0083 04       		.byte	0x4
+ 1089 0084 07       		.byte	0x7
+ 1090 0085 64030000 		.4byte	.LASF11
+ 1091 0089 02       		.uleb128 0x2
+ 1092 008a 08       		.byte	0x8
+ 1093 008b 05       		.byte	0x5
+ 1094 008c F5000000 		.4byte	.LASF12
+ 1095 0090 04       		.uleb128 0x4
+ 1096 0091 04       		.byte	0x4
+ 1097 0092 05       		.byte	0x5
+ 1098 0093 696E7400 		.ascii	"int\000"
+ 1099 0097 03       		.uleb128 0x3
+ 1100 0098 BB000000 		.4byte	.LASF13
+ 1101 009c 03       		.byte	0x3
+ 1102 009d 18       		.byte	0x18
+ 1103 009e 3A000000 		.4byte	0x3a
+ 1104 00a2 03       		.uleb128 0x3
+ 1105 00a3 F5010000 		.4byte	.LASF14
+ 1106 00a7 03       		.byte	0x3
+ 1107 00a8 24       		.byte	0x24
+ 1108 00a9 53000000 		.4byte	0x53
+ 1109 00ad 03       		.uleb128 0x3
+ 1110 00ae 3F030000 		.4byte	.LASF15
+ 1111 00b2 03       		.byte	0x3
+ 1112 00b3 2C       		.byte	0x2c
+ 1113 00b4 65000000 		.4byte	0x65
+ 1114 00b8 03       		.uleb128 0x3
+ 1115 00b9 DF010000 		.4byte	.LASF16
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 26
+
+
+ 1116 00bd 03       		.byte	0x3
+ 1117 00be 30       		.byte	0x30
+ 1118 00bf 77000000 		.4byte	0x77
+ 1119 00c3 05       		.uleb128 0x5
+ 1120 00c4 C3000000 		.4byte	.LASF17
+ 1121 00c8 04       		.byte	0x4
+ 1122 00c9 E401     		.2byte	0x1e4
+ 1123 00cb 45000000 		.4byte	0x45
+ 1124 00cf 02       		.uleb128 0x2
+ 1125 00d0 04       		.byte	0x4
+ 1126 00d1 04       		.byte	0x4
+ 1127 00d2 EF000000 		.4byte	.LASF18
+ 1128 00d6 02       		.uleb128 0x2
+ 1129 00d7 08       		.byte	0x8
+ 1130 00d8 04       		.byte	0x4
+ 1131 00d9 76030000 		.4byte	.LASF19
+ 1132 00dd 02       		.uleb128 0x2
+ 1133 00de 01       		.byte	0x1
+ 1134 00df 08       		.byte	0x8
+ 1135 00e0 F0020000 		.4byte	.LASF20
+ 1136 00e4 02       		.uleb128 0x2
+ 1137 00e5 08       		.byte	0x8
+ 1138 00e6 04       		.byte	0x4
+ 1139 00e7 00000000 		.4byte	.LASF21
+ 1140 00eb 02       		.uleb128 0x2
+ 1141 00ec 04       		.byte	0x4
+ 1142 00ed 07       		.byte	0x7
+ 1143 00ee 8A000000 		.4byte	.LASF22
+ 1144 00f2 06       		.uleb128 0x6
+ 1145 00f3 C3000000 		.4byte	0xc3
+ 1146 00f7 02010000 		.4byte	0x102
+ 1147 00fb 07       		.uleb128 0x7
+ 1148 00fc EB000000 		.4byte	0xeb
+ 1149 0100 07       		.byte	0x7
+ 1150 0101 00       		.byte	0
+ 1151 0102 08       		.uleb128 0x8
+ 1152 0103 06       		.byte	0x6
+ 1153 0104 05       		.byte	0x5
+ 1154 0105 1F       		.byte	0x1f
+ 1155 0106 4C010000 		.4byte	0x14c
+ 1156 010a 09       		.uleb128 0x9
+ 1157 010b 0C000000 		.4byte	.LASF23
+ 1158 010f 05       		.byte	0x5
+ 1159 0110 20       		.byte	0x20
+ 1160 0111 97000000 		.4byte	0x97
+ 1161 0115 00       		.byte	0
+ 1162 0116 0A       		.uleb128 0xa
+ 1163 0117 6D00     		.ascii	"m\000"
+ 1164 0119 05       		.byte	0x5
+ 1165 011a 21       		.byte	0x21
+ 1166 011b 97000000 		.4byte	0x97
+ 1167 011f 01       		.byte	0x1
+ 1168 0120 0A       		.uleb128 0xa
+ 1169 0121 6400     		.ascii	"d\000"
+ 1170 0123 05       		.byte	0x5
+ 1171 0124 22       		.byte	0x22
+ 1172 0125 97000000 		.4byte	0x97
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 27
+
+
+ 1173 0129 02       		.byte	0x2
+ 1174 012a 0A       		.uleb128 0xa
+ 1175 012b 686800   		.ascii	"hh\000"
+ 1176 012e 05       		.byte	0x5
+ 1177 012f 23       		.byte	0x23
+ 1178 0130 97000000 		.4byte	0x97
+ 1179 0134 03       		.byte	0x3
+ 1180 0135 0A       		.uleb128 0xa
+ 1181 0136 6D6D00   		.ascii	"mm\000"
+ 1182 0139 05       		.byte	0x5
+ 1183 013a 24       		.byte	0x24
+ 1184 013b 97000000 		.4byte	0x97
+ 1185 013f 04       		.byte	0x4
+ 1186 0140 0A       		.uleb128 0xa
+ 1187 0141 737300   		.ascii	"ss\000"
+ 1188 0144 05       		.byte	0x5
+ 1189 0145 25       		.byte	0x25
+ 1190 0146 97000000 		.4byte	0x97
+ 1191 014a 05       		.byte	0x5
+ 1192 014b 00       		.byte	0
+ 1193 014c 03       		.uleb128 0x3
+ 1194 014d 43010000 		.4byte	.LASF24
+ 1195 0151 05       		.byte	0x5
+ 1196 0152 26       		.byte	0x26
+ 1197 0153 02010000 		.4byte	0x102
+ 1198 0157 0B       		.uleb128 0xb
+ 1199 0158 83010000 		.4byte	.LASF25
+ 1200 015c 01       		.byte	0x1
+ 1201 015d 13       		.byte	0x13
+ 1202 015e A2000000 		.4byte	0xa2
+ 1203 0162 00000000 		.4byte	.LFB63
+ 1204 0166 14000000 		.4byte	.LFE63-.LFB63
+ 1205 016a 01       		.uleb128 0x1
+ 1206 016b 9C       		.byte	0x9c
+ 1207 016c 7E010000 		.4byte	0x17e
+ 1208 0170 0C       		.uleb128 0xc
+ 1209 0171 647400   		.ascii	"dt\000"
+ 1210 0174 01       		.byte	0x1
+ 1211 0175 13       		.byte	0x13
+ 1212 0176 4C010000 		.4byte	0x14c
+ 1213 017a 02       		.uleb128 0x2
+ 1214 017b 91       		.byte	0x91
+ 1215 017c 78       		.sleb128 -8
+ 1216 017d 00       		.byte	0
+ 1217 017e 0B       		.uleb128 0xb
+ 1218 017f 4C010000 		.4byte	.LASF26
+ 1219 0183 01       		.byte	0x1
+ 1220 0184 15       		.byte	0x15
+ 1221 0185 97000000 		.4byte	0x97
+ 1222 0189 00000000 		.4byte	.LFB64
+ 1223 018d 10000000 		.4byte	.LFE64-.LFB64
+ 1224 0191 01       		.uleb128 0x1
+ 1225 0192 9C       		.byte	0x9c
+ 1226 0193 A5010000 		.4byte	0x1a5
+ 1227 0197 0C       		.uleb128 0xc
+ 1228 0198 647400   		.ascii	"dt\000"
+ 1229 019b 01       		.byte	0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 28
+
+
+ 1230 019c 15       		.byte	0x15
+ 1231 019d 4C010000 		.4byte	0x14c
+ 1232 01a1 02       		.uleb128 0x2
+ 1233 01a2 91       		.byte	0x91
+ 1234 01a3 78       		.sleb128 -8
+ 1235 01a4 00       		.byte	0
+ 1236 01a5 0B       		.uleb128 0xb
+ 1237 01a6 27010000 		.4byte	.LASF27
+ 1238 01aa 01       		.byte	0x1
+ 1239 01ab 17       		.byte	0x17
+ 1240 01ac 97000000 		.4byte	0x97
+ 1241 01b0 00000000 		.4byte	.LFB65
+ 1242 01b4 10000000 		.4byte	.LFE65-.LFB65
+ 1243 01b8 01       		.uleb128 0x1
+ 1244 01b9 9C       		.byte	0x9c
+ 1245 01ba CC010000 		.4byte	0x1cc
+ 1246 01be 0C       		.uleb128 0xc
+ 1247 01bf 647400   		.ascii	"dt\000"
+ 1248 01c2 01       		.byte	0x1
+ 1249 01c3 17       		.byte	0x17
+ 1250 01c4 4C010000 		.4byte	0x14c
+ 1251 01c8 02       		.uleb128 0x2
+ 1252 01c9 91       		.byte	0x91
+ 1253 01ca 78       		.sleb128 -8
+ 1254 01cb 00       		.byte	0
+ 1255 01cc 0B       		.uleb128 0xb
+ 1256 01cd 75000000 		.4byte	.LASF28
+ 1257 01d1 01       		.byte	0x1
+ 1258 01d2 19       		.byte	0x19
+ 1259 01d3 97000000 		.4byte	0x97
+ 1260 01d7 00000000 		.4byte	.LFB66
+ 1261 01db 10000000 		.4byte	.LFE66-.LFB66
+ 1262 01df 01       		.uleb128 0x1
+ 1263 01e0 9C       		.byte	0x9c
+ 1264 01e1 F3010000 		.4byte	0x1f3
+ 1265 01e5 0C       		.uleb128 0xc
+ 1266 01e6 647400   		.ascii	"dt\000"
+ 1267 01e9 01       		.byte	0x1
+ 1268 01ea 19       		.byte	0x19
+ 1269 01eb 4C010000 		.4byte	0x14c
+ 1270 01ef 02       		.uleb128 0x2
+ 1271 01f0 91       		.byte	0x91
+ 1272 01f1 78       		.sleb128 -8
+ 1273 01f2 00       		.byte	0
+ 1274 01f3 0B       		.uleb128 0xb
+ 1275 01f4 98000000 		.4byte	.LASF29
+ 1276 01f8 01       		.byte	0x1
+ 1277 01f9 1B       		.byte	0x1b
+ 1278 01fa 97000000 		.4byte	0x97
+ 1279 01fe 00000000 		.4byte	.LFB67
+ 1280 0202 10000000 		.4byte	.LFE67-.LFB67
+ 1281 0206 01       		.uleb128 0x1
+ 1282 0207 9C       		.byte	0x9c
+ 1283 0208 1A020000 		.4byte	0x21a
+ 1284 020c 0C       		.uleb128 0xc
+ 1285 020d 647400   		.ascii	"dt\000"
+ 1286 0210 01       		.byte	0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 29
+
+
+ 1287 0211 1B       		.byte	0x1b
+ 1288 0212 4C010000 		.4byte	0x14c
+ 1289 0216 02       		.uleb128 0x2
+ 1290 0217 91       		.byte	0x91
+ 1291 0218 78       		.sleb128 -8
+ 1292 0219 00       		.byte	0
+ 1293 021a 0B       		.uleb128 0xb
+ 1294 021b EC030000 		.4byte	.LASF30
+ 1295 021f 01       		.byte	0x1
+ 1296 0220 1D       		.byte	0x1d
+ 1297 0221 97000000 		.4byte	0x97
+ 1298 0225 00000000 		.4byte	.LFB68
+ 1299 0229 10000000 		.4byte	.LFE68-.LFB68
+ 1300 022d 01       		.uleb128 0x1
+ 1301 022e 9C       		.byte	0x9c
+ 1302 022f 41020000 		.4byte	0x241
+ 1303 0233 0C       		.uleb128 0xc
+ 1304 0234 647400   		.ascii	"dt\000"
+ 1305 0237 01       		.byte	0x1
+ 1306 0238 1D       		.byte	0x1d
+ 1307 0239 4C010000 		.4byte	0x14c
+ 1308 023d 02       		.uleb128 0x2
+ 1309 023e 91       		.byte	0x91
+ 1310 023f 78       		.sleb128 -8
+ 1311 0240 00       		.byte	0
+ 1312 0241 0B       		.uleb128 0xb
+ 1313 0242 BB030000 		.4byte	.LASF31
+ 1314 0246 01       		.byte	0x1
+ 1315 0247 1F       		.byte	0x1f
+ 1316 0248 97000000 		.4byte	0x97
+ 1317 024c 00000000 		.4byte	.LFB69
+ 1318 0250 18000000 		.4byte	.LFE69-.LFB69
+ 1319 0254 01       		.uleb128 0x1
+ 1320 0255 9C       		.byte	0x9c
+ 1321 0256 68020000 		.4byte	0x268
+ 1322 025a 0C       		.uleb128 0xc
+ 1323 025b 647400   		.ascii	"dt\000"
+ 1324 025e 01       		.byte	0x1
+ 1325 025f 1F       		.byte	0x1f
+ 1326 0260 4C010000 		.4byte	0x14c
+ 1327 0264 02       		.uleb128 0x2
+ 1328 0265 91       		.byte	0x91
+ 1329 0266 78       		.sleb128 -8
+ 1330 0267 00       		.byte	0
+ 1331 0268 0B       		.uleb128 0xb
+ 1332 0269 63000000 		.4byte	.LASF32
+ 1333 026d 01       		.byte	0x1
+ 1334 026e 29       		.byte	0x29
+ 1335 026f 97000000 		.4byte	0x97
+ 1336 0273 00000000 		.4byte	.LFB70
+ 1337 0277 2C000000 		.4byte	.LFE70-.LFB70
+ 1338 027b 01       		.uleb128 0x1
+ 1339 027c 9C       		.byte	0x9c
+ 1340 027d F6020000 		.4byte	0x2f6
+ 1341 0281 0D       		.uleb128 0xd
+ 1342 0282 22010000 		.4byte	.LASF33
+ 1343 0286 01       		.byte	0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 30
+
+
+ 1344 0287 29       		.byte	0x29
+ 1345 0288 97000000 		.4byte	0x97
+ 1346 028c 00000000 		.4byte	.LLST0
+ 1347 0290 0E       		.uleb128 0xe
+ 1348 0291 72656700 		.ascii	"reg\000"
+ 1349 0295 01       		.byte	0x1
+ 1350 0296 29       		.byte	0x29
+ 1351 0297 97000000 		.4byte	0x97
+ 1352 029b 21000000 		.4byte	.LLST1
+ 1353 029f 0F       		.uleb128 0xf
+ 1354 02a0 0C000000 		.4byte	.LVL2
+ 1355 02a4 0A090000 		.4byte	0x90a
+ 1356 02a8 B8020000 		.4byte	0x2b8
+ 1357 02ac 10       		.uleb128 0x10
+ 1358 02ad 01       		.uleb128 0x1
+ 1359 02ae 50       		.byte	0x50
+ 1360 02af 02       		.uleb128 0x2
+ 1361 02b0 75       		.byte	0x75
+ 1362 02b1 00       		.sleb128 0
+ 1363 02b2 10       		.uleb128 0x10
+ 1364 02b3 01       		.uleb128 0x1
+ 1365 02b4 51       		.byte	0x51
+ 1366 02b5 01       		.uleb128 0x1
+ 1367 02b6 30       		.byte	0x30
+ 1368 02b7 00       		.byte	0
+ 1369 02b8 0F       		.uleb128 0xf
+ 1370 02b9 12000000 		.4byte	.LVL3
+ 1371 02bd 15090000 		.4byte	0x915
+ 1372 02c1 CC020000 		.4byte	0x2cc
+ 1373 02c5 10       		.uleb128 0x10
+ 1374 02c6 01       		.uleb128 0x1
+ 1375 02c7 50       		.byte	0x50
+ 1376 02c8 02       		.uleb128 0x2
+ 1377 02c9 74       		.byte	0x74
+ 1378 02ca 00       		.sleb128 0
+ 1379 02cb 00       		.byte	0
+ 1380 02cc 11       		.uleb128 0x11
+ 1381 02cd 16000000 		.4byte	.LVL4
+ 1382 02d1 20090000 		.4byte	0x920
+ 1383 02d5 12       		.uleb128 0x12
+ 1384 02d6 24000000 		.4byte	.LVL5
+ 1385 02da 2B090000 		.4byte	0x92b
+ 1386 02de 10       		.uleb128 0x10
+ 1387 02df 01       		.uleb128 0x1
+ 1388 02e0 50       		.byte	0x50
+ 1389 02e1 02       		.uleb128 0x2
+ 1390 02e2 75       		.byte	0x75
+ 1391 02e3 00       		.sleb128 0
+ 1392 02e4 10       		.uleb128 0x10
+ 1393 02e5 01       		.uleb128 0x1
+ 1394 02e6 51       		.byte	0x51
+ 1395 02e7 02       		.uleb128 0x2
+ 1396 02e8 74       		.byte	0x74
+ 1397 02e9 00       		.sleb128 0
+ 1398 02ea 10       		.uleb128 0x10
+ 1399 02eb 01       		.uleb128 0x1
+ 1400 02ec 52       		.byte	0x52
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 31
+
+
+ 1401 02ed 01       		.uleb128 0x1
+ 1402 02ee 31       		.byte	0x31
+ 1403 02ef 10       		.uleb128 0x10
+ 1404 02f0 01       		.uleb128 0x1
+ 1405 02f1 53       		.byte	0x53
+ 1406 02f2 01       		.uleb128 0x1
+ 1407 02f3 30       		.byte	0x30
+ 1408 02f4 00       		.byte	0
+ 1409 02f5 00       		.byte	0
+ 1410 02f6 13       		.uleb128 0x13
+ 1411 02f7 A8030000 		.4byte	.LASF48
+ 1412 02fb 01       		.byte	0x1
+ 1413 02fc 3A       		.byte	0x3a
+ 1414 02fd 00000000 		.4byte	.LFB71
+ 1415 0301 1E000000 		.4byte	.LFE71-.LFB71
+ 1416 0305 01       		.uleb128 0x1
+ 1417 0306 9C       		.byte	0x9c
+ 1418 0307 7D030000 		.4byte	0x37d
+ 1419 030b 0D       		.uleb128 0xd
+ 1420 030c 22010000 		.4byte	.LASF33
+ 1421 0310 01       		.byte	0x1
+ 1422 0311 3A       		.byte	0x3a
+ 1423 0312 97000000 		.4byte	0x97
+ 1424 0316 42000000 		.4byte	.LLST2
+ 1425 031a 0E       		.uleb128 0xe
+ 1426 031b 72656700 		.ascii	"reg\000"
+ 1427 031f 01       		.byte	0x1
+ 1428 0320 3A       		.byte	0x3a
+ 1429 0321 97000000 		.4byte	0x97
+ 1430 0325 63000000 		.4byte	.LLST3
+ 1431 0329 0E       		.uleb128 0xe
+ 1432 032a 76616C00 		.ascii	"val\000"
+ 1433 032e 01       		.byte	0x1
+ 1434 032f 3A       		.byte	0x3a
+ 1435 0330 97000000 		.4byte	0x97
+ 1436 0334 84000000 		.4byte	.LLST4
+ 1437 0338 0F       		.uleb128 0xf
+ 1438 0339 0C000000 		.4byte	.LVL8
+ 1439 033d 0A090000 		.4byte	0x90a
+ 1440 0341 4B030000 		.4byte	0x34b
+ 1441 0345 10       		.uleb128 0x10
+ 1442 0346 01       		.uleb128 0x1
+ 1443 0347 51       		.byte	0x51
+ 1444 0348 01       		.uleb128 0x1
+ 1445 0349 30       		.byte	0x30
+ 1446 034a 00       		.byte	0
+ 1447 034b 0F       		.uleb128 0xf
+ 1448 034c 12000000 		.4byte	.LVL9
+ 1449 0350 15090000 		.4byte	0x915
+ 1450 0354 5F030000 		.4byte	0x35f
+ 1451 0358 10       		.uleb128 0x10
+ 1452 0359 01       		.uleb128 0x1
+ 1453 035a 50       		.byte	0x50
+ 1454 035b 02       		.uleb128 0x2
+ 1455 035c 75       		.byte	0x75
+ 1456 035d 00       		.sleb128 0
+ 1457 035e 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 32
+
+
+ 1458 035f 0F       		.uleb128 0xf
+ 1459 0360 18000000 		.4byte	.LVL10
+ 1460 0364 15090000 		.4byte	0x915
+ 1461 0368 73030000 		.4byte	0x373
+ 1462 036c 10       		.uleb128 0x10
+ 1463 036d 01       		.uleb128 0x1
+ 1464 036e 50       		.byte	0x50
+ 1465 036f 02       		.uleb128 0x2
+ 1466 0370 74       		.byte	0x74
+ 1467 0371 00       		.sleb128 0
+ 1468 0372 00       		.byte	0
+ 1469 0373 11       		.uleb128 0x11
+ 1470 0374 1C000000 		.4byte	.LVL11
+ 1471 0378 20090000 		.4byte	0x920
+ 1472 037c 00       		.byte	0
+ 1473 037d 0B       		.uleb128 0xb
+ 1474 037e C9000000 		.4byte	.LASF34
+ 1475 0382 01       		.byte	0x1
+ 1476 0383 58       		.byte	0x58
+ 1477 0384 A2000000 		.4byte	0xa2
+ 1478 0388 00000000 		.4byte	.LFB72
+ 1479 038c 54000000 		.4byte	.LFE72-.LFB72
+ 1480 0390 01       		.uleb128 0x1
+ 1481 0391 9C       		.byte	0x9c
+ 1482 0392 E4030000 		.4byte	0x3e4
+ 1483 0396 0E       		.uleb128 0xe
+ 1484 0397 7900     		.ascii	"y\000"
+ 1485 0399 01       		.byte	0x1
+ 1486 039a 58       		.byte	0x58
+ 1487 039b A2000000 		.4byte	0xa2
+ 1488 039f A5000000 		.4byte	.LLST5
+ 1489 03a3 0E       		.uleb128 0xe
+ 1490 03a4 6D00     		.ascii	"m\000"
+ 1491 03a6 01       		.byte	0x1
+ 1492 03a7 58       		.byte	0x58
+ 1493 03a8 97000000 		.4byte	0x97
+ 1494 03ac D1000000 		.4byte	.LLST6
+ 1495 03b0 0E       		.uleb128 0xe
+ 1496 03b1 6400     		.ascii	"d\000"
+ 1497 03b3 01       		.byte	0x1
+ 1498 03b4 58       		.byte	0x58
+ 1499 03b5 97000000 		.4byte	0x97
+ 1500 03b9 F2000000 		.4byte	.LLST7
+ 1501 03bd 14       		.uleb128 0x14
+ 1502 03be 93000000 		.4byte	.LASF35
+ 1503 03c2 01       		.byte	0x1
+ 1504 03c3 5B       		.byte	0x5b
+ 1505 03c4 A2000000 		.4byte	0xa2
+ 1506 03c8 13010000 		.4byte	.LLST8
+ 1507 03cc 15       		.uleb128 0x15
+ 1508 03cd 10000000 		.4byte	.LBB2
+ 1509 03d1 16000000 		.4byte	.LBE2-.LBB2
+ 1510 03d5 16       		.uleb128 0x16
+ 1511 03d6 6900     		.ascii	"i\000"
+ 1512 03d8 01       		.byte	0x1
+ 1513 03d9 5C       		.byte	0x5c
+ 1514 03da 97000000 		.4byte	0x97
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 33
+
+
+ 1515 03de 3C010000 		.4byte	.LLST9
+ 1516 03e2 00       		.byte	0
+ 1517 03e3 00       		.byte	0
+ 1518 03e4 0B       		.uleb128 0xb
+ 1519 03e5 D4010000 		.4byte	.LASF36
+ 1520 03e9 01       		.byte	0x1
+ 1521 03ea 6E       		.byte	0x6e
+ 1522 03eb B8000000 		.4byte	0xb8
+ 1523 03ef 00000000 		.4byte	.LFB73
+ 1524 03f3 1E000000 		.4byte	.LFE73-.LFB73
+ 1525 03f7 01       		.uleb128 0x1
+ 1526 03f8 9C       		.byte	0x9c
+ 1527 03f9 32040000 		.4byte	0x432
+ 1528 03fd 0D       		.uleb128 0xd
+ 1529 03fe 93000000 		.4byte	.LASF35
+ 1530 0402 01       		.byte	0x1
+ 1531 0403 6E       		.byte	0x6e
+ 1532 0404 A2000000 		.4byte	0xa2
+ 1533 0408 66010000 		.4byte	.LLST10
+ 1534 040c 0E       		.uleb128 0xe
+ 1535 040d 6800     		.ascii	"h\000"
+ 1536 040f 01       		.byte	0x1
+ 1537 0410 6E       		.byte	0x6e
+ 1538 0411 97000000 		.4byte	0x97
+ 1539 0415 87010000 		.4byte	.LLST11
+ 1540 0419 0E       		.uleb128 0xe
+ 1541 041a 6D00     		.ascii	"m\000"
+ 1542 041c 01       		.byte	0x1
+ 1543 041d 6E       		.byte	0x6e
+ 1544 041e 97000000 		.4byte	0x97
+ 1545 0422 A8010000 		.4byte	.LLST12
+ 1546 0426 0C       		.uleb128 0xc
+ 1547 0427 7300     		.ascii	"s\000"
+ 1548 0429 01       		.byte	0x1
+ 1549 042a 6E       		.byte	0x6e
+ 1550 042b 97000000 		.4byte	0x97
+ 1551 042f 01       		.uleb128 0x1
+ 1552 0430 53       		.byte	0x53
+ 1553 0431 00       		.byte	0
+ 1554 0432 0B       		.uleb128 0xb
+ 1555 0433 7D030000 		.4byte	.LASF37
+ 1556 0437 01       		.byte	0x1
+ 1557 0438 89       		.byte	0x89
+ 1558 0439 4C010000 		.4byte	0x14c
+ 1559 043d 00000000 		.4byte	.LFB74
+ 1560 0441 C0000000 		.4byte	.LFE74-.LFB74
+ 1561 0445 01       		.uleb128 0x1
+ 1562 0446 9C       		.byte	0x9c
+ 1563 0447 9D040000 		.4byte	0x49d
+ 1564 044b 0E       		.uleb128 0xe
+ 1565 044c 7400     		.ascii	"t\000"
+ 1566 044e 01       		.byte	0x1
+ 1567 044f 89       		.byte	0x89
+ 1568 0450 B8000000 		.4byte	0xb8
+ 1569 0454 C9010000 		.4byte	.LLST13
+ 1570 0458 17       		.uleb128 0x17
+ 1571 0459 647400   		.ascii	"dt\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 34
+
+
+ 1572 045c 01       		.byte	0x1
+ 1573 045d 8C       		.byte	0x8c
+ 1574 045e 4C010000 		.4byte	0x14c
+ 1575 0462 02       		.uleb128 0x2
+ 1576 0463 70       		.byte	0x70
+ 1577 0464 00       		.sleb128 0
+ 1578 0465 14       		.uleb128 0x14
+ 1579 0466 93000000 		.4byte	.LASF35
+ 1580 046a 01       		.byte	0x1
+ 1581 046b 92       		.byte	0x92
+ 1582 046c A2000000 		.4byte	0xa2
+ 1583 0470 2A020000 		.4byte	.LLST14
+ 1584 0474 14       		.uleb128 0x14
+ 1585 0475 EA000000 		.4byte	.LASF38
+ 1586 0479 01       		.byte	0x1
+ 1587 047a 93       		.byte	0x93
+ 1588 047b 97000000 		.4byte	0x97
+ 1589 047f 3D020000 		.4byte	.LLST15
+ 1590 0483 15       		.uleb128 0x15
+ 1591 0484 7A000000 		.4byte	.LBB3
+ 1592 0488 1A000000 		.4byte	.LBE3-.LBB3
+ 1593 048c 14       		.uleb128 0x14
+ 1594 048d 0F040000 		.4byte	.LASF39
+ 1595 0491 01       		.byte	0x1
+ 1596 0492 9B       		.byte	0x9b
+ 1597 0493 97000000 		.4byte	0x97
+ 1598 0497 77020000 		.4byte	.LLST16
+ 1599 049b 00       		.byte	0
+ 1600 049c 00       		.byte	0
+ 1601 049d 0B       		.uleb128 0xb
+ 1602 049e 5D010000 		.4byte	.LASF40
+ 1603 04a2 01       		.byte	0x1
+ 1604 04a3 B5       		.byte	0xb5
+ 1605 04a4 4C010000 		.4byte	0x14c
+ 1606 04a8 00000000 		.4byte	.LFB75
+ 1607 04ac 30000000 		.4byte	.LFE75-.LFB75
+ 1608 04b0 01       		.uleb128 0x1
+ 1609 04b1 9C       		.byte	0x9c
+ 1610 04b2 1C050000 		.4byte	0x51c
+ 1611 04b6 0D       		.uleb128 0xd
+ 1612 04b7 68010000 		.4byte	.LASF41
+ 1613 04bb 01       		.byte	0x1
+ 1614 04bc B5       		.byte	0xb5
+ 1615 04bd A2000000 		.4byte	0xa2
+ 1616 04c1 8A020000 		.4byte	.LLST17
+ 1617 04c5 18       		.uleb128 0x18
+ 1618 04c6 5E030000 		.4byte	.LASF42
+ 1619 04ca 01       		.byte	0x1
+ 1620 04cb B5       		.byte	0xb5
+ 1621 04cc 97000000 		.4byte	0x97
+ 1622 04d0 01       		.uleb128 0x1
+ 1623 04d1 52       		.byte	0x52
+ 1624 04d2 0E       		.uleb128 0xe
+ 1625 04d3 64617900 		.ascii	"day\000"
+ 1626 04d7 01       		.byte	0x1
+ 1627 04d8 B5       		.byte	0xb5
+ 1628 04d9 97000000 		.4byte	0x97
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 35
+
+
+ 1629 04dd B6020000 		.4byte	.LLST18
+ 1630 04e1 0D       		.uleb128 0xd
+ 1631 04e2 58010000 		.4byte	.LASF43
+ 1632 04e6 01       		.byte	0x1
+ 1633 04e7 B5       		.byte	0xb5
+ 1634 04e8 97000000 		.4byte	0x97
+ 1635 04ec D5020000 		.4byte	.LLST19
+ 1636 04f0 0E       		.uleb128 0xe
+ 1637 04f1 6D696E00 		.ascii	"min\000"
+ 1638 04f5 01       		.byte	0x1
+ 1639 04f6 B6       		.byte	0xb6
+ 1640 04f7 97000000 		.4byte	0x97
+ 1641 04fb F5020000 		.4byte	.LLST20
+ 1642 04ff 0E       		.uleb128 0xe
+ 1643 0500 73656300 		.ascii	"sec\000"
+ 1644 0504 01       		.byte	0x1
+ 1645 0505 B6       		.byte	0xb6
+ 1646 0506 97000000 		.4byte	0x97
+ 1647 050a 15030000 		.4byte	.LLST21
+ 1648 050e 17       		.uleb128 0x17
+ 1649 050f 647400   		.ascii	"dt\000"
+ 1650 0512 01       		.byte	0x1
+ 1651 0513 B7       		.byte	0xb7
+ 1652 0514 4C010000 		.4byte	0x14c
+ 1653 0518 02       		.uleb128 0x2
+ 1654 0519 70       		.byte	0x70
+ 1655 051a 00       		.sleb128 0
+ 1656 051b 00       		.byte	0
+ 1657 051c 0B       		.uleb128 0xb
+ 1658 051d 4F030000 		.4byte	.LASF44
+ 1659 0521 01       		.byte	0x1
+ 1660 0522 CB       		.byte	0xcb
+ 1661 0523 B8000000 		.4byte	0xb8
+ 1662 0527 00000000 		.4byte	.LFB76
+ 1663 052b 3C000000 		.4byte	.LFE76-.LFB76
+ 1664 052f 01       		.uleb128 0x1
+ 1665 0530 9C       		.byte	0x9c
+ 1666 0531 AA050000 		.4byte	0x5aa
+ 1667 0535 0C       		.uleb128 0xc
+ 1668 0536 647400   		.ascii	"dt\000"
+ 1669 0539 01       		.byte	0x1
+ 1670 053a CB       		.byte	0xcb
+ 1671 053b 4C010000 		.4byte	0x14c
+ 1672 053f 02       		.uleb128 0x2
+ 1673 0540 91       		.byte	0x91
+ 1674 0541 70       		.sleb128 -16
+ 1675 0542 16       		.uleb128 0x16
+ 1676 0543 7400     		.ascii	"t\000"
+ 1677 0545 01       		.byte	0x1
+ 1678 0546 CC       		.byte	0xcc
+ 1679 0547 B8000000 		.4byte	0xb8
+ 1680 054b 35030000 		.4byte	.LLST22
+ 1681 054f 14       		.uleb128 0x14
+ 1682 0550 93000000 		.4byte	.LASF35
+ 1683 0554 01       		.byte	0x1
+ 1684 0555 CD       		.byte	0xcd
+ 1685 0556 A2000000 		.4byte	0xa2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 36
+
+
+ 1686 055a 77030000 		.4byte	.LLST23
+ 1687 055e 0F       		.uleb128 0xf
+ 1688 055f 1A000000 		.4byte	.LVL53
+ 1689 0563 7D030000 		.4byte	0x37d
+ 1690 0567 87050000 		.4byte	0x587
+ 1691 056b 10       		.uleb128 0x10
+ 1692 056c 01       		.uleb128 0x1
+ 1693 056d 50       		.byte	0x50
+ 1694 056e 07       		.uleb128 0x7
+ 1695 056f 7D       		.byte	0x7d
+ 1696 0570 00       		.sleb128 0
+ 1697 0571 94       		.byte	0x94
+ 1698 0572 01       		.byte	0x1
+ 1699 0573 08       		.byte	0x8
+ 1700 0574 FF       		.byte	0xff
+ 1701 0575 1A       		.byte	0x1a
+ 1702 0576 10       		.uleb128 0x10
+ 1703 0577 01       		.uleb128 0x1
+ 1704 0578 51       		.byte	0x51
+ 1705 0579 04       		.uleb128 0x4
+ 1706 057a 91       		.byte	0x91
+ 1707 057b 71       		.sleb128 -15
+ 1708 057c 94       		.byte	0x94
+ 1709 057d 01       		.byte	0x1
+ 1710 057e 10       		.uleb128 0x10
+ 1711 057f 01       		.uleb128 0x1
+ 1712 0580 52       		.byte	0x52
+ 1713 0581 04       		.uleb128 0x4
+ 1714 0582 91       		.byte	0x91
+ 1715 0583 72       		.sleb128 -14
+ 1716 0584 94       		.byte	0x94
+ 1717 0585 01       		.byte	0x1
+ 1718 0586 00       		.byte	0
+ 1719 0587 12       		.uleb128 0x12
+ 1720 0588 2A000000 		.4byte	.LVL54
+ 1721 058c E4030000 		.4byte	0x3e4
+ 1722 0590 10       		.uleb128 0x10
+ 1723 0591 01       		.uleb128 0x1
+ 1724 0592 51       		.byte	0x51
+ 1725 0593 04       		.uleb128 0x4
+ 1726 0594 91       		.byte	0x91
+ 1727 0595 73       		.sleb128 -13
+ 1728 0596 94       		.byte	0x94
+ 1729 0597 01       		.byte	0x1
+ 1730 0598 10       		.uleb128 0x10
+ 1731 0599 01       		.uleb128 0x1
+ 1732 059a 52       		.byte	0x52
+ 1733 059b 04       		.uleb128 0x4
+ 1734 059c 91       		.byte	0x91
+ 1735 059d 74       		.sleb128 -12
+ 1736 059e 94       		.byte	0x94
+ 1737 059f 01       		.byte	0x1
+ 1738 05a0 10       		.uleb128 0x10
+ 1739 05a1 01       		.uleb128 0x1
+ 1740 05a2 53       		.byte	0x53
+ 1741 05a3 04       		.uleb128 0x4
+ 1742 05a4 91       		.byte	0x91
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 37
+
+
+ 1743 05a5 75       		.sleb128 -11
+ 1744 05a6 94       		.byte	0x94
+ 1745 05a7 01       		.byte	0x1
+ 1746 05a8 00       		.byte	0
+ 1747 05a9 00       		.byte	0
+ 1748 05aa 0B       		.uleb128 0xb
+ 1749 05ab 23020000 		.4byte	.LASF45
+ 1750 05af 01       		.byte	0x1
+ 1751 05b0 DE       		.byte	0xde
+ 1752 05b1 B8000000 		.4byte	0xb8
+ 1753 05b5 00000000 		.4byte	.LFB77
+ 1754 05b9 30000000 		.4byte	.LFE77-.LFB77
+ 1755 05bd 01       		.uleb128 0x1
+ 1756 05be 9C       		.byte	0x9c
+ 1757 05bf 36060000 		.4byte	0x636
+ 1758 05c3 0C       		.uleb128 0xc
+ 1759 05c4 647400   		.ascii	"dt\000"
+ 1760 05c7 01       		.byte	0x1
+ 1761 05c8 DE       		.byte	0xde
+ 1762 05c9 4C010000 		.4byte	0x14c
+ 1763 05cd 02       		.uleb128 0x2
+ 1764 05ce 91       		.byte	0x91
+ 1765 05cf 70       		.sleb128 -16
+ 1766 05d0 17       		.uleb128 0x17
+ 1767 05d1 7400     		.ascii	"t\000"
+ 1768 05d3 01       		.byte	0x1
+ 1769 05d4 DF       		.byte	0xdf
+ 1770 05d5 B8000000 		.4byte	0xb8
+ 1771 05d9 01       		.uleb128 0x1
+ 1772 05da 50       		.byte	0x50
+ 1773 05db 14       		.uleb128 0x14
+ 1774 05dc 93000000 		.4byte	.LASF35
+ 1775 05e0 01       		.byte	0x1
+ 1776 05e1 E0       		.byte	0xe0
+ 1777 05e2 A2000000 		.4byte	0xa2
+ 1778 05e6 8A030000 		.4byte	.LLST24
+ 1779 05ea 0F       		.uleb128 0xf
+ 1780 05eb 1A000000 		.4byte	.LVL58
+ 1781 05ef 7D030000 		.4byte	0x37d
+ 1782 05f3 13060000 		.4byte	0x613
+ 1783 05f7 10       		.uleb128 0x10
+ 1784 05f8 01       		.uleb128 0x1
+ 1785 05f9 50       		.byte	0x50
+ 1786 05fa 07       		.uleb128 0x7
+ 1787 05fb 7D       		.byte	0x7d
+ 1788 05fc 00       		.sleb128 0
+ 1789 05fd 94       		.byte	0x94
+ 1790 05fe 01       		.byte	0x1
+ 1791 05ff 08       		.byte	0x8
+ 1792 0600 FF       		.byte	0xff
+ 1793 0601 1A       		.byte	0x1a
+ 1794 0602 10       		.uleb128 0x10
+ 1795 0603 01       		.uleb128 0x1
+ 1796 0604 51       		.byte	0x51
+ 1797 0605 04       		.uleb128 0x4
+ 1798 0606 91       		.byte	0x91
+ 1799 0607 71       		.sleb128 -15
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 38
+
+
+ 1800 0608 94       		.byte	0x94
+ 1801 0609 01       		.byte	0x1
+ 1802 060a 10       		.uleb128 0x10
+ 1803 060b 01       		.uleb128 0x1
+ 1804 060c 52       		.byte	0x52
+ 1805 060d 04       		.uleb128 0x4
+ 1806 060e 91       		.byte	0x91
+ 1807 060f 72       		.sleb128 -14
+ 1808 0610 94       		.byte	0x94
+ 1809 0611 01       		.byte	0x1
+ 1810 0612 00       		.byte	0
+ 1811 0613 12       		.uleb128 0x12
+ 1812 0614 2A000000 		.4byte	.LVL59
+ 1813 0618 E4030000 		.4byte	0x3e4
+ 1814 061c 10       		.uleb128 0x10
+ 1815 061d 01       		.uleb128 0x1
+ 1816 061e 51       		.byte	0x51
+ 1817 061f 04       		.uleb128 0x4
+ 1818 0620 91       		.byte	0x91
+ 1819 0621 73       		.sleb128 -13
+ 1820 0622 94       		.byte	0x94
+ 1821 0623 01       		.byte	0x1
+ 1822 0624 10       		.uleb128 0x10
+ 1823 0625 01       		.uleb128 0x1
+ 1824 0626 52       		.byte	0x52
+ 1825 0627 04       		.uleb128 0x4
+ 1826 0628 91       		.byte	0x91
+ 1827 0629 74       		.sleb128 -12
+ 1828 062a 94       		.byte	0x94
+ 1829 062b 01       		.byte	0x1
+ 1830 062c 10       		.uleb128 0x10
+ 1831 062d 01       		.uleb128 0x1
+ 1832 062e 53       		.byte	0x53
+ 1833 062f 04       		.uleb128 0x4
+ 1834 0630 91       		.byte	0x91
+ 1835 0631 75       		.sleb128 -11
+ 1836 0632 94       		.byte	0x94
+ 1837 0633 01       		.byte	0x1
+ 1838 0634 00       		.byte	0
+ 1839 0635 00       		.byte	0
+ 1840 0636 0B       		.uleb128 0xb
+ 1841 0637 47030000 		.4byte	.LASF46
+ 1842 063b 01       		.byte	0x1
+ 1843 063c ED       		.byte	0xed
+ 1844 063d 97000000 		.4byte	0x97
+ 1845 0641 00000000 		.4byte	.LFB78
+ 1846 0645 0E000000 		.4byte	.LFE78-.LFB78
+ 1847 0649 01       		.uleb128 0x1
+ 1848 064a 9C       		.byte	0x9c
+ 1849 064b 5F060000 		.4byte	0x65f
+ 1850 064f 0E       		.uleb128 0xe
+ 1851 0650 76616C00 		.ascii	"val\000"
+ 1852 0654 01       		.byte	0x1
+ 1853 0655 ED       		.byte	0xed
+ 1854 0656 97000000 		.4byte	0x97
+ 1855 065a 9D030000 		.4byte	.LLST25
+ 1856 065e 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 39
+
+
+ 1857 065f 0B       		.uleb128 0xb
+ 1858 0660 7B010000 		.4byte	.LASF47
+ 1859 0664 01       		.byte	0x1
+ 1860 0665 F6       		.byte	0xf6
+ 1861 0666 97000000 		.4byte	0x97
+ 1862 066a 00000000 		.4byte	.LFB79
+ 1863 066e 18000000 		.4byte	.LFE79-.LFB79
+ 1864 0672 01       		.uleb128 0x1
+ 1865 0673 9C       		.byte	0x9c
+ 1866 0674 88060000 		.4byte	0x688
+ 1867 0678 0E       		.uleb128 0xe
+ 1868 0679 76616C00 		.ascii	"val\000"
+ 1869 067d 01       		.byte	0x1
+ 1870 067e F6       		.byte	0xf6
+ 1871 067f 97000000 		.4byte	0x97
+ 1872 0683 BE030000 		.4byte	.LLST26
+ 1873 0687 00       		.byte	0
+ 1874 0688 13       		.uleb128 0x13
+ 1875 0689 B1010000 		.4byte	.LASF49
+ 1876 068d 01       		.byte	0x1
+ 1877 068e FF       		.byte	0xff
+ 1878 068f 00000000 		.4byte	.LFB80
+ 1879 0693 96000000 		.4byte	.LFE80-.LFB80
+ 1880 0697 01       		.uleb128 0x1
+ 1881 0698 9C       		.byte	0x9c
+ 1882 0699 5D070000 		.4byte	0x75d
+ 1883 069d 0C       		.uleb128 0xc
+ 1884 069e 647400   		.ascii	"dt\000"
+ 1885 06a1 01       		.byte	0x1
+ 1886 06a2 FF       		.byte	0xff
+ 1887 06a3 4C010000 		.4byte	0x14c
+ 1888 06a7 02       		.uleb128 0x2
+ 1889 06a8 91       		.byte	0x91
+ 1890 06a9 60       		.sleb128 -32
+ 1891 06aa 19       		.uleb128 0x19
+ 1892 06ab 3B010000 		.4byte	.LASF50
+ 1893 06af 01       		.byte	0x1
+ 1894 06b0 0201     		.2byte	0x102
+ 1895 06b2 F2000000 		.4byte	0xf2
+ 1896 06b6 02       		.uleb128 0x2
+ 1897 06b7 91       		.byte	0x91
+ 1898 06b8 68       		.sleb128 -24
+ 1899 06b9 11       		.uleb128 0x11
+ 1900 06ba 16000000 		.4byte	.LVL64
+ 1901 06be 1A020000 		.4byte	0x21a
+ 1902 06c2 11       		.uleb128 0x11
+ 1903 06c3 1A000000 		.4byte	.LVL65
+ 1904 06c7 5F060000 		.4byte	0x65f
+ 1905 06cb 11       		.uleb128 0x11
+ 1906 06cc 26000000 		.4byte	.LVL66
+ 1907 06d0 F3010000 		.4byte	0x1f3
+ 1908 06d4 11       		.uleb128 0x11
+ 1909 06d5 2A000000 		.4byte	.LVL67
+ 1910 06d9 5F060000 		.4byte	0x65f
+ 1911 06dd 11       		.uleb128 0x11
+ 1912 06de 36000000 		.4byte	.LVL68
+ 1913 06e2 CC010000 		.4byte	0x1cc
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 40
+
+
+ 1914 06e6 11       		.uleb128 0x11
+ 1915 06e7 3A000000 		.4byte	.LVL69
+ 1916 06eb 5F060000 		.4byte	0x65f
+ 1917 06ef 11       		.uleb128 0x11
+ 1918 06f0 4A000000 		.4byte	.LVL70
+ 1919 06f4 A5010000 		.4byte	0x1a5
+ 1920 06f8 11       		.uleb128 0x11
+ 1921 06f9 4E000000 		.4byte	.LVL71
+ 1922 06fd 5F060000 		.4byte	0x65f
+ 1923 0701 11       		.uleb128 0x11
+ 1924 0702 5A000000 		.4byte	.LVL72
+ 1925 0706 7E010000 		.4byte	0x17e
+ 1926 070a 11       		.uleb128 0x11
+ 1927 070b 5E000000 		.4byte	.LVL73
+ 1928 070f 5F060000 		.4byte	0x65f
+ 1929 0713 11       		.uleb128 0x11
+ 1930 0714 6A000000 		.4byte	.LVL74
+ 1931 0718 57010000 		.4byte	0x157
+ 1932 071c 11       		.uleb128 0x11
+ 1933 071d 72000000 		.4byte	.LVL75
+ 1934 0721 5F060000 		.4byte	0x65f
+ 1935 0725 0F       		.uleb128 0xf
+ 1936 0726 84000000 		.4byte	.LVL76
+ 1937 072a 36090000 		.4byte	0x936
+ 1938 072e 4A070000 		.4byte	0x74a
+ 1939 0732 10       		.uleb128 0x10
+ 1940 0733 01       		.uleb128 0x1
+ 1941 0734 50       		.byte	0x50
+ 1942 0735 02       		.uleb128 0x2
+ 1943 0736 08       		.byte	0x8
+ 1944 0737 68       		.byte	0x68
+ 1945 0738 10       		.uleb128 0x10
+ 1946 0739 01       		.uleb128 0x1
+ 1947 073a 51       		.byte	0x51
+ 1948 073b 02       		.uleb128 0x2
+ 1949 073c 91       		.byte	0x91
+ 1950 073d 68       		.sleb128 -24
+ 1951 073e 10       		.uleb128 0x10
+ 1952 073f 01       		.uleb128 0x1
+ 1953 0740 52       		.byte	0x52
+ 1954 0741 01       		.uleb128 0x1
+ 1955 0742 38       		.byte	0x38
+ 1956 0743 10       		.uleb128 0x10
+ 1957 0744 01       		.uleb128 0x1
+ 1958 0745 53       		.byte	0x53
+ 1959 0746 02       		.uleb128 0x2
+ 1960 0747 75       		.byte	0x75
+ 1961 0748 00       		.sleb128 0
+ 1962 0749 00       		.byte	0
+ 1963 074a 11       		.uleb128 0x11
+ 1964 074b 88000000 		.4byte	.LVL77
+ 1965 074f 41090000 		.4byte	0x941
+ 1966 0753 11       		.uleb128 0x11
+ 1967 0754 92000000 		.4byte	.LVL78
+ 1968 0758 4C090000 		.4byte	0x94c
+ 1969 075c 00       		.byte	0
+ 1970 075d 1A       		.uleb128 0x1a
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 41
+
+
+ 1971 075e D7030000 		.4byte	.LASF51
+ 1972 0762 01       		.byte	0x1
+ 1973 0763 1701     		.2byte	0x117
+ 1974 0765 4C010000 		.4byte	0x14c
+ 1975 0769 00000000 		.4byte	.LFB81
+ 1976 076d 98000000 		.4byte	.LFE81-.LFB81
+ 1977 0771 01       		.uleb128 0x1
+ 1978 0772 9C       		.byte	0x9c
+ 1979 0773 9D080000 		.4byte	0x89d
+ 1980 0777 19       		.uleb128 0x19
+ 1981 0778 3B010000 		.4byte	.LASF50
+ 1982 077c 01       		.byte	0x1
+ 1983 077d 1801     		.2byte	0x118
+ 1984 077f 9D080000 		.4byte	0x89d
+ 1985 0783 02       		.uleb128 0x2
+ 1986 0784 91       		.byte	0x91
+ 1987 0785 5C       		.sleb128 -36
+ 1988 0786 1B       		.uleb128 0x1b
+ 1989 0787 737300   		.ascii	"ss\000"
+ 1990 078a 01       		.byte	0x1
+ 1991 078b 2101     		.2byte	0x121
+ 1992 078d 97000000 		.4byte	0x97
+ 1993 0791 DF030000 		.4byte	.LLST27
+ 1994 0795 1B       		.uleb128 0x1b
+ 1995 0796 6D6D00   		.ascii	"mm\000"
+ 1996 0799 01       		.byte	0x1
+ 1997 079a 2201     		.2byte	0x122
+ 1998 079c 97000000 		.4byte	0x97
+ 1999 07a0 FE030000 		.4byte	.LLST28
+ 2000 07a4 1B       		.uleb128 0x1b
+ 2001 07a5 686800   		.ascii	"hh\000"
+ 2002 07a8 01       		.byte	0x1
+ 2003 07a9 2301     		.2byte	0x123
+ 2004 07ab 97000000 		.4byte	0x97
+ 2005 07af 1D040000 		.4byte	.LLST29
+ 2006 07b3 1B       		.uleb128 0x1b
+ 2007 07b4 6400     		.ascii	"d\000"
+ 2008 07b6 01       		.byte	0x1
+ 2009 07b7 2401     		.2byte	0x124
+ 2010 07b9 97000000 		.4byte	0x97
+ 2011 07bd 3C040000 		.4byte	.LLST30
+ 2012 07c1 1B       		.uleb128 0x1b
+ 2013 07c2 6D00     		.ascii	"m\000"
+ 2014 07c4 01       		.byte	0x1
+ 2015 07c5 2501     		.2byte	0x125
+ 2016 07c7 97000000 		.4byte	0x97
+ 2017 07cb 5B040000 		.4byte	.LLST31
+ 2018 07cf 1C       		.uleb128 0x1c
+ 2019 07d0 0C000000 		.4byte	.LASF23
+ 2020 07d4 01       		.byte	0x1
+ 2021 07d5 2601     		.2byte	0x126
+ 2022 07d7 A2000000 		.4byte	0xa2
+ 2023 07db 7A040000 		.4byte	.LLST32
+ 2024 07df 1B       		.uleb128 0x1b
+ 2025 07e0 647400   		.ascii	"dt\000"
+ 2026 07e3 01       		.byte	0x1
+ 2027 07e4 2901     		.2byte	0x129
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 42
+
+
+ 2028 07e6 4C010000 		.4byte	0x14c
+ 2029 07ea A4040000 		.4byte	.LLST33
+ 2030 07ee 0F       		.uleb128 0xf
+ 2031 07ef 18000000 		.4byte	.LVL81
+ 2032 07f3 36090000 		.4byte	0x936
+ 2033 07f7 12080000 		.4byte	0x812
+ 2034 07fb 10       		.uleb128 0x10
+ 2035 07fc 01       		.uleb128 0x1
+ 2036 07fd 50       		.byte	0x50
+ 2037 07fe 02       		.uleb128 0x2
+ 2038 07ff 08       		.byte	0x8
+ 2039 0800 68       		.byte	0x68
+ 2040 0801 10       		.uleb128 0x10
+ 2041 0802 01       		.uleb128 0x1
+ 2042 0803 51       		.byte	0x51
+ 2043 0804 02       		.uleb128 0x2
+ 2044 0805 91       		.byte	0x91
+ 2045 0806 5C       		.sleb128 -36
+ 2046 0807 10       		.uleb128 0x10
+ 2047 0808 01       		.uleb128 0x1
+ 2048 0809 52       		.byte	0x52
+ 2049 080a 01       		.uleb128 0x1
+ 2050 080b 31       		.byte	0x31
+ 2051 080c 10       		.uleb128 0x10
+ 2052 080d 01       		.uleb128 0x1
+ 2053 080e 53       		.byte	0x53
+ 2054 080f 01       		.uleb128 0x1
+ 2055 0810 30       		.byte	0x30
+ 2056 0811 00       		.byte	0
+ 2057 0812 11       		.uleb128 0x11
+ 2058 0813 1C000000 		.4byte	.LVL82
+ 2059 0817 41090000 		.4byte	0x941
+ 2060 081b 11       		.uleb128 0x11
+ 2061 081c 26000000 		.4byte	.LVL83
+ 2062 0820 4C090000 		.4byte	0x94c
+ 2063 0824 0F       		.uleb128 0xf
+ 2064 0825 32000000 		.4byte	.LVL84
+ 2065 0829 2B090000 		.4byte	0x92b
+ 2066 082d 4B080000 		.4byte	0x84b
+ 2067 0831 10       		.uleb128 0x10
+ 2068 0832 01       		.uleb128 0x1
+ 2069 0833 50       		.byte	0x50
+ 2070 0834 02       		.uleb128 0x2
+ 2071 0835 08       		.byte	0x8
+ 2072 0836 68       		.byte	0x68
+ 2073 0837 10       		.uleb128 0x10
+ 2074 0838 01       		.uleb128 0x1
+ 2075 0839 51       		.byte	0x51
+ 2076 083a 05       		.uleb128 0x5
+ 2077 083b 03       		.byte	0x3
+ 2078 083c 00000000 		.4byte	RTC_read_buff
+ 2079 0840 10       		.uleb128 0x10
+ 2080 0841 01       		.uleb128 0x1
+ 2081 0842 52       		.byte	0x52
+ 2082 0843 01       		.uleb128 0x1
+ 2083 0844 37       		.byte	0x37
+ 2084 0845 10       		.uleb128 0x10
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 43
+
+
+ 2085 0846 01       		.uleb128 0x1
+ 2086 0847 53       		.byte	0x53
+ 2087 0848 01       		.uleb128 0x1
+ 2088 0849 30       		.byte	0x30
+ 2089 084a 00       		.byte	0
+ 2090 084b 11       		.uleb128 0x11
+ 2091 084c 36000000 		.4byte	.LVL85
+ 2092 0850 41090000 		.4byte	0x941
+ 2093 0854 11       		.uleb128 0x11
+ 2094 0855 40000000 		.4byte	.LVL86
+ 2095 0859 4C090000 		.4byte	0x94c
+ 2096 085d 11       		.uleb128 0x11
+ 2097 085e 4C000000 		.4byte	.LVL87
+ 2098 0862 36060000 		.4byte	0x636
+ 2099 0866 11       		.uleb128 0x11
+ 2100 0867 54000000 		.4byte	.LVL89
+ 2101 086b 36060000 		.4byte	0x636
+ 2102 086f 11       		.uleb128 0x11
+ 2103 0870 5C000000 		.4byte	.LVL91
+ 2104 0874 36060000 		.4byte	0x636
+ 2105 0878 11       		.uleb128 0x11
+ 2106 0879 64000000 		.4byte	.LVL93
+ 2107 087d 36060000 		.4byte	0x636
+ 2108 0881 11       		.uleb128 0x11
+ 2109 0882 6C000000 		.4byte	.LVL95
+ 2110 0886 36060000 		.4byte	0x636
+ 2111 088a 11       		.uleb128 0x11
+ 2112 088b 74000000 		.4byte	.LVL97
+ 2113 088f 36060000 		.4byte	0x636
+ 2114 0893 11       		.uleb128 0x11
+ 2115 0894 7A000000 		.4byte	.LVL99
+ 2116 0898 57090000 		.4byte	0x957
+ 2117 089c 00       		.byte	0
+ 2118 089d 06       		.uleb128 0x6
+ 2119 089e C3000000 		.4byte	0xc3
+ 2120 08a2 AD080000 		.4byte	0x8ad
+ 2121 08a6 07       		.uleb128 0x7
+ 2122 08a7 EB000000 		.4byte	0xeb
+ 2123 08ab 00       		.byte	0
+ 2124 08ac 00       		.byte	0
+ 2125 08ad 1D       		.uleb128 0x1d
+ 2126 08ae DF030000 		.4byte	.LASF52
+ 2127 08b2 06       		.byte	0x6
+ 2128 08b3 1207     		.2byte	0x712
+ 2129 08b5 B9080000 		.4byte	0x8b9
+ 2130 08b9 1E       		.uleb128 0x1e
+ 2131 08ba AD000000 		.4byte	0xad
+ 2132 08be 06       		.uleb128 0x6
+ 2133 08bf C3000000 		.4byte	0xc3
+ 2134 08c3 CE080000 		.4byte	0x8ce
+ 2135 08c7 07       		.uleb128 0x7
+ 2136 08c8 EB000000 		.4byte	0xeb
+ 2137 08cc 09       		.byte	0x9
+ 2138 08cd 00       		.byte	0
+ 2139 08ce 1F       		.uleb128 0x1f
+ 2140 08cf 31030000 		.4byte	.LASF53
+ 2141 08d3 01       		.byte	0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 44
+
+
+ 2142 08d4 10       		.byte	0x10
+ 2143 08d5 BE080000 		.4byte	0x8be
+ 2144 08d9 05       		.uleb128 0x5
+ 2145 08da 03       		.byte	0x3
+ 2146 08db 00000000 		.4byte	RTC_read_buff
+ 2147 08df 06       		.uleb128 0x6
+ 2148 08e0 EF080000 		.4byte	0x8ef
+ 2149 08e4 EF080000 		.4byte	0x8ef
+ 2150 08e8 07       		.uleb128 0x7
+ 2151 08e9 EB000000 		.4byte	0xeb
+ 2152 08ed 0A       		.byte	0xa
+ 2153 08ee 00       		.byte	0
+ 2154 08ef 20       		.uleb128 0x20
+ 2155 08f0 97000000 		.4byte	0x97
+ 2156 08f4 1F       		.uleb128 0x1f
+ 2157 08f5 17020000 		.4byte	.LASF54
+ 2158 08f9 01       		.byte	0x1
+ 2159 08fa 4C       		.byte	0x4c
+ 2160 08fb 05090000 		.4byte	0x905
+ 2161 08ff 05       		.uleb128 0x5
+ 2162 0900 03       		.byte	0x3
+ 2163 0901 00000000 		.4byte	daysInMonth
+ 2164 0905 20       		.uleb128 0x20
+ 2165 0906 DF080000 		.4byte	0x8df
+ 2166 090a 21       		.uleb128 0x21
+ 2167 090b D3000000 		.4byte	.LASF55
+ 2168 090f D3000000 		.4byte	.LASF55
+ 2169 0913 07       		.byte	0x7
+ 2170 0914 B1       		.byte	0xb1
+ 2171 0915 21       		.uleb128 0x21
+ 2172 0916 8E010000 		.4byte	.LASF56
+ 2173 091a 8E010000 		.4byte	.LASF56
+ 2174 091e 07       		.byte	0x7
+ 2175 091f B6       		.byte	0xb6
+ 2176 0920 21       		.uleb128 0x21
+ 2177 0921 0C010000 		.4byte	.LASF57
+ 2178 0925 0C010000 		.4byte	.LASF57
+ 2179 0929 07       		.byte	0x7
+ 2180 092a B5       		.byte	0xb5
+ 2181 092b 21       		.uleb128 0x21
+ 2182 092c 89030000 		.4byte	.LASF58
+ 2183 0930 89030000 		.4byte	.LASF58
+ 2184 0934 07       		.byte	0x7
+ 2185 0935 A9       		.byte	0xa9
+ 2186 0936 21       		.uleb128 0x21
+ 2187 0937 F9030000 		.4byte	.LASF59
+ 2188 093b F9030000 		.4byte	.LASF59
+ 2189 093f 07       		.byte	0x7
+ 2190 0940 A7       		.byte	0xa7
+ 2191 0941 21       		.uleb128 0x21
+ 2192 0942 C3030000 		.4byte	.LASF60
+ 2193 0946 C3030000 		.4byte	.LASF60
+ 2194 094a 07       		.byte	0x7
+ 2195 094b A3       		.byte	0xa3
+ 2196 094c 21       		.uleb128 0x21
+ 2197 094d FE010000 		.4byte	.LASF61
+ 2198 0951 FE010000 		.4byte	.LASF61
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 45
+
+
+ 2199 0955 07       		.byte	0x7
+ 2200 0956 A4       		.byte	0xa4
+ 2201 0957 21       		.uleb128 0x21
+ 2202 0958 35020000 		.4byte	.LASF62
+ 2203 095c 35020000 		.4byte	.LASF62
+ 2204 0960 07       		.byte	0x7
+ 2205 0961 AD       		.byte	0xad
+ 2206 0962 00       		.byte	0
+ 2207              		.section	.debug_abbrev,"",%progbits
+ 2208              	.Ldebug_abbrev0:
+ 2209 0000 01       		.uleb128 0x1
+ 2210 0001 11       		.uleb128 0x11
+ 2211 0002 01       		.byte	0x1
+ 2212 0003 25       		.uleb128 0x25
+ 2213 0004 0E       		.uleb128 0xe
+ 2214 0005 13       		.uleb128 0x13
+ 2215 0006 0B       		.uleb128 0xb
+ 2216 0007 03       		.uleb128 0x3
+ 2217 0008 0E       		.uleb128 0xe
+ 2218 0009 1B       		.uleb128 0x1b
+ 2219 000a 0E       		.uleb128 0xe
+ 2220 000b 55       		.uleb128 0x55
+ 2221 000c 17       		.uleb128 0x17
+ 2222 000d 11       		.uleb128 0x11
+ 2223 000e 01       		.uleb128 0x1
+ 2224 000f 10       		.uleb128 0x10
+ 2225 0010 17       		.uleb128 0x17
+ 2226 0011 00       		.byte	0
+ 2227 0012 00       		.byte	0
+ 2228 0013 02       		.uleb128 0x2
+ 2229 0014 24       		.uleb128 0x24
+ 2230 0015 00       		.byte	0
+ 2231 0016 0B       		.uleb128 0xb
+ 2232 0017 0B       		.uleb128 0xb
+ 2233 0018 3E       		.uleb128 0x3e
+ 2234 0019 0B       		.uleb128 0xb
+ 2235 001a 03       		.uleb128 0x3
+ 2236 001b 0E       		.uleb128 0xe
+ 2237 001c 00       		.byte	0
+ 2238 001d 00       		.byte	0
+ 2239 001e 03       		.uleb128 0x3
+ 2240 001f 16       		.uleb128 0x16
+ 2241 0020 00       		.byte	0
+ 2242 0021 03       		.uleb128 0x3
+ 2243 0022 0E       		.uleb128 0xe
+ 2244 0023 3A       		.uleb128 0x3a
+ 2245 0024 0B       		.uleb128 0xb
+ 2246 0025 3B       		.uleb128 0x3b
+ 2247 0026 0B       		.uleb128 0xb
+ 2248 0027 49       		.uleb128 0x49
+ 2249 0028 13       		.uleb128 0x13
+ 2250 0029 00       		.byte	0
+ 2251 002a 00       		.byte	0
+ 2252 002b 04       		.uleb128 0x4
+ 2253 002c 24       		.uleb128 0x24
+ 2254 002d 00       		.byte	0
+ 2255 002e 0B       		.uleb128 0xb
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 46
+
+
+ 2256 002f 0B       		.uleb128 0xb
+ 2257 0030 3E       		.uleb128 0x3e
+ 2258 0031 0B       		.uleb128 0xb
+ 2259 0032 03       		.uleb128 0x3
+ 2260 0033 08       		.uleb128 0x8
+ 2261 0034 00       		.byte	0
+ 2262 0035 00       		.byte	0
+ 2263 0036 05       		.uleb128 0x5
+ 2264 0037 16       		.uleb128 0x16
+ 2265 0038 00       		.byte	0
+ 2266 0039 03       		.uleb128 0x3
+ 2267 003a 0E       		.uleb128 0xe
+ 2268 003b 3A       		.uleb128 0x3a
+ 2269 003c 0B       		.uleb128 0xb
+ 2270 003d 3B       		.uleb128 0x3b
+ 2271 003e 05       		.uleb128 0x5
+ 2272 003f 49       		.uleb128 0x49
+ 2273 0040 13       		.uleb128 0x13
+ 2274 0041 00       		.byte	0
+ 2275 0042 00       		.byte	0
+ 2276 0043 06       		.uleb128 0x6
+ 2277 0044 01       		.uleb128 0x1
+ 2278 0045 01       		.byte	0x1
+ 2279 0046 49       		.uleb128 0x49
+ 2280 0047 13       		.uleb128 0x13
+ 2281 0048 01       		.uleb128 0x1
+ 2282 0049 13       		.uleb128 0x13
+ 2283 004a 00       		.byte	0
+ 2284 004b 00       		.byte	0
+ 2285 004c 07       		.uleb128 0x7
+ 2286 004d 21       		.uleb128 0x21
+ 2287 004e 00       		.byte	0
+ 2288 004f 49       		.uleb128 0x49
+ 2289 0050 13       		.uleb128 0x13
+ 2290 0051 2F       		.uleb128 0x2f
+ 2291 0052 0B       		.uleb128 0xb
+ 2292 0053 00       		.byte	0
+ 2293 0054 00       		.byte	0
+ 2294 0055 08       		.uleb128 0x8
+ 2295 0056 13       		.uleb128 0x13
+ 2296 0057 01       		.byte	0x1
+ 2297 0058 0B       		.uleb128 0xb
+ 2298 0059 0B       		.uleb128 0xb
+ 2299 005a 3A       		.uleb128 0x3a
+ 2300 005b 0B       		.uleb128 0xb
+ 2301 005c 3B       		.uleb128 0x3b
+ 2302 005d 0B       		.uleb128 0xb
+ 2303 005e 01       		.uleb128 0x1
+ 2304 005f 13       		.uleb128 0x13
+ 2305 0060 00       		.byte	0
+ 2306 0061 00       		.byte	0
+ 2307 0062 09       		.uleb128 0x9
+ 2308 0063 0D       		.uleb128 0xd
+ 2309 0064 00       		.byte	0
+ 2310 0065 03       		.uleb128 0x3
+ 2311 0066 0E       		.uleb128 0xe
+ 2312 0067 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 47
+
+
+ 2313 0068 0B       		.uleb128 0xb
+ 2314 0069 3B       		.uleb128 0x3b
+ 2315 006a 0B       		.uleb128 0xb
+ 2316 006b 49       		.uleb128 0x49
+ 2317 006c 13       		.uleb128 0x13
+ 2318 006d 38       		.uleb128 0x38
+ 2319 006e 0B       		.uleb128 0xb
+ 2320 006f 00       		.byte	0
+ 2321 0070 00       		.byte	0
+ 2322 0071 0A       		.uleb128 0xa
+ 2323 0072 0D       		.uleb128 0xd
+ 2324 0073 00       		.byte	0
+ 2325 0074 03       		.uleb128 0x3
+ 2326 0075 08       		.uleb128 0x8
+ 2327 0076 3A       		.uleb128 0x3a
+ 2328 0077 0B       		.uleb128 0xb
+ 2329 0078 3B       		.uleb128 0x3b
+ 2330 0079 0B       		.uleb128 0xb
+ 2331 007a 49       		.uleb128 0x49
+ 2332 007b 13       		.uleb128 0x13
+ 2333 007c 38       		.uleb128 0x38
+ 2334 007d 0B       		.uleb128 0xb
+ 2335 007e 00       		.byte	0
+ 2336 007f 00       		.byte	0
+ 2337 0080 0B       		.uleb128 0xb
+ 2338 0081 2E       		.uleb128 0x2e
+ 2339 0082 01       		.byte	0x1
+ 2340 0083 3F       		.uleb128 0x3f
+ 2341 0084 19       		.uleb128 0x19
+ 2342 0085 03       		.uleb128 0x3
+ 2343 0086 0E       		.uleb128 0xe
+ 2344 0087 3A       		.uleb128 0x3a
+ 2345 0088 0B       		.uleb128 0xb
+ 2346 0089 3B       		.uleb128 0x3b
+ 2347 008a 0B       		.uleb128 0xb
+ 2348 008b 27       		.uleb128 0x27
+ 2349 008c 19       		.uleb128 0x19
+ 2350 008d 49       		.uleb128 0x49
+ 2351 008e 13       		.uleb128 0x13
+ 2352 008f 11       		.uleb128 0x11
+ 2353 0090 01       		.uleb128 0x1
+ 2354 0091 12       		.uleb128 0x12
+ 2355 0092 06       		.uleb128 0x6
+ 2356 0093 40       		.uleb128 0x40
+ 2357 0094 18       		.uleb128 0x18
+ 2358 0095 9742     		.uleb128 0x2117
+ 2359 0097 19       		.uleb128 0x19
+ 2360 0098 01       		.uleb128 0x1
+ 2361 0099 13       		.uleb128 0x13
+ 2362 009a 00       		.byte	0
+ 2363 009b 00       		.byte	0
+ 2364 009c 0C       		.uleb128 0xc
+ 2365 009d 05       		.uleb128 0x5
+ 2366 009e 00       		.byte	0
+ 2367 009f 03       		.uleb128 0x3
+ 2368 00a0 08       		.uleb128 0x8
+ 2369 00a1 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 48
+
+
+ 2370 00a2 0B       		.uleb128 0xb
+ 2371 00a3 3B       		.uleb128 0x3b
+ 2372 00a4 0B       		.uleb128 0xb
+ 2373 00a5 49       		.uleb128 0x49
+ 2374 00a6 13       		.uleb128 0x13
+ 2375 00a7 02       		.uleb128 0x2
+ 2376 00a8 18       		.uleb128 0x18
+ 2377 00a9 00       		.byte	0
+ 2378 00aa 00       		.byte	0
+ 2379 00ab 0D       		.uleb128 0xd
+ 2380 00ac 05       		.uleb128 0x5
+ 2381 00ad 00       		.byte	0
+ 2382 00ae 03       		.uleb128 0x3
+ 2383 00af 0E       		.uleb128 0xe
+ 2384 00b0 3A       		.uleb128 0x3a
+ 2385 00b1 0B       		.uleb128 0xb
+ 2386 00b2 3B       		.uleb128 0x3b
+ 2387 00b3 0B       		.uleb128 0xb
+ 2388 00b4 49       		.uleb128 0x49
+ 2389 00b5 13       		.uleb128 0x13
+ 2390 00b6 02       		.uleb128 0x2
+ 2391 00b7 17       		.uleb128 0x17
+ 2392 00b8 00       		.byte	0
+ 2393 00b9 00       		.byte	0
+ 2394 00ba 0E       		.uleb128 0xe
+ 2395 00bb 05       		.uleb128 0x5
+ 2396 00bc 00       		.byte	0
+ 2397 00bd 03       		.uleb128 0x3
+ 2398 00be 08       		.uleb128 0x8
+ 2399 00bf 3A       		.uleb128 0x3a
+ 2400 00c0 0B       		.uleb128 0xb
+ 2401 00c1 3B       		.uleb128 0x3b
+ 2402 00c2 0B       		.uleb128 0xb
+ 2403 00c3 49       		.uleb128 0x49
+ 2404 00c4 13       		.uleb128 0x13
+ 2405 00c5 02       		.uleb128 0x2
+ 2406 00c6 17       		.uleb128 0x17
+ 2407 00c7 00       		.byte	0
+ 2408 00c8 00       		.byte	0
+ 2409 00c9 0F       		.uleb128 0xf
+ 2410 00ca 898201   		.uleb128 0x4109
+ 2411 00cd 01       		.byte	0x1
+ 2412 00ce 11       		.uleb128 0x11
+ 2413 00cf 01       		.uleb128 0x1
+ 2414 00d0 31       		.uleb128 0x31
+ 2415 00d1 13       		.uleb128 0x13
+ 2416 00d2 01       		.uleb128 0x1
+ 2417 00d3 13       		.uleb128 0x13
+ 2418 00d4 00       		.byte	0
+ 2419 00d5 00       		.byte	0
+ 2420 00d6 10       		.uleb128 0x10
+ 2421 00d7 8A8201   		.uleb128 0x410a
+ 2422 00da 00       		.byte	0
+ 2423 00db 02       		.uleb128 0x2
+ 2424 00dc 18       		.uleb128 0x18
+ 2425 00dd 9142     		.uleb128 0x2111
+ 2426 00df 18       		.uleb128 0x18
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 49
+
+
+ 2427 00e0 00       		.byte	0
+ 2428 00e1 00       		.byte	0
+ 2429 00e2 11       		.uleb128 0x11
+ 2430 00e3 898201   		.uleb128 0x4109
+ 2431 00e6 00       		.byte	0
+ 2432 00e7 11       		.uleb128 0x11
+ 2433 00e8 01       		.uleb128 0x1
+ 2434 00e9 31       		.uleb128 0x31
+ 2435 00ea 13       		.uleb128 0x13
+ 2436 00eb 00       		.byte	0
+ 2437 00ec 00       		.byte	0
+ 2438 00ed 12       		.uleb128 0x12
+ 2439 00ee 898201   		.uleb128 0x4109
+ 2440 00f1 01       		.byte	0x1
+ 2441 00f2 11       		.uleb128 0x11
+ 2442 00f3 01       		.uleb128 0x1
+ 2443 00f4 31       		.uleb128 0x31
+ 2444 00f5 13       		.uleb128 0x13
+ 2445 00f6 00       		.byte	0
+ 2446 00f7 00       		.byte	0
+ 2447 00f8 13       		.uleb128 0x13
+ 2448 00f9 2E       		.uleb128 0x2e
+ 2449 00fa 01       		.byte	0x1
+ 2450 00fb 3F       		.uleb128 0x3f
+ 2451 00fc 19       		.uleb128 0x19
+ 2452 00fd 03       		.uleb128 0x3
+ 2453 00fe 0E       		.uleb128 0xe
+ 2454 00ff 3A       		.uleb128 0x3a
+ 2455 0100 0B       		.uleb128 0xb
+ 2456 0101 3B       		.uleb128 0x3b
+ 2457 0102 0B       		.uleb128 0xb
+ 2458 0103 27       		.uleb128 0x27
+ 2459 0104 19       		.uleb128 0x19
+ 2460 0105 11       		.uleb128 0x11
+ 2461 0106 01       		.uleb128 0x1
+ 2462 0107 12       		.uleb128 0x12
+ 2463 0108 06       		.uleb128 0x6
+ 2464 0109 40       		.uleb128 0x40
+ 2465 010a 18       		.uleb128 0x18
+ 2466 010b 9742     		.uleb128 0x2117
+ 2467 010d 19       		.uleb128 0x19
+ 2468 010e 01       		.uleb128 0x1
+ 2469 010f 13       		.uleb128 0x13
+ 2470 0110 00       		.byte	0
+ 2471 0111 00       		.byte	0
+ 2472 0112 14       		.uleb128 0x14
+ 2473 0113 34       		.uleb128 0x34
+ 2474 0114 00       		.byte	0
+ 2475 0115 03       		.uleb128 0x3
+ 2476 0116 0E       		.uleb128 0xe
+ 2477 0117 3A       		.uleb128 0x3a
+ 2478 0118 0B       		.uleb128 0xb
+ 2479 0119 3B       		.uleb128 0x3b
+ 2480 011a 0B       		.uleb128 0xb
+ 2481 011b 49       		.uleb128 0x49
+ 2482 011c 13       		.uleb128 0x13
+ 2483 011d 02       		.uleb128 0x2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 50
+
+
+ 2484 011e 17       		.uleb128 0x17
+ 2485 011f 00       		.byte	0
+ 2486 0120 00       		.byte	0
+ 2487 0121 15       		.uleb128 0x15
+ 2488 0122 0B       		.uleb128 0xb
+ 2489 0123 01       		.byte	0x1
+ 2490 0124 11       		.uleb128 0x11
+ 2491 0125 01       		.uleb128 0x1
+ 2492 0126 12       		.uleb128 0x12
+ 2493 0127 06       		.uleb128 0x6
+ 2494 0128 00       		.byte	0
+ 2495 0129 00       		.byte	0
+ 2496 012a 16       		.uleb128 0x16
+ 2497 012b 34       		.uleb128 0x34
+ 2498 012c 00       		.byte	0
+ 2499 012d 03       		.uleb128 0x3
+ 2500 012e 08       		.uleb128 0x8
+ 2501 012f 3A       		.uleb128 0x3a
+ 2502 0130 0B       		.uleb128 0xb
+ 2503 0131 3B       		.uleb128 0x3b
+ 2504 0132 0B       		.uleb128 0xb
+ 2505 0133 49       		.uleb128 0x49
+ 2506 0134 13       		.uleb128 0x13
+ 2507 0135 02       		.uleb128 0x2
+ 2508 0136 17       		.uleb128 0x17
+ 2509 0137 00       		.byte	0
+ 2510 0138 00       		.byte	0
+ 2511 0139 17       		.uleb128 0x17
+ 2512 013a 34       		.uleb128 0x34
+ 2513 013b 00       		.byte	0
+ 2514 013c 03       		.uleb128 0x3
+ 2515 013d 08       		.uleb128 0x8
+ 2516 013e 3A       		.uleb128 0x3a
+ 2517 013f 0B       		.uleb128 0xb
+ 2518 0140 3B       		.uleb128 0x3b
+ 2519 0141 0B       		.uleb128 0xb
+ 2520 0142 49       		.uleb128 0x49
+ 2521 0143 13       		.uleb128 0x13
+ 2522 0144 02       		.uleb128 0x2
+ 2523 0145 18       		.uleb128 0x18
+ 2524 0146 00       		.byte	0
+ 2525 0147 00       		.byte	0
+ 2526 0148 18       		.uleb128 0x18
+ 2527 0149 05       		.uleb128 0x5
+ 2528 014a 00       		.byte	0
+ 2529 014b 03       		.uleb128 0x3
+ 2530 014c 0E       		.uleb128 0xe
+ 2531 014d 3A       		.uleb128 0x3a
+ 2532 014e 0B       		.uleb128 0xb
+ 2533 014f 3B       		.uleb128 0x3b
+ 2534 0150 0B       		.uleb128 0xb
+ 2535 0151 49       		.uleb128 0x49
+ 2536 0152 13       		.uleb128 0x13
+ 2537 0153 02       		.uleb128 0x2
+ 2538 0154 18       		.uleb128 0x18
+ 2539 0155 00       		.byte	0
+ 2540 0156 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 51
+
+
+ 2541 0157 19       		.uleb128 0x19
+ 2542 0158 34       		.uleb128 0x34
+ 2543 0159 00       		.byte	0
+ 2544 015a 03       		.uleb128 0x3
+ 2545 015b 0E       		.uleb128 0xe
+ 2546 015c 3A       		.uleb128 0x3a
+ 2547 015d 0B       		.uleb128 0xb
+ 2548 015e 3B       		.uleb128 0x3b
+ 2549 015f 05       		.uleb128 0x5
+ 2550 0160 49       		.uleb128 0x49
+ 2551 0161 13       		.uleb128 0x13
+ 2552 0162 02       		.uleb128 0x2
+ 2553 0163 18       		.uleb128 0x18
+ 2554 0164 00       		.byte	0
+ 2555 0165 00       		.byte	0
+ 2556 0166 1A       		.uleb128 0x1a
+ 2557 0167 2E       		.uleb128 0x2e
+ 2558 0168 01       		.byte	0x1
+ 2559 0169 3F       		.uleb128 0x3f
+ 2560 016a 19       		.uleb128 0x19
+ 2561 016b 03       		.uleb128 0x3
+ 2562 016c 0E       		.uleb128 0xe
+ 2563 016d 3A       		.uleb128 0x3a
+ 2564 016e 0B       		.uleb128 0xb
+ 2565 016f 3B       		.uleb128 0x3b
+ 2566 0170 05       		.uleb128 0x5
+ 2567 0171 49       		.uleb128 0x49
+ 2568 0172 13       		.uleb128 0x13
+ 2569 0173 11       		.uleb128 0x11
+ 2570 0174 01       		.uleb128 0x1
+ 2571 0175 12       		.uleb128 0x12
+ 2572 0176 06       		.uleb128 0x6
+ 2573 0177 40       		.uleb128 0x40
+ 2574 0178 18       		.uleb128 0x18
+ 2575 0179 9742     		.uleb128 0x2117
+ 2576 017b 19       		.uleb128 0x19
+ 2577 017c 01       		.uleb128 0x1
+ 2578 017d 13       		.uleb128 0x13
+ 2579 017e 00       		.byte	0
+ 2580 017f 00       		.byte	0
+ 2581 0180 1B       		.uleb128 0x1b
+ 2582 0181 34       		.uleb128 0x34
+ 2583 0182 00       		.byte	0
+ 2584 0183 03       		.uleb128 0x3
+ 2585 0184 08       		.uleb128 0x8
+ 2586 0185 3A       		.uleb128 0x3a
+ 2587 0186 0B       		.uleb128 0xb
+ 2588 0187 3B       		.uleb128 0x3b
+ 2589 0188 05       		.uleb128 0x5
+ 2590 0189 49       		.uleb128 0x49
+ 2591 018a 13       		.uleb128 0x13
+ 2592 018b 02       		.uleb128 0x2
+ 2593 018c 17       		.uleb128 0x17
+ 2594 018d 00       		.byte	0
+ 2595 018e 00       		.byte	0
+ 2596 018f 1C       		.uleb128 0x1c
+ 2597 0190 34       		.uleb128 0x34
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 52
+
+
+ 2598 0191 00       		.byte	0
+ 2599 0192 03       		.uleb128 0x3
+ 2600 0193 0E       		.uleb128 0xe
+ 2601 0194 3A       		.uleb128 0x3a
+ 2602 0195 0B       		.uleb128 0xb
+ 2603 0196 3B       		.uleb128 0x3b
+ 2604 0197 05       		.uleb128 0x5
+ 2605 0198 49       		.uleb128 0x49
+ 2606 0199 13       		.uleb128 0x13
+ 2607 019a 02       		.uleb128 0x2
+ 2608 019b 17       		.uleb128 0x17
+ 2609 019c 00       		.byte	0
+ 2610 019d 00       		.byte	0
+ 2611 019e 1D       		.uleb128 0x1d
+ 2612 019f 34       		.uleb128 0x34
+ 2613 01a0 00       		.byte	0
+ 2614 01a1 03       		.uleb128 0x3
+ 2615 01a2 0E       		.uleb128 0xe
+ 2616 01a3 3A       		.uleb128 0x3a
+ 2617 01a4 0B       		.uleb128 0xb
+ 2618 01a5 3B       		.uleb128 0x3b
+ 2619 01a6 05       		.uleb128 0x5
+ 2620 01a7 49       		.uleb128 0x49
+ 2621 01a8 13       		.uleb128 0x13
+ 2622 01a9 3F       		.uleb128 0x3f
+ 2623 01aa 19       		.uleb128 0x19
+ 2624 01ab 3C       		.uleb128 0x3c
+ 2625 01ac 19       		.uleb128 0x19
+ 2626 01ad 00       		.byte	0
+ 2627 01ae 00       		.byte	0
+ 2628 01af 1E       		.uleb128 0x1e
+ 2629 01b0 35       		.uleb128 0x35
+ 2630 01b1 00       		.byte	0
+ 2631 01b2 49       		.uleb128 0x49
+ 2632 01b3 13       		.uleb128 0x13
+ 2633 01b4 00       		.byte	0
+ 2634 01b5 00       		.byte	0
+ 2635 01b6 1F       		.uleb128 0x1f
+ 2636 01b7 34       		.uleb128 0x34
+ 2637 01b8 00       		.byte	0
+ 2638 01b9 03       		.uleb128 0x3
+ 2639 01ba 0E       		.uleb128 0xe
+ 2640 01bb 3A       		.uleb128 0x3a
+ 2641 01bc 0B       		.uleb128 0xb
+ 2642 01bd 3B       		.uleb128 0x3b
+ 2643 01be 0B       		.uleb128 0xb
+ 2644 01bf 49       		.uleb128 0x49
+ 2645 01c0 13       		.uleb128 0x13
+ 2646 01c1 3F       		.uleb128 0x3f
+ 2647 01c2 19       		.uleb128 0x19
+ 2648 01c3 02       		.uleb128 0x2
+ 2649 01c4 18       		.uleb128 0x18
+ 2650 01c5 00       		.byte	0
+ 2651 01c6 00       		.byte	0
+ 2652 01c7 20       		.uleb128 0x20
+ 2653 01c8 26       		.uleb128 0x26
+ 2654 01c9 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 53
+
+
+ 2655 01ca 49       		.uleb128 0x49
+ 2656 01cb 13       		.uleb128 0x13
+ 2657 01cc 00       		.byte	0
+ 2658 01cd 00       		.byte	0
+ 2659 01ce 21       		.uleb128 0x21
+ 2660 01cf 2E       		.uleb128 0x2e
+ 2661 01d0 00       		.byte	0
+ 2662 01d1 3F       		.uleb128 0x3f
+ 2663 01d2 19       		.uleb128 0x19
+ 2664 01d3 3C       		.uleb128 0x3c
+ 2665 01d4 19       		.uleb128 0x19
+ 2666 01d5 6E       		.uleb128 0x6e
+ 2667 01d6 0E       		.uleb128 0xe
+ 2668 01d7 03       		.uleb128 0x3
+ 2669 01d8 0E       		.uleb128 0xe
+ 2670 01d9 3A       		.uleb128 0x3a
+ 2671 01da 0B       		.uleb128 0xb
+ 2672 01db 3B       		.uleb128 0x3b
+ 2673 01dc 0B       		.uleb128 0xb
+ 2674 01dd 00       		.byte	0
+ 2675 01de 00       		.byte	0
+ 2676 01df 00       		.byte	0
+ 2677              		.section	.debug_loc,"",%progbits
+ 2678              	.Ldebug_loc0:
+ 2679              	.LLST0:
+ 2680 0000 00000000 		.4byte	.LVL0
+ 2681 0004 0B000000 		.4byte	.LVL2-1
+ 2682 0008 0100     		.2byte	0x1
+ 2683 000a 50       		.byte	0x50
+ 2684 000b 0B000000 		.4byte	.LVL2-1
+ 2685 000f 2C000000 		.4byte	.LFE70
+ 2686 0013 0400     		.2byte	0x4
+ 2687 0015 F3       		.byte	0xf3
+ 2688 0016 01       		.uleb128 0x1
+ 2689 0017 50       		.byte	0x50
+ 2690 0018 9F       		.byte	0x9f
+ 2691 0019 00000000 		.4byte	0
+ 2692 001d 00000000 		.4byte	0
+ 2693              	.LLST1:
+ 2694 0021 00000000 		.4byte	.LVL0
+ 2695 0025 08000000 		.4byte	.LVL1
+ 2696 0029 0100     		.2byte	0x1
+ 2697 002b 51       		.byte	0x51
+ 2698 002c 08000000 		.4byte	.LVL1
+ 2699 0030 2C000000 		.4byte	.LFE70
+ 2700 0034 0400     		.2byte	0x4
+ 2701 0036 F3       		.byte	0xf3
+ 2702 0037 01       		.uleb128 0x1
+ 2703 0038 51       		.byte	0x51
+ 2704 0039 9F       		.byte	0x9f
+ 2705 003a 00000000 		.4byte	0
+ 2706 003e 00000000 		.4byte	0
+ 2707              	.LLST2:
+ 2708 0042 00000000 		.4byte	.LVL6
+ 2709 0046 0B000000 		.4byte	.LVL8-1
+ 2710 004a 0100     		.2byte	0x1
+ 2711 004c 50       		.byte	0x50
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 54
+
+
+ 2712 004d 0B000000 		.4byte	.LVL8-1
+ 2713 0051 1E000000 		.4byte	.LFE71
+ 2714 0055 0400     		.2byte	0x4
+ 2715 0057 F3       		.byte	0xf3
+ 2716 0058 01       		.uleb128 0x1
+ 2717 0059 50       		.byte	0x50
+ 2718 005a 9F       		.byte	0x9f
+ 2719 005b 00000000 		.4byte	0
+ 2720 005f 00000000 		.4byte	0
+ 2721              	.LLST3:
+ 2722 0063 00000000 		.4byte	.LVL6
+ 2723 0067 08000000 		.4byte	.LVL7
+ 2724 006b 0100     		.2byte	0x1
+ 2725 006d 51       		.byte	0x51
+ 2726 006e 08000000 		.4byte	.LVL7
+ 2727 0072 1E000000 		.4byte	.LFE71
+ 2728 0076 0400     		.2byte	0x4
+ 2729 0078 F3       		.byte	0xf3
+ 2730 0079 01       		.uleb128 0x1
+ 2731 007a 51       		.byte	0x51
+ 2732 007b 9F       		.byte	0x9f
+ 2733 007c 00000000 		.4byte	0
+ 2734 0080 00000000 		.4byte	0
+ 2735              	.LLST4:
+ 2736 0084 00000000 		.4byte	.LVL6
+ 2737 0088 0B000000 		.4byte	.LVL8-1
+ 2738 008c 0100     		.2byte	0x1
+ 2739 008e 52       		.byte	0x52
+ 2740 008f 0B000000 		.4byte	.LVL8-1
+ 2741 0093 1E000000 		.4byte	.LFE71
+ 2742 0097 0400     		.2byte	0x4
+ 2743 0099 F3       		.byte	0xf3
+ 2744 009a 01       		.uleb128 0x1
+ 2745 009b 52       		.byte	0x52
+ 2746 009c 9F       		.byte	0x9f
+ 2747 009d 00000000 		.4byte	0
+ 2748 00a1 00000000 		.4byte	0
+ 2749              	.LLST5:
+ 2750 00a5 00000000 		.4byte	.LVL12
+ 2751 00a9 0C000000 		.4byte	.LVL13
+ 2752 00ad 0100     		.2byte	0x1
+ 2753 00af 50       		.byte	0x50
+ 2754 00b0 0C000000 		.4byte	.LVL13
+ 2755 00b4 0E000000 		.4byte	.LVL14
+ 2756 00b8 0400     		.2byte	0x4
+ 2757 00ba F3       		.byte	0xf3
+ 2758 00bb 01       		.uleb128 0x1
+ 2759 00bc 50       		.byte	0x50
+ 2760 00bd 9F       		.byte	0x9f
+ 2761 00be 0E000000 		.4byte	.LVL14
+ 2762 00c2 3E000000 		.4byte	.LVL25
+ 2763 00c6 0100     		.2byte	0x1
+ 2764 00c8 50       		.byte	0x50
+ 2765 00c9 00000000 		.4byte	0
+ 2766 00cd 00000000 		.4byte	0
+ 2767              	.LLST6:
+ 2768 00d1 00000000 		.4byte	.LVL12
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 55
+
+
+ 2769 00d5 3A000000 		.4byte	.LVL24
+ 2770 00d9 0100     		.2byte	0x1
+ 2771 00db 51       		.byte	0x51
+ 2772 00dc 3A000000 		.4byte	.LVL24
+ 2773 00e0 54000000 		.4byte	.LFE72
+ 2774 00e4 0400     		.2byte	0x4
+ 2775 00e6 F3       		.byte	0xf3
+ 2776 00e7 01       		.uleb128 0x1
+ 2777 00e8 51       		.byte	0x51
+ 2778 00e9 9F       		.byte	0x9f
+ 2779 00ea 00000000 		.4byte	0
+ 2780 00ee 00000000 		.4byte	0
+ 2781              	.LLST7:
+ 2782 00f2 00000000 		.4byte	.LVL12
+ 2783 00f6 10000000 		.4byte	.LVL15
+ 2784 00fa 0100     		.2byte	0x1
+ 2785 00fc 52       		.byte	0x52
+ 2786 00fd 10000000 		.4byte	.LVL15
+ 2787 0101 54000000 		.4byte	.LFE72
+ 2788 0105 0400     		.2byte	0x4
+ 2789 0107 F3       		.byte	0xf3
+ 2790 0108 01       		.uleb128 0x1
+ 2791 0109 52       		.byte	0x52
+ 2792 010a 9F       		.byte	0x9f
+ 2793 010b 00000000 		.4byte	0
+ 2794 010f 00000000 		.4byte	0
+ 2795              	.LLST8:
+ 2796 0113 10000000 		.4byte	.LVL15
+ 2797 0117 1C000000 		.4byte	.LVL17
+ 2798 011b 0100     		.2byte	0x1
+ 2799 011d 52       		.byte	0x52
+ 2800 011e 1E000000 		.4byte	.LVL18
+ 2801 0122 32000000 		.4byte	.LVL21
+ 2802 0126 0100     		.2byte	0x1
+ 2803 0128 52       		.byte	0x52
+ 2804 0129 34000000 		.4byte	.LVL22
+ 2805 012d 44000000 		.4byte	.LVL26
+ 2806 0131 0100     		.2byte	0x1
+ 2807 0133 52       		.byte	0x52
+ 2808 0134 00000000 		.4byte	0
+ 2809 0138 00000000 		.4byte	0
+ 2810              	.LLST9:
+ 2811 013c 10000000 		.4byte	.LVL15
+ 2812 0140 14000000 		.4byte	.LVL16
+ 2813 0144 0200     		.2byte	0x2
+ 2814 0146 31       		.byte	0x31
+ 2815 0147 9F       		.byte	0x9f
+ 2816 0148 14000000 		.4byte	.LVL16
+ 2817 014c 20000000 		.4byte	.LVL19
+ 2818 0150 0100     		.2byte	0x1
+ 2819 0152 53       		.byte	0x53
+ 2820 0153 22000000 		.4byte	.LVL20
+ 2821 0157 36000000 		.4byte	.LVL23
+ 2822 015b 0100     		.2byte	0x1
+ 2823 015d 53       		.byte	0x53
+ 2824 015e 00000000 		.4byte	0
+ 2825 0162 00000000 		.4byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 56
+
+
+ 2826              	.LLST10:
+ 2827 0166 00000000 		.4byte	.LVL27
+ 2828 016a 06000000 		.4byte	.LVL28
+ 2829 016e 0100     		.2byte	0x1
+ 2830 0170 50       		.byte	0x50
+ 2831 0171 06000000 		.4byte	.LVL28
+ 2832 0175 1E000000 		.4byte	.LFE73
+ 2833 0179 0400     		.2byte	0x4
+ 2834 017b F3       		.byte	0xf3
+ 2835 017c 01       		.uleb128 0x1
+ 2836 017d 50       		.byte	0x50
+ 2837 017e 9F       		.byte	0x9f
+ 2838 017f 00000000 		.4byte	0
+ 2839 0183 00000000 		.4byte	0
+ 2840              	.LLST11:
+ 2841 0187 00000000 		.4byte	.LVL27
+ 2842 018b 0A000000 		.4byte	.LVL29
+ 2843 018f 0100     		.2byte	0x1
+ 2844 0191 51       		.byte	0x51
+ 2845 0192 0A000000 		.4byte	.LVL29
+ 2846 0196 1E000000 		.4byte	.LFE73
+ 2847 019a 0400     		.2byte	0x4
+ 2848 019c F3       		.byte	0xf3
+ 2849 019d 01       		.uleb128 0x1
+ 2850 019e 51       		.byte	0x51
+ 2851 019f 9F       		.byte	0x9f
+ 2852 01a0 00000000 		.4byte	0
+ 2853 01a4 00000000 		.4byte	0
+ 2854              	.LLST12:
+ 2855 01a8 00000000 		.4byte	.LVL27
+ 2856 01ac 12000000 		.4byte	.LVL30
+ 2857 01b0 0100     		.2byte	0x1
+ 2858 01b2 52       		.byte	0x52
+ 2859 01b3 12000000 		.4byte	.LVL30
+ 2860 01b7 1E000000 		.4byte	.LFE73
+ 2861 01bb 0400     		.2byte	0x4
+ 2862 01bd F3       		.byte	0xf3
+ 2863 01be 01       		.uleb128 0x1
+ 2864 01bf 52       		.byte	0x52
+ 2865 01c0 9F       		.byte	0x9f
+ 2866 01c1 00000000 		.4byte	0
+ 2867 01c5 00000000 		.4byte	0
+ 2868              	.LLST13:
+ 2869 01c9 00000000 		.4byte	.LVL31
+ 2870 01cd 06000000 		.4byte	.LVL32
+ 2871 01d1 0100     		.2byte	0x1
+ 2872 01d3 51       		.byte	0x51
+ 2873 01d4 06000000 		.4byte	.LVL32
+ 2874 01d8 1E000000 		.4byte	.LVL33
+ 2875 01dc 0100     		.2byte	0x1
+ 2876 01de 53       		.byte	0x53
+ 2877 01df 1E000000 		.4byte	.LVL33
+ 2878 01e3 36000000 		.4byte	.LVL34
+ 2879 01e7 0100     		.2byte	0x1
+ 2880 01e9 54       		.byte	0x54
+ 2881 01ea 36000000 		.4byte	.LVL34
+ 2882 01ee 4E000000 		.4byte	.LVL35
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 57
+
+
+ 2883 01f2 0100     		.2byte	0x1
+ 2884 01f4 52       		.byte	0x52
+ 2885 01f5 4E000000 		.4byte	.LVL35
+ 2886 01f9 C0000000 		.4byte	.LFE74
+ 2887 01fd 2300     		.2byte	0x23
+ 2888 01ff F3       		.byte	0xf3
+ 2889 0200 01       		.uleb128 0x1
+ 2890 0201 51       		.byte	0x51
+ 2891 0202 0C       		.byte	0xc
+ 2892 0203 80436D38 		.4byte	0x386d4380
+ 2893 0207 1C       		.byte	0x1c
+ 2894 0208 F7       		.byte	0xf7
+ 2895 0209 2C       		.uleb128 0x2c
+ 2896 020a F7       		.byte	0xf7
+ 2897 020b 25       		.uleb128 0x25
+ 2898 020c F4       		.byte	0xf4
+ 2899 020d 25       		.uleb128 0x25
+ 2900 020e 08       		.byte	0x8
+ 2901 020f C5B3A291 		.8byte	0x91a2b3c5
+ 2901      00000000 
+ 2902 0217 1E       		.byte	0x1e
+ 2903 0218 08       		.byte	0x8
+ 2904 0219 20       		.byte	0x20
+ 2905 021a F7       		.byte	0xf7
+ 2906 021b 25       		.uleb128 0x25
+ 2907 021c 25       		.byte	0x25
+ 2908 021d F7       		.byte	0xf7
+ 2909 021e 2C       		.uleb128 0x2c
+ 2910 021f 3B       		.byte	0x3b
+ 2911 0220 25       		.byte	0x25
+ 2912 0221 9F       		.byte	0x9f
+ 2913 0222 00000000 		.4byte	0
+ 2914 0226 00000000 		.4byte	0
+ 2915              	.LLST14:
+ 2916 022a 50000000 		.4byte	.LVL36
+ 2917 022e A4000000 		.4byte	.LVL47
+ 2918 0232 0100     		.2byte	0x1
+ 2919 0234 54       		.byte	0x54
+ 2920 0235 00000000 		.4byte	0
+ 2921 0239 00000000 		.4byte	0
+ 2922              	.LLST15:
+ 2923 023d 5C000000 		.4byte	.LVL37
+ 2924 0241 66000000 		.4byte	.LVL38
+ 2925 0245 0100     		.2byte	0x1
+ 2926 0247 53       		.byte	0x53
+ 2927 0248 66000000 		.4byte	.LVL38
+ 2928 024c 74000000 		.4byte	.LVL40
+ 2929 0250 0400     		.2byte	0x4
+ 2930 0252 71       		.byte	0x71
+ 2931 0253 937D     		.sleb128 -365
+ 2932 0255 9F       		.byte	0x9f
+ 2933 0256 74000000 		.4byte	.LVL40
+ 2934 025a 76000000 		.4byte	.LVL41
+ 2935 025e 0100     		.2byte	0x1
+ 2936 0260 53       		.byte	0x53
+ 2937 0261 76000000 		.4byte	.LVL41
+ 2938 0265 7A000000 		.4byte	.LVL42
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 58
+
+
+ 2939 0269 0400     		.2byte	0x4
+ 2940 026b 71       		.byte	0x71
+ 2941 026c 937D     		.sleb128 -365
+ 2942 026e 9F       		.byte	0x9f
+ 2943 026f 00000000 		.4byte	0
+ 2944 0273 00000000 		.4byte	0
+ 2945              	.LLST16:
+ 2946 0277 80000000 		.4byte	.LVL43
+ 2947 027b 8C000000 		.4byte	.LVL45
+ 2948 027f 0100     		.2byte	0x1
+ 2949 0281 52       		.byte	0x52
+ 2950 0282 00000000 		.4byte	0
+ 2951 0286 00000000 		.4byte	0
+ 2952              	.LLST17:
+ 2953 028a 00000000 		.4byte	.LVL48
+ 2954 028e 12000000 		.4byte	.LVL49
+ 2955 0292 0100     		.2byte	0x1
+ 2956 0294 51       		.byte	0x51
+ 2957 0295 12000000 		.4byte	.LVL49
+ 2958 0299 14000000 		.4byte	.LVL50
+ 2959 029d 0400     		.2byte	0x4
+ 2960 029f F3       		.byte	0xf3
+ 2961 02a0 01       		.uleb128 0x1
+ 2962 02a1 51       		.byte	0x51
+ 2963 02a2 9F       		.byte	0x9f
+ 2964 02a3 14000000 		.4byte	.LVL50
+ 2965 02a7 30000000 		.4byte	.LFE75
+ 2966 02ab 0100     		.2byte	0x1
+ 2967 02ad 51       		.byte	0x51
+ 2968 02ae 00000000 		.4byte	0
+ 2969 02b2 00000000 		.4byte	0
+ 2970              	.LLST18:
+ 2971 02b6 00000000 		.4byte	.LVL48
+ 2972 02ba 1E000000 		.4byte	.LVL51
+ 2973 02be 0100     		.2byte	0x1
+ 2974 02c0 53       		.byte	0x53
+ 2975 02c1 1E000000 		.4byte	.LVL51
+ 2976 02c5 30000000 		.4byte	.LFE75
+ 2977 02c9 0200     		.2byte	0x2
+ 2978 02cb 70       		.byte	0x70
+ 2979 02cc 02       		.sleb128 2
+ 2980 02cd 00000000 		.4byte	0
+ 2981 02d1 00000000 		.4byte	0
+ 2982              	.LLST19:
+ 2983 02d5 00000000 		.4byte	.LVL48
+ 2984 02d9 2E000000 		.4byte	.LVL52
+ 2985 02dd 0200     		.2byte	0x2
+ 2986 02df 91       		.byte	0x91
+ 2987 02e0 00       		.sleb128 0
+ 2988 02e1 2E000000 		.4byte	.LVL52
+ 2989 02e5 30000000 		.4byte	.LFE75
+ 2990 02e9 0200     		.2byte	0x2
+ 2991 02eb 7D       		.byte	0x7d
+ 2992 02ec 00       		.sleb128 0
+ 2993 02ed 00000000 		.4byte	0
+ 2994 02f1 00000000 		.4byte	0
+ 2995              	.LLST20:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 59
+
+
+ 2996 02f5 00000000 		.4byte	.LVL48
+ 2997 02f9 2E000000 		.4byte	.LVL52
+ 2998 02fd 0200     		.2byte	0x2
+ 2999 02ff 91       		.byte	0x91
+ 3000 0300 04       		.sleb128 4
+ 3001 0301 2E000000 		.4byte	.LVL52
+ 3002 0305 30000000 		.4byte	.LFE75
+ 3003 0309 0200     		.2byte	0x2
+ 3004 030b 7D       		.byte	0x7d
+ 3005 030c 04       		.sleb128 4
+ 3006 030d 00000000 		.4byte	0
+ 3007 0311 00000000 		.4byte	0
+ 3008              	.LLST21:
+ 3009 0315 00000000 		.4byte	.LVL48
+ 3010 0319 2E000000 		.4byte	.LVL52
+ 3011 031d 0200     		.2byte	0x2
+ 3012 031f 91       		.byte	0x91
+ 3013 0320 08       		.sleb128 8
+ 3014 0321 2E000000 		.4byte	.LVL52
+ 3015 0325 30000000 		.4byte	.LFE75
+ 3016 0329 0200     		.2byte	0x2
+ 3017 032b 7D       		.byte	0x7d
+ 3018 032c 08       		.sleb128 8
+ 3019 032d 00000000 		.4byte	0
+ 3020 0331 00000000 		.4byte	0
+ 3021              	.LLST22:
+ 3022 0335 2A000000 		.4byte	.LVL54
+ 3023 0339 2E000000 		.4byte	.LVL55
+ 3024 033d 0700     		.2byte	0x7
+ 3025 033f 70       		.byte	0x70
+ 3026 0340 8087B5C3 		.sleb128 946684800
+ 3026      03
+ 3027 0345 9F       		.byte	0x9f
+ 3028 0346 2E000000 		.4byte	.LVL55
+ 3029 034a 32000000 		.4byte	.LVL56
+ 3030 034e 0600     		.2byte	0x6
+ 3031 0350 70       		.byte	0x70
+ 3032 0351 8087B501 		.sleb128 2966400
+ 3033 0355 9F       		.byte	0x9f
+ 3034 0356 32000000 		.4byte	.LVL56
+ 3035 035a 36000000 		.4byte	.LVL57
+ 3036 035e 0400     		.2byte	0x4
+ 3037 0360 70       		.byte	0x70
+ 3038 0361 8007     		.sleb128 896
+ 3039 0363 9F       		.byte	0x9f
+ 3040 0364 36000000 		.4byte	.LVL57
+ 3041 0368 3C000000 		.4byte	.LFE76
+ 3042 036c 0100     		.2byte	0x1
+ 3043 036e 50       		.byte	0x50
+ 3044 036f 00000000 		.4byte	0
+ 3045 0373 00000000 		.4byte	0
+ 3046              	.LLST23:
+ 3047 0377 1A000000 		.4byte	.LVL53
+ 3048 037b 29000000 		.4byte	.LVL54-1
+ 3049 037f 0100     		.2byte	0x1
+ 3050 0381 50       		.byte	0x50
+ 3051 0382 00000000 		.4byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 60
+
+
+ 3052 0386 00000000 		.4byte	0
+ 3053              	.LLST24:
+ 3054 038a 1A000000 		.4byte	.LVL58
+ 3055 038e 29000000 		.4byte	.LVL59-1
+ 3056 0392 0100     		.2byte	0x1
+ 3057 0394 50       		.byte	0x50
+ 3058 0395 00000000 		.4byte	0
+ 3059 0399 00000000 		.4byte	0
+ 3060              	.LLST25:
+ 3061 039d 00000000 		.4byte	.LVL60
+ 3062 03a1 0A000000 		.4byte	.LVL61
+ 3063 03a5 0100     		.2byte	0x1
+ 3064 03a7 50       		.byte	0x50
+ 3065 03a8 0A000000 		.4byte	.LVL61
+ 3066 03ac 0E000000 		.4byte	.LFE78
+ 3067 03b0 0400     		.2byte	0x4
+ 3068 03b2 F3       		.byte	0xf3
+ 3069 03b3 01       		.uleb128 0x1
+ 3070 03b4 50       		.byte	0x50
+ 3071 03b5 9F       		.byte	0x9f
+ 3072 03b6 00000000 		.4byte	0
+ 3073 03ba 00000000 		.4byte	0
+ 3074              	.LLST26:
+ 3075 03be 00000000 		.4byte	.LVL62
+ 3076 03c2 10000000 		.4byte	.LVL63
+ 3077 03c6 0100     		.2byte	0x1
+ 3078 03c8 50       		.byte	0x50
+ 3079 03c9 10000000 		.4byte	.LVL63
+ 3080 03cd 18000000 		.4byte	.LFE79
+ 3081 03d1 0400     		.2byte	0x4
+ 3082 03d3 F3       		.byte	0xf3
+ 3083 03d4 01       		.uleb128 0x1
+ 3084 03d5 50       		.byte	0x50
+ 3085 03d6 9F       		.byte	0x9f
+ 3086 03d7 00000000 		.4byte	0
+ 3087 03db 00000000 		.4byte	0
+ 3088              	.LLST27:
+ 3089 03df 4E000000 		.4byte	.LVL88
+ 3090 03e3 94000000 		.4byte	.LVL100
+ 3091 03e7 0100     		.2byte	0x1
+ 3092 03e9 56       		.byte	0x56
+ 3093 03ea 94000000 		.4byte	.LVL100
+ 3094 03ee 98000000 		.4byte	.LFE81
+ 3095 03f2 0200     		.2byte	0x2
+ 3096 03f4 70       		.byte	0x70
+ 3097 03f5 05       		.sleb128 5
+ 3098 03f6 00000000 		.4byte	0
+ 3099 03fa 00000000 		.4byte	0
+ 3100              	.LLST28:
+ 3101 03fe 56000000 		.4byte	.LVL90
+ 3102 0402 94000000 		.4byte	.LVL100
+ 3103 0406 0100     		.2byte	0x1
+ 3104 0408 57       		.byte	0x57
+ 3105 0409 94000000 		.4byte	.LVL100
+ 3106 040d 98000000 		.4byte	.LFE81
+ 3107 0411 0200     		.2byte	0x2
+ 3108 0413 70       		.byte	0x70
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 61
+
+
+ 3109 0414 04       		.sleb128 4
+ 3110 0415 00000000 		.4byte	0
+ 3111 0419 00000000 		.4byte	0
+ 3112              	.LLST29:
+ 3113 041d 5E000000 		.4byte	.LVL92
+ 3114 0421 94000000 		.4byte	.LVL100
+ 3115 0425 0100     		.2byte	0x1
+ 3116 0427 58       		.byte	0x58
+ 3117 0428 94000000 		.4byte	.LVL100
+ 3118 042c 98000000 		.4byte	.LFE81
+ 3119 0430 0200     		.2byte	0x2
+ 3120 0432 70       		.byte	0x70
+ 3121 0433 03       		.sleb128 3
+ 3122 0434 00000000 		.4byte	0
+ 3123 0438 00000000 		.4byte	0
+ 3124              	.LLST30:
+ 3125 043c 66000000 		.4byte	.LVL94
+ 3126 0440 94000000 		.4byte	.LVL100
+ 3127 0444 0100     		.2byte	0x1
+ 3128 0446 59       		.byte	0x59
+ 3129 0447 94000000 		.4byte	.LVL100
+ 3130 044b 98000000 		.4byte	.LFE81
+ 3131 044f 0200     		.2byte	0x2
+ 3132 0451 70       		.byte	0x70
+ 3133 0452 02       		.sleb128 2
+ 3134 0453 00000000 		.4byte	0
+ 3135 0457 00000000 		.4byte	0
+ 3136              	.LLST31:
+ 3137 045b 6E000000 		.4byte	.LVL96
+ 3138 045f 94000000 		.4byte	.LVL100
+ 3139 0463 0100     		.2byte	0x1
+ 3140 0465 5A       		.byte	0x5a
+ 3141 0466 94000000 		.4byte	.LVL100
+ 3142 046a 98000000 		.4byte	.LFE81
+ 3143 046e 0200     		.2byte	0x2
+ 3144 0470 70       		.byte	0x70
+ 3145 0471 01       		.sleb128 1
+ 3146 0472 00000000 		.4byte	0
+ 3147 0476 00000000 		.4byte	0
+ 3148              	.LLST32:
+ 3149 047a 76000000 		.4byte	.LVL98
+ 3150 047e 94000000 		.4byte	.LVL100
+ 3151 0482 0600     		.2byte	0x6
+ 3152 0484 75       		.byte	0x75
+ 3153 0485 00       		.sleb128 0
+ 3154 0486 08       		.byte	0x8
+ 3155 0487 FF       		.byte	0xff
+ 3156 0488 1A       		.byte	0x1a
+ 3157 0489 9F       		.byte	0x9f
+ 3158 048a 94000000 		.4byte	.LVL100
+ 3159 048e 98000000 		.4byte	.LFE81
+ 3160 0492 0800     		.2byte	0x8
+ 3161 0494 70       		.byte	0x70
+ 3162 0495 00       		.sleb128 0
+ 3163 0496 94       		.byte	0x94
+ 3164 0497 01       		.byte	0x1
+ 3165 0498 08       		.byte	0x8
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 62
+
+
+ 3166 0499 FF       		.byte	0xff
+ 3167 049a 1A       		.byte	0x1a
+ 3168 049b 9F       		.byte	0x9f
+ 3169 049c 00000000 		.4byte	0
+ 3170 04a0 00000000 		.4byte	0
+ 3171              	.LLST33:
+ 3172 04a4 00000000 		.4byte	.LVL79
+ 3173 04a8 14000000 		.4byte	.LVL80
+ 3174 04ac 0200     		.2byte	0x2
+ 3175 04ae 70       		.byte	0x70
+ 3176 04af 00       		.sleb128 0
+ 3177 04b0 14000000 		.4byte	.LVL80
+ 3178 04b4 94000000 		.4byte	.LVL100
+ 3179 04b8 0200     		.2byte	0x2
+ 3180 04ba 74       		.byte	0x74
+ 3181 04bb 00       		.sleb128 0
+ 3182 04bc 94000000 		.4byte	.LVL100
+ 3183 04c0 98000000 		.4byte	.LFE81
+ 3184 04c4 0200     		.2byte	0x2
+ 3185 04c6 70       		.byte	0x70
+ 3186 04c7 00       		.sleb128 0
+ 3187 04c8 00000000 		.4byte	0
+ 3188 04cc 00000000 		.4byte	0
+ 3189              		.section	.debug_aranges,"",%progbits
+ 3190 0000 AC000000 		.4byte	0xac
+ 3191 0004 0200     		.2byte	0x2
+ 3192 0006 00000000 		.4byte	.Ldebug_info0
+ 3193 000a 04       		.byte	0x4
+ 3194 000b 00       		.byte	0
+ 3195 000c 0000     		.2byte	0
+ 3196 000e 0000     		.2byte	0
+ 3197 0010 00000000 		.4byte	.LFB63
+ 3198 0014 14000000 		.4byte	.LFE63-.LFB63
+ 3199 0018 00000000 		.4byte	.LFB64
+ 3200 001c 10000000 		.4byte	.LFE64-.LFB64
+ 3201 0020 00000000 		.4byte	.LFB65
+ 3202 0024 10000000 		.4byte	.LFE65-.LFB65
+ 3203 0028 00000000 		.4byte	.LFB66
+ 3204 002c 10000000 		.4byte	.LFE66-.LFB66
+ 3205 0030 00000000 		.4byte	.LFB67
+ 3206 0034 10000000 		.4byte	.LFE67-.LFB67
+ 3207 0038 00000000 		.4byte	.LFB68
+ 3208 003c 10000000 		.4byte	.LFE68-.LFB68
+ 3209 0040 00000000 		.4byte	.LFB69
+ 3210 0044 18000000 		.4byte	.LFE69-.LFB69
+ 3211 0048 00000000 		.4byte	.LFB70
+ 3212 004c 2C000000 		.4byte	.LFE70-.LFB70
+ 3213 0050 00000000 		.4byte	.LFB71
+ 3214 0054 1E000000 		.4byte	.LFE71-.LFB71
+ 3215 0058 00000000 		.4byte	.LFB72
+ 3216 005c 54000000 		.4byte	.LFE72-.LFB72
+ 3217 0060 00000000 		.4byte	.LFB73
+ 3218 0064 1E000000 		.4byte	.LFE73-.LFB73
+ 3219 0068 00000000 		.4byte	.LFB74
+ 3220 006c C0000000 		.4byte	.LFE74-.LFB74
+ 3221 0070 00000000 		.4byte	.LFB75
+ 3222 0074 30000000 		.4byte	.LFE75-.LFB75
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 63
+
+
+ 3223 0078 00000000 		.4byte	.LFB76
+ 3224 007c 3C000000 		.4byte	.LFE76-.LFB76
+ 3225 0080 00000000 		.4byte	.LFB77
+ 3226 0084 30000000 		.4byte	.LFE77-.LFB77
+ 3227 0088 00000000 		.4byte	.LFB78
+ 3228 008c 0E000000 		.4byte	.LFE78-.LFB78
+ 3229 0090 00000000 		.4byte	.LFB79
+ 3230 0094 18000000 		.4byte	.LFE79-.LFB79
+ 3231 0098 00000000 		.4byte	.LFB80
+ 3232 009c 96000000 		.4byte	.LFE80-.LFB80
+ 3233 00a0 00000000 		.4byte	.LFB81
+ 3234 00a4 98000000 		.4byte	.LFE81-.LFB81
+ 3235 00a8 00000000 		.4byte	0
+ 3236 00ac 00000000 		.4byte	0
+ 3237              		.section	.debug_ranges,"",%progbits
+ 3238              	.Ldebug_ranges0:
+ 3239 0000 00000000 		.4byte	.LFB63
+ 3240 0004 14000000 		.4byte	.LFE63
+ 3241 0008 00000000 		.4byte	.LFB64
+ 3242 000c 10000000 		.4byte	.LFE64
+ 3243 0010 00000000 		.4byte	.LFB65
+ 3244 0014 10000000 		.4byte	.LFE65
+ 3245 0018 00000000 		.4byte	.LFB66
+ 3246 001c 10000000 		.4byte	.LFE66
+ 3247 0020 00000000 		.4byte	.LFB67
+ 3248 0024 10000000 		.4byte	.LFE67
+ 3249 0028 00000000 		.4byte	.LFB68
+ 3250 002c 10000000 		.4byte	.LFE68
+ 3251 0030 00000000 		.4byte	.LFB69
+ 3252 0034 18000000 		.4byte	.LFE69
+ 3253 0038 00000000 		.4byte	.LFB70
+ 3254 003c 2C000000 		.4byte	.LFE70
+ 3255 0040 00000000 		.4byte	.LFB71
+ 3256 0044 1E000000 		.4byte	.LFE71
+ 3257 0048 00000000 		.4byte	.LFB72
+ 3258 004c 54000000 		.4byte	.LFE72
+ 3259 0050 00000000 		.4byte	.LFB73
+ 3260 0054 1E000000 		.4byte	.LFE73
+ 3261 0058 00000000 		.4byte	.LFB74
+ 3262 005c C0000000 		.4byte	.LFE74
+ 3263 0060 00000000 		.4byte	.LFB75
+ 3264 0064 30000000 		.4byte	.LFE75
+ 3265 0068 00000000 		.4byte	.LFB76
+ 3266 006c 3C000000 		.4byte	.LFE76
+ 3267 0070 00000000 		.4byte	.LFB77
+ 3268 0074 30000000 		.4byte	.LFE77
+ 3269 0078 00000000 		.4byte	.LFB78
+ 3270 007c 0E000000 		.4byte	.LFE78
+ 3271 0080 00000000 		.4byte	.LFB79
+ 3272 0084 18000000 		.4byte	.LFE79
+ 3273 0088 00000000 		.4byte	.LFB80
+ 3274 008c 96000000 		.4byte	.LFE80
+ 3275 0090 00000000 		.4byte	.LFB81
+ 3276 0094 98000000 		.4byte	.LFE81
+ 3277 0098 00000000 		.4byte	0
+ 3278 009c 00000000 		.4byte	0
+ 3279              		.section	.debug_line,"",%progbits
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 64
+
+
+ 3280              	.Ldebug_line0:
+ 3281 0000 6C030000 		.section	.debug_str,"MS",%progbits,1
+ 3281      02009901 
+ 3281      00000201 
+ 3281      FB0E0D00 
+ 3281      01010101 
+ 3282              	.LASF21:
+ 3283 0000 6C6F6E67 		.ascii	"long double\000"
+ 3283      20646F75 
+ 3283      626C6500 
+ 3284              	.LASF23:
+ 3285 000c 794F6666 		.ascii	"yOff\000"
+ 3285      00
+ 3286              	.LASF65:
+ 3287 0011 433A5C55 		.ascii	"C:\\Users\\bkettle\\OneDrive\\School\\6.115\\projec"
+ 3287      73657273 
+ 3287      5C626B65 
+ 3287      74746C65 
+ 3287      5C4F6E65 
+ 3288 003e 745C7073 		.ascii	"t\\psoc\\Password Keeper\\UI Test.cydsn\000"
+ 3288      6F635C50 
+ 3288      61737377 
+ 3288      6F726420 
+ 3288      4B656570 
+ 3289              	.LASF32:
+ 3290 0063 72656164 		.ascii	"read_i2c_register\000"
+ 3290      5F693263 
+ 3290      5F726567 
+ 3290      69737465 
+ 3290      7200
+ 3291              	.LASF28:
+ 3292 0075 64745F67 		.ascii	"dt_getHour\000"
+ 3292      6574486F 
+ 3292      757200
+ 3293              	.LASF4:
+ 3294 0080 73686F72 		.ascii	"short int\000"
+ 3294      7420696E 
+ 3294      7400
+ 3295              	.LASF22:
+ 3296 008a 73697A65 		.ascii	"sizetype\000"
+ 3296      74797065 
+ 3296      00
+ 3297              	.LASF35:
+ 3298 0093 64617973 		.ascii	"days\000"
+ 3298      00
+ 3299              	.LASF29:
+ 3300 0098 64745F67 		.ascii	"dt_getMinute\000"
+ 3300      65744D69 
+ 3300      6E757465 
+ 3300      00
+ 3301              	.LASF10:
+ 3302 00a5 5F5F7569 		.ascii	"__uint32_t\000"
+ 3302      6E743332 
+ 3302      5F7400
+ 3303              	.LASF6:
+ 3304 00b0 5F5F7569 		.ascii	"__uint16_t\000"
+ 3304      6E743136 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 65
+
+
+ 3304      5F7400
+ 3305              	.LASF13:
+ 3306 00bb 75696E74 		.ascii	"uint8_t\000"
+ 3306      385F7400 
+ 3307              	.LASF17:
+ 3308 00c3 75696E74 		.ascii	"uint8\000"
+ 3308      3800
+ 3309              	.LASF34:
+ 3310 00c9 64617465 		.ascii	"date2days\000"
+ 3310      32646179 
+ 3310      7300
+ 3311              	.LASF55:
+ 3312 00d3 49324352 		.ascii	"I2CRTC_MasterSendStart\000"
+ 3312      54435F4D 
+ 3312      61737465 
+ 3312      7253656E 
+ 3312      64537461 
+ 3313              	.LASF38:
+ 3314 00ea 6C656170 		.ascii	"leap\000"
+ 3314      00
+ 3315              	.LASF18:
+ 3316 00ef 666C6F61 		.ascii	"float\000"
+ 3316      7400
+ 3317              	.LASF12:
+ 3318 00f5 6C6F6E67 		.ascii	"long long int\000"
+ 3318      206C6F6E 
+ 3318      6720696E 
+ 3318      7400
+ 3319              	.LASF9:
+ 3320 0103 6C6F6E67 		.ascii	"long int\000"
+ 3320      20696E74 
+ 3320      00
+ 3321              	.LASF57:
+ 3322 010c 49324352 		.ascii	"I2CRTC_MasterSendStop\000"
+ 3322      54435F4D 
+ 3322      61737465 
+ 3322      7253656E 
+ 3322      6453746F 
+ 3323              	.LASF33:
+ 3324 0122 61646472 		.ascii	"addr\000"
+ 3324      00
+ 3325              	.LASF27:
+ 3326 0127 64745F67 		.ascii	"dt_getDay\000"
+ 3326      65744461 
+ 3326      7900
+ 3327              	.LASF5:
+ 3328 0131 5F5F7569 		.ascii	"__uint8_t\000"
+ 3328      6E74385F 
+ 3328      7400
+ 3329              	.LASF50:
+ 3330 013b 74785F62 		.ascii	"tx_buff\000"
+ 3330      75666600 
+ 3331              	.LASF24:
+ 3332 0143 44617465 		.ascii	"DateTime\000"
+ 3332      54696D65 
+ 3332      00
+ 3333              	.LASF26:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 66
+
+
+ 3334 014c 64745F67 		.ascii	"dt_getMonth\000"
+ 3334      65744D6F 
+ 3334      6E746800 
+ 3335              	.LASF43:
+ 3336 0158 686F7572 		.ascii	"hour\000"
+ 3336      00
+ 3337              	.LASF40:
+ 3338 015d 64745F66 		.ascii	"dt_fromYMD\000"
+ 3338      726F6D59 
+ 3338      4D4400
+ 3339              	.LASF41:
+ 3340 0168 79656172 		.ascii	"year\000"
+ 3340      00
+ 3341              	.LASF3:
+ 3342 016d 756E7369 		.ascii	"unsigned char\000"
+ 3342      676E6564 
+ 3342      20636861 
+ 3342      7200
+ 3343              	.LASF47:
+ 3344 017b 62696E32 		.ascii	"bin2bcd\000"
+ 3344      62636400 
+ 3345              	.LASF25:
+ 3346 0183 64745F67 		.ascii	"dt_getYear\000"
+ 3346      65745965 
+ 3346      617200
+ 3347              	.LASF56:
+ 3348 018e 49324352 		.ascii	"I2CRTC_MasterWriteByte\000"
+ 3348      54435F4D 
+ 3348      61737465 
+ 3348      72577269 
+ 3348      74654279 
+ 3349              	.LASF2:
+ 3350 01a5 7369676E 		.ascii	"signed char\000"
+ 3350      65642063 
+ 3350      68617200 
+ 3351              	.LASF49:
+ 3352 01b1 5254435F 		.ascii	"RTC_setTime\000"
+ 3352      73657454 
+ 3352      696D6500 
+ 3353              	.LASF0:
+ 3354 01bd 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3354      206C6F6E 
+ 3354      6720756E 
+ 3354      7369676E 
+ 3354      65642069 
+ 3355              	.LASF36:
+ 3356 01d4 74696D65 		.ascii	"time2ulong\000"
+ 3356      32756C6F 
+ 3356      6E6700
+ 3357              	.LASF16:
+ 3358 01df 75696E74 		.ascii	"uint32_t\000"
+ 3358      33325F74 
+ 3358      00
+ 3359              	.LASF1:
+ 3360 01e8 756E7369 		.ascii	"unsigned int\000"
+ 3360      676E6564 
+ 3360      20696E74 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 67
+
+
+ 3360      00
+ 3361              	.LASF14:
+ 3362 01f5 75696E74 		.ascii	"uint16_t\000"
+ 3362      31365F74 
+ 3362      00
+ 3363              	.LASF61:
+ 3364 01fe 49324352 		.ascii	"I2CRTC_MasterClearStatus\000"
+ 3364      54435F4D 
+ 3364      61737465 
+ 3364      72436C65 
+ 3364      61725374 
+ 3365              	.LASF54:
+ 3366 0217 64617973 		.ascii	"daysInMonth\000"
+ 3366      496E4D6F 
+ 3366      6E746800 
+ 3367              	.LASF45:
+ 3368 0223 64745F67 		.ascii	"dt_getSecondstime\000"
+ 3368      65745365 
+ 3368      636F6E64 
+ 3368      7374696D 
+ 3368      6500
+ 3369              	.LASF62:
+ 3370 0235 49324352 		.ascii	"I2CRTC_MasterClearReadBuf\000"
+ 3370      54435F4D 
+ 3370      61737465 
+ 3370      72436C65 
+ 3370      61725265 
+ 3371              	.LASF7:
+ 3372 024f 73686F72 		.ascii	"short unsigned int\000"
+ 3372      7420756E 
+ 3372      7369676E 
+ 3372      65642069 
+ 3372      6E7400
+ 3373              	.LASF63:
+ 3374 0262 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 3374      43313120 
+ 3374      352E342E 
+ 3374      31203230 
+ 3374      31363036 
+ 3375 0295 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 3375      20726576 
+ 3375      6973696F 
+ 3375      6E203233 
+ 3375      37373135 
+ 3376 02c8 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 3376      66756E63 
+ 3376      74696F6E 
+ 3376      2D736563 
+ 3376      74696F6E 
+ 3377              	.LASF20:
+ 3378 02f0 63686172 		.ascii	"char\000"
+ 3378      00
+ 3379              	.LASF64:
+ 3380 02f5 2E2E5C2E 		.ascii	"..\\..\\..\\..\\..\\..\\development\\hardware\\DS32"
+ 3380      2E5C2E2E 
+ 3380      5C2E2E5C 
+ 3380      2E2E5C2E 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 68
+
+
+ 3380      2E5C6465 
+ 3381 0320 33312D50 		.ascii	"31-PSoC\\ds3231.c\000"
+ 3381      536F435C 
+ 3381      64733332 
+ 3381      33312E63 
+ 3381      00
+ 3382              	.LASF53:
+ 3383 0331 5254435F 		.ascii	"RTC_read_buff\000"
+ 3383      72656164 
+ 3383      5F627566 
+ 3383      6600
+ 3384              	.LASF15:
+ 3385 033f 696E7433 		.ascii	"int32_t\000"
+ 3385      325F7400 
+ 3386              	.LASF46:
+ 3387 0347 62636432 		.ascii	"bcd2bin\000"
+ 3387      62696E00 
+ 3388              	.LASF44:
+ 3389 034f 64745F67 		.ascii	"dt_getUnixtime\000"
+ 3389      6574556E 
+ 3389      69787469 
+ 3389      6D6500
+ 3390              	.LASF42:
+ 3391 035e 6D6F6E74 		.ascii	"month\000"
+ 3391      6800
+ 3392              	.LASF11:
+ 3393 0364 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3393      20756E73 
+ 3393      69676E65 
+ 3393      6420696E 
+ 3393      7400
+ 3394              	.LASF19:
+ 3395 0376 646F7562 		.ascii	"double\000"
+ 3395      6C6500
+ 3396              	.LASF37:
+ 3397 037d 64745F66 		.ascii	"dt_fromUnix\000"
+ 3397      726F6D55 
+ 3397      6E697800 
+ 3398              	.LASF58:
+ 3399 0389 49324352 		.ascii	"I2CRTC_MasterReadBuf\000"
+ 3399      54435F4D 
+ 3399      61737465 
+ 3399      72526561 
+ 3399      64427566 
+ 3400              	.LASF8:
+ 3401 039e 5F5F696E 		.ascii	"__int32_t\000"
+ 3401      7433325F 
+ 3401      7400
+ 3402              	.LASF48:
+ 3403 03a8 77726974 		.ascii	"write_i2c_register\000"
+ 3403      655F6932 
+ 3403      635F7265 
+ 3403      67697374 
+ 3403      657200
+ 3404              	.LASF31:
+ 3405 03bb 64745F69 		.ascii	"dt_isPM\000"
+ 3405      73504D00 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccXkl7Ao.s 			page 69
+
+
+ 3406              	.LASF60:
+ 3407 03c3 49324352 		.ascii	"I2CRTC_MasterStatus\000"
+ 3407      54435F4D 
+ 3407      61737465 
+ 3407      72537461 
+ 3407      74757300 
+ 3408              	.LASF51:
+ 3409 03d7 5254435F 		.ascii	"RTC_now\000"
+ 3409      6E6F7700 
+ 3410              	.LASF52:
+ 3411 03df 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 3411      52784275 
+ 3411      66666572 
+ 3411      00
+ 3412              	.LASF30:
+ 3413 03ec 64745F67 		.ascii	"dt_getSecond\000"
+ 3413      65745365 
+ 3413      636F6E64 
+ 3413      00
+ 3414              	.LASF59:
+ 3415 03f9 49324352 		.ascii	"I2CRTC_MasterWriteBuf\000"
+ 3415      54435F4D 
+ 3415      61737465 
+ 3415      72577269 
+ 3415      74654275 
+ 3416              	.LASF39:
+ 3417 040f 64617973 		.ascii	"daysPerMonth\000"
+ 3417      5065724D 
+ 3417      6F6E7468 
+ 3417      00
+ 3418              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

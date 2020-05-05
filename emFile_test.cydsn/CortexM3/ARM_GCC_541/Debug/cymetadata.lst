@@ -1,0 +1,1989 @@
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cymetadata.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	cy_meta_configecc
+  20              		.section	.cyconfigecc,"a",%progbits
+  21              		.align	2
+  22              		.type	cy_meta_configecc, %object
+  23              		.size	cy_meta_configecc, 1408
+  24              	cy_meta_configecc:
+  25 0000 03       		.byte	3
+  26 0001 52       		.byte	82
+  27 0002 00       		.byte	0
+  28 0003 40       		.byte	64
+  29 0004 04       		.byte	4
+  30 0005 64       		.byte	100
+  31 0006 00       		.byte	0
+  32 0007 40       		.byte	64
+  33 0008 62       		.byte	98
+  34 0009 00       		.byte	0
+  35 000a 01       		.byte	1
+  36 000b 40       		.byte	64
+  37 000c 37       		.byte	55
+  38 000d 01       		.byte	1
+  39 000e 01       		.byte	1
+  40 000f 40       		.byte	64
+  41 0010 2E       		.byte	46
+  42 0011 02       		.byte	2
+  43 0012 01       		.byte	1
+  44 0013 40       		.byte	64
+  45 0014 47       		.byte	71
+  46 0015 03       		.byte	3
+  47 0016 01       		.byte	1
+  48 0017 40       		.byte	64
+  49 0018 58       		.byte	88
+  50 0019 04       		.byte	4
+  51 001a 01       		.byte	1
+  52 001b 40       		.byte	64
+  53 001c 46       		.byte	70
+  54 001d 05       		.byte	5
+  55 001e 01       		.byte	1
+  56 001f 40       		.byte	64
+  57 0020 09       		.byte	9
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 2
+
+
+  58 0021 06       		.byte	6
+  59 0022 01       		.byte	1
+  60 0023 40       		.byte	64
+  61 0024 45       		.byte	69
+  62 0025 07       		.byte	7
+  63 0026 01       		.byte	1
+  64 0027 40       		.byte	64
+  65 0028 0A       		.byte	10
+  66 0029 41       		.byte	65
+  67 002a 01       		.byte	1
+  68 002b 40       		.byte	64
+  69 002c 05       		.byte	5
+  70 002d 42       		.byte	66
+  71 002e 01       		.byte	1
+  72 002f 40       		.byte	64
+  73 0030 03       		.byte	3
+  74 0031 43       		.byte	67
+  75 0032 01       		.byte	1
+  76 0033 40       		.byte	64
+  77 0034 03       		.byte	3
+  78 0035 50       		.byte	80
+  79 0036 01       		.byte	1
+  80 0037 40       		.byte	64
+  81 0038 00       		.byte	0
+  82 0039 18       		.byte	24
+  83 003a 01       		.byte	1
+  84 003b 08       		.byte	8
+  85 003c 64       		.byte	100
+  86 003d 08       		.byte	8
+  87 003e 81       		.byte	-127
+  88 003f 0F       		.byte	15
+  89 0040 84       		.byte	-124
+  90 0041 0F       		.byte	15
+  91 0042 85       		.byte	-123
+  92 0043 38       		.byte	56
+  93 0044 86       		.byte	-122
+  94 0045 72       		.byte	114
+  95 0046 01       		.byte	1
+  96 0047 0D       		.byte	13
+  97 0048 02       		.byte	2
+  98 0049 9F       		.byte	-97
+  99 004a 04       		.byte	4
+ 100 004b 7F       		.byte	127
+ 101 004c 05       		.byte	5
+ 102 004d 12       		.byte	18
+ 103 004e 06       		.byte	6
+ 104 004f 80       		.byte	-128
+ 105 0050 07       		.byte	7
+ 106 0051 28       		.byte	40
+ 107 0052 08       		.byte	8
+ 108 0053 C0       		.byte	-64
+ 109 0054 09       		.byte	9
+ 110 0055 02       		.byte	2
+ 111 0056 0A       		.byte	10
+ 112 0057 08       		.byte	8
+ 113 0058 0B       		.byte	11
+ 114 0059 0D       		.byte	13
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 3
+
+
+ 115 005a 0C       		.byte	12
+ 116 005b C0       		.byte	-64
+ 117 005c 0D       		.byte	13
+ 118 005d 0D       		.byte	13
+ 119 005e 0E       		.byte	14
+ 120 005f 02       		.byte	2
+ 121 0060 12       		.byte	18
+ 122 0061 60       		.byte	96
+ 123 0062 15       		.byte	21
+ 124 0063 11       		.byte	17
+ 125 0064 16       		.byte	22
+ 126 0065 FF       		.byte	-1
+ 127 0066 17       		.byte	23
+ 128 0067 22       		.byte	34
+ 129 0068 18       		.byte	24
+ 130 0069 C0       		.byte	-64
+ 131 006a 19       		.byte	25
+ 132 006b 32       		.byte	50
+ 133 006c 1A       		.byte	26
+ 134 006d 04       		.byte	4
+ 135 006e 1B       		.byte	27
+ 136 006f 04       		.byte	4
+ 137 0070 1C       		.byte	28
+ 138 0071 C0       		.byte	-64
+ 139 0072 1E       		.byte	30
+ 140 0073 01       		.byte	1
+ 141 0074 20       		.byte	32
+ 142 0075 80       		.byte	-128
+ 143 0076 25       		.byte	37
+ 144 0077 0D       		.byte	13
+ 145 0078 28       		.byte	40
+ 146 0079 1F       		.byte	31
+ 147 007a 29       		.byte	41
+ 148 007b 0D       		.byte	13
+ 149 007c 2A       		.byte	42
+ 150 007d 20       		.byte	32
+ 151 007e 2C       		.byte	44
+ 152 007f 90       		.byte	-112
+ 153 0080 2D       		.byte	45
+ 154 0081 0D       		.byte	13
+ 155 0082 2E       		.byte	46
+ 156 0083 40       		.byte	64
+ 157 0084 31       		.byte	49
+ 158 0085 20       		.byte	32
+ 159 0086 32       		.byte	50
+ 160 0087 FF       		.byte	-1
+ 161 0088 35       		.byte	53
+ 162 0089 0F       		.byte	15
+ 163 008a 37       		.byte	55
+ 164 008b 10       		.byte	16
+ 165 008c 3B       		.byte	59
+ 166 008d 20       		.byte	32
+ 167 008e 3E       		.byte	62
+ 168 008f 04       		.byte	4
+ 169 0090 3F       		.byte	63
+ 170 0091 41       		.byte	65
+ 171 0092 54       		.byte	84
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 4
+
+
+ 172 0093 09       		.byte	9
+ 173 0094 58       		.byte	88
+ 174 0095 04       		.byte	4
+ 175 0096 59       		.byte	89
+ 176 0097 04       		.byte	4
+ 177 0098 5B       		.byte	91
+ 178 0099 04       		.byte	4
+ 179 009a 5F       		.byte	95
+ 180 009b 01       		.byte	1
+ 181 009c 80       		.byte	-128
+ 182 009d 0A       		.byte	10
+ 183 009e 81       		.byte	-127
+ 184 009f 10       		.byte	16
+ 185 00a0 82       		.byte	-126
+ 186 00a1 54       		.byte	84
+ 187 00a2 84       		.byte	-124
+ 188 00a3 20       		.byte	32
+ 189 00a4 85       		.byte	-123
+ 190 00a5 20       		.byte	32
+ 191 00a6 86       		.byte	-122
+ 192 00a7 45       		.byte	69
+ 193 00a8 88       		.byte	-120
+ 194 00a9 53       		.byte	83
+ 195 00aa 8A       		.byte	-118
+ 196 00ab 04       		.byte	4
+ 197 00ac 8D       		.byte	-115
+ 198 00ad 1C       		.byte	28
+ 199 00ae 8E       		.byte	-114
+ 200 00af 08       		.byte	8
+ 201 00b0 8F       		.byte	-113
+ 202 00b1 02       		.byte	2
+ 203 00b2 91       		.byte	-111
+ 204 00b3 09       		.byte	9
+ 205 00b4 93       		.byte	-109
+ 206 00b5 10       		.byte	16
+ 207 00b6 94       		.byte	-108
+ 208 00b7 53       		.byte	83
+ 209 00b8 96       		.byte	-106
+ 210 00b9 0C       		.byte	12
+ 211 00ba 97       		.byte	-105
+ 212 00bb 03       		.byte	3
+ 213 00bc 98       		.byte	-104
+ 214 00bd 03       		.byte	3
+ 215 00be 99       		.byte	-103
+ 216 00bf 10       		.byte	16
+ 217 00c0 9A       		.byte	-102
+ 218 00c1 44       		.byte	68
+ 219 00c2 9B       		.byte	-101
+ 220 00c3 0C       		.byte	12
+ 221 00c4 A5       		.byte	-91
+ 222 00c5 0C       		.byte	12
+ 223 00c6 A7       		.byte	-89
+ 224 00c7 11       		.byte	17
+ 225 00c8 AD       		.byte	-83
+ 226 00c9 14       		.byte	20
+ 227 00ca B2       		.byte	-78
+ 228 00cb 0F       		.byte	15
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 5
+
+
+ 229 00cc B3       		.byte	-77
+ 230 00cd 1F       		.byte	31
+ 231 00ce B4       		.byte	-76
+ 232 00cf 40       		.byte	64
+ 233 00d0 B5       		.byte	-75
+ 234 00d1 20       		.byte	32
+ 235 00d2 B6       		.byte	-74
+ 236 00d3 30       		.byte	48
+ 237 00d4 B8       		.byte	-72
+ 238 00d5 80       		.byte	-128
+ 239 00d6 BA       		.byte	-70
+ 240 00d7 08       		.byte	8
+ 241 00d8 BE       		.byte	-66
+ 242 00d9 10       		.byte	16
+ 243 00da BF       		.byte	-65
+ 244 00db 10       		.byte	16
+ 245 00dc C0       		.byte	-64
+ 246 00dd 13       		.byte	19
+ 247 00de C1       		.byte	-63
+ 248 00df 06       		.byte	6
+ 249 00e0 C5       		.byte	-59
+ 250 00e1 0C       		.byte	12
+ 251 00e2 C6       		.byte	-58
+ 252 00e3 C0       		.byte	-64
+ 253 00e4 C7       		.byte	-57
+ 254 00e5 BE       		.byte	-66
+ 255 00e6 C8       		.byte	-56
+ 256 00e7 39       		.byte	57
+ 257 00e8 C9       		.byte	-55
+ 258 00e9 FF       		.byte	-1
+ 259 00ea CA       		.byte	-54
+ 260 00eb FF       		.byte	-1
+ 261 00ec CB       		.byte	-53
+ 262 00ed FF       		.byte	-1
+ 263 00ee CE       		.byte	-50
+ 264 00ef F0       		.byte	-16
+ 265 00f0 CF       		.byte	-49
+ 266 00f1 44       		.byte	68
+ 267 00f2 D0       		.byte	-48
+ 268 00f3 0C       		.byte	12
+ 269 00f4 D4       		.byte	-44
+ 270 00f5 01       		.byte	1
+ 271 00f6 D8       		.byte	-40
+ 272 00f7 04       		.byte	4
+ 273 00f8 D9       		.byte	-39
+ 274 00f9 04       		.byte	4
+ 275 00fa DA       		.byte	-38
+ 276 00fb 04       		.byte	4
+ 277 00fc DB       		.byte	-37
+ 278 00fd 04       		.byte	4
+ 279 00fe DC       		.byte	-36
+ 280 00ff 11       		.byte	17
+ 281 0100 DD       		.byte	-35
+ 282 0101 11       		.byte	17
+ 283 0102 DF       		.byte	-33
+ 284 0103 01       		.byte	1
+ 285 0104 E6       		.byte	-26
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 6
+
+
+ 286 0105 C0       		.byte	-64
+ 287 0106 EA       		.byte	-22
+ 288 0107 40       		.byte	64
+ 289 0108 EB       		.byte	-21
+ 290 0109 02       		.byte	2
+ 291 010a 00       		.byte	0
+ 292 010b 84       		.byte	-124
+ 293 010c 01       		.byte	1
+ 294 010d 92       		.byte	-110
+ 295 010e 05       		.byte	5
+ 296 010f 71       		.byte	113
+ 297 0110 06       		.byte	6
+ 298 0111 98       		.byte	-104
+ 299 0112 08       		.byte	8
+ 300 0113 20       		.byte	32
+ 301 0114 0A       		.byte	10
+ 302 0115 54       		.byte	84
+ 303 0116 0B       		.byte	11
+ 304 0117 01       		.byte	1
+ 305 0118 0E       		.byte	14
+ 306 0119 20       		.byte	32
+ 307 011a 0F       		.byte	15
+ 308 011b 08       		.byte	8
+ 309 011c 11       		.byte	17
+ 310 011d 40       		.byte	64
+ 311 011e 12       		.byte	18
+ 312 011f 88       		.byte	-120
+ 313 0120 18       		.byte	24
+ 314 0121 10       		.byte	16
+ 315 0122 1C       		.byte	28
+ 316 0123 08       		.byte	8
+ 317 0124 1D       		.byte	29
+ 318 0125 40       		.byte	64
+ 319 0126 1E       		.byte	30
+ 320 0127 22       		.byte	34
+ 321 0128 21       		.byte	33
+ 322 0129 90       		.byte	-112
+ 323 012a 23       		.byte	35
+ 324 012b 80       		.byte	-128
+ 325 012c 26       		.byte	38
+ 326 012d 04       		.byte	4
+ 327 012e 27       		.byte	39
+ 328 012f 08       		.byte	8
+ 329 0130 28       		.byte	40
+ 330 0131 24       		.byte	36
+ 331 0132 29       		.byte	41
+ 332 0133 80       		.byte	-128
+ 333 0134 2C       		.byte	44
+ 334 0135 04       		.byte	4
+ 335 0136 2D       		.byte	45
+ 336 0137 10       		.byte	16
+ 337 0138 2E       		.byte	46
+ 338 0139 08       		.byte	8
+ 339 013a 2F       		.byte	47
+ 340 013b 02       		.byte	2
+ 341 013c 32       		.byte	50
+ 342 013d 18       		.byte	24
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 7
+
+
+ 343 013e 36       		.byte	54
+ 344 013f 15       		.byte	21
+ 345 0140 38       		.byte	56
+ 346 0141 04       		.byte	4
+ 347 0142 39       		.byte	57
+ 348 0143 60       		.byte	96
+ 349 0144 3B       		.byte	59
+ 350 0145 01       		.byte	1
+ 351 0146 3D       		.byte	61
+ 352 0147 08       		.byte	8
+ 353 0148 3E       		.byte	62
+ 354 0149 80       		.byte	-128
+ 355 014a 3F       		.byte	63
+ 356 014b 02       		.byte	2
+ 357 014c 46       		.byte	70
+ 358 014d 12       		.byte	18
+ 359 014e 4D       		.byte	77
+ 360 014f 20       		.byte	32
+ 361 0150 4F       		.byte	79
+ 362 0151 08       		.byte	8
+ 363 0152 55       		.byte	85
+ 364 0153 04       		.byte	4
+ 365 0154 57       		.byte	87
+ 366 0155 1A       		.byte	26
+ 367 0156 58       		.byte	88
+ 368 0157 10       		.byte	16
+ 369 0158 59       		.byte	89
+ 370 0159 04       		.byte	4
+ 371 015a 5B       		.byte	91
+ 372 015b 81       		.byte	-127
+ 373 015c 5C       		.byte	92
+ 374 015d 82       		.byte	-126
+ 375 015e 5F       		.byte	95
+ 376 015f 18       		.byte	24
+ 377 0160 61       		.byte	97
+ 378 0161 80       		.byte	-128
+ 379 0162 63       		.byte	99
+ 380 0163 30       		.byte	48
+ 381 0164 C0       		.byte	-64
+ 382 0165 FF       		.byte	-1
+ 383 0166 C2       		.byte	-62
+ 384 0167 6F       		.byte	111
+ 385 0168 C4       		.byte	-60
+ 386 0169 0B       		.byte	11
+ 387 016a CA       		.byte	-54
+ 388 016b 5E       		.byte	94
+ 389 016c CC       		.byte	-52
+ 390 016d E6       		.byte	-26
+ 391 016e CE       		.byte	-50
+ 392 016f DF       		.byte	-33
+ 393 0170 D0       		.byte	-48
+ 394 0171 50       		.byte	80
+ 395 0172 D2       		.byte	-46
+ 396 0173 20       		.byte	32
+ 397 0174 D6       		.byte	-42
+ 398 0175 FF       		.byte	-1
+ 399 0176 D8       		.byte	-40
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 8
+
+
+ 400 0177 08       		.byte	8
+ 401 0178 00       		.byte	0
+ 402 0179 AC       		.byte	-84
+ 403 017a 02       		.byte	2
+ 404 017b 03       		.byte	3
+ 405 017c 04       		.byte	4
+ 406 017d 40       		.byte	64
+ 407 017e 07       		.byte	7
+ 408 017f 02       		.byte	2
+ 409 0180 08       		.byte	8
+ 410 0181 31       		.byte	49
+ 411 0182 0A       		.byte	10
+ 412 0183 0E       		.byte	14
+ 413 0184 0E       		.byte	14
+ 414 0185 8C       		.byte	-116
+ 415 0186 16       		.byte	22
+ 416 0187 40       		.byte	64
+ 417 0188 1E       		.byte	30
+ 418 0189 08       		.byte	8
+ 419 018a 22       		.byte	34
+ 420 018b 40       		.byte	64
+ 421 018c 23       		.byte	35
+ 422 018d 02       		.byte	2
+ 423 018e 26       		.byte	38
+ 424 018f 13       		.byte	19
+ 425 0190 28       		.byte	40
+ 426 0191 40       		.byte	64
+ 427 0192 2C       		.byte	44
+ 428 0193 31       		.byte	49
+ 429 0194 2E       		.byte	46
+ 430 0195 86       		.byte	-122
+ 431 0196 2F       		.byte	47
+ 432 0197 01       		.byte	1
+ 433 0198 30       		.byte	48
+ 434 0199 0F       		.byte	15
+ 435 019a 31       		.byte	49
+ 436 019b 01       		.byte	1
+ 437 019c 32       		.byte	50
+ 438 019d 30       		.byte	48
+ 439 019e 34       		.byte	52
+ 440 019f 8A       		.byte	-118
+ 441 01a0 35       		.byte	53
+ 442 01a1 02       		.byte	2
+ 443 01a2 36       		.byte	54
+ 444 01a3 40       		.byte	64
+ 445 01a4 38       		.byte	56
+ 446 01a5 88       		.byte	-120
+ 447 01a6 3A       		.byte	58
+ 448 01a7 22       		.byte	34
+ 449 01a8 3E       		.byte	62
+ 450 01a9 04       		.byte	4
+ 451 01aa 3F       		.byte	63
+ 452 01ab 10       		.byte	16
+ 453 01ac 40       		.byte	64
+ 454 01ad 03       		.byte	3
+ 455 01ae 47       		.byte	71
+ 456 01af 40       		.byte	64
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 9
+
+
+ 457 01b0 49       		.byte	73
+ 458 01b1 FF       		.byte	-1
+ 459 01b2 4A       		.byte	74
+ 460 01b3 07       		.byte	7
+ 461 01b4 4B       		.byte	75
+ 462 01b5 FF       		.byte	-1
+ 463 01b6 4C       		.byte	76
+ 464 01b7 40       		.byte	64
+ 465 01b8 4D       		.byte	77
+ 466 01b9 20       		.byte	32
+ 467 01ba 4E       		.byte	78
+ 468 01bb F0       		.byte	-16
+ 469 01bc 4F       		.byte	79
+ 470 01bd 05       		.byte	5
+ 471 01be 50       		.byte	80
+ 472 01bf 08       		.byte	8
+ 473 01c0 58       		.byte	88
+ 474 01c1 04       		.byte	4
+ 475 01c2 59       		.byte	89
+ 476 01c3 04       		.byte	4
+ 477 01c4 5A       		.byte	90
+ 478 01c5 04       		.byte	4
+ 479 01c6 5C       		.byte	92
+ 480 01c7 11       		.byte	17
+ 481 01c8 5D       		.byte	93
+ 482 01c9 01       		.byte	1
+ 483 01ca 5F       		.byte	95
+ 484 01cb 01       		.byte	1
+ 485 01cc 60       		.byte	96
+ 486 01cd 40       		.byte	64
+ 487 01ce 61       		.byte	97
+ 488 01cf A8       		.byte	-88
+ 489 01d0 62       		.byte	98
+ 490 01d1 40       		.byte	64
+ 491 01d2 63       		.byte	99
+ 492 01d3 20       		.byte	32
+ 493 01d4 00       		.byte	0
+ 494 01d5 04       		.byte	4
+ 495 01d6 01       		.byte	1
+ 496 01d7 02       		.byte	2
+ 497 01d8 03       		.byte	3
+ 498 01d9 08       		.byte	8
+ 499 01da 04       		.byte	4
+ 500 01db 08       		.byte	8
+ 501 01dc 05       		.byte	5
+ 502 01dd 51       		.byte	81
+ 503 01de 09       		.byte	9
+ 504 01df 02       		.byte	2
+ 505 01e0 0A       		.byte	10
+ 506 01e1 18       		.byte	24
+ 507 01e2 0D       		.byte	13
+ 508 01e3 04       		.byte	4
+ 509 01e4 0F       		.byte	15
+ 510 01e5 02       		.byte	2
+ 511 01e6 12       		.byte	18
+ 512 01e7 08       		.byte	8
+ 513 01e8 13       		.byte	19
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 10
+
+
+ 514 01e9 0C       		.byte	12
+ 515 01ea 14       		.byte	20
+ 516 01eb 04       		.byte	4
+ 517 01ec 16       		.byte	22
+ 518 01ed 92       		.byte	-110
+ 519 01ee 1A       		.byte	26
+ 520 01ef 0A       		.byte	10
+ 521 01f0 1B       		.byte	27
+ 522 01f1 08       		.byte	8
+ 523 01f2 1D       		.byte	29
+ 524 01f3 19       		.byte	25
+ 525 01f4 1F       		.byte	31
+ 526 01f5 40       		.byte	64
+ 527 01f6 21       		.byte	33
+ 528 01f7 02       		.byte	2
+ 529 01f8 22       		.byte	34
+ 530 01f9 88       		.byte	-120
+ 531 01fa 23       		.byte	35
+ 532 01fb 10       		.byte	16
+ 533 01fc 26       		.byte	38
+ 534 01fd 02       		.byte	2
+ 535 01fe 27       		.byte	39
+ 536 01ff 08       		.byte	8
+ 537 0200 28       		.byte	40
+ 538 0201 11       		.byte	17
+ 539 0202 29       		.byte	41
+ 540 0203 20       		.byte	32
+ 541 0204 2A       		.byte	42
+ 542 0205 04       		.byte	4
+ 543 0206 2C       		.byte	44
+ 544 0207 02       		.byte	2
+ 545 0208 2F       		.byte	47
+ 546 0209 40       		.byte	64
+ 547 020a 31       		.byte	49
+ 548 020b 02       		.byte	2
+ 549 020c 32       		.byte	50
+ 550 020d 98       		.byte	-104
+ 551 020e 39       		.byte	57
+ 552 020f 54       		.byte	84
+ 553 0210 3B       		.byte	59
+ 554 0211 01       		.byte	1
+ 555 0212 3C       		.byte	60
+ 556 0213 08       		.byte	8
+ 557 0214 40       		.byte	64
+ 558 0215 44       		.byte	68
+ 559 0216 42       		.byte	66
+ 560 0217 10       		.byte	16
+ 561 0218 43       		.byte	67
+ 562 0219 01       		.byte	1
+ 563 021a 45       		.byte	69
+ 564 021b 08       		.byte	8
+ 565 021c 49       		.byte	73
+ 566 021d 86       		.byte	-122
+ 567 021e 4A       		.byte	74
+ 568 021f 08       		.byte	8
+ 569 0220 52       		.byte	82
+ 570 0221 64       		.byte	100
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 11
+
+
+ 571 0222 53       		.byte	83
+ 572 0223 04       		.byte	4
+ 573 0224 56       		.byte	86
+ 574 0225 10       		.byte	16
+ 575 0226 57       		.byte	87
+ 576 0227 01       		.byte	1
+ 577 0228 84       		.byte	-124
+ 578 0229 01       		.byte	1
+ 579 022a 85       		.byte	-123
+ 580 022b 80       		.byte	-128
+ 581 022c 90       		.byte	-112
+ 582 022d 10       		.byte	16
+ 583 022e 94       		.byte	-108
+ 584 022f 04       		.byte	4
+ 585 0230 95       		.byte	-107
+ 586 0231 50       		.byte	80
+ 587 0232 96       		.byte	-106
+ 588 0233 74       		.byte	116
+ 589 0234 97       		.byte	-105
+ 590 0235 01       		.byte	1
+ 591 0236 99       		.byte	-103
+ 592 0237 40       		.byte	64
+ 593 0238 9A       		.byte	-102
+ 594 0239 02       		.byte	2
+ 595 023a 9C       		.byte	-100
+ 596 023b 10       		.byte	16
+ 597 023c 9D       		.byte	-99
+ 598 023d 17       		.byte	23
+ 599 023e 9E       		.byte	-98
+ 600 023f 10       		.byte	16
+ 601 0240 9F       		.byte	-97
+ 602 0241 01       		.byte	1
+ 603 0242 A2       		.byte	-94
+ 604 0243 04       		.byte	4
+ 605 0244 A4       		.byte	-92
+ 606 0245 40       		.byte	64
+ 607 0246 A6       		.byte	-90
+ 608 0247 88       		.byte	-120
+ 609 0248 A7       		.byte	-89
+ 610 0249 01       		.byte	1
+ 611 024a AC       		.byte	-84
+ 612 024b 84       		.byte	-124
+ 613 024c AE       		.byte	-82
+ 614 024d 12       		.byte	18
+ 615 024e B0       		.byte	-80
+ 616 024f 02       		.byte	2
+ 617 0250 B3       		.byte	-77
+ 618 0251 08       		.byte	8
+ 619 0252 C0       		.byte	-64
+ 620 0253 FE       		.byte	-2
+ 621 0254 C2       		.byte	-62
+ 622 0255 AE       		.byte	-82
+ 623 0256 C4       		.byte	-60
+ 624 0257 F2       		.byte	-14
+ 625 0258 CA       		.byte	-54
+ 626 0259 9E       		.byte	-98
+ 627 025a CC       		.byte	-52
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 12
+
+
+ 628 025b 0F       		.byte	15
+ 629 025c CE       		.byte	-50
+ 630 025d 4F       		.byte	79
+ 631 025e D0       		.byte	-48
+ 632 025f 47       		.byte	71
+ 633 0260 D2       		.byte	-46
+ 634 0261 0C       		.byte	12
+ 635 0262 00       		.byte	0
+ 636 0263 82       		.byte	-126
+ 637 0264 01       		.byte	1
+ 638 0265 41       		.byte	65
+ 639 0266 04       		.byte	4
+ 640 0267 01       		.byte	1
+ 641 0268 05       		.byte	5
+ 642 0269 41       		.byte	65
+ 643 026a 06       		.byte	6
+ 644 026b AE       		.byte	-82
+ 645 026c 08       		.byte	8
+ 646 026d 10       		.byte	16
+ 647 026e 09       		.byte	9
+ 648 026f 07       		.byte	7
+ 649 0270 0A       		.byte	10
+ 650 0271 86       		.byte	-122
+ 651 0272 0B       		.byte	11
+ 652 0273 18       		.byte	24
+ 653 0274 0D       		.byte	13
+ 654 0275 01       		.byte	1
+ 655 0276 0F       		.byte	15
+ 656 0277 40       		.byte	64
+ 657 0278 11       		.byte	17
+ 658 0279 41       		.byte	65
+ 659 027a 14       		.byte	20
+ 660 027b 69       		.byte	105
+ 661 027c 15       		.byte	21
+ 662 027d 40       		.byte	64
+ 663 027e 16       		.byte	22
+ 664 027f 06       		.byte	6
+ 665 0280 18       		.byte	24
+ 666 0281 04       		.byte	4
+ 667 0282 19       		.byte	25
+ 668 0283 08       		.byte	8
+ 669 0284 1A       		.byte	26
+ 670 0285 40       		.byte	64
+ 671 0286 1B       		.byte	27
+ 672 0287 21       		.byte	33
+ 673 0288 1C       		.byte	28
+ 674 0289 96       		.byte	-106
+ 675 028a 1D       		.byte	29
+ 676 028b 01       		.byte	1
+ 677 028c 20       		.byte	32
+ 678 028d 96       		.byte	-106
+ 679 028e 21       		.byte	33
+ 680 028f 10       		.byte	16
+ 681 0290 24       		.byte	36
+ 682 0291 92       		.byte	-110
+ 683 0292 25       		.byte	37
+ 684 0293 04       		.byte	4
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 13
+
+
+ 685 0294 26       		.byte	38
+ 686 0295 04       		.byte	4
+ 687 0296 28       		.byte	40
+ 688 0297 E7       		.byte	-25
+ 689 0298 29       		.byte	41
+ 690 0299 22       		.byte	34
+ 691 029a 2A       		.byte	42
+ 692 029b 08       		.byte	8
+ 693 029c 2B       		.byte	43
+ 694 029d 08       		.byte	8
+ 695 029e 2C       		.byte	44
+ 696 029f 86       		.byte	-122
+ 697 02a0 2E       		.byte	46
+ 698 02a1 10       		.byte	16
+ 699 02a2 2F       		.byte	47
+ 700 02a3 40       		.byte	64
+ 701 02a4 30       		.byte	48
+ 702 02a5 10       		.byte	16
+ 703 02a6 31       		.byte	49
+ 704 02a7 3F       		.byte	63
+ 705 02a8 32       		.byte	50
+ 706 02a9 0F       		.byte	15
+ 707 02aa 33       		.byte	51
+ 708 02ab 40       		.byte	64
+ 709 02ac 34       		.byte	52
+ 710 02ad E0       		.byte	-32
+ 711 02ae 38       		.byte	56
+ 712 02af 08       		.byte	8
+ 713 02b0 39       		.byte	57
+ 714 02b1 02       		.byte	2
+ 715 02b2 3A       		.byte	58
+ 716 02b3 30       		.byte	48
+ 717 02b4 3E       		.byte	62
+ 718 02b5 01       		.byte	1
+ 719 02b6 3F       		.byte	63
+ 720 02b7 05       		.byte	5
+ 721 02b8 56       		.byte	86
+ 722 02b9 02       		.byte	2
+ 723 02ba 57       		.byte	87
+ 724 02bb 24       		.byte	36
+ 725 02bc 58       		.byte	88
+ 726 02bd 04       		.byte	4
+ 727 02be 59       		.byte	89
+ 728 02bf 04       		.byte	4
+ 729 02c0 5B       		.byte	91
+ 730 02c1 04       		.byte	4
+ 731 02c2 5F       		.byte	95
+ 732 02c3 01       		.byte	1
+ 733 02c4 86       		.byte	-122
+ 734 02c5 10       		.byte	16
+ 735 02c6 89       		.byte	-119
+ 736 02c7 01       		.byte	1
+ 737 02c8 8A       		.byte	-118
+ 738 02c9 08       		.byte	8
+ 739 02ca 8B       		.byte	-117
+ 740 02cb 0E       		.byte	14
+ 741 02cc 8E       		.byte	-114
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 14
+
+
+ 742 02cd 08       		.byte	8
+ 743 02ce 94       		.byte	-108
+ 744 02cf 01       		.byte	1
+ 745 02d0 96       		.byte	-106
+ 746 02d1 36       		.byte	54
+ 747 02d2 98       		.byte	-104
+ 748 02d3 80       		.byte	-128
+ 749 02d4 99       		.byte	-103
+ 750 02d5 44       		.byte	68
+ 751 02d6 9B       		.byte	-101
+ 752 02d7 31       		.byte	49
+ 753 02d8 A0       		.byte	-96
+ 754 02d9 04       		.byte	4
+ 755 02da A1       		.byte	-95
+ 756 02db 22       		.byte	34
+ 757 02dc A2       		.byte	-94
+ 758 02dd 03       		.byte	3
+ 759 02de A3       		.byte	-93
+ 760 02df 51       		.byte	81
+ 761 02e0 A4       		.byte	-92
+ 762 02e1 65       		.byte	101
+ 763 02e2 A5       		.byte	-91
+ 764 02e3 E7       		.byte	-25
+ 765 02e4 A6       		.byte	-90
+ 766 02e5 02       		.byte	2
+ 767 02e6 A8       		.byte	-88
+ 768 02e7 03       		.byte	3
+ 769 02e8 A9       		.byte	-87
+ 770 02e9 E7       		.byte	-25
+ 771 02ea AA       		.byte	-86
+ 772 02eb 54       		.byte	84
+ 773 02ec AD       		.byte	-83
+ 774 02ed 80       		.byte	-128
+ 775 02ee B0       		.byte	-80
+ 776 02ef 08       		.byte	8
+ 777 02f0 B1       		.byte	-79
+ 778 02f1 18       		.byte	24
+ 779 02f2 B2       		.byte	-78
+ 780 02f3 70       		.byte	112
+ 781 02f4 B3       		.byte	-77
+ 782 02f5 60       		.byte	96
+ 783 02f6 B4       		.byte	-76
+ 784 02f7 07       		.byte	7
+ 785 02f8 B5       		.byte	-75
+ 786 02f9 07       		.byte	7
+ 787 02fa B6       		.byte	-74
+ 788 02fb 80       		.byte	-128
+ 789 02fc B7       		.byte	-73
+ 790 02fd 80       		.byte	-128
+ 791 02fe BA       		.byte	-70
+ 792 02ff 20       		.byte	32
+ 793 0300 BE       		.byte	-66
+ 794 0301 41       		.byte	65
+ 795 0302 BF       		.byte	-65
+ 796 0303 01       		.byte	1
+ 797 0304 D4       		.byte	-44
+ 798 0305 18       		.byte	24
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 15
+
+
+ 799 0306 D8       		.byte	-40
+ 800 0307 04       		.byte	4
+ 801 0308 D9       		.byte	-39
+ 802 0309 04       		.byte	4
+ 803 030a DB       		.byte	-37
+ 804 030b 04       		.byte	4
+ 805 030c DC       		.byte	-36
+ 806 030d 10       		.byte	16
+ 807 030e DD       		.byte	-35
+ 808 030f 10       		.byte	16
+ 809 0310 DF       		.byte	-33
+ 810 0311 01       		.byte	1
+ 811 0312 00       		.byte	0
+ 812 0313 04       		.byte	4
+ 813 0314 01       		.byte	1
+ 814 0315 10       		.byte	16
+ 815 0316 02       		.byte	2
+ 816 0317 80       		.byte	-128
+ 817 0318 04       		.byte	4
+ 818 0319 20       		.byte	32
+ 819 031a 05       		.byte	5
+ 820 031b 04       		.byte	4
+ 821 031c 06       		.byte	6
+ 822 031d 01       		.byte	1
+ 823 031e 08       		.byte	8
+ 824 031f 08       		.byte	8
+ 825 0320 0A       		.byte	10
+ 826 0321 12       		.byte	18
+ 827 0322 0B       		.byte	11
+ 828 0323 08       		.byte	8
+ 829 0324 0E       		.byte	14
+ 830 0325 08       		.byte	8
+ 831 0326 0F       		.byte	15
+ 832 0327 10       		.byte	16
+ 833 0328 11       		.byte	17
+ 834 0329 44       		.byte	68
+ 835 032a 13       		.byte	19
+ 836 032b 11       		.byte	17
+ 837 032c 14       		.byte	20
+ 838 032d 08       		.byte	8
+ 839 032e 15       		.byte	21
+ 840 032f 02       		.byte	2
+ 841 0330 16       		.byte	22
+ 842 0331 10       		.byte	16
+ 843 0332 18       		.byte	24
+ 844 0333 44       		.byte	68
+ 845 0334 19       		.byte	25
+ 846 0335 20       		.byte	32
+ 847 0336 1A       		.byte	26
+ 848 0337 30       		.byte	48
+ 849 0338 1C       		.byte	28
+ 850 0339 02       		.byte	2
+ 851 033a 1D       		.byte	29
+ 852 033b 14       		.byte	20
+ 853 033c 1F       		.byte	31
+ 854 033d 11       		.byte	17
+ 855 033e 21       		.byte	33
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 16
+
+
+ 856 033f 0A       		.byte	10
+ 857 0340 25       		.byte	37
+ 858 0341 51       		.byte	81
+ 859 0342 26       		.byte	38
+ 860 0343 08       		.byte	8
+ 861 0344 27       		.byte	39
+ 862 0345 10       		.byte	16
+ 863 0346 29       		.byte	41
+ 864 0347 22       		.byte	34
+ 865 0348 2A       		.byte	42
+ 866 0349 50       		.byte	80
+ 867 034a 2B       		.byte	43
+ 868 034b 10       		.byte	16
+ 869 034c 2C       		.byte	44
+ 870 034d 08       		.byte	8
+ 871 034e 2F       		.byte	47
+ 872 034f 62       		.byte	98
+ 873 0350 30       		.byte	48
+ 874 0351 01       		.byte	1
+ 875 0352 32       		.byte	50
+ 876 0353 91       		.byte	-111
+ 877 0354 33       		.byte	51
+ 878 0355 04       		.byte	4
+ 879 0356 37       		.byte	55
+ 880 0357 10       		.byte	16
+ 881 0358 39       		.byte	57
+ 882 0359 44       		.byte	68
+ 883 035a 3B       		.byte	59
+ 884 035b 11       		.byte	17
+ 885 035c 3D       		.byte	61
+ 886 035d 20       		.byte	32
+ 887 035e 45       		.byte	69
+ 888 035f 10       		.byte	16
+ 889 0360 46       		.byte	70
+ 890 0361 04       		.byte	4
+ 891 0362 5E       		.byte	94
+ 892 0363 02       		.byte	2
+ 893 0364 61       		.byte	97
+ 894 0365 10       		.byte	16
+ 895 0366 67       		.byte	103
+ 896 0367 06       		.byte	6
+ 897 0368 68       		.byte	104
+ 898 0369 40       		.byte	64
+ 899 036a 69       		.byte	105
+ 900 036b 54       		.byte	84
+ 901 036c 6A       		.byte	106
+ 902 036d 06       		.byte	6
+ 903 036e 6B       		.byte	107
+ 904 036f 04       		.byte	4
+ 905 0370 73       		.byte	115
+ 906 0371 01       		.byte	1
+ 907 0372 90       		.byte	-112
+ 908 0373 10       		.byte	16
+ 909 0374 93       		.byte	-109
+ 910 0375 1C       		.byte	28
+ 911 0376 94       		.byte	-108
+ 912 0377 4C       		.byte	76
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 17
+
+
+ 913 0378 95       		.byte	-107
+ 914 0379 5C       		.byte	92
+ 915 037a 96       		.byte	-106
+ 916 037b 74       		.byte	116
+ 917 037c 97       		.byte	-105
+ 918 037d 01       		.byte	1
+ 919 037e 99       		.byte	-103
+ 920 037f 02       		.byte	2
+ 921 0380 9A       		.byte	-102
+ 922 0381 40       		.byte	64
+ 923 0382 9C       		.byte	-100
+ 924 0383 05       		.byte	5
+ 925 0384 9D       		.byte	-99
+ 926 0385 20       		.byte	32
+ 927 0386 9E       		.byte	-98
+ 928 0387 80       		.byte	-128
+ 929 0388 A2       		.byte	-94
+ 930 0389 A6       		.byte	-90
+ 931 038a A4       		.byte	-92
+ 932 038b 47       		.byte	71
+ 933 038c AE       		.byte	-82
+ 934 038d 01       		.byte	1
+ 935 038e C0       		.byte	-64
+ 936 038f EE       		.byte	-18
+ 937 0390 C2       		.byte	-62
+ 938 0391 67       		.byte	103
+ 939 0392 C4       		.byte	-60
+ 940 0393 7F       		.byte	127
+ 941 0394 CA       		.byte	-54
+ 942 0395 FF       		.byte	-1
+ 943 0396 CC       		.byte	-52
+ 944 0397 2F       		.byte	47
+ 945 0398 CE       		.byte	-50
+ 946 0399 2F       		.byte	47
+ 947 039a D6       		.byte	-42
+ 948 039b 80       		.byte	-128
+ 949 039c D8       		.byte	-40
+ 950 039d 34       		.byte	52
+ 951 039e 88       		.byte	-120
+ 952 039f 01       		.byte	1
+ 953 03a0 90       		.byte	-112
+ 954 03a1 01       		.byte	1
+ 955 03a2 B0       		.byte	-80
+ 956 03a3 01       		.byte	1
+ 957 03a4 B4       		.byte	-76
+ 958 03a5 01       		.byte	1
+ 959 03a6 B8       		.byte	-72
+ 960 03a7 22       		.byte	34
+ 961 03a8 D4       		.byte	-44
+ 962 03a9 40       		.byte	64
+ 963 03aa D8       		.byte	-40
+ 964 03ab 04       		.byte	4
+ 965 03ac DB       		.byte	-37
+ 966 03ad 04       		.byte	4
+ 967 03ae DF       		.byte	-33
+ 968 03af 01       		.byte	1
+ 969 03b0 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 18
+
+
+ 970 03b1 10       		.byte	16
+ 971 03b2 05       		.byte	5
+ 972 03b3 20       		.byte	32
+ 973 03b4 06       		.byte	6
+ 974 03b5 06       		.byte	6
+ 975 03b6 07       		.byte	7
+ 976 03b7 50       		.byte	80
+ 977 03b8 09       		.byte	9
+ 978 03b9 02       		.byte	2
+ 979 03ba 0C       		.byte	12
+ 980 03bb 02       		.byte	2
+ 981 03bc 0E       		.byte	14
+ 982 03bd 25       		.byte	37
+ 983 03be 15       		.byte	21
+ 984 03bf 10       		.byte	16
+ 985 03c0 16       		.byte	22
+ 986 03c1 80       		.byte	-128
+ 987 03c2 17       		.byte	23
+ 988 03c3 29       		.byte	41
+ 989 03c4 1A       		.byte	26
+ 990 03c5 40       		.byte	64
+ 991 03c6 1B       		.byte	27
+ 992 03c7 10       		.byte	16
+ 993 03c8 1E       		.byte	30
+ 994 03c9 15       		.byte	21
+ 995 03ca 24       		.byte	36
+ 996 03cb 28       		.byte	40
+ 997 03cc 25       		.byte	37
+ 998 03cd 14       		.byte	20
+ 999 03ce 26       		.byte	38
+ 1000 03cf 11       		.byte	17
+ 1001 03d0 27       		.byte	39
+ 1002 03d1 01       		.byte	1
+ 1003 03d2 2C       		.byte	44
+ 1004 03d3 02       		.byte	2
+ 1005 03d4 2D       		.byte	45
+ 1006 03d5 20       		.byte	32
+ 1007 03d6 2E       		.byte	46
+ 1008 03d7 05       		.byte	5
+ 1009 03d8 36       		.byte	54
+ 1010 03d9 1A       		.byte	26
+ 1011 03da 37       		.byte	55
+ 1012 03db 40       		.byte	64
+ 1013 03dc 3D       		.byte	61
+ 1014 03dd 10       		.byte	16
+ 1015 03de 3E       		.byte	62
+ 1016 03df 8A       		.byte	-118
+ 1017 03e0 45       		.byte	69
+ 1018 03e1 55       		.byte	85
+ 1019 03e2 47       		.byte	71
+ 1020 03e3 40       		.byte	64
+ 1021 03e4 4E       		.byte	78
+ 1022 03e5 04       		.byte	4
+ 1023 03e6 54       		.byte	84
+ 1024 03e7 04       		.byte	4
+ 1025 03e8 56       		.byte	86
+ 1026 03e9 01       		.byte	1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 19
+
+
+ 1027 03ea 58       		.byte	88
+ 1028 03eb 04       		.byte	4
+ 1029 03ec 5A       		.byte	90
+ 1030 03ed 0C       		.byte	12
+ 1031 03ee 5E       		.byte	94
+ 1032 03ef 10       		.byte	16
+ 1033 03f0 61       		.byte	97
+ 1034 03f1 08       		.byte	8
+ 1035 03f2 62       		.byte	98
+ 1036 03f3 60       		.byte	96
+ 1037 03f4 6C       		.byte	108
+ 1038 03f5 08       		.byte	8
+ 1039 03f6 6F       		.byte	111
+ 1040 03f7 22       		.byte	34
+ 1041 03f8 76       		.byte	118
+ 1042 03f9 0A       		.byte	10
+ 1043 03fa 77       		.byte	119
+ 1044 03fb 28       		.byte	40
+ 1045 03fc 85       		.byte	-123
+ 1046 03fd 04       		.byte	4
+ 1047 03fe 86       		.byte	-122
+ 1048 03ff 01       		.byte	1
+ 1049 0400 90       		.byte	-112
+ 1050 0401 10       		.byte	16
+ 1051 0402 94       		.byte	-108
+ 1052 0403 28       		.byte	40
+ 1053 0404 95       		.byte	-107
+ 1054 0405 08       		.byte	8
+ 1055 0406 96       		.byte	-106
+ 1056 0407 40       		.byte	64
+ 1057 0408 9A       		.byte	-102
+ 1058 0409 44       		.byte	68
+ 1059 040a 9B       		.byte	-101
+ 1060 040b 10       		.byte	16
+ 1061 040c 9C       		.byte	-100
+ 1062 040d 04       		.byte	4
+ 1063 040e 9E       		.byte	-98
+ 1064 040f 81       		.byte	-127
+ 1065 0410 A0       		.byte	-96
+ 1066 0411 02       		.byte	2
+ 1067 0412 A1       		.byte	-95
+ 1068 0413 4B       		.byte	75
+ 1069 0414 A2       		.byte	-94
+ 1070 0415 2A       		.byte	42
+ 1071 0416 A4       		.byte	-92
+ 1072 0417 0C       		.byte	12
+ 1073 0418 A6       		.byte	-90
+ 1074 0419 01       		.byte	1
+ 1075 041a A7       		.byte	-89
+ 1076 041b 32       		.byte	50
+ 1077 041c AC       		.byte	-84
+ 1078 041d 02       		.byte	2
+ 1079 041e AD       		.byte	-83
+ 1080 041f 01       		.byte	1
+ 1081 0420 AF       		.byte	-81
+ 1082 0421 50       		.byte	80
+ 1083 0422 B5       		.byte	-75
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 20
+
+
+ 1084 0423 04       		.byte	4
+ 1085 0424 C0       		.byte	-64
+ 1086 0425 F2       		.byte	-14
+ 1087 0426 C2       		.byte	-62
+ 1088 0427 F8       		.byte	-8
+ 1089 0428 C4       		.byte	-60
+ 1090 0429 70       		.byte	112
+ 1091 042a CA       		.byte	-54
+ 1092 042b F0       		.byte	-16
+ 1093 042c CC       		.byte	-52
+ 1094 042d F0       		.byte	-16
+ 1095 042e CE       		.byte	-50
+ 1096 042f F0       		.byte	-16
+ 1097 0430 D0       		.byte	-48
+ 1098 0431 F0       		.byte	-16
+ 1099 0432 D2       		.byte	-46
+ 1100 0433 20       		.byte	32
+ 1101 0434 D6       		.byte	-42
+ 1102 0435 20       		.byte	32
+ 1103 0436 D8       		.byte	-40
+ 1104 0437 0E       		.byte	14
+ 1105 0438 EA       		.byte	-22
+ 1106 0439 10       		.byte	16
+ 1107 043a 0F       		.byte	15
+ 1108 043b 10       		.byte	16
+ 1109 043c 53       		.byte	83
+ 1110 043d 10       		.byte	16
+ 1111 043e 57       		.byte	87
+ 1112 043f 01       		.byte	1
+ 1113 0440 5F       		.byte	95
+ 1114 0441 02       		.byte	2
+ 1115 0442 87       		.byte	-121
+ 1116 0443 11       		.byte	17
+ 1117 0444 C2       		.byte	-62
+ 1118 0445 20       		.byte	32
+ 1119 0446 D4       		.byte	-44
+ 1120 0447 20       		.byte	32
+ 1121 0448 D6       		.byte	-42
+ 1122 0449 A0       		.byte	-96
+ 1123 044a E0       		.byte	-32
+ 1124 044b 10       		.byte	16
+ 1125 044c E6       		.byte	-26
+ 1126 044d 10       		.byte	16
+ 1127 044e 06       		.byte	6
+ 1128 044f 40       		.byte	64
+ 1129 0450 9F       		.byte	-97
+ 1130 0451 02       		.byte	2
+ 1131 0452 AF       		.byte	-81
+ 1132 0453 10       		.byte	16
+ 1133 0454 C0       		.byte	-64
+ 1134 0455 20       		.byte	32
+ 1135 0456 EE       		.byte	-18
+ 1136 0457 40       		.byte	64
+ 1137 0458 AE       		.byte	-82
+ 1138 0459 40       		.byte	64
+ 1139 045a B7       		.byte	-73
+ 1140 045b 02       		.byte	2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 21
+
+
+ 1141 045c E8       		.byte	-24
+ 1142 045d 10       		.byte	16
+ 1143 045e 00       		.byte	0
+ 1144 045f 03       		.byte	3
+ 1145 0460 08       		.byte	8
+ 1146 0461 03       		.byte	3
+ 1147 0462 0A       		.byte	10
+ 1148 0463 03       		.byte	3
+ 1149 0464 00       		.byte	0
+ 1150 0465 1C       		.byte	28
+ 1151 0466 12       		.byte	18
+ 1152 0467 00       		.byte	0
+ 1153 0468 88       		.byte	-120
+ 1154 0469 14       		.byte	20
+ 1155 046a 03       		.byte	3
+ 1156 046b 08       		.byte	8
+ 1157 046c 00       		.byte	0
+ 1158 046d 10       		.byte	16
+ 1159 046e 01       		.byte	1
+ 1160 046f 0C       		.byte	12
+ 1161 0470 00       		.byte	0
+ 1162 0471 0C       		.byte	12
+ 1163 0472 00       		.byte	0
+ 1164 0473 10       		.byte	16
+ 1165 0474 E0       		.byte	-32
+ 1166 0475 C0       		.byte	-64
+ 1167 0476 00       		.byte	0
+ 1168 0477 00       		.byte	0
+ 1169 0478 04       		.byte	4
+ 1170 0479 11       		.byte	17
+ 1171 047a 43       		.byte	67
+ 1172 047b 62       		.byte	98
+ 1173 047c 00       		.byte	0
+ 1174 047d 21       		.byte	33
+ 1175 047e EC       		.byte	-20
+ 1176 047f 9E       		.byte	-98
+ 1177 0480 00       		.byte	0
+ 1178 0481 24       		.byte	36
+ 1179 0482 00       		.byte	0
+ 1180 0483 10       		.byte	16
+ 1181 0484 00       		.byte	0
+ 1182 0485 00       		.byte	0
+ 1183 0486 00       		.byte	0
+ 1184 0487 00       		.byte	0
+ 1185 0488 00       		.byte	0
+ 1186 0489 08       		.byte	8
+ 1187 048a 00       		.byte	0
+ 1188 048b 00       		.byte	0
+ 1189 048c 21       		.byte	33
+ 1190 048d 70       		.byte	112
+ 1191 048e 02       		.byte	2
+ 1192 048f 0F       		.byte	15
+ 1193 0490 00       		.byte	0
+ 1194 0491 1C       		.byte	28
+ 1195 0492 00       		.byte	0
+ 1196 0493 00       		.byte	0
+ 1197 0494 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 22
+
+
+ 1198 0495 C1       		.byte	-63
+ 1199 0496 10       		.byte	16
+ 1200 0497 0F       		.byte	15
+ 1201 0498 0F       		.byte	15
+ 1202 0499 00       		.byte	0
+ 1203 049a E0       		.byte	-32
+ 1204 049b 30       		.byte	48
+ 1205 049c 00       		.byte	0
+ 1206 049d 02       		.byte	2
+ 1207 049e 00       		.byte	0
+ 1208 049f 80       		.byte	-128
+ 1209 04a0 00       		.byte	0
+ 1210 04a1 00       		.byte	0
+ 1211 04a2 40       		.byte	64
+ 1212 04a3 00       		.byte	0
+ 1213 04a4 32       		.byte	50
+ 1214 04a5 06       		.byte	6
+ 1215 04a6 40       		.byte	64
+ 1216 04a7 00       		.byte	0
+ 1217 04a8 05       		.byte	5
+ 1218 04a9 BE       		.byte	-66
+ 1219 04aa FD       		.byte	-3
+ 1220 04ab 0C       		.byte	12
+ 1221 04ac 1F       		.byte	31
+ 1222 04ad FF       		.byte	-1
+ 1223 04ae FF       		.byte	-1
+ 1224 04af FF       		.byte	-1
+ 1225 04b0 22       		.byte	34
+ 1226 04b1 00       		.byte	0
+ 1227 04b2 F0       		.byte	-16
+ 1228 04b3 08       		.byte	8
+ 1229 04b4 04       		.byte	4
+ 1230 04b5 00       		.byte	0
+ 1231 04b6 00       		.byte	0
+ 1232 04b7 00       		.byte	0
+ 1233 04b8 00       		.byte	0
+ 1234 04b9 00       		.byte	0
+ 1235 04ba 00       		.byte	0
+ 1236 04bb 00       		.byte	0
+ 1237 04bc 04       		.byte	4
+ 1238 04bd 04       		.byte	4
+ 1239 04be 04       		.byte	4
+ 1240 04bf 00       		.byte	0
+ 1241 04c0 00       		.byte	0
+ 1242 04c1 00       		.byte	0
+ 1243 04c2 00       		.byte	0
+ 1244 04c3 01       		.byte	1
+ 1245 04c4 00       		.byte	0
+ 1246 04c5 00       		.byte	0
+ 1247 04c6 C0       		.byte	-64
+ 1248 04c7 00       		.byte	0
+ 1249 04c8 40       		.byte	64
+ 1250 04c9 01       		.byte	1
+ 1251 04ca 10       		.byte	16
+ 1252 04cb 11       		.byte	17
+ 1253 04cc C0       		.byte	-64
+ 1254 04cd 01       		.byte	1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 23
+
+
+ 1255 04ce 00       		.byte	0
+ 1256 04cf 11       		.byte	17
+ 1257 04d0 40       		.byte	64
+ 1258 04d1 01       		.byte	1
+ 1259 04d2 40       		.byte	64
+ 1260 04d3 01       		.byte	1
+ 1261 04d4 00       		.byte	0
+ 1262 04d5 00       		.byte	0
+ 1263 04d6 00       		.byte	0
+ 1264 04d7 00       		.byte	0
+ 1265 04d8 00       		.byte	0
+ 1266 04d9 00       		.byte	0
+ 1267 04da 00       		.byte	0
+ 1268 04db 00       		.byte	0
+ 1269 04dc 00       		.byte	0
+ 1270 04dd 00       		.byte	0
+ 1271 04de 00       		.byte	0
+ 1272 04df 00       		.byte	0
+ 1273 04e0 00       		.byte	0
+ 1274 04e1 00       		.byte	0
+ 1275 04e2 00       		.byte	0
+ 1276 04e3 00       		.byte	0
+ 1277 04e4 00       		.byte	0
+ 1278 04e5 10       		.byte	16
+ 1279 04e6 23       		.byte	35
+ 1280 04e7 00       		.byte	0
+ 1281 04e8 02       		.byte	2
+ 1282 04e9 08       		.byte	8
+ 1283 04ea 00       		.byte	0
+ 1284 04eb 00       		.byte	0
+ 1285 04ec 03       		.byte	3
+ 1286 04ed 18       		.byte	24
+ 1287 04ee 00       		.byte	0
+ 1288 04ef 00       		.byte	0
+ 1289 04f0 08       		.byte	8
+ 1290 04f1 3C       		.byte	60
+ 1291 04f2 00       		.byte	0
+ 1292 04f3 C2       		.byte	-62
+ 1293 04f4 01       		.byte	1
+ 1294 04f5 00       		.byte	0
+ 1295 04f6 00       		.byte	0
+ 1296 04f7 04       		.byte	4
+ 1297 04f8 3F       		.byte	63
+ 1298 04f9 80       		.byte	-128
+ 1299 04fa 00       		.byte	0
+ 1300 04fb 00       		.byte	0
+ 1301 04fc 33       		.byte	51
+ 1302 04fd FF       		.byte	-1
+ 1303 04fe 0C       		.byte	12
+ 1304 04ff 00       		.byte	0
+ 1305 0500 1F       		.byte	31
+ 1306 0501 00       		.byte	0
+ 1307 0502 20       		.byte	32
+ 1308 0503 E3       		.byte	-29
+ 1309 0504 1C       		.byte	28
+ 1310 0505 1C       		.byte	28
+ 1311 0506 23       		.byte	35
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 24
+
+
+ 1312 0507 E1       		.byte	-31
+ 1313 0508 04       		.byte	4
+ 1314 0509 E7       		.byte	-25
+ 1315 050a 00       		.byte	0
+ 1316 050b 18       		.byte	24
+ 1317 050c 0C       		.byte	12
+ 1318 050d C0       		.byte	-64
+ 1319 050e 00       		.byte	0
+ 1320 050f 00       		.byte	0
+ 1321 0510 00       		.byte	0
+ 1322 0511 44       		.byte	68
+ 1323 0512 00       		.byte	0
+ 1324 0513 00       		.byte	0
+ 1325 0514 00       		.byte	0
+ 1326 0515 C0       		.byte	-64
+ 1327 0516 10       		.byte	16
+ 1328 0517 38       		.byte	56
+ 1329 0518 0F       		.byte	15
+ 1330 0519 00       		.byte	0
+ 1331 051a 2C       		.byte	44
+ 1332 051b 1F       		.byte	31
+ 1333 051c 00       		.byte	0
+ 1334 051d 00       		.byte	0
+ 1335 051e A0       		.byte	-96
+ 1336 051f A0       		.byte	-96
+ 1337 0520 00       		.byte	0
+ 1338 0521 00       		.byte	0
+ 1339 0522 04       		.byte	4
+ 1340 0523 00       		.byte	0
+ 1341 0524 61       		.byte	97
+ 1342 0525 02       		.byte	2
+ 1343 0526 03       		.byte	3
+ 1344 0527 00       		.byte	0
+ 1345 0528 04       		.byte	4
+ 1346 0529 00       		.byte	0
+ 1347 052a 00       		.byte	0
+ 1348 052b CE       		.byte	-50
+ 1349 052c 30       		.byte	48
+ 1350 052d FF       		.byte	-1
+ 1351 052e FF       		.byte	-1
+ 1352 052f FF       		.byte	-1
+ 1353 0530 62       		.byte	98
+ 1354 0531 A0       		.byte	-96
+ 1355 0532 F0       		.byte	-16
+ 1356 0533 41       		.byte	65
+ 1357 0534 0C       		.byte	12
+ 1358 0535 00       		.byte	0
+ 1359 0536 00       		.byte	0
+ 1360 0537 00       		.byte	0
+ 1361 0538 00       		.byte	0
+ 1362 0539 00       		.byte	0
+ 1363 053a 02       		.byte	2
+ 1364 053b 11       		.byte	17
+ 1365 053c 04       		.byte	4
+ 1366 053d 04       		.byte	4
+ 1367 053e 04       		.byte	4
+ 1368 053f 04       		.byte	4
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 25
+
+
+ 1369 0540 11       		.byte	17
+ 1370 0541 11       		.byte	17
+ 1371 0542 00       		.byte	0
+ 1372 0543 01       		.byte	1
+ 1373 0544 00       		.byte	0
+ 1374 0545 00       		.byte	0
+ 1375 0546 00       		.byte	0
+ 1376 0547 00       		.byte	0
+ 1377 0548 00       		.byte	0
+ 1378 0549 00       		.byte	0
+ 1379 054a 40       		.byte	64
+ 1380 054b 02       		.byte	2
+ 1381 054c 00       		.byte	0
+ 1382 054d 10       		.byte	16
+ 1383 054e 30       		.byte	48
+ 1384 054f 10       		.byte	16
+ 1385 0550 00       		.byte	0
+ 1386 0551 10       		.byte	16
+ 1387 0552 10       		.byte	16
+ 1388 0553 12       		.byte	18
+ 1389 0554 00       		.byte	0
+ 1390 0555 00       		.byte	0
+ 1391 0556 00       		.byte	0
+ 1392 0557 00       		.byte	0
+ 1393 0558 00       		.byte	0
+ 1394 0559 00       		.byte	0
+ 1395 055a 00       		.byte	0
+ 1396 055b 00       		.byte	0
+ 1397 055c 00       		.byte	0
+ 1398 055d 00       		.byte	0
+ 1399 055e 00       		.byte	0
+ 1400 055f 00       		.byte	0
+ 1401 0560 00       		.byte	0
+ 1402 0561 00       		.byte	0
+ 1403 0562 00       		.byte	0
+ 1404 0563 00       		.byte	0
+ 1405 0564 08       		.byte	8
+ 1406 0565 00       		.byte	0
+ 1407 0566 20       		.byte	32
+ 1408 0567 1A       		.byte	26
+ 1409 0568 1A       		.byte	26
+ 1410 0569 00       		.byte	0
+ 1411 056a 1A       		.byte	26
+ 1412 056b 00       		.byte	0
+ 1413 056c 00       		.byte	0
+ 1414 056d 00       		.byte	0
+ 1415 056e 00       		.byte	0
+ 1416 056f 00       		.byte	0
+ 1417 0570 08       		.byte	8
+ 1418 0571 04       		.byte	4
+ 1419 0572 04       		.byte	4
+ 1420 0573 00       		.byte	0
+ 1421 0574 00       		.byte	0
+ 1422 0575 00       		.byte	0
+ 1423 0576 00       		.byte	0
+ 1424 0577 00       		.byte	0
+ 1425 0578 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 26
+
+
+ 1426 0579 0B       		.byte	11
+ 1427 057a 0B       		.byte	11
+ 1428 057b 00       		.byte	0
+ 1429 057c 00       		.byte	0
+ 1430 057d 00       		.byte	0
+ 1431 057e 00       		.byte	0
+ 1432 057f 00       		.byte	0
+ 1433              		.global	cy_meta_custnvl
+ 1434              		.section	.cycustnvl,"a",%progbits
+ 1435              		.align	2
+ 1436              		.type	cy_meta_custnvl, %object
+ 1437              		.size	cy_meta_custnvl, 4
+ 1438              	cy_meta_custnvl:
+ 1439 0000 00       		.byte	0
+ 1440 0001 00       		.byte	0
+ 1441 0002 40       		.byte	64
+ 1442 0003 05       		.byte	5
+ 1443              		.global	cy_meta_wonvl
+ 1444              		.section	.cywolatch,"a",%progbits
+ 1445              		.align	2
+ 1446              		.type	cy_meta_wonvl, %object
+ 1447              		.size	cy_meta_wonvl, 4
+ 1448              	cy_meta_wonvl:
+ 1449 0000 BC       		.byte	-68
+ 1450 0001 90       		.byte	-112
+ 1451 0002 AC       		.byte	-84
+ 1452 0003 AF       		.byte	-81
+ 1453              		.global	cy_meta_flashprotect
+ 1454              		.section	.cyflashprotect,"a",%progbits
+ 1455              		.align	2
+ 1456              		.type	cy_meta_flashprotect, %object
+ 1457              		.size	cy_meta_flashprotect, 256
+ 1458              	cy_meta_flashprotect:
+ 1459 0000 00000000 		.space	256
+ 1459      00000000 
+ 1459      00000000 
+ 1459      00000000 
+ 1459      00000000 
+ 1460              		.global	cy_metadata
+ 1461              		.section	.cymeta,"a",%progbits
+ 1462              		.align	2
+ 1463              		.type	cy_metadata, %object
+ 1464              		.size	cy_metadata, 12
+ 1465              	cy_metadata:
+ 1466 0000 00       		.byte	0
+ 1467 0001 01       		.byte	1
+ 1468 0002 2E       		.byte	46
+ 1469 0003 16       		.byte	22
+ 1470 0004 10       		.byte	16
+ 1471 0005 69       		.byte	105
+ 1472 0006 00       		.byte	0
+ 1473 0007 01       		.byte	1
+ 1474 0008 00       		.byte	0
+ 1475 0009 00       		.byte	0
+ 1476 000a 00       		.byte	0
+ 1477 000b 00       		.byte	0
+ 1478              		.text
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 27
+
+
+ 1479              	.Letext0:
+ 1480              		.file 1 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1481              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1482              		.file 3 "Generated_Source\\PSoC5\\cymetadata.c"
+ 1483              		.section	.debug_info,"",%progbits
+ 1484              	.Ldebug_info0:
+ 1485 0000 32010000 		.4byte	0x132
+ 1486 0004 0400     		.2byte	0x4
+ 1487 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1488 000a 04       		.byte	0x4
+ 1489 000b 01       		.uleb128 0x1
+ 1490 000c 0A000000 		.4byte	.LASF17
+ 1491 0010 0C       		.byte	0xc
+ 1492 0011 D4010000 		.4byte	.LASF18
+ 1493 0015 D7000000 		.4byte	.LASF19
+ 1494 0019 00000000 		.4byte	.Ldebug_line0
+ 1495 001d 02       		.uleb128 0x2
+ 1496 001e 01       		.byte	0x1
+ 1497 001f 06       		.byte	0x6
+ 1498 0020 C8010000 		.4byte	.LASF0
+ 1499 0024 03       		.uleb128 0x3
+ 1500 0025 00000000 		.4byte	.LASF9
+ 1501 0029 01       		.byte	0x1
+ 1502 002a 1D       		.byte	0x1d
+ 1503 002b 2F000000 		.4byte	0x2f
+ 1504 002f 02       		.uleb128 0x2
+ 1505 0030 01       		.byte	0x1
+ 1506 0031 08       		.byte	0x8
+ 1507 0032 A4000000 		.4byte	.LASF1
+ 1508 0036 02       		.uleb128 0x2
+ 1509 0037 02       		.byte	0x2
+ 1510 0038 05       		.byte	0x5
+ 1511 0039 B5010000 		.4byte	.LASF2
+ 1512 003d 02       		.uleb128 0x2
+ 1513 003e 02       		.byte	0x2
+ 1514 003f 07       		.byte	0x7
+ 1515 0040 C4000000 		.4byte	.LASF3
+ 1516 0044 02       		.uleb128 0x2
+ 1517 0045 04       		.byte	0x4
+ 1518 0046 05       		.byte	0x5
+ 1519 0047 BF010000 		.4byte	.LASF4
+ 1520 004b 02       		.uleb128 0x2
+ 1521 004c 04       		.byte	0x4
+ 1522 004d 07       		.byte	0x7
+ 1523 004e B2000000 		.4byte	.LASF5
+ 1524 0052 02       		.uleb128 0x2
+ 1525 0053 08       		.byte	0x8
+ 1526 0054 05       		.byte	0x5
+ 1527 0055 A7010000 		.4byte	.LASF6
+ 1528 0059 02       		.uleb128 0x2
+ 1529 005a 08       		.byte	0x8
+ 1530 005b 07       		.byte	0x7
+ 1531 005c 5C010000 		.4byte	.LASF7
+ 1532 0060 04       		.uleb128 0x4
+ 1533 0061 04       		.byte	0x4
+ 1534 0062 05       		.byte	0x5
+ 1535 0063 696E7400 		.ascii	"int\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 28
+
+
+ 1536 0067 02       		.uleb128 0x2
+ 1537 0068 04       		.byte	0x4
+ 1538 0069 07       		.byte	0x7
+ 1539 006a 4F010000 		.4byte	.LASF8
+ 1540 006e 03       		.uleb128 0x3
+ 1541 006f 73010000 		.4byte	.LASF10
+ 1542 0073 02       		.byte	0x2
+ 1543 0074 18       		.byte	0x18
+ 1544 0075 24000000 		.4byte	0x24
+ 1545 0079 05       		.uleb128 0x5
+ 1546 007a 91000000 		.4byte	0x91
+ 1547 007e 8A000000 		.4byte	0x8a
+ 1548 0082 06       		.uleb128 0x6
+ 1549 0083 8A000000 		.4byte	0x8a
+ 1550 0087 7F05     		.2byte	0x57f
+ 1551 0089 00       		.byte	0
+ 1552 008a 02       		.uleb128 0x2
+ 1553 008b 04       		.byte	0x4
+ 1554 008c 07       		.byte	0x7
+ 1555 008d 9E010000 		.4byte	.LASF11
+ 1556 0091 07       		.uleb128 0x7
+ 1557 0092 6E000000 		.4byte	0x6e
+ 1558 0096 08       		.uleb128 0x8
+ 1559 0097 3D010000 		.4byte	.LASF12
+ 1560 009b 03       		.byte	0x3
+ 1561 009c 1F       		.byte	0x1f
+ 1562 009d A7000000 		.4byte	0xa7
+ 1563 00a1 05       		.uleb128 0x5
+ 1564 00a2 03       		.byte	0x3
+ 1565 00a3 00000000 		.4byte	cy_meta_configecc
+ 1566 00a7 07       		.uleb128 0x7
+ 1567 00a8 79000000 		.4byte	0x79
+ 1568 00ac 05       		.uleb128 0x5
+ 1569 00ad 91000000 		.4byte	0x91
+ 1570 00b1 BC000000 		.4byte	0xbc
+ 1571 00b5 09       		.uleb128 0x9
+ 1572 00b6 8A000000 		.4byte	0x8a
+ 1573 00ba 03       		.byte	0x3
+ 1574 00bb 00       		.byte	0
+ 1575 00bc 08       		.uleb128 0x8
+ 1576 00bd 2D010000 		.4byte	.LASF13
+ 1577 00c1 03       		.byte	0x3
+ 1578 00c2 DC       		.byte	0xdc
+ 1579 00c3 CD000000 		.4byte	0xcd
+ 1580 00c7 05       		.uleb128 0x5
+ 1581 00c8 03       		.byte	0x3
+ 1582 00c9 00000000 		.4byte	cy_meta_custnvl
+ 1583 00cd 07       		.uleb128 0x7
+ 1584 00ce AC000000 		.4byte	0xac
+ 1585 00d2 08       		.uleb128 0x8
+ 1586 00d3 90010000 		.4byte	.LASF14
+ 1587 00d7 03       		.byte	0x3
+ 1588 00d8 EA       		.byte	0xea
+ 1589 00d9 E3000000 		.4byte	0xe3
+ 1590 00dd 05       		.uleb128 0x5
+ 1591 00de 03       		.byte	0x3
+ 1592 00df 00000000 		.4byte	cy_meta_wonvl
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 29
+
+
+ 1593 00e3 07       		.uleb128 0x7
+ 1594 00e4 AC000000 		.4byte	0xac
+ 1595 00e8 05       		.uleb128 0x5
+ 1596 00e9 91000000 		.4byte	0x91
+ 1597 00ed F8000000 		.4byte	0xf8
+ 1598 00f1 09       		.uleb128 0x9
+ 1599 00f2 8A000000 		.4byte	0x8a
+ 1600 00f6 FF       		.byte	0xff
+ 1601 00f7 00       		.byte	0
+ 1602 00f8 08       		.uleb128 0x8
+ 1603 00f9 7B010000 		.4byte	.LASF15
+ 1604 00fd 03       		.byte	0x3
+ 1605 00fe F8       		.byte	0xf8
+ 1606 00ff 09010000 		.4byte	0x109
+ 1607 0103 05       		.uleb128 0x5
+ 1608 0104 03       		.byte	0x3
+ 1609 0105 00000000 		.4byte	cy_meta_flashprotect
+ 1610 0109 07       		.uleb128 0x7
+ 1611 010a E8000000 		.4byte	0xe8
+ 1612 010e 05       		.uleb128 0x5
+ 1613 010f 91000000 		.4byte	0x91
+ 1614 0113 1E010000 		.4byte	0x11e
+ 1615 0117 09       		.uleb128 0x9
+ 1616 0118 8A000000 		.4byte	0x8a
+ 1617 011c 0B       		.byte	0xb
+ 1618 011d 00       		.byte	0
+ 1619 011e 0A       		.uleb128 0xa
+ 1620 011f 98000000 		.4byte	.LASF16
+ 1621 0123 03       		.byte	0x3
+ 1622 0124 2501     		.2byte	0x125
+ 1623 0126 30010000 		.4byte	0x130
+ 1624 012a 05       		.uleb128 0x5
+ 1625 012b 03       		.byte	0x3
+ 1626 012c 00000000 		.4byte	cy_metadata
+ 1627 0130 07       		.uleb128 0x7
+ 1628 0131 0E010000 		.4byte	0x10e
+ 1629 0135 00       		.byte	0
+ 1630              		.section	.debug_abbrev,"",%progbits
+ 1631              	.Ldebug_abbrev0:
+ 1632 0000 01       		.uleb128 0x1
+ 1633 0001 11       		.uleb128 0x11
+ 1634 0002 01       		.byte	0x1
+ 1635 0003 25       		.uleb128 0x25
+ 1636 0004 0E       		.uleb128 0xe
+ 1637 0005 13       		.uleb128 0x13
+ 1638 0006 0B       		.uleb128 0xb
+ 1639 0007 03       		.uleb128 0x3
+ 1640 0008 0E       		.uleb128 0xe
+ 1641 0009 1B       		.uleb128 0x1b
+ 1642 000a 0E       		.uleb128 0xe
+ 1643 000b 10       		.uleb128 0x10
+ 1644 000c 17       		.uleb128 0x17
+ 1645 000d 00       		.byte	0
+ 1646 000e 00       		.byte	0
+ 1647 000f 02       		.uleb128 0x2
+ 1648 0010 24       		.uleb128 0x24
+ 1649 0011 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 30
+
+
+ 1650 0012 0B       		.uleb128 0xb
+ 1651 0013 0B       		.uleb128 0xb
+ 1652 0014 3E       		.uleb128 0x3e
+ 1653 0015 0B       		.uleb128 0xb
+ 1654 0016 03       		.uleb128 0x3
+ 1655 0017 0E       		.uleb128 0xe
+ 1656 0018 00       		.byte	0
+ 1657 0019 00       		.byte	0
+ 1658 001a 03       		.uleb128 0x3
+ 1659 001b 16       		.uleb128 0x16
+ 1660 001c 00       		.byte	0
+ 1661 001d 03       		.uleb128 0x3
+ 1662 001e 0E       		.uleb128 0xe
+ 1663 001f 3A       		.uleb128 0x3a
+ 1664 0020 0B       		.uleb128 0xb
+ 1665 0021 3B       		.uleb128 0x3b
+ 1666 0022 0B       		.uleb128 0xb
+ 1667 0023 49       		.uleb128 0x49
+ 1668 0024 13       		.uleb128 0x13
+ 1669 0025 00       		.byte	0
+ 1670 0026 00       		.byte	0
+ 1671 0027 04       		.uleb128 0x4
+ 1672 0028 24       		.uleb128 0x24
+ 1673 0029 00       		.byte	0
+ 1674 002a 0B       		.uleb128 0xb
+ 1675 002b 0B       		.uleb128 0xb
+ 1676 002c 3E       		.uleb128 0x3e
+ 1677 002d 0B       		.uleb128 0xb
+ 1678 002e 03       		.uleb128 0x3
+ 1679 002f 08       		.uleb128 0x8
+ 1680 0030 00       		.byte	0
+ 1681 0031 00       		.byte	0
+ 1682 0032 05       		.uleb128 0x5
+ 1683 0033 01       		.uleb128 0x1
+ 1684 0034 01       		.byte	0x1
+ 1685 0035 49       		.uleb128 0x49
+ 1686 0036 13       		.uleb128 0x13
+ 1687 0037 01       		.uleb128 0x1
+ 1688 0038 13       		.uleb128 0x13
+ 1689 0039 00       		.byte	0
+ 1690 003a 00       		.byte	0
+ 1691 003b 06       		.uleb128 0x6
+ 1692 003c 21       		.uleb128 0x21
+ 1693 003d 00       		.byte	0
+ 1694 003e 49       		.uleb128 0x49
+ 1695 003f 13       		.uleb128 0x13
+ 1696 0040 2F       		.uleb128 0x2f
+ 1697 0041 05       		.uleb128 0x5
+ 1698 0042 00       		.byte	0
+ 1699 0043 00       		.byte	0
+ 1700 0044 07       		.uleb128 0x7
+ 1701 0045 26       		.uleb128 0x26
+ 1702 0046 00       		.byte	0
+ 1703 0047 49       		.uleb128 0x49
+ 1704 0048 13       		.uleb128 0x13
+ 1705 0049 00       		.byte	0
+ 1706 004a 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 31
+
+
+ 1707 004b 08       		.uleb128 0x8
+ 1708 004c 34       		.uleb128 0x34
+ 1709 004d 00       		.byte	0
+ 1710 004e 03       		.uleb128 0x3
+ 1711 004f 0E       		.uleb128 0xe
+ 1712 0050 3A       		.uleb128 0x3a
+ 1713 0051 0B       		.uleb128 0xb
+ 1714 0052 3B       		.uleb128 0x3b
+ 1715 0053 0B       		.uleb128 0xb
+ 1716 0054 49       		.uleb128 0x49
+ 1717 0055 13       		.uleb128 0x13
+ 1718 0056 3F       		.uleb128 0x3f
+ 1719 0057 19       		.uleb128 0x19
+ 1720 0058 02       		.uleb128 0x2
+ 1721 0059 18       		.uleb128 0x18
+ 1722 005a 00       		.byte	0
+ 1723 005b 00       		.byte	0
+ 1724 005c 09       		.uleb128 0x9
+ 1725 005d 21       		.uleb128 0x21
+ 1726 005e 00       		.byte	0
+ 1727 005f 49       		.uleb128 0x49
+ 1728 0060 13       		.uleb128 0x13
+ 1729 0061 2F       		.uleb128 0x2f
+ 1730 0062 0B       		.uleb128 0xb
+ 1731 0063 00       		.byte	0
+ 1732 0064 00       		.byte	0
+ 1733 0065 0A       		.uleb128 0xa
+ 1734 0066 34       		.uleb128 0x34
+ 1735 0067 00       		.byte	0
+ 1736 0068 03       		.uleb128 0x3
+ 1737 0069 0E       		.uleb128 0xe
+ 1738 006a 3A       		.uleb128 0x3a
+ 1739 006b 0B       		.uleb128 0xb
+ 1740 006c 3B       		.uleb128 0x3b
+ 1741 006d 05       		.uleb128 0x5
+ 1742 006e 49       		.uleb128 0x49
+ 1743 006f 13       		.uleb128 0x13
+ 1744 0070 3F       		.uleb128 0x3f
+ 1745 0071 19       		.uleb128 0x19
+ 1746 0072 02       		.uleb128 0x2
+ 1747 0073 18       		.uleb128 0x18
+ 1748 0074 00       		.byte	0
+ 1749 0075 00       		.byte	0
+ 1750 0076 00       		.byte	0
+ 1751              		.section	.debug_aranges,"",%progbits
+ 1752 0000 14000000 		.4byte	0x14
+ 1753 0004 0200     		.2byte	0x2
+ 1754 0006 00000000 		.4byte	.Ldebug_info0
+ 1755 000a 04       		.byte	0x4
+ 1756 000b 00       		.byte	0
+ 1757 000c 0000     		.2byte	0
+ 1758 000e 0000     		.2byte	0
+ 1759 0010 00000000 		.4byte	0
+ 1760 0014 00000000 		.4byte	0
+ 1761              		.section	.debug_line,"",%progbits
+ 1762              	.Ldebug_line0:
+ 1763 0000 3D010000 		.section	.debug_str,"MS",%progbits,1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 32
+
+
+ 1763      02003701 
+ 1763      00000201 
+ 1763      FB0E0D00 
+ 1763      01010101 
+ 1764              	.LASF9:
+ 1765 0000 5F5F7569 		.ascii	"__uint8_t\000"
+ 1765      6E74385F 
+ 1765      7400
+ 1766              	.LASF17:
+ 1767 000a 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1767      43313120 
+ 1767      352E342E 
+ 1767      31203230 
+ 1767      31363036 
+ 1768 003d 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1768      20726576 
+ 1768      6973696F 
+ 1768      6E203233 
+ 1768      37373135 
+ 1769 0070 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1769      66756E63 
+ 1769      74696F6E 
+ 1769      2D736563 
+ 1769      74696F6E 
+ 1770              	.LASF16:
+ 1771 0098 63795F6D 		.ascii	"cy_metadata\000"
+ 1771      65746164 
+ 1771      61746100 
+ 1772              	.LASF1:
+ 1773 00a4 756E7369 		.ascii	"unsigned char\000"
+ 1773      676E6564 
+ 1773      20636861 
+ 1773      7200
+ 1774              	.LASF5:
+ 1775 00b2 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1775      20756E73 
+ 1775      69676E65 
+ 1775      6420696E 
+ 1775      7400
+ 1776              	.LASF3:
+ 1777 00c4 73686F72 		.ascii	"short unsigned int\000"
+ 1777      7420756E 
+ 1777      7369676E 
+ 1777      65642069 
+ 1777      6E7400
+ 1778              	.LASF19:
+ 1779 00d7 433A5C55 		.ascii	"C:\\Users\\bkettle\\OneDrive\\School\\6.115\\projec"
+ 1779      73657273 
+ 1779      5C626B65 
+ 1779      74746C65 
+ 1779      5C4F6E65 
+ 1780 0104 745C7073 		.ascii	"t\\psoc\\Password Keeper\\emFile_test.cydsn\000"
+ 1780      6F635C50 
+ 1780      61737377 
+ 1780      6F726420 
+ 1780      4B656570 
+ 1781              	.LASF13:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 33
+
+
+ 1782 012d 63795F6D 		.ascii	"cy_meta_custnvl\000"
+ 1782      6574615F 
+ 1782      63757374 
+ 1782      6E766C00 
+ 1783              	.LASF12:
+ 1784 013d 63795F6D 		.ascii	"cy_meta_configecc\000"
+ 1784      6574615F 
+ 1784      636F6E66 
+ 1784      69676563 
+ 1784      6300
+ 1785              	.LASF8:
+ 1786 014f 756E7369 		.ascii	"unsigned int\000"
+ 1786      676E6564 
+ 1786      20696E74 
+ 1786      00
+ 1787              	.LASF7:
+ 1788 015c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1788      206C6F6E 
+ 1788      6720756E 
+ 1788      7369676E 
+ 1788      65642069 
+ 1789              	.LASF10:
+ 1790 0173 75696E74 		.ascii	"uint8_t\000"
+ 1790      385F7400 
+ 1791              	.LASF15:
+ 1792 017b 63795F6D 		.ascii	"cy_meta_flashprotect\000"
+ 1792      6574615F 
+ 1792      666C6173 
+ 1792      6870726F 
+ 1792      74656374 
+ 1793              	.LASF14:
+ 1794 0190 63795F6D 		.ascii	"cy_meta_wonvl\000"
+ 1794      6574615F 
+ 1794      776F6E76 
+ 1794      6C00
+ 1795              	.LASF11:
+ 1796 019e 73697A65 		.ascii	"sizetype\000"
+ 1796      74797065 
+ 1796      00
+ 1797              	.LASF6:
+ 1798 01a7 6C6F6E67 		.ascii	"long long int\000"
+ 1798      206C6F6E 
+ 1798      6720696E 
+ 1798      7400
+ 1799              	.LASF2:
+ 1800 01b5 73686F72 		.ascii	"short int\000"
+ 1800      7420696E 
+ 1800      7400
+ 1801              	.LASF4:
+ 1802 01bf 6C6F6E67 		.ascii	"long int\000"
+ 1802      20696E74 
+ 1802      00
+ 1803              	.LASF0:
+ 1804 01c8 7369676E 		.ascii	"signed char\000"
+ 1804      65642063 
+ 1804      68617200 
+ 1805              	.LASF18:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cchcvLEo.s 			page 34
+
+
+ 1806 01d4 47656E65 		.ascii	"Generated_Source\\PSoC5\\cymetadata.c\000"
+ 1806      72617465 
+ 1806      645F536F 
+ 1806      75726365 
+ 1806      5C50536F 
+ 1807              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

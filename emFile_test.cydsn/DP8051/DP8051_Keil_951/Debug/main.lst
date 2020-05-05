@@ -1,0 +1,273 @@
+C51 COMPILER V9.51   MAIN                                                                  04/25/2020 17:01:38 PAGE 1   
+
+
+C51 COMPILER V9.51, COMPILATION OF MODULE MAIN
+NO OBJECT MODULE REQUESTED
+COMPILER INVOKED BY: C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\import\keil\pk51\9.51\C51\BIN\c51.exe 
+                    -main.c NOIV LARGE MODDP2 OMF2 VB(1) NOIP INCDIR(.,Generated_Source\PSoC3) FF(3) DB WL(2) PR(.\DP8051\DP8051_Keil_951\Deb
+                    -ug/main.lst) CD OT(2,SIZE) OJ(.\DP8051\DP8051_Keil_951\Debug\main.obj)
+
+line level    source
+
+*** WARNING C500 IN LINE 1 OF main.c: INCORRECT LICENSE ID CODE (LIC) IN 'TOOLS.INI'
+   1          /*******************************************************************************
+   2          * File Name: main.c
+   3          *
+   4          * Version: 1.10
+   5          *
+   6          * Description:
+   7          *  The example project consists of 5 simple steps. Each of the steps performs 
+   8          *  single File System operation. 
+   9          *  Step#1: Gets SD card name and displays it on the LCD.
+  10          *  Step#2: Performs Format SD operation and displays the status of the format 
+  11          *  operation execution.
+  12          *  Step#3: Creates directory with the name - "Dir" and displays a status of 
+  13          *  directory creation operation.
+  14          *  Step#4: Creates a file - "File.txt" in the root directory and writes the 
+  15          *  following string to the file -"123456789". Displays a status of operations 
+  16          *  execution.
+  17          *  Step#5: Copies newly created file ("File.txt") to directory "Dir" with the 
+  18          *  name - "File1.txt". 
+  19          *
+  20          ********************************************************************************
+  21          * Copyright 2011-2012, Cypress Semiconductor Corporation. All rights reserved.
+  22          * This software is owned by Cypress Semiconductor Corporation and is protected
+  23          * by and subject to worldwide patent and copyright laws and treaties.
+  24          * Therefore, you may use this software only as provided in the license agreement
+  25          * accompanying the software package from which you obtained this software.
+  26          * CYPRESS AND ITS SUPPLIERS MAKE NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+  27          * WITH REGARD TO THIS SOFTWARE, INCLUDING, BUT NOT LIMITED TO, NONINFRINGEMENT,
+  28          * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+  29          *******************************************************************************/
+  30          
+  31          #include <project.h>
+*** WARNING C318 IN LINE 23 OF \Users\bkettle\OneDrive\School\6.115\project\examples\emFile_Example01\emFile_Example01.c
+             -ydsn\Generated_Source\PSoC3\emFile.h: can't open file 'MMC_X_HW.h'
+  32          #include <FS.h>
+*** WARNING C318 IN LINE 32 OF main.c: can't open file 'FS.h'
+  33          #include <string.h>
+  34          #include <Global.h>
+*** WARNING C318 IN LINE 34 OF main.c: can't open file 'Global.h'
+  35          
+  36          
+  37          char sdFile[9] = "File.txt";
+  38          
+  39          
+  40          void NextStep(U16 step, char * str)
+*** ERROR C141 IN LINE 40 OF main.c: syntax error near 'step', expected ')'
+  41          {
+  42   1          /* Clear LCD after previously completed operation */
+  43   1          LCD_ClearDisplay();
+  44   1          
+  45   1          /* This will display step number on the LCD prior
+  46   1          * every operation on the SD card.
+  47   1          */
+C51 COMPILER V9.51   MAIN                                                                  04/25/2020 17:01:38 PAGE 2   
+
+  48   1          LCD_Position(0u, 0u);
+  49   1          LCD_PrintString("Step#");
+  50   1          LCD_PrintDecUint16(step);
+*** ERROR C202 IN LINE 50 OF main.c: 'step': undefined identifier
+  51   1          LCD_Position(1u, 0u);
+  52   1          LCD_PrintString(str);
+*** ERROR C202 IN LINE 52 OF main.c: 'str': undefined identifier
+  53   1          
+  54   1          /* Need some delay to make step number visible */
+  55   1          CyDelay(2000u);
+  56   1          
+  57   1          /* Clear LCD after step number was prompted */
+  58   1          LCD_ClearDisplay();
+  59   1      }
+  60          
+  61          int main()
+  62          {
+  63   1          char sdVolName[10];     /* Buffer that will hold SD card Volume name */
+  64   1          U16 step = 1u;
+*** ERROR C202 IN LINE 64 OF main.c: 'U16': undefined identifier
+*** ERROR C141 IN LINE 64 OF main.c: syntax error near 'step'
+  65   1          FS_FILE * pFile;
+*** ERROR C202 IN LINE 65 OF main.c: 'FS_FILE': undefined identifier
+  66   1          
+  67   1          /* Start LCD */
+  68   1          LCD_Start();
+  69   1          
+  70   1          /* Initialize file system */
+  71   1          FS_Init();
+  72   1          
+  73   1          /* Display step number */
+  74   1          NextStep(step++, "SD CARD NAME");
+  75   1          
+  76   1          LCD_Position(0u, 0u);
+  77   1          
+  78   1          /* Get volume name of SD card #0 */
+  79   1          if(0 != FS_GetVolumeName(0u, &sdVolName[0], 9u))
+  80   1          {
+  81   2              /* Getting volume name succeeded so prompt it on the LCD */
+  82   2              LCD_PrintString("SD card name:");
+  83   2              LCD_Position(1u, 0u);
+  84   2              LCD_PrintString(sdVolName);
+  85   2          }
+  86   1          else
+  87   1          {
+  88   2              /* Operation Failed - indicate this */
+  89   2              LCD_PrintString("Failed to get");
+  90   2              LCD_Position(1u, 0u);
+  91   2              LCD_PrintString("SD card name");
+  92   2          }
+  93   1          
+  94   1          /* Need some delay to indicate output on the LCD */
+  95   1          CyDelay(2000u);
+  96   1          
+  97   1          NextStep(step++, "SD CARD FORMAT");
+  98   1              
+  99   1          LCD_Position(0u, 0u);
+ 100   1          LCD_PrintString("SD card format");
+ 101   1          
+ 102   1          if(0 == FS_FormatSD(sdVolName))
+ 103   1          {
+ 104   2              LCD_Position(1u, 0u);
+C51 COMPILER V9.51   MAIN                                                                  04/25/2020 17:01:38 PAGE 3   
+
+ 105   2              LCD_PrintString("Succeeded");
+ 106   2          }
+ 107   1          else
+ 108   1          {
+ 109   2              LCD_Position(1u, 0u);
+ 110   2              LCD_PrintString("Failed");
+ 111   2          }
+ 112   1          
+ 113   1          /* Need some delay to indicate output on the LCD */
+ 114   1          CyDelay(2000u);
+ 115   1          
+ 116   1          NextStep(step++, "DIRECTORY");
+ 117   1          
+ 118   1          LCD_Position(0u, 0u);
+ 119   1          
+ 120   1          /* This will create directory "Dir" on SD card */
+ 121   1          if(0 == FS_MkDir("Dir"))
+ 122   1          {
+ 123   2              /* Display successful directory creation message */
+ 124   2              LCD_PrintString("\"Dir\" created");
+ 125   2          }
+ 126   1          else
+ 127   1          {
+ 128   2              /* Display failure message */
+ 129   2              LCD_PrintString("Failed to create");
+ 130   2              LCD_Position(1u, 0u);
+ 131   2              LCD_PrintString("directory");
+ 132   2          }
+ 133   1          
+ 134   1          /* Need some delay to indicate output on the LCD */
+ 135   1          CyDelay(2000u);
+ 136   1          
+ 137   1          NextStep(step++, "FILE");
+ 138   1          
+ 139   1          /* Create specific file for modification */
+ 140   1          pFile = FS_FOpen(sdFile, "w");
+ 141   1          
+ 142   1          LCD_Position(0u, 0u);
+ 143   1          
+ 144   1          /* Check if file was created */
+ 145   1          if(pFile)
+ 146   1          {
+ 147   2              /* Indicate successful file creation message */
+ 148   2              LCD_PrintString("File ");
+ 149   2              LCD_PrintString(sdFile);
+ 150   2              LCD_Position(1u, 0u);
+ 151   2              LCD_PrintString("was opened");
+ 152   2              
+ 153   2              /* Need some delay to indicate output on the LCD */
+ 154   2              CyDelay(2000u);
+ 155   2              
+ 156   2              LCD_ClearDisplay();
+ 157   2              
+ 158   2              LCD_Position(0u, 0u);
+ 159   2              
+ 160   2              if(0 != FS_Write(pFile, "0123456789", 10u)) 
+ 161   2              {
+ 162   3                  /* Inditate that data was written to a file */
+ 163   3                  LCD_PrintString("\"0123456789\"");
+ 164   3                  LCD_PrintString(sdFile);
+ 165   3                  LCD_Position(1u, 0u);
+ 166   3                  LCD_PrintString("written to file");
+C51 COMPILER V9.51   MAIN                                                                  04/25/2020 17:01:38 PAGE 4   
+
+ 167   3              }
+ 168   2              else
+ 169   2              {
+ 170   3                  LCD_PrintString("Failed to write");
+ 171   3                  LCD_Position(1u, 0u);
+ 172   3                  LCD_PrintString("data to file");
+ 173   3              }
+ 174   2              
+ 175   2              /* Need some delay to indicate output on the LCD */
+ 176   2              CyDelay(2000u);
+ 177   2              
+ 178   2              LCD_ClearDisplay();
+ 179   2              
+ 180   2              LCD_Position(0u, 0u);
+ 181   2              
+ 182   2              if(0 == FS_FClose(pFile))
+ 183   2              {
+ 184   3                  LCD_PrintString("File was closed");
+ 185   3              }
+ 186   2              else
+ 187   2              {
+ 188   3                  LCD_PrintString("Failed to close");
+ 189   3                  LCD_Position(1u, 0u);
+ 190   3                  LCD_PrintString("file");
+ 191   3              }
+ 192   2          }
+ 193   1          else
+ 194   1          {
+ 195   2              LCD_PrintString("Failed to create");
+ 196   2              LCD_Position(1u, 0u);
+ 197   2              LCD_PrintString("file");
+ 198   2          }
+ 199   1          
+ 200   1          /* Need some delay to indicate output on the LCD */
+ 201   1          CyDelay(2000u);
+ 202   1              
+ 203   1          LCD_ClearDisplay();
+ 204   1          
+ 205   1          NextStep(step++, "COPY");
+ 206   1          
+ 207   1          LCD_Position(0u, 0u);
+ 208   1          
+ 209   1          /* Copy a file to a previously created directory */
+ 210   1          if(0 == FS_CopyFile(sdFile, "\\Dir\\file1.txt"))
+ 211   1          {
+ 212   2              LCD_PrintString("File was ");
+ 213   2              LCD_Position(1u, 0u);
+ 214   2              LCD_PrintString("copied to \"DIR\"");
+ 215   2          }
+ 216   1          else
+ 217   1          {
+ 218   2              LCD_PrintString("Failed to copy");
+ 219   2              LCD_Position(1u, 0u);
+ 220   2              LCD_PrintString("file");
+ 221   2          }
+ 222   1          
+ 223   1          /* Need some delay to indicate output on the LCD */
+ 224   1          CyDelay(2000);
+ 225   1          
+ 226   1          LCD_ClearDisplay();
+ 227   1          
+ 228   1          LCD_Position(0u, 0u);
+C51 COMPILER V9.51   MAIN                                                                  04/25/2020 17:01:38 PAGE 5   
+
+ 229   1          LCD_PrintString("Example project");
+ 230   1          LCD_Position(1u, 0u);
+ 231   1          LCD_PrintString("completed");
+ 232   1          
+ 233   1          for(;;)
+ 234   1          {
+ 235   2      
+ 236   2          }
+ 237   1      }
+ 238          
+ 239          
+ 240          /* [] END OF FILE */
+ 241          
+
+C51 COMPILATION COMPLETE.  4 WARNING(S),  6 ERROR(S)
