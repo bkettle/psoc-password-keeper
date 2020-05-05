@@ -72,10 +72,11 @@ void ui_updateBuffer(int curr_index) {
     // find how many records we should load
     // based on the number in the SD card
     int sd_size = SD_getNumRecords();
-    num_loaded = sd_size;
+    // first assume we hold all records after starting record in buff
+    num_loaded = sd_size - buff_offset;
     // if there are more total records than
     // will fit in the buffer
-    if (buff_offset + buff_size < sd_size)
+    if (buff_offset + buff_size < num_loaded)
         num_loaded = buff_size;
     
     SD_readRecords(buff_offset, num_loaded, record_buffer);
@@ -92,6 +93,7 @@ void ui_drawRecordList(Record * buff, int curr_index) {
     // handle overflow beyond bounds
     if (buff_index < 0) {
         Dial_SetCounter(0);
+        curr_index = 0; // don't count as scroll - don't update buffer 
         buff_index = 0;
     } else if (buff_index > num_loaded -1) {
         // reached end of records
@@ -101,7 +103,9 @@ void ui_drawRecordList(Record * buff, int curr_index) {
         // records in the sd card (i hope)
         // because that should be taken care of at the end
         // of this function (centering the current rec)
-        Dial_SetCounter(num_loaded - 1);
+        // thus, set to total number on sd card - 1
+        Dial_SetCounter(buff_index + buff_offset - 1);
+        curr_index = buff_index + buff_offset -1; // don't count as scroll
         buff_index = num_loaded - 1;
     }
     display_clear();
@@ -130,13 +134,16 @@ void ui_drawRecordList(Record * buff, int curr_index) {
     // update record buffer if approaching the end
     // and we have a different cursor value than last time
     if (curr_index != prev_index) {
-        if (curr_index - buff_offset < 2) {
-            // currently highlighted is the second from the bottom
+        USB_print("\n\r scrolled");
+        if (curr_index - buff_offset < 3) {
+            // currently highlighted is the third from the bottom
             // we want this to be middle-ish
-        ui_updateBuffer(curr_index);
-        } else if (curr_index - buff_offset > buff_size - 3) {
-            // second from top is currently hightlighted
+            USB_print("\n\r updating low");
+            ui_updateBuffer(curr_index);
+        } else if (curr_index - buff_offset > buff_size - 4) {
+            // 3rd from top is currently hightlighted
             // so center it
+            USB_print("\n\r updating high");
             ui_updateBuffer(curr_index);
         }
     }
@@ -173,6 +180,7 @@ void ui_drawRecordDetail(Record record) {
 
 void ui_fsm(bool * enc_sw_flag) {
     // handle display updates
+    int curr_index = Dial_GetCounter();
     switch (display_state) {
         case STARTUP:
             display_clear();
@@ -183,13 +191,13 @@ void ui_fsm(bool * enc_sw_flag) {
             display_update();
             display_state = LOGIN;
             // set the initial buffer up
-            ui_updateBuffer(Dial_GetCounter());
+            ui_updateBuffer(curr_index);
             CyDelay(1000);
         break;
         case LOGIN:
             if (true) {
                 char to_print[10];
-                sprintf(to_print, "%d", Dial_GetCounter());
+                sprintf(to_print, "%d", curr_index);
                 display_clear();
                 gfx_setCursor(10,40);
                 gfx_println(to_print);
@@ -198,7 +206,7 @@ void ui_fsm(bool * enc_sw_flag) {
             if (*enc_sw_flag == true) {
                 display_state = RECORD_SELECT;
                 Dial_SetCounter(0);
-                ui_drawRecordList(record_buffer, Dial_GetCounter());
+                ui_drawRecordList(record_buffer, curr_index);
             }
         break;
         case RECORD_SELECT:
@@ -209,8 +217,8 @@ void ui_fsm(bool * enc_sw_flag) {
                 // could load new values from SD card if nearing buffer ends
                 // if close to end of sd card, don't update--last item in buff
                 // should be last item on SD card.
-                ui_drawRecordList(record_buffer, Dial_GetCounter());
-                curr_record = record_buffer[Dial_GetCounter() - buff_offset];
+                ui_drawRecordList(record_buffer, curr_index);
+                curr_record = record_buffer[curr_index - buff_offset];
             };
             if (*enc_sw_flag) {
                 display_state = RECORD_DETAIL;
@@ -218,9 +226,9 @@ void ui_fsm(bool * enc_sw_flag) {
             }
         break;
         case RECORD_DETAIL:
-            ui_recordDetailUpdate(Dial_GetCounter());
+            ui_recordDetailUpdate(curr_index);
             if (*enc_sw_flag) {
-                switch (Dial_GetCounter()) {
+                switch (curr_index) {
                     case RECORD_TYPE_USER: 
                     {
                         KB_TypeString(curr_record.username, true);
@@ -244,7 +252,7 @@ void ui_fsm(bool * enc_sw_flag) {
                         display_state = RECORD_SELECT;
                         Dial_SetCounter(0);
                         ui_updateBuffer(0);
-                        ui_drawRecordList(record_buffer, Dial_GetCounter());
+                        ui_drawRecordList(record_buffer, curr_index);
                     break;
                 }
             }
@@ -256,7 +264,7 @@ void ui_fsm(bool * enc_sw_flag) {
         case MANAGE_RECORDS:
         break;
     }
-    prev_index = Dial_GetCounter();
+    prev_index = curr_index;
 }
 
 /* [] END OF FILE */
