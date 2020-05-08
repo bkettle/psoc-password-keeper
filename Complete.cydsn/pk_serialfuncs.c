@@ -7,6 +7,7 @@
 #include <pk_sdrecorddb.h>
 #include <pk_usb.h>
 
+#include "base32.h" // for decoding/encoding base32
 /*******************************
 *       UART STUFF             *
 *******************************/
@@ -15,10 +16,11 @@
 // last serial command holds the previous command
 // while rx_buffer holds the one currently being
 // typed. last serial command is updated on enter
-char rx_buffer[30];
+// rx_buffer is also defined in pk_usb
+char rx_buffer[40];
 int rx_buff_length;
-char last_serial_cmd[30];
-int last_serial_cmd_length = 30;
+char last_serial_cmd[40];
+int last_serial_cmd_length = 40;
 //void clr_rx_buffer(){ 
 //    memset(rx_buffer, 0, 30); 
 //    rx_buff_length = 0;
@@ -27,7 +29,7 @@ void clr_last_serial_cmd(){
     memset(last_serial_cmd, 0, last_serial_cmd_length); 
 }
 
-Record new_record = {"","",""};
+Record new_record = {"","","",false,""};
 
 // Serial Main Menu
 SerialMenu main_menu = {
@@ -86,6 +88,8 @@ void serial_print_record(Record record) {
     USB_print(record.username);
     USB_print("\n\r   * Password: ");
     USB_print(record.password);
+    USB_print("\n\r   * TOTP: ");
+    USB_print(record.totp_enabled ? "Enabled" : "Disabled");
     USB_print("\n\r   ");
     USB_print(star_line);
 }
@@ -302,9 +306,9 @@ void serial_fsm() {
                                 USB_print(new_record.username);
                                 USB_print(": ");
                                 USB_print(new_record.password);
-                                serial_print_record(new_record);
-                                USB_print("\n\r\n\rEnter 'y' to confirm, anything else to cancel.");
-                                s_sec_state = ADD_REC_CONFIRM;
+                                // ask user if they want a TOTP code to be added
+                                USB_print("\n\r Would you like to enter a TOTP key? y/n: ");
+                                s_sec_state = ADD_REC_PROMPT_TOTP;
                                 }
                             break;
                         }
@@ -317,14 +321,60 @@ void serial_fsm() {
                         // update curr record with username
                         strcpy(new_record.password, last_serial_cmd);
                         clr_last_serial_cmd();
-                        // echo full record and prompt user to confirm
-                        serial_print_record(new_record);
-                        USB_print("\n\r\n\rEnter 'y' to confirm, anything else to cancel.");
-                        s_sec_state = ADD_REC_CONFIRM;
+                        // show password to user
+                        USB_print("\n\rSet password for user ");
+                        USB_print(new_record.username);
+                        USB_print(": ");
+                        USB_print(new_record.password);
+                        // ask user if they want a TOTP code to be added
+                        USB_print("\n\r Would you like to enter a TOTP key? y/n: ");
+                        s_sec_state = ADD_REC_PROMPT_TOTP;
                     }
                 break;
+                case ADD_REC_PROMPT_TOTP:
+                    // check whether the user wants to input totp key
+                    if (last_serial_cmd[0] != 0) {
+                        if (last_serial_cmd[0] == 'y') {
+                            // ask user to enter their totp key
+                            USB_print("\n\rEnter TOTP Key (20 bytes, base32 encoded)");
+                            USB_print("\n\rNote: Only 6-digit TOTP generation currently supported");
+                            USB_print("\n\r> ");
+                            s_sec_state = ADD_REC_TOTP_ENTRY;
+                        } else {
+                            USB_print("\n\rSkipping TOTP Entry");
+                            new_record.totp_enabled = false;
+                            s_sec_state = ADD_REC_CONF_PROMPT;
+                        }
+                        clr_last_serial_cmd(); // clear command buffer
+                    }
+                break;
+                case ADD_REC_TOTP_ENTRY:
+                    // wait for the user to finish entering their totp code
+                    // and save it in the new_record
+                    if (last_serial_cmd[0] != 0) {
+                        // convert base32 ascii input to byte array
+                        // we use google authenticator base32 code for this
+                        // and store the key directly into the new record
+                        base32_decode((uint8_t*) last_serial_cmd, new_record.totp_key, 20);
+                        new_record.totp_enabled = true; // enable totp for this record
+                        // re encode to confirm correctness and echo to user
+                        // we just reuse last_serial_cmd as a buffer to avoid allocating 40 bytes
+                        base32_encode(new_record.totp_key, 20, last_serial_cmd, last_serial_cmd_length);
+                        USB_print("\n\rRecieved TOTP Key: ");
+                        USB_print(last_serial_cmd);
+                        s_sec_state = ADD_REC_CONF_PROMPT; // next: ask user to confirm
+                        clr_last_serial_cmd();
+                    }
+                break;
+                case ADD_REC_CONF_PROMPT:
+                    // echo full record and prompt user to confirm
+                    USB_print("\n\rFull Record to Add:");
+                    serial_print_record(new_record);
+                    USB_print("\n\r\n\rEnter 'y' to confirm, anything else to cancel.");
+                    s_sec_state = ADD_REC_CONFIRM;
+                break;
                 case ADD_REC_CONFIRM:
-                    // once a password is entered, confirm
+                    // handle user confirmation input
                     if (last_serial_cmd[0] != 0) {
                         if (last_serial_cmd[0] == 'y') {
                             // new_record should be complete

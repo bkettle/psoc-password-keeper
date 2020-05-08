@@ -4,11 +4,11 @@
 
 #include <pk_usb.h>
 
-char rx_buffer[30] = {0};
-int rx_buff_length = 30;
+char rx_buffer[40] = {0};
+int rx_buff_length = 40;
 
 void clr_rx_buffer(){ 
-    memset(rx_buffer, 0, 30); 
+    memset(rx_buffer, 0, 40); 
     rx_buff_length = 0;
 };
 

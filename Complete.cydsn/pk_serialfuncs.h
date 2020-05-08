@@ -38,7 +38,10 @@ typedef struct {
 #define ADD_REC_UNAME 2
 #define ADD_REC_PASS_MENU 3
 #define ADD_REC_PASS_ENTRY 4
-#define ADD_REC_CONFIRM 5
+#define ADD_REC_PROMPT_TOTP 5
+#define ADD_REC_TOTP_ENTRY 6
+#define ADD_REC_CONF_PROMPT 7
+#define ADD_REC_CONFIRM 8
 
 // command definitions for password menu
 #define PASS_MENU_ENTER 1
