@@ -4,8 +4,15 @@
 */
 
 #include <pk_ui.h>
+#include "otp.h" // one time password generation
+#include "ds3231.h" // current time for totp
 
 uint8 display_state = STARTUP;
+
+// JUST AN EXAMPLE
+// example key for testing totp
+char test_totp[20] = {0x3d, 0xc6, 0xca, 0xa4, 0x82, 0x4a, 0x6d, 0x28, 0x87, 0x67, 
+                      0xb2, 0x33, 0x1e, 0x20, 0xb4, 0x31, 0x66, 0xcb, 0x85, 0xd9};
 
 /***************************************************
 *       VALUES FOR RECORD DETAIL MENU              *
@@ -27,20 +34,7 @@ int detail_menu_left = 20;
 int buff_offset = 0; // sd card location of first record
 int buff_size = 12;
 int num_loaded = 0;
-Record record_buffer[12] = {
-    {"rec1", "username1", "password1"},
-    {"rec2", "username2", "password2"},
-    {"rec3", "username3", "password3"},
-    {"rec4", "username4", "password4"},
-    {"rec5", "username5", "password5"},
-    {"rec6", "username6", "password6"},
-    {"rec7", "username7", "password7"},
-    {"rec8", "username8", "password8"},
-    {"rec9", "username9", "password9"},
-    {"rec10", "username10", "password10"},
-    {"rec11", "username11", "password11"},
-    {"rec12", "username12", "password12"},
-};
+Record record_buffer[12];
 
 // to store the currently selected record
 Record curr_record;
@@ -197,6 +191,11 @@ void ui_drawTOTP(Record record) {
     gfx_setTextColor(WHITE);
     gfx_println(record.title);
     gfx_setTextSize(2);
+    char totp_str[10]; // holds ascii representation of totp
+    int unixtime = dt_getUnixtime(RTC_now()); // get current unix time
+    // calculate totp value and print to screen
+    sprintf(totp_str, "%d", calc_totp(unixtime, test_totp, 20, 30, 0));
+    gfx_println(totp_str);
     gfx_setTextSize(1);
     gfx_println("<- push to go back");
     display_update();
@@ -274,6 +273,10 @@ void ui_fsm(bool * enc_sw_flag) {
                     }
                     break;
                     case RECORD_VIEW_TOTP:
+                    {
+                        ui_drawTOTP(curr_record);
+                        display_state = DISPLAY_TOTP;
+                    }
                     break;
                     case RECORD_BACK:
                         // just go back to the record menu
@@ -295,9 +298,17 @@ void ui_fsm(bool * enc_sw_flag) {
                 ui_drawRecordList(record_buffer, curr_index);
             }
         break;
-        case RECORD_TOTP:
+        case DISPLAY_TOTP:
             // refresh if enough time has passed?
             // not super necessary feature but would be dope
+            // return to menu on button press
+            if (*enc_sw_flag) {
+                // return to main record menu on button push
+                display_state = RECORD_SELECT;
+                Dial_SetCounter(0);
+                ui_updateBuffer(0);
+                ui_drawRecordList(record_buffer, curr_index);
+            }
         break;
         case MANAGE_RECORDS:
         break;

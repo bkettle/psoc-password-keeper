@@ -62,6 +62,9 @@ void generate_password(char* out);
 // for the rtc, just debugging stuff
 void serial_print_dt(DateTime dt);
 
+// more debug, print hex value of array
+void serial_printHex(unsigned char * arr, size_t size);
+
 CY_ISR(RX_INT);
 
 CY_ISR(ENC_SW_INT);
