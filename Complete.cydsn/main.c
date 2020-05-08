@@ -79,7 +79,7 @@ int main() {
     PRS_WriteSeed(dt_getUnixtime(now));
     
     // format the sd card and create the db
-    //SD_createDB(pFile, true);
+    //SD_createDB(false);
     //Record new_rec = {"bbb", "bbbb", "bbbbb"};
     //SD_addRecord(&new_rec);
     serial_menu_init();
@@ -90,7 +90,6 @@ int main() {
     gfx_setTextColor(WHITE);
     gfx_println("STARTUP");
     display_update();
-    
     USB_Initialize();
     
     USB_print("STARTUP\n\r");

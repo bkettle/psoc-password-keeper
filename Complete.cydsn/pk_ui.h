@@ -25,7 +25,7 @@
 #define RECORD_SELECT 2
 #define RECORD_DETAIL 3
 #define TYPE_CREDENTIAL 7
-#define VIEW_CREDENTIALS 4
+#define DISPLAY_CREDENTIALS 4
 #define RECORD_TOTP 5
 #define MANAGE_RECORDS 6 // over serial
 uint8 display_state;

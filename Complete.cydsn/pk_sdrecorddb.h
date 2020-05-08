@@ -10,6 +10,9 @@
 #include <FS.h>
 #include <stdbool.h>
 #include <pk_record.h>
+//#include "pk_encrypt.c"
+#include "aes.h"
+#include <project.h>
     
 #include <stdio.h>
 

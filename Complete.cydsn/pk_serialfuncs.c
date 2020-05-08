@@ -36,7 +36,7 @@ SerialMenu main_menu = {
     {
         "Add new record",
         "View all records",
-        "Generate Password"
+        "Clear Password DB"
     }
 };
 
@@ -90,8 +90,29 @@ void serial_print_record(Record record) {
     USB_print(star_line);
 }
 
+void serial_printAllRecords() {
+    // prints all records on the sd card
+    int sd_size = SD_getNumRecords();
+    Record curr; // holds the current record to be printed
+    for (int i=0; i<sd_size; i++) {
+        SD_readRecords(i, 1, &curr);
+        serial_print_record(curr);
+    }
+}
+
 void serial_inv_cmd() {
     USB_print("\n\rInvalid Command!");
+}
+
+// print hex of a char array
+void serial_printHex(unsigned char * arr, size_t size) {
+    char tp[3]; //holds things to be printed
+    USB_print("0x");
+    for (uint i=0; i<size; i++) {
+        sprintf(tp, "%X", arr[i]);
+        USB_print(tp);
+    }
+    USB_print(" ");
 }
 
 // generate a password
@@ -130,21 +151,21 @@ void serial_print_dt(DateTime dt) {
 // though.
 // Input is now handled by pk_usb USB_handleInput,
 // this is just here for fun
-CY_ISR(RX_INT) {
-    char rec_char = UART_1_ReadRxData();
-    if (rec_char == 0xD) {
-        // move buffer into last_serial_cmd on enter
-        strcpy(last_serial_cmd, rx_buffer);
-        clr_rx_buffer();
-    }       
-    else {
-        UART_1_PutChar(rec_char);    // echo recieved character
-        // add non-enter characters to rx buffer
-        rx_buffer[rx_buff_length] = rec_char;
-        rx_buffer[rx_buff_length + 1] = 0;
-        rx_buff_length += 1;
-    }
-}
+//CY_ISR(RX_INT) {
+//    char rec_char = UART_1_ReadRxData();
+//    if (rec_char == 0xD) {
+//        // move buffer into last_serial_cmd on enter
+//        strcpy(last_serial_cmd, rx_buffer);
+//        clr_rx_buffer();
+//    }       
+//    else {
+//        UART_1_PutChar(rec_char);    // echo recieved character
+//        // add non-enter characters to rx buffer
+//        rx_buffer[rx_buff_length] = rec_char;
+//        rx_buffer[rx_buff_length + 1] = 0;
+//        rx_buff_length += 1;
+//    }
+//}
 
 /****************************************
 *         SERIAL MENU FSM               *
@@ -188,6 +209,18 @@ void serial_fsm() {
                         s_sec_state = ADD_REC_START;
                         USB_print("\n\rAdd record...");
                     break;
+                    case S_MAIN_VIEW:
+                        s_main_state = S_STARTUP;
+                        USB_print("\n\rView All Records...");
+                        serial_printAllRecords();
+                    break;
+                    case S_MAIN_FORMAT:
+                        USB_print("\n\rWARNING: FORMATTING SD CARD");
+                        USB_print("\n\rDo you really want to format the SD card?");
+                        USB_print("\n\rTo cancel, type n and press enter");
+                        USB_print("\n\rType \"yes, delete all records\" to continue: ");
+                        s_main_state = S_FORMAT_SD;
+                    break;
                     default:
                         {
                         USB_print("\n\rGot Command: ");
@@ -208,7 +241,8 @@ void serial_fsm() {
             switch(s_sec_state) {
                 case ADD_REC_START:
                     // clear the current record
-                    new_record = (Record){"","",""};
+                    new_record = (Record){"","","",""};
+                    USB_print("\n\rNOTE: Backspace not Supported yet!");
                     USB_print("\n\rEnter Record Title: ");
                     s_sec_state = ADD_REC_TITLE;
                 break;
@@ -304,6 +338,22 @@ void serial_fsm() {
                         serial_print_menu(main_menu);
                     }
                 break;
+            }
+        break;
+        case S_FORMAT_SD:
+            // check if user inputted "yes, delete all records"
+            if (last_serial_cmd[0] != 0) {
+                if (!strcmp(last_serial_cmd, "yes, delete all records")) {
+                    // this will format the SD card and recreate the db file
+                    USB_print("\n\rFormatting SD... ");
+                    SD_createDB(false);
+                    USB_print("SD card formatted successfully.");
+                    s_main_state = S_STARTUP;
+                } else {
+                    // that command was not entered, cancel
+                    USB_print("\n\rCancelling, not modifying records");
+                    s_main_state = S_STARTUP;
+                }
             }
         break;
     }

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
   28:main.c        **** bool sw1_flag; // flag for the onboard switch
   29:main.c        **** 
   30:main.c        **** CY_ISR(ENC_SW_INT) {
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 2
 
 
   31:main.c        ****     enc_sw_flag = true;
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
   70 000e 08BD     		pop	{r3, pc}
   71              	.L7:
   72              		.align	2
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 3
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 3
 
 
   73              	.L6:
@@ -140,15 +140,15 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
   42:main.c        **** int main() {
   87              		.loc 1 42 0
   88              		.cfi_startproc
-  89              		@ args = 0, pretend = 0, frame = 72
+  89              		@ args = 0, pretend = 0, frame = 104
   90              		@ frame_needed = 0, uses_anonymous_args = 0
   91 0000 30B5     		push	{r4, r5, lr}
   92              		.cfi_def_cfa_offset 12
   93              		.cfi_offset 4, -12
   94              		.cfi_offset 5, -8
   95              		.cfi_offset 14, -4
-  96 0002 93B0     		sub	sp, sp, #76
-  97              		.cfi_def_cfa_offset 88
+  96 0002 9BB0     		sub	sp, sp, #108
+  97              		.cfi_def_cfa_offset 120
   43:main.c        ****     
   44:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
   98              		.loc 1 44 0
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  113              		.loc 1 53 0
  114 0012 FFF7FEFF 		bl	UART_1_Start
  115              	.LVL3:
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 4
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 4
 
 
   54:main.c        ****     
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
   77:main.c        ****     // start generating random numbers
   78:main.c        ****     PRS_Start();
  147              		.loc 1 78 0
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 5
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 5
 
 
  148 0044 FFF7FEFF 		bl	PRS_Start
@@ -253,7 +253,7 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  156              	.LVL12:
   80:main.c        ****     
   81:main.c        ****     // format the sd card and create the db
-  82:main.c        ****     //SD_createDB(pFile, true);
+  82:main.c        ****     //SD_createDB(false);
   83:main.c        ****     //Record new_rec = {"bbb", "bbbb", "bbbbb"};
   84:main.c        ****     //SD_addRecord(&new_rec);
   85:main.c        ****     serial_menu_init();
@@ -287,47 +287,46 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  177              		.loc 1 92 0
  178 0074 FFF7FEFF 		bl	display_update
  179              	.LVL18:
-  93:main.c        ****     
-  94:main.c        ****     USB_Initialize();
- 180              		.loc 1 94 0
+  93:main.c        ****     USB_Initialize();
+ 180              		.loc 1 93 0
  181 0078 FFF7FEFF 		bl	USB_Initialize
  182              	.LVL19:
-  95:main.c        ****     
-  96:main.c        ****     USB_print("STARTUP\n\r");
- 183              		.loc 1 96 0
+  94:main.c        ****     
+  95:main.c        ****     USB_print("STARTUP\n\r");
+ 183              		.loc 1 95 0
  184 007c 0C48     		ldr	r0, .L12+20
  185 007e FFF7FEFF 		bl	USB_print
  186              	.LVL20:
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 6
-
-
  187              	.L10:
-  97:main.c        ****     
-  98:main.c        ****     for(;;) {
-  99:main.c        ****         // only do the serial things if serial is connected
- 100:main.c        ****         // ie the user has putty open
- 101:main.c        ****         if (USB_isReady()) serial_fsm(&curr_record);
- 188              		.loc 1 101 0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 6
+
+
+  96:main.c        ****     
+  97:main.c        ****     for(;;) {
+  98:main.c        ****         // only do the serial things if serial is connected
+  99:main.c        ****         // ie the user has putty open
+ 100:main.c        ****         if (USB_isReady()) serial_fsm(&curr_record);
+ 188              		.loc 1 100 0
  189 0082 FFF7FEFF 		bl	USB_isReady
  190              	.LVL21:
  191 0086 10B1     		cbz	r0, .L9
- 192              		.loc 1 101 0 is_stmt 0 discriminator 1
+ 192              		.loc 1 100 0 is_stmt 0 discriminator 1
  193 0088 02A8     		add	r0, sp, #8
  194 008a FFF7FEFF 		bl	serial_fsm
  195              	.LVL22:
  196              	.L9:
- 102:main.c        ****         ui_fsm(&enc_sw_flag);
- 197              		.loc 1 102 0 is_stmt 1
+ 101:main.c        ****         ui_fsm(&enc_sw_flag);
+ 197              		.loc 1 101 0 is_stmt 1
  198 008e 094C     		ldr	r4, .L12+24
  199 0090 2046     		mov	r0, r4
  200 0092 FFF7FEFF 		bl	ui_fsm
  201              	.LVL23:
- 103:main.c        ****         enc_sw_flag = false; // ui fsm handled any encoder input        
- 202              		.loc 1 103 0
+ 102:main.c        ****         enc_sw_flag = false; // ui fsm handled any encoder input        
+ 202              		.loc 1 102 0
  203 0096 0023     		movs	r3, #0
  204 0098 2370     		strb	r3, [r4]
- 104:main.c        ****     }
- 205              		.loc 1 104 0
+ 103:main.c        ****     }
+ 205              		.loc 1 103 0
  206 009a F2E7     		b	.L10
  207              	.L13:
  208              		.align	2
@@ -345,8 +344,8 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  220              		.comm	sw1_flag,1,1
  221              		.comm	enc_sw_flag,1,1
  222              		.comm	prev_index,4,4
- 223              		.comm	curr_record,64,4
- 224              		.comm	record_buffer,768,4
+ 223              		.comm	curr_record,96,4
+ 224              		.comm	record_buffer,1152,4
  225              		.comm	num_loaded,4,4
  226              		.comm	buff_size,4,4
  227              		.comm	buff_offset,4,4
@@ -358,12 +357,12 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  233              		.comm	ascii_to_hid,768,4
  234              		.comm	KB_Data,8,4
  235              		.comm	KB_Initialized,1,1
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 7
-
-
  236              		.comm	s_sec_state,4,4
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 7
+
+
  237              		.comm	s_main_state,4,4
- 238              		.comm	new_record,64,4
+ 238              		.comm	new_record,96,4
  239              		.comm	pFile,4,4
  240              		.comm	sdVolName,10,4
  241              		.comm	sdFile,9,4
@@ -407,25 +406,25 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  273              		.file 21 "Generated_Source\\PSoC5/PRS.h"
  274              		.section	.debug_info,"",%progbits
  275              	.Ldebug_info0:
- 276 0000 AF060000 		.4byte	0x6af
+ 276 0000 CB060000 		.4byte	0x6cb
  277 0004 0400     		.2byte	0x4
  278 0006 00000000 		.4byte	.Ldebug_abbrev0
  279 000a 04       		.byte	0x4
  280 000b 01       		.uleb128 0x1
- 281 000c CF030000 		.4byte	.LASF80
+ 281 000c D8030000 		.4byte	.LASF81
  282 0010 0C       		.byte	0xc
- 283 0011 C1020000 		.4byte	.LASF81
- 284 0015 B4000000 		.4byte	.LASF82
+ 283 0011 CA020000 		.4byte	.LASF82
+ 284 0015 B4000000 		.4byte	.LASF83
  285 0019 00000000 		.4byte	.Ldebug_ranges0+0
  286 001d 00000000 		.4byte	0
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 8
-
-
  287 0021 00000000 		.4byte	.Ldebug_line0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 8
+
+
  288 0025 02       		.uleb128 0x2
  289 0026 01       		.byte	0x1
  290 0027 06       		.byte	0x6
- 291 0028 0C020000 		.4byte	.LASF0
+ 291 0028 15020000 		.4byte	.LASF0
  292 002c 03       		.uleb128 0x3
  293 002d 6A010000 		.4byte	.LASF4
  294 0031 02       		.byte	0x2
@@ -434,7 +433,7 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  297 0037 02       		.uleb128 0x2
  298 0038 01       		.byte	0x1
  299 0039 08       		.byte	0x8
- 300 003a DE010000 		.4byte	.LASF1
+ 300 003a E7010000 		.4byte	.LASF1
  301 003e 02       		.uleb128 0x2
  302 003f 02       		.byte	0x2
  303 0040 05       		.byte	0x5
@@ -442,9 +441,9 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  305 0045 02       		.uleb128 0x2
  306 0046 02       		.byte	0x2
  307 0047 07       		.byte	0x7
- 308 0048 6C020000 		.4byte	.LASF3
+ 308 0048 75020000 		.4byte	.LASF3
  309 004c 03       		.uleb128 0x3
- 310 004d 3A030000 		.4byte	.LASF5
+ 310 004d 43030000 		.4byte	.LASF5
  311 0051 02       		.byte	0x2
  312 0052 3F       		.byte	0x3f
  313 0053 57000000 		.4byte	0x57
@@ -455,7 +454,7 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  318 005e 02       		.uleb128 0x2
  319 005f 04       		.byte	0x4
  320 0060 07       		.byte	0x7
- 321 0061 D8020000 		.4byte	.LASF7
+ 321 0061 E1020000 		.4byte	.LASF7
  322 0065 02       		.uleb128 0x2
  323 0066 08       		.byte	0x8
  324 0067 05       		.byte	0x5
@@ -463,7 +462,7 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  326 006c 02       		.uleb128 0x2
  327 006d 08       		.byte	0x8
  328 006e 07       		.byte	0x7
- 329 006f 26020000 		.4byte	.LASF9
+ 329 006f 2F020000 		.4byte	.LASF9
  330 0073 04       		.uleb128 0x4
  331 0074 04       		.byte	0x4
  332 0075 05       		.byte	0x5
@@ -471,17 +470,17 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  334 007a 02       		.uleb128 0x2
  335 007b 04       		.byte	0x4
  336 007c 07       		.byte	0x7
- 337 007d 43020000 		.4byte	.LASF10
+ 337 007d 4C020000 		.4byte	.LASF10
  338 0081 03       		.uleb128 0x3
- 339 0082 AC010000 		.4byte	.LASF11
+ 339 0082 B5010000 		.4byte	.LASF11
  340 0086 03       		.byte	0x3
  341 0087 18       		.byte	0x18
  342 0088 2C000000 		.4byte	0x2c
  343 008c 03       		.uleb128 0x3
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 9
+ 344 008d 96020000 		.4byte	.LASF12
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 9
 
 
- 344 008d 8D020000 		.4byte	.LASF12
  345 0091 03       		.byte	0x3
  346 0092 2C       		.byte	0x2c
  347 0093 4C000000 		.4byte	0x4c
@@ -491,7 +490,7 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  351 009d E401     		.2byte	0x1e4
  352 009f 37000000 		.4byte	0x37
  353 00a3 05       		.uleb128 0x5
- 354 00a4 BA020000 		.4byte	.LASF14
+ 354 00a4 C3020000 		.4byte	.LASF14
  355 00a8 04       		.byte	0x4
  356 00a9 E601     		.2byte	0x1e6
  357 00ab 5E000000 		.4byte	0x5e
@@ -507,13 +506,13 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  367 00c2 02       		.uleb128 0x2
  368 00c3 08       		.byte	0x8
  369 00c4 04       		.byte	0x4
- 370 00c5 EA020000 		.4byte	.LASF17
+ 370 00c5 F3020000 		.4byte	.LASF17
  371 00c9 02       		.uleb128 0x2
  372 00ca 01       		.byte	0x1
  373 00cb 08       		.byte	0x8
- 374 00cc 7F020000 		.4byte	.LASF18
+ 374 00cc 88020000 		.4byte	.LASF18
  375 00d0 05       		.uleb128 0x5
- 376 00d1 66020000 		.4byte	.LASF19
+ 376 00d1 6F020000 		.4byte	.LASF19
  377 00d5 04       		.byte	0x4
  378 00d6 9002     		.2byte	0x290
  379 00d8 DC000000 		.4byte	0xdc
@@ -522,1566 +521,1586 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 1
  382 00e1 02       		.uleb128 0x2
  383 00e2 08       		.byte	0x8
  384 00e3 04       		.byte	0x4
- 385 00e4 BC010000 		.4byte	.LASF20
+ 385 00e4 C5010000 		.4byte	.LASF20
  386 00e8 02       		.uleb128 0x2
  387 00e9 04       		.byte	0x4
  388 00ea 07       		.byte	0x7
  389 00eb 48000000 		.4byte	.LASF21
- 390 00ef 03       		.uleb128 0x3
- 391 00f0 F8010000 		.4byte	.LASF22
- 392 00f4 05       		.byte	0x5
- 393 00f5 7E       		.byte	0x7e
- 394 00f6 FA000000 		.4byte	0xfa
- 395 00fa 07       		.uleb128 0x7
- 396 00fb F8010000 		.4byte	.LASF22
- 397 00ff 08       		.uleb128 0x8
- 398 0100 04       		.byte	0x4
- 399 0101 EF000000 		.4byte	0xef
- 400 0105 09       		.uleb128 0x9
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 10
+ 390 00ef 07       		.uleb128 0x7
+ 391 00f0 C9000000 		.4byte	0xc9
+ 392 00f4 FF000000 		.4byte	0xff
+ 393 00f8 08       		.uleb128 0x8
+ 394 00f9 E8000000 		.4byte	0xe8
+ 395 00fd 19       		.byte	0x19
+ 396 00fe 00       		.byte	0
+ 397 00ff 03       		.uleb128 0x3
+ 398 0100 01020000 		.4byte	.LASF22
+ 399 0104 05       		.byte	0x5
+ 400 0105 7E       		.byte	0x7e
+ 401 0106 0A010000 		.4byte	0x10a
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 10
 
 
- 401 0106 06       		.byte	0x6
- 402 0107 06       		.byte	0x6
- 403 0108 1F       		.byte	0x1f
- 404 0109 4F010000 		.4byte	0x14f
- 405 010d 0A       		.uleb128 0xa
- 406 010e 0F000000 		.4byte	.LASF23
- 407 0112 06       		.byte	0x6
- 408 0113 20       		.byte	0x20
- 409 0114 81000000 		.4byte	0x81
- 410 0118 00       		.byte	0
- 411 0119 0B       		.uleb128 0xb
- 412 011a 6D00     		.ascii	"m\000"
- 413 011c 06       		.byte	0x6
- 414 011d 21       		.byte	0x21
- 415 011e 81000000 		.4byte	0x81
- 416 0122 01       		.byte	0x1
- 417 0123 0B       		.uleb128 0xb
- 418 0124 6400     		.ascii	"d\000"
- 419 0126 06       		.byte	0x6
- 420 0127 22       		.byte	0x22
- 421 0128 81000000 		.4byte	0x81
- 422 012c 02       		.byte	0x2
- 423 012d 0B       		.uleb128 0xb
- 424 012e 686800   		.ascii	"hh\000"
- 425 0131 06       		.byte	0x6
- 426 0132 23       		.byte	0x23
- 427 0133 81000000 		.4byte	0x81
- 428 0137 03       		.byte	0x3
- 429 0138 0B       		.uleb128 0xb
- 430 0139 6D6D00   		.ascii	"mm\000"
- 431 013c 06       		.byte	0x6
- 432 013d 24       		.byte	0x24
- 433 013e 81000000 		.4byte	0x81
- 434 0142 04       		.byte	0x4
- 435 0143 0B       		.uleb128 0xb
- 436 0144 737300   		.ascii	"ss\000"
- 437 0147 06       		.byte	0x6
- 438 0148 25       		.byte	0x25
- 439 0149 81000000 		.4byte	0x81
- 440 014d 05       		.byte	0x5
- 441 014e 00       		.byte	0
- 442 014f 03       		.uleb128 0x3
- 443 0150 84020000 		.4byte	.LASF24
- 444 0154 06       		.byte	0x6
- 445 0155 26       		.byte	0x26
- 446 0156 05010000 		.4byte	0x105
- 447 015a 09       		.uleb128 0x9
- 448 015b 40       		.byte	0x40
- 449 015c 07       		.byte	0x7
- 450 015d 0C       		.byte	0xc
- 451 015e 87010000 		.4byte	0x187
- 452 0162 0A       		.uleb128 0xa
- 453 0163 A1020000 		.4byte	.LASF25
- 454 0167 07       		.byte	0x7
- 455 0168 0D       		.byte	0xd
- 456 0169 87010000 		.4byte	0x187
- 457 016d 00       		.byte	0
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 11
+ 402 010a 09       		.uleb128 0x9
+ 403 010b 01020000 		.4byte	.LASF22
+ 404 010f 0A       		.uleb128 0xa
+ 405 0110 04       		.byte	0x4
+ 406 0111 FF000000 		.4byte	0xff
+ 407 0115 0B       		.uleb128 0xb
+ 408 0116 06       		.byte	0x6
+ 409 0117 06       		.byte	0x6
+ 410 0118 1F       		.byte	0x1f
+ 411 0119 5F010000 		.4byte	0x15f
+ 412 011d 0C       		.uleb128 0xc
+ 413 011e 0F000000 		.4byte	.LASF23
+ 414 0122 06       		.byte	0x6
+ 415 0123 20       		.byte	0x20
+ 416 0124 81000000 		.4byte	0x81
+ 417 0128 00       		.byte	0
+ 418 0129 0D       		.uleb128 0xd
+ 419 012a 6D00     		.ascii	"m\000"
+ 420 012c 06       		.byte	0x6
+ 421 012d 21       		.byte	0x21
+ 422 012e 81000000 		.4byte	0x81
+ 423 0132 01       		.byte	0x1
+ 424 0133 0D       		.uleb128 0xd
+ 425 0134 6400     		.ascii	"d\000"
+ 426 0136 06       		.byte	0x6
+ 427 0137 22       		.byte	0x22
+ 428 0138 81000000 		.4byte	0x81
+ 429 013c 02       		.byte	0x2
+ 430 013d 0D       		.uleb128 0xd
+ 431 013e 686800   		.ascii	"hh\000"
+ 432 0141 06       		.byte	0x6
+ 433 0142 23       		.byte	0x23
+ 434 0143 81000000 		.4byte	0x81
+ 435 0147 03       		.byte	0x3
+ 436 0148 0D       		.uleb128 0xd
+ 437 0149 6D6D00   		.ascii	"mm\000"
+ 438 014c 06       		.byte	0x6
+ 439 014d 24       		.byte	0x24
+ 440 014e 81000000 		.4byte	0x81
+ 441 0152 04       		.byte	0x4
+ 442 0153 0D       		.uleb128 0xd
+ 443 0154 737300   		.ascii	"ss\000"
+ 444 0157 06       		.byte	0x6
+ 445 0158 25       		.byte	0x25
+ 446 0159 81000000 		.4byte	0x81
+ 447 015d 05       		.byte	0x5
+ 448 015e 00       		.byte	0
+ 449 015f 03       		.uleb128 0x3
+ 450 0160 8D020000 		.4byte	.LASF24
+ 451 0164 06       		.byte	0x6
+ 452 0165 26       		.byte	0x26
+ 453 0166 15010000 		.4byte	0x115
+ 454 016a 0B       		.uleb128 0xb
+ 455 016b 60       		.byte	0x60
+ 456 016c 07       		.byte	0x7
+ 457 016d 0D       		.byte	0xd
+ 458 016e A3010000 		.4byte	0x1a3
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 11
 
 
- 458 016e 0A       		.uleb128 0xa
- 459 016f 22000000 		.4byte	.LASF26
- 460 0173 07       		.byte	0x7
- 461 0174 0E       		.byte	0xe
- 462 0175 97010000 		.4byte	0x197
- 463 0179 0A       		.byte	0xa
- 464 017a 0A       		.uleb128 0xa
- 465 017b 70000000 		.4byte	.LASF27
- 466 017f 07       		.byte	0x7
- 467 0180 0F       		.byte	0xf
- 468 0181 A7010000 		.4byte	0x1a7
- 469 0185 2D       		.byte	0x2d
- 470 0186 00       		.byte	0
- 471 0187 0C       		.uleb128 0xc
- 472 0188 C9000000 		.4byte	0xc9
- 473 018c 97010000 		.4byte	0x197
- 474 0190 0D       		.uleb128 0xd
- 475 0191 E8000000 		.4byte	0xe8
- 476 0195 09       		.byte	0x9
- 477 0196 00       		.byte	0
- 478 0197 0C       		.uleb128 0xc
- 479 0198 C9000000 		.4byte	0xc9
- 480 019c A7010000 		.4byte	0x1a7
- 481 01a0 0D       		.uleb128 0xd
- 482 01a1 E8000000 		.4byte	0xe8
- 483 01a5 22       		.byte	0x22
- 484 01a6 00       		.byte	0
- 485 01a7 0C       		.uleb128 0xc
- 486 01a8 C9000000 		.4byte	0xc9
- 487 01ac B7010000 		.4byte	0x1b7
- 488 01b0 0D       		.uleb128 0xd
- 489 01b1 E8000000 		.4byte	0xe8
- 490 01b5 12       		.byte	0x12
- 491 01b6 00       		.byte	0
- 492 01b7 03       		.uleb128 0x3
- 493 01b8 27010000 		.4byte	.LASF28
- 494 01bc 07       		.byte	0x7
- 495 01bd 10       		.byte	0x10
- 496 01be 5A010000 		.4byte	0x15a
- 497 01c2 09       		.uleb128 0x9
- 498 01c3 08       		.byte	0x8
- 499 01c4 08       		.byte	0x8
- 500 01c5 21       		.byte	0x21
- 501 01c6 E3010000 		.4byte	0x1e3
- 502 01ca 0B       		.uleb128 0xb
- 503 01cb 75696400 		.ascii	"uid\000"
- 504 01cf 08       		.byte	0x8
- 505 01d0 22       		.byte	0x22
- 506 01d1 73000000 		.4byte	0x73
- 507 01d5 00       		.byte	0
- 508 01d6 0A       		.uleb128 0xa
- 509 01d7 60010000 		.4byte	.LASF29
- 510 01db 08       		.byte	0x8
- 511 01dc 23       		.byte	0x23
- 512 01dd E3010000 		.4byte	0x1e3
- 513 01e1 04       		.byte	0x4
- 514 01e2 00       		.byte	0
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 12
+ 459 0172 0C       		.uleb128 0xc
+ 460 0173 AA020000 		.4byte	.LASF25
+ 461 0177 07       		.byte	0x7
+ 462 0178 0E       		.byte	0xe
+ 463 0179 A3010000 		.4byte	0x1a3
+ 464 017d 00       		.byte	0
+ 465 017e 0C       		.uleb128 0xc
+ 466 017f 22000000 		.4byte	.LASF26
+ 467 0183 07       		.byte	0x7
+ 468 0184 0F       		.byte	0xf
+ 469 0185 B3010000 		.4byte	0x1b3
+ 470 0189 0A       		.byte	0xa
+ 471 018a 0C       		.uleb128 0xc
+ 472 018b 70000000 		.4byte	.LASF27
+ 473 018f 07       		.byte	0x7
+ 474 0190 10       		.byte	0x10
+ 475 0191 EF000000 		.4byte	0xef
+ 476 0195 32       		.byte	0x32
+ 477 0196 0C       		.uleb128 0xc
+ 478 0197 AC010000 		.4byte	.LASF28
+ 479 019b 07       		.byte	0x7
+ 480 019c 11       		.byte	0x11
+ 481 019d C3010000 		.4byte	0x1c3
+ 482 01a1 4C       		.byte	0x4c
+ 483 01a2 00       		.byte	0
+ 484 01a3 07       		.uleb128 0x7
+ 485 01a4 C9000000 		.4byte	0xc9
+ 486 01a8 B3010000 		.4byte	0x1b3
+ 487 01ac 08       		.uleb128 0x8
+ 488 01ad E8000000 		.4byte	0xe8
+ 489 01b1 09       		.byte	0x9
+ 490 01b2 00       		.byte	0
+ 491 01b3 07       		.uleb128 0x7
+ 492 01b4 C9000000 		.4byte	0xc9
+ 493 01b8 C3010000 		.4byte	0x1c3
+ 494 01bc 08       		.uleb128 0x8
+ 495 01bd E8000000 		.4byte	0xe8
+ 496 01c1 27       		.byte	0x27
+ 497 01c2 00       		.byte	0
+ 498 01c3 07       		.uleb128 0x7
+ 499 01c4 C9000000 		.4byte	0xc9
+ 500 01c8 D3010000 		.4byte	0x1d3
+ 501 01cc 08       		.uleb128 0x8
+ 502 01cd E8000000 		.4byte	0xe8
+ 503 01d1 13       		.byte	0x13
+ 504 01d2 00       		.byte	0
+ 505 01d3 03       		.uleb128 0x3
+ 506 01d4 27010000 		.4byte	.LASF29
+ 507 01d8 07       		.byte	0x7
+ 508 01d9 12       		.byte	0x12
+ 509 01da 6A010000 		.4byte	0x16a
+ 510 01de 0B       		.uleb128 0xb
+ 511 01df 08       		.byte	0x8
+ 512 01e0 08       		.byte	0x8
+ 513 01e1 21       		.byte	0x21
+ 514 01e2 FF010000 		.4byte	0x1ff
+ 515 01e6 0D       		.uleb128 0xd
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 12
 
 
- 515 01e3 02       		.uleb128 0x2
- 516 01e4 01       		.byte	0x1
- 517 01e5 02       		.byte	0x2
- 518 01e6 A7020000 		.4byte	.LASF30
- 519 01ea 03       		.uleb128 0x3
- 520 01eb 2B000000 		.4byte	.LASF31
- 521 01ef 08       		.byte	0x8
- 522 01f0 24       		.byte	0x24
- 523 01f1 C2010000 		.4byte	0x1c2
- 524 01f5 0E       		.uleb128 0xe
- 525 01f6 B4010000 		.4byte	.LASF83
- 526 01fa 01       		.byte	0x1
- 527 01fb 23       		.byte	0x23
- 528 01fc 00000000 		.4byte	.LFB65
- 529 0200 10000000 		.4byte	.LFE65-.LFB65
- 530 0204 01       		.uleb128 0x1
- 531 0205 9C       		.byte	0x9c
- 532 0206 0F       		.uleb128 0xf
- 533 0207 50020000 		.4byte	.LASF84
- 534 020b 01       		.byte	0x1
- 535 020c 1E       		.byte	0x1e
- 536 020d 00000000 		.4byte	.LFB64
- 537 0211 18000000 		.4byte	.LFE64-.LFB64
- 538 0215 01       		.uleb128 0x1
- 539 0216 9C       		.byte	0x9c
- 540 0217 2F020000 		.4byte	0x22f
- 541 021b 10       		.uleb128 0x10
- 542 021c 0E000000 		.4byte	.LVL0
- 543 0220 A9050000 		.4byte	0x5a9
- 544 0224 11       		.uleb128 0x11
- 545 0225 01       		.uleb128 0x1
- 546 0226 50       		.byte	0x50
- 547 0227 05       		.uleb128 0x5
- 548 0228 03       		.byte	0x3
- 549 0229 00000000 		.4byte	.LC0
- 550 022d 00       		.byte	0
- 551 022e 00       		.byte	0
- 552 022f 12       		.uleb128 0x12
- 553 0230 6B000000 		.4byte	.LASF85
- 554 0234 01       		.byte	0x1
- 555 0235 2A       		.byte	0x2a
- 556 0236 73000000 		.4byte	0x73
- 557 023a 00000000 		.4byte	.LFB66
- 558 023e B8000000 		.4byte	.LFE66-.LFB66
- 559 0242 01       		.uleb128 0x1
- 560 0243 9C       		.byte	0x9c
- 561 0244 BB030000 		.4byte	0x3bb
- 562 0248 13       		.uleb128 0x13
- 563 0249 95020000 		.4byte	.LASF32
- 564 024d 01       		.byte	0x1
- 565 024e 3F       		.byte	0x3f
- 566 024f B7010000 		.4byte	0x1b7
- 567 0253 03       		.uleb128 0x3
- 568 0254 91       		.byte	0x91
- 569 0255 B07F     		.sleb128 -80
- 570 0257 14       		.uleb128 0x14
- 571 0258 6E6F7700 		.ascii	"now\000"
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 13
+ 516 01e7 75696400 		.ascii	"uid\000"
+ 517 01eb 08       		.byte	0x8
+ 518 01ec 22       		.byte	0x22
+ 519 01ed 73000000 		.4byte	0x73
+ 520 01f1 00       		.byte	0
+ 521 01f2 0C       		.uleb128 0xc
+ 522 01f3 60010000 		.4byte	.LASF30
+ 523 01f7 08       		.byte	0x8
+ 524 01f8 23       		.byte	0x23
+ 525 01f9 FF010000 		.4byte	0x1ff
+ 526 01fd 04       		.byte	0x4
+ 527 01fe 00       		.byte	0
+ 528 01ff 02       		.uleb128 0x2
+ 529 0200 01       		.byte	0x1
+ 530 0201 02       		.byte	0x2
+ 531 0202 B0020000 		.4byte	.LASF31
+ 532 0206 03       		.uleb128 0x3
+ 533 0207 2B000000 		.4byte	.LASF32
+ 534 020b 08       		.byte	0x8
+ 535 020c 24       		.byte	0x24
+ 536 020d DE010000 		.4byte	0x1de
+ 537 0211 0E       		.uleb128 0xe
+ 538 0212 BD010000 		.4byte	.LASF84
+ 539 0216 01       		.byte	0x1
+ 540 0217 23       		.byte	0x23
+ 541 0218 00000000 		.4byte	.LFB65
+ 542 021c 10000000 		.4byte	.LFE65-.LFB65
+ 543 0220 01       		.uleb128 0x1
+ 544 0221 9C       		.byte	0x9c
+ 545 0222 0F       		.uleb128 0xf
+ 546 0223 59020000 		.4byte	.LASF85
+ 547 0227 01       		.byte	0x1
+ 548 0228 1E       		.byte	0x1e
+ 549 0229 00000000 		.4byte	.LFB64
+ 550 022d 18000000 		.4byte	.LFE64-.LFB64
+ 551 0231 01       		.uleb128 0x1
+ 552 0232 9C       		.byte	0x9c
+ 553 0233 4B020000 		.4byte	0x24b
+ 554 0237 10       		.uleb128 0x10
+ 555 0238 0E000000 		.4byte	.LVL0
+ 556 023c C5050000 		.4byte	0x5c5
+ 557 0240 11       		.uleb128 0x11
+ 558 0241 01       		.uleb128 0x1
+ 559 0242 50       		.byte	0x50
+ 560 0243 05       		.uleb128 0x5
+ 561 0244 03       		.byte	0x3
+ 562 0245 00000000 		.4byte	.LC0
+ 563 0249 00       		.byte	0
+ 564 024a 00       		.byte	0
+ 565 024b 12       		.uleb128 0x12
+ 566 024c 6B000000 		.4byte	.LASF86
+ 567 0250 01       		.byte	0x1
+ 568 0251 2A       		.byte	0x2a
+ 569 0252 73000000 		.4byte	0x73
+ 570 0256 00000000 		.4byte	.LFB66
+ 571 025a B8000000 		.4byte	.LFE66-.LFB66
+ 572 025e 01       		.uleb128 0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 13
 
 
- 572 025c 01       		.byte	0x1
- 573 025d 4B       		.byte	0x4b
- 574 025e 4F010000 		.4byte	0x14f
- 575 0262 03       		.uleb128 0x3
- 576 0263 91       		.byte	0x91
- 577 0264 A87F     		.sleb128 -88
- 578 0266 15       		.uleb128 0x15
- 579 0267 0C000000 		.4byte	.LVL1
- 580 026b B4050000 		.4byte	0x5b4
- 581 026f 7D020000 		.4byte	0x27d
- 582 0273 11       		.uleb128 0x11
- 583 0274 01       		.uleb128 0x1
- 584 0275 50       		.byte	0x50
- 585 0276 05       		.uleb128 0x5
- 586 0277 03       		.byte	0x3
- 587 0278 00000000 		.4byte	ENC_SW_INT
- 588 027c 00       		.byte	0
- 589 027d 15       		.uleb128 0x15
- 590 027e 12000000 		.4byte	.LVL2
- 591 0282 BF050000 		.4byte	0x5bf
- 592 0286 94020000 		.4byte	0x294
- 593 028a 11       		.uleb128 0x11
- 594 028b 01       		.uleb128 0x1
- 595 028c 50       		.byte	0x50
- 596 028d 05       		.uleb128 0x5
- 597 028e 03       		.byte	0x3
- 598 028f 00000000 		.4byte	SW1_INT
- 599 0293 00       		.byte	0
- 600 0294 16       		.uleb128 0x16
- 601 0295 16000000 		.4byte	.LVL3
- 602 0299 CA050000 		.4byte	0x5ca
- 603 029d 16       		.uleb128 0x16
- 604 029e 1A000000 		.4byte	.LVL4
- 605 02a2 D5050000 		.4byte	0x5d5
- 606 02a6 16       		.uleb128 0x16
- 607 02a7 1E000000 		.4byte	.LVL5
- 608 02ab E1050000 		.4byte	0x5e1
- 609 02af 16       		.uleb128 0x16
- 610 02b0 28000000 		.4byte	.LVL6
- 611 02b4 EC050000 		.4byte	0x5ec
- 612 02b8 16       		.uleb128 0x16
- 613 02b9 32000000 		.4byte	.LVL7
- 614 02bd F7050000 		.4byte	0x5f7
- 615 02c1 15       		.uleb128 0x15
- 616 02c2 3E000000 		.4byte	.LVL8
- 617 02c6 02060000 		.4byte	0x602
- 618 02ca D5020000 		.4byte	0x2d5
- 619 02ce 11       		.uleb128 0x11
- 620 02cf 01       		.uleb128 0x1
- 621 02d0 50       		.byte	0x50
- 622 02d1 02       		.uleb128 0x2
- 623 02d2 08       		.byte	0x8
- 624 02d3 3C       		.byte	0x3c
- 625 02d4 00       		.byte	0
- 626 02d5 15       		.uleb128 0x15
- 627 02d6 44000000 		.4byte	.LVL9
- 628 02da 0D060000 		.4byte	0x60d
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 14
+ 573 025f 9C       		.byte	0x9c
+ 574 0260 D7030000 		.4byte	0x3d7
+ 575 0264 13       		.uleb128 0x13
+ 576 0265 9E020000 		.4byte	.LASF33
+ 577 0269 01       		.byte	0x1
+ 578 026a 3F       		.byte	0x3f
+ 579 026b D3010000 		.4byte	0x1d3
+ 580 026f 03       		.uleb128 0x3
+ 581 0270 91       		.byte	0x91
+ 582 0271 907F     		.sleb128 -112
+ 583 0273 14       		.uleb128 0x14
+ 584 0274 6E6F7700 		.ascii	"now\000"
+ 585 0278 01       		.byte	0x1
+ 586 0279 4B       		.byte	0x4b
+ 587 027a 5F010000 		.4byte	0x15f
+ 588 027e 03       		.uleb128 0x3
+ 589 027f 91       		.byte	0x91
+ 590 0280 887F     		.sleb128 -120
+ 591 0282 15       		.uleb128 0x15
+ 592 0283 0C000000 		.4byte	.LVL1
+ 593 0287 D0050000 		.4byte	0x5d0
+ 594 028b 99020000 		.4byte	0x299
+ 595 028f 11       		.uleb128 0x11
+ 596 0290 01       		.uleb128 0x1
+ 597 0291 50       		.byte	0x50
+ 598 0292 05       		.uleb128 0x5
+ 599 0293 03       		.byte	0x3
+ 600 0294 00000000 		.4byte	ENC_SW_INT
+ 601 0298 00       		.byte	0
+ 602 0299 15       		.uleb128 0x15
+ 603 029a 12000000 		.4byte	.LVL2
+ 604 029e DB050000 		.4byte	0x5db
+ 605 02a2 B0020000 		.4byte	0x2b0
+ 606 02a6 11       		.uleb128 0x11
+ 607 02a7 01       		.uleb128 0x1
+ 608 02a8 50       		.byte	0x50
+ 609 02a9 05       		.uleb128 0x5
+ 610 02aa 03       		.byte	0x3
+ 611 02ab 00000000 		.4byte	SW1_INT
+ 612 02af 00       		.byte	0
+ 613 02b0 16       		.uleb128 0x16
+ 614 02b1 16000000 		.4byte	.LVL3
+ 615 02b5 E6050000 		.4byte	0x5e6
+ 616 02b9 16       		.uleb128 0x16
+ 617 02ba 1A000000 		.4byte	.LVL4
+ 618 02be F1050000 		.4byte	0x5f1
+ 619 02c2 16       		.uleb128 0x16
+ 620 02c3 1E000000 		.4byte	.LVL5
+ 621 02c7 FD050000 		.4byte	0x5fd
+ 622 02cb 16       		.uleb128 0x16
+ 623 02cc 28000000 		.4byte	.LVL6
+ 624 02d0 08060000 		.4byte	0x608
+ 625 02d4 16       		.uleb128 0x16
+ 626 02d5 32000000 		.4byte	.LVL7
+ 627 02d9 13060000 		.4byte	0x613
+ 628 02dd 15       		.uleb128 0x15
+ 629 02de 3E000000 		.4byte	.LVL8
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 14
 
 
- 629 02de E9020000 		.4byte	0x2e9
- 630 02e2 11       		.uleb128 0x11
- 631 02e3 01       		.uleb128 0x1
- 632 02e4 50       		.byte	0x50
- 633 02e5 02       		.uleb128 0x2
- 634 02e6 7D       		.byte	0x7d
- 635 02e7 00       		.sleb128 0
- 636 02e8 00       		.byte	0
- 637 02e9 16       		.uleb128 0x16
- 638 02ea 48000000 		.4byte	.LVL10
- 639 02ee 18060000 		.4byte	0x618
- 640 02f2 16       		.uleb128 0x16
- 641 02f3 50000000 		.4byte	.LVL11
- 642 02f7 23060000 		.4byte	0x623
- 643 02fb 16       		.uleb128 0x16
- 644 02fc 56000000 		.4byte	.LVL12
- 645 0300 2E060000 		.4byte	0x62e
- 646 0304 16       		.uleb128 0x16
- 647 0305 5A000000 		.4byte	.LVL13
- 648 0309 39060000 		.4byte	0x639
- 649 030d 15       		.uleb128 0x15
- 650 030e 62000000 		.4byte	.LVL14
- 651 0312 44060000 		.4byte	0x644
- 652 0316 25030000 		.4byte	0x325
- 653 031a 11       		.uleb128 0x11
- 654 031b 01       		.uleb128 0x1
- 655 031c 50       		.byte	0x50
- 656 031d 01       		.uleb128 0x1
- 657 031e 3A       		.byte	0x3a
- 658 031f 11       		.uleb128 0x11
- 659 0320 01       		.uleb128 0x1
- 660 0321 51       		.byte	0x51
- 661 0322 01       		.uleb128 0x1
- 662 0323 3A       		.byte	0x3a
- 663 0324 00       		.byte	0
- 664 0325 15       		.uleb128 0x15
- 665 0326 68000000 		.4byte	.LVL15
- 666 032a 4F060000 		.4byte	0x64f
- 667 032e 38030000 		.4byte	0x338
- 668 0332 11       		.uleb128 0x11
- 669 0333 01       		.uleb128 0x1
- 670 0334 50       		.byte	0x50
- 671 0335 01       		.uleb128 0x1
- 672 0336 32       		.byte	0x32
- 673 0337 00       		.byte	0
- 674 0338 15       		.uleb128 0x15
- 675 0339 6E000000 		.4byte	.LVL16
- 676 033d 5A060000 		.4byte	0x65a
- 677 0341 4C030000 		.4byte	0x34c
- 678 0345 11       		.uleb128 0x11
- 679 0346 01       		.uleb128 0x1
- 680 0347 50       		.byte	0x50
- 681 0348 02       		.uleb128 0x2
- 682 0349 75       		.byte	0x75
- 683 034a 00       		.sleb128 0
- 684 034b 00       		.byte	0
- 685 034c 15       		.uleb128 0x15
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 15
+ 630 02e2 1E060000 		.4byte	0x61e
+ 631 02e6 F1020000 		.4byte	0x2f1
+ 632 02ea 11       		.uleb128 0x11
+ 633 02eb 01       		.uleb128 0x1
+ 634 02ec 50       		.byte	0x50
+ 635 02ed 02       		.uleb128 0x2
+ 636 02ee 08       		.byte	0x8
+ 637 02ef 3C       		.byte	0x3c
+ 638 02f0 00       		.byte	0
+ 639 02f1 15       		.uleb128 0x15
+ 640 02f2 44000000 		.4byte	.LVL9
+ 641 02f6 29060000 		.4byte	0x629
+ 642 02fa 05030000 		.4byte	0x305
+ 643 02fe 11       		.uleb128 0x11
+ 644 02ff 01       		.uleb128 0x1
+ 645 0300 50       		.byte	0x50
+ 646 0301 02       		.uleb128 0x2
+ 647 0302 7D       		.byte	0x7d
+ 648 0303 00       		.sleb128 0
+ 649 0304 00       		.byte	0
+ 650 0305 16       		.uleb128 0x16
+ 651 0306 48000000 		.4byte	.LVL10
+ 652 030a 34060000 		.4byte	0x634
+ 653 030e 16       		.uleb128 0x16
+ 654 030f 50000000 		.4byte	.LVL11
+ 655 0313 3F060000 		.4byte	0x63f
+ 656 0317 16       		.uleb128 0x16
+ 657 0318 56000000 		.4byte	.LVL12
+ 658 031c 4A060000 		.4byte	0x64a
+ 659 0320 16       		.uleb128 0x16
+ 660 0321 5A000000 		.4byte	.LVL13
+ 661 0325 55060000 		.4byte	0x655
+ 662 0329 15       		.uleb128 0x15
+ 663 032a 62000000 		.4byte	.LVL14
+ 664 032e 60060000 		.4byte	0x660
+ 665 0332 41030000 		.4byte	0x341
+ 666 0336 11       		.uleb128 0x11
+ 667 0337 01       		.uleb128 0x1
+ 668 0338 50       		.byte	0x50
+ 669 0339 01       		.uleb128 0x1
+ 670 033a 3A       		.byte	0x3a
+ 671 033b 11       		.uleb128 0x11
+ 672 033c 01       		.uleb128 0x1
+ 673 033d 51       		.byte	0x51
+ 674 033e 01       		.uleb128 0x1
+ 675 033f 3A       		.byte	0x3a
+ 676 0340 00       		.byte	0
+ 677 0341 15       		.uleb128 0x15
+ 678 0342 68000000 		.4byte	.LVL15
+ 679 0346 6B060000 		.4byte	0x66b
+ 680 034a 54030000 		.4byte	0x354
+ 681 034e 11       		.uleb128 0x11
+ 682 034f 01       		.uleb128 0x1
+ 683 0350 50       		.byte	0x50
+ 684 0351 01       		.uleb128 0x1
+ 685 0352 32       		.byte	0x32
+ 686 0353 00       		.byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 15
 
 
- 686 034d 74000000 		.4byte	.LVL17
- 687 0351 65060000 		.4byte	0x665
- 688 0355 63030000 		.4byte	0x363
- 689 0359 11       		.uleb128 0x11
- 690 035a 01       		.uleb128 0x1
- 691 035b 50       		.byte	0x50
- 692 035c 05       		.uleb128 0x5
- 693 035d 03       		.byte	0x3
- 694 035e 10000000 		.4byte	.LC1
- 695 0362 00       		.byte	0
- 696 0363 16       		.uleb128 0x16
- 697 0364 78000000 		.4byte	.LVL18
- 698 0368 70060000 		.4byte	0x670
- 699 036c 16       		.uleb128 0x16
- 700 036d 7C000000 		.4byte	.LVL19
- 701 0371 7B060000 		.4byte	0x67b
- 702 0375 15       		.uleb128 0x15
- 703 0376 82000000 		.4byte	.LVL20
- 704 037a 86060000 		.4byte	0x686
- 705 037e 8C030000 		.4byte	0x38c
- 706 0382 11       		.uleb128 0x11
- 707 0383 01       		.uleb128 0x1
- 708 0384 50       		.byte	0x50
- 709 0385 05       		.uleb128 0x5
- 710 0386 03       		.byte	0x3
- 711 0387 18000000 		.4byte	.LC2
- 712 038b 00       		.byte	0
- 713 038c 16       		.uleb128 0x16
- 714 038d 86000000 		.4byte	.LVL21
- 715 0391 91060000 		.4byte	0x691
- 716 0395 15       		.uleb128 0x15
- 717 0396 8E000000 		.4byte	.LVL22
- 718 039a 9C060000 		.4byte	0x69c
- 719 039e AA030000 		.4byte	0x3aa
- 720 03a2 11       		.uleb128 0x11
- 721 03a3 01       		.uleb128 0x1
- 722 03a4 50       		.byte	0x50
- 723 03a5 03       		.uleb128 0x3
- 724 03a6 91       		.byte	0x91
- 725 03a7 B07F     		.sleb128 -80
- 726 03a9 00       		.byte	0
- 727 03aa 10       		.uleb128 0x10
- 728 03ab 96000000 		.4byte	.LVL23
- 729 03af A7060000 		.4byte	0x6a7
- 730 03b3 11       		.uleb128 0x11
- 731 03b4 01       		.uleb128 0x1
- 732 03b5 50       		.byte	0x50
- 733 03b6 02       		.uleb128 0x2
- 734 03b7 74       		.byte	0x74
- 735 03b8 00       		.sleb128 0
- 736 03b9 00       		.byte	0
- 737 03ba 00       		.byte	0
- 738 03bb 17       		.uleb128 0x17
- 739 03bc 0E030000 		.4byte	.LASF33
- 740 03c0 09       		.byte	0x9
- 741 03c1 1207     		.2byte	0x712
- 742 03c3 C7030000 		.4byte	0x3c7
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 16
+ 687 0354 15       		.uleb128 0x15
+ 688 0355 6E000000 		.4byte	.LVL16
+ 689 0359 76060000 		.4byte	0x676
+ 690 035d 68030000 		.4byte	0x368
+ 691 0361 11       		.uleb128 0x11
+ 692 0362 01       		.uleb128 0x1
+ 693 0363 50       		.byte	0x50
+ 694 0364 02       		.uleb128 0x2
+ 695 0365 75       		.byte	0x75
+ 696 0366 00       		.sleb128 0
+ 697 0367 00       		.byte	0
+ 698 0368 15       		.uleb128 0x15
+ 699 0369 74000000 		.4byte	.LVL17
+ 700 036d 81060000 		.4byte	0x681
+ 701 0371 7F030000 		.4byte	0x37f
+ 702 0375 11       		.uleb128 0x11
+ 703 0376 01       		.uleb128 0x1
+ 704 0377 50       		.byte	0x50
+ 705 0378 05       		.uleb128 0x5
+ 706 0379 03       		.byte	0x3
+ 707 037a 10000000 		.4byte	.LC1
+ 708 037e 00       		.byte	0
+ 709 037f 16       		.uleb128 0x16
+ 710 0380 78000000 		.4byte	.LVL18
+ 711 0384 8C060000 		.4byte	0x68c
+ 712 0388 16       		.uleb128 0x16
+ 713 0389 7C000000 		.4byte	.LVL19
+ 714 038d 97060000 		.4byte	0x697
+ 715 0391 15       		.uleb128 0x15
+ 716 0392 82000000 		.4byte	.LVL20
+ 717 0396 A2060000 		.4byte	0x6a2
+ 718 039a A8030000 		.4byte	0x3a8
+ 719 039e 11       		.uleb128 0x11
+ 720 039f 01       		.uleb128 0x1
+ 721 03a0 50       		.byte	0x50
+ 722 03a1 05       		.uleb128 0x5
+ 723 03a2 03       		.byte	0x3
+ 724 03a3 18000000 		.4byte	.LC2
+ 725 03a7 00       		.byte	0
+ 726 03a8 16       		.uleb128 0x16
+ 727 03a9 86000000 		.4byte	.LVL21
+ 728 03ad AD060000 		.4byte	0x6ad
+ 729 03b1 15       		.uleb128 0x15
+ 730 03b2 8E000000 		.4byte	.LVL22
+ 731 03b6 B8060000 		.4byte	0x6b8
+ 732 03ba C6030000 		.4byte	0x3c6
+ 733 03be 11       		.uleb128 0x11
+ 734 03bf 01       		.uleb128 0x1
+ 735 03c0 50       		.byte	0x50
+ 736 03c1 03       		.uleb128 0x3
+ 737 03c2 91       		.byte	0x91
+ 738 03c3 907F     		.sleb128 -112
+ 739 03c5 00       		.byte	0
+ 740 03c6 10       		.uleb128 0x10
+ 741 03c7 96000000 		.4byte	.LVL23
+ 742 03cb C3060000 		.4byte	0x6c3
+ 743 03cf 11       		.uleb128 0x11
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 16
 
 
- 743 03c7 06       		.uleb128 0x6
- 744 03c8 8C000000 		.4byte	0x8c
- 745 03cc 18       		.uleb128 0x18
- 746 03cd 00020000 		.4byte	.LASF34
- 747 03d1 07       		.byte	0x7
- 748 03d2 11       		.byte	0x11
- 749 03d3 73000000 		.4byte	0x73
- 750 03d7 05       		.uleb128 0x5
- 751 03d8 03       		.byte	0x3
- 752 03d9 00000000 		.4byte	record_size
- 753 03dd 0C       		.uleb128 0xc
- 754 03de C9000000 		.4byte	0xc9
- 755 03e2 ED030000 		.4byte	0x3ed
- 756 03e6 0D       		.uleb128 0xd
- 757 03e7 E8000000 		.4byte	0xe8
- 758 03eb 08       		.byte	0x8
- 759 03ec 00       		.byte	0
- 760 03ed 18       		.uleb128 0x18
- 761 03ee 44030000 		.4byte	.LASF35
- 762 03f2 0A       		.byte	0xa
- 763 03f3 10       		.byte	0x10
- 764 03f4 DD030000 		.4byte	0x3dd
- 765 03f8 05       		.uleb128 0x5
- 766 03f9 03       		.byte	0x3
- 767 03fa 00000000 		.4byte	sdFile
- 768 03fe 18       		.uleb128 0x18
- 769 03ff 88030000 		.4byte	.LASF36
- 770 0403 0A       		.byte	0xa
- 771 0404 11       		.byte	0x11
- 772 0405 87010000 		.4byte	0x187
- 773 0409 05       		.uleb128 0x5
- 774 040a 03       		.byte	0x3
- 775 040b 00000000 		.4byte	sdVolName
- 776 040f 18       		.uleb128 0x18
- 777 0410 3D020000 		.4byte	.LASF37
- 778 0414 0A       		.byte	0xa
- 779 0415 12       		.byte	0x12
- 780 0416 FF000000 		.4byte	0xff
- 781 041a 05       		.uleb128 0x5
- 782 041b 03       		.byte	0x3
- 783 041c 00000000 		.4byte	pFile
- 784 0420 18       		.uleb128 0x18
- 785 0421 63030000 		.4byte	.LASF38
- 786 0425 0B       		.byte	0xb
- 787 0426 2F       		.byte	0x2f
- 788 0427 B7010000 		.4byte	0x1b7
- 789 042b 05       		.uleb128 0x5
- 790 042c 03       		.byte	0x3
- 791 042d 00000000 		.4byte	new_record
- 792 0431 18       		.uleb128 0x18
- 793 0432 7A040000 		.4byte	.LASF39
- 794 0436 0B       		.byte	0xb
- 795 0437 45       		.byte	0x45
- 796 0438 73000000 		.4byte	0x73
- 797 043c 05       		.uleb128 0x5
- 798 043d 03       		.byte	0x3
- 799 043e 00000000 		.4byte	s_main_state
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 17
+ 744 03d0 01       		.uleb128 0x1
+ 745 03d1 50       		.byte	0x50
+ 746 03d2 02       		.uleb128 0x2
+ 747 03d3 74       		.byte	0x74
+ 748 03d4 00       		.sleb128 0
+ 749 03d5 00       		.byte	0
+ 750 03d6 00       		.byte	0
+ 751 03d7 17       		.uleb128 0x17
+ 752 03d8 17030000 		.4byte	.LASF34
+ 753 03dc 09       		.byte	0x9
+ 754 03dd 1207     		.2byte	0x712
+ 755 03df E3030000 		.4byte	0x3e3
+ 756 03e3 06       		.uleb128 0x6
+ 757 03e4 8C000000 		.4byte	0x8c
+ 758 03e8 18       		.uleb128 0x18
+ 759 03e9 09020000 		.4byte	.LASF35
+ 760 03ed 07       		.byte	0x7
+ 761 03ee 13       		.byte	0x13
+ 762 03ef 73000000 		.4byte	0x73
+ 763 03f3 05       		.uleb128 0x5
+ 764 03f4 03       		.byte	0x3
+ 765 03f5 00000000 		.4byte	record_size
+ 766 03f9 07       		.uleb128 0x7
+ 767 03fa C9000000 		.4byte	0xc9
+ 768 03fe 09040000 		.4byte	0x409
+ 769 0402 08       		.uleb128 0x8
+ 770 0403 E8000000 		.4byte	0xe8
+ 771 0407 08       		.byte	0x8
+ 772 0408 00       		.byte	0
+ 773 0409 18       		.uleb128 0x18
+ 774 040a 4D030000 		.4byte	.LASF36
+ 775 040e 0A       		.byte	0xa
+ 776 040f 13       		.byte	0x13
+ 777 0410 F9030000 		.4byte	0x3f9
+ 778 0414 05       		.uleb128 0x5
+ 779 0415 03       		.byte	0x3
+ 780 0416 00000000 		.4byte	sdFile
+ 781 041a 18       		.uleb128 0x18
+ 782 041b 91030000 		.4byte	.LASF37
+ 783 041f 0A       		.byte	0xa
+ 784 0420 14       		.byte	0x14
+ 785 0421 A3010000 		.4byte	0x1a3
+ 786 0425 05       		.uleb128 0x5
+ 787 0426 03       		.byte	0x3
+ 788 0427 00000000 		.4byte	sdVolName
+ 789 042b 18       		.uleb128 0x18
+ 790 042c 46020000 		.4byte	.LASF38
+ 791 0430 0A       		.byte	0xa
+ 792 0431 15       		.byte	0x15
+ 793 0432 0F010000 		.4byte	0x10f
+ 794 0436 05       		.uleb128 0x5
+ 795 0437 03       		.byte	0x3
+ 796 0438 00000000 		.4byte	pFile
+ 797 043c 18       		.uleb128 0x18
+ 798 043d 6C030000 		.4byte	.LASF39
+ 799 0441 0B       		.byte	0xb
+ 800 0442 30       		.byte	0x30
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 17
 
 
- 800 0442 18       		.uleb128 0x18
- 801 0443 51000000 		.4byte	.LASF40
- 802 0447 0B       		.byte	0xb
- 803 0448 46       		.byte	0x46
- 804 0449 73000000 		.4byte	0x73
- 805 044d 05       		.uleb128 0x5
- 806 044e 03       		.byte	0x3
- 807 044f 00000000 		.4byte	s_sec_state
- 808 0453 18       		.uleb128 0x18
- 809 0454 6B040000 		.4byte	.LASF41
- 810 0458 08       		.byte	0x8
- 811 0459 1F       		.byte	0x1f
- 812 045a E3010000 		.4byte	0x1e3
- 813 045e 05       		.uleb128 0x5
- 814 045f 03       		.byte	0x3
- 815 0460 00000000 		.4byte	KB_Initialized
- 816 0464 0C       		.uleb128 0xc
- 817 0465 AF000000 		.4byte	0xaf
- 818 0469 74040000 		.4byte	0x474
- 819 046d 0D       		.uleb128 0xd
- 820 046e E8000000 		.4byte	0xe8
- 821 0472 07       		.byte	0x7
- 822 0473 00       		.byte	0
- 823 0474 18       		.uleb128 0x18
- 824 0475 32030000 		.4byte	.LASF42
- 825 0479 08       		.byte	0x8
- 826 047a 20       		.byte	0x20
- 827 047b 64040000 		.4byte	0x464
- 828 047f 05       		.uleb128 0x5
- 829 0480 03       		.byte	0x3
- 830 0481 00000000 		.4byte	KB_Data
- 831 0485 0C       		.uleb128 0xc
- 832 0486 EA010000 		.4byte	0x1ea
- 833 048a 95040000 		.4byte	0x495
- 834 048e 0D       		.uleb128 0xd
- 835 048f E8000000 		.4byte	0xe8
- 836 0493 5F       		.byte	0x5f
- 837 0494 00       		.byte	0
- 838 0495 18       		.uleb128 0x18
- 839 0496 14010000 		.4byte	.LASF43
- 840 049a 08       		.byte	0x8
- 841 049b 27       		.byte	0x27
- 842 049c 85040000 		.4byte	0x485
- 843 04a0 05       		.uleb128 0x5
- 844 04a1 03       		.byte	0x3
- 845 04a2 00000000 		.4byte	ascii_to_hid
- 846 04a6 18       		.uleb128 0x18
- 847 04a7 18020000 		.4byte	.LASF44
- 848 04ab 0C       		.byte	0xc
- 849 04ac 1F       		.byte	0x1f
- 850 04ad 97000000 		.4byte	0x97
- 851 04b1 05       		.uleb128 0x5
- 852 04b2 03       		.byte	0x3
- 853 04b3 00000000 		.4byte	display_state
- 854 04b7 18       		.uleb128 0x18
- 855 04b8 92000000 		.4byte	.LASF45
- 856 04bc 0C       		.byte	0xc
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 18
+ 801 0443 D3010000 		.4byte	0x1d3
+ 802 0447 05       		.uleb128 0x5
+ 803 0448 03       		.byte	0x3
+ 804 0449 00000000 		.4byte	new_record
+ 805 044d 18       		.uleb128 0x18
+ 806 044e 83040000 		.4byte	.LASF40
+ 807 0452 0B       		.byte	0xb
+ 808 0453 46       		.byte	0x46
+ 809 0454 73000000 		.4byte	0x73
+ 810 0458 05       		.uleb128 0x5
+ 811 0459 03       		.byte	0x3
+ 812 045a 00000000 		.4byte	s_main_state
+ 813 045e 18       		.uleb128 0x18
+ 814 045f 51000000 		.4byte	.LASF41
+ 815 0463 0B       		.byte	0xb
+ 816 0464 47       		.byte	0x47
+ 817 0465 73000000 		.4byte	0x73
+ 818 0469 05       		.uleb128 0x5
+ 819 046a 03       		.byte	0x3
+ 820 046b 00000000 		.4byte	s_sec_state
+ 821 046f 18       		.uleb128 0x18
+ 822 0470 74040000 		.4byte	.LASF42
+ 823 0474 08       		.byte	0x8
+ 824 0475 1F       		.byte	0x1f
+ 825 0476 FF010000 		.4byte	0x1ff
+ 826 047a 05       		.uleb128 0x5
+ 827 047b 03       		.byte	0x3
+ 828 047c 00000000 		.4byte	KB_Initialized
+ 829 0480 07       		.uleb128 0x7
+ 830 0481 AF000000 		.4byte	0xaf
+ 831 0485 90040000 		.4byte	0x490
+ 832 0489 08       		.uleb128 0x8
+ 833 048a E8000000 		.4byte	0xe8
+ 834 048e 07       		.byte	0x7
+ 835 048f 00       		.byte	0
+ 836 0490 18       		.uleb128 0x18
+ 837 0491 3B030000 		.4byte	.LASF43
+ 838 0495 08       		.byte	0x8
+ 839 0496 20       		.byte	0x20
+ 840 0497 80040000 		.4byte	0x480
+ 841 049b 05       		.uleb128 0x5
+ 842 049c 03       		.byte	0x3
+ 843 049d 00000000 		.4byte	KB_Data
+ 844 04a1 07       		.uleb128 0x7
+ 845 04a2 06020000 		.4byte	0x206
+ 846 04a6 B1040000 		.4byte	0x4b1
+ 847 04aa 08       		.uleb128 0x8
+ 848 04ab E8000000 		.4byte	0xe8
+ 849 04af 5F       		.byte	0x5f
+ 850 04b0 00       		.byte	0
+ 851 04b1 18       		.uleb128 0x18
+ 852 04b2 14010000 		.4byte	.LASF44
+ 853 04b6 08       		.byte	0x8
+ 854 04b7 27       		.byte	0x27
+ 855 04b8 A1040000 		.4byte	0x4a1
+ 856 04bc 05       		.uleb128 0x5
+ 857 04bd 03       		.byte	0x3
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 18
 
 
- 857 04bd 32       		.byte	0x32
- 858 04be 73000000 		.4byte	0x73
- 859 04c2 05       		.uleb128 0x5
- 860 04c3 03       		.byte	0x3
- 861 04c4 00000000 		.4byte	detail_menu_size
- 862 04c8 0C       		.uleb128 0xc
- 863 04c9 C9000000 		.4byte	0xc9
- 864 04cd DE040000 		.4byte	0x4de
- 865 04d1 0D       		.uleb128 0xd
- 866 04d2 E8000000 		.4byte	0xe8
- 867 04d6 04       		.byte	0x4
- 868 04d7 0D       		.uleb128 0xd
- 869 04d8 E8000000 		.4byte	0xe8
- 870 04dc 13       		.byte	0x13
- 871 04dd 00       		.byte	0
- 872 04de 18       		.uleb128 0x18
- 873 04df 92030000 		.4byte	.LASF46
- 874 04e3 0C       		.byte	0xc
- 875 04e4 33       		.byte	0x33
- 876 04e5 C8040000 		.4byte	0x4c8
- 877 04e9 05       		.uleb128 0x5
- 878 04ea 03       		.byte	0x3
- 879 04eb 00000000 		.4byte	detail_menu_items
- 880 04ef 18       		.uleb128 0x18
- 881 04f0 22030000 		.4byte	.LASF47
- 882 04f4 0C       		.byte	0xc
- 883 04f5 35       		.byte	0x35
- 884 04f6 73000000 		.4byte	0x73
- 885 04fa 05       		.uleb128 0x5
- 886 04fb 03       		.byte	0x3
- 887 04fc 00000000 		.4byte	detail_menu_top
- 888 0500 18       		.uleb128 0x18
- 889 0501 A4030000 		.4byte	.LASF48
- 890 0505 0C       		.byte	0xc
- 891 0506 36       		.byte	0x36
- 892 0507 73000000 		.4byte	0x73
- 893 050b 05       		.uleb128 0x5
- 894 050c 03       		.byte	0x3
- 895 050d 00000000 		.4byte	detail_menu_left
- 896 0511 18       		.uleb128 0x18
- 897 0512 EC010000 		.4byte	.LASF49
- 898 0516 0C       		.byte	0xc
- 899 0517 39       		.byte	0x39
- 900 0518 73000000 		.4byte	0x73
- 901 051c 05       		.uleb128 0x5
- 902 051d 03       		.byte	0x3
- 903 051e 00000000 		.4byte	buff_offset
- 904 0522 18       		.uleb128 0x18
- 905 0523 C5030000 		.4byte	.LASF50
- 906 0527 0C       		.byte	0xc
- 907 0528 3A       		.byte	0x3a
- 908 0529 73000000 		.4byte	0x73
- 909 052d 05       		.uleb128 0x5
- 910 052e 03       		.byte	0x3
- 911 052f 00000000 		.4byte	buff_size
- 912 0533 18       		.uleb128 0x18
- 913 0534 A3000000 		.4byte	.LASF51
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 19
+ 858 04be 00000000 		.4byte	ascii_to_hid
+ 859 04c2 18       		.uleb128 0x18
+ 860 04c3 21020000 		.4byte	.LASF45
+ 861 04c7 0C       		.byte	0xc
+ 862 04c8 1F       		.byte	0x1f
+ 863 04c9 97000000 		.4byte	0x97
+ 864 04cd 05       		.uleb128 0x5
+ 865 04ce 03       		.byte	0x3
+ 866 04cf 00000000 		.4byte	display_state
+ 867 04d3 18       		.uleb128 0x18
+ 868 04d4 92000000 		.4byte	.LASF46
+ 869 04d8 0C       		.byte	0xc
+ 870 04d9 32       		.byte	0x32
+ 871 04da 73000000 		.4byte	0x73
+ 872 04de 05       		.uleb128 0x5
+ 873 04df 03       		.byte	0x3
+ 874 04e0 00000000 		.4byte	detail_menu_size
+ 875 04e4 07       		.uleb128 0x7
+ 876 04e5 C9000000 		.4byte	0xc9
+ 877 04e9 FA040000 		.4byte	0x4fa
+ 878 04ed 08       		.uleb128 0x8
+ 879 04ee E8000000 		.4byte	0xe8
+ 880 04f2 04       		.byte	0x4
+ 881 04f3 08       		.uleb128 0x8
+ 882 04f4 E8000000 		.4byte	0xe8
+ 883 04f8 13       		.byte	0x13
+ 884 04f9 00       		.byte	0
+ 885 04fa 18       		.uleb128 0x18
+ 886 04fb 9B030000 		.4byte	.LASF47
+ 887 04ff 0C       		.byte	0xc
+ 888 0500 33       		.byte	0x33
+ 889 0501 E4040000 		.4byte	0x4e4
+ 890 0505 05       		.uleb128 0x5
+ 891 0506 03       		.byte	0x3
+ 892 0507 00000000 		.4byte	detail_menu_items
+ 893 050b 18       		.uleb128 0x18
+ 894 050c 2B030000 		.4byte	.LASF48
+ 895 0510 0C       		.byte	0xc
+ 896 0511 35       		.byte	0x35
+ 897 0512 73000000 		.4byte	0x73
+ 898 0516 05       		.uleb128 0x5
+ 899 0517 03       		.byte	0x3
+ 900 0518 00000000 		.4byte	detail_menu_top
+ 901 051c 18       		.uleb128 0x18
+ 902 051d AD030000 		.4byte	.LASF49
+ 903 0521 0C       		.byte	0xc
+ 904 0522 36       		.byte	0x36
+ 905 0523 73000000 		.4byte	0x73
+ 906 0527 05       		.uleb128 0x5
+ 907 0528 03       		.byte	0x3
+ 908 0529 00000000 		.4byte	detail_menu_left
+ 909 052d 18       		.uleb128 0x18
+ 910 052e F5010000 		.4byte	.LASF50
+ 911 0532 0C       		.byte	0xc
+ 912 0533 39       		.byte	0x39
+ 913 0534 73000000 		.4byte	0x73
+ 914 0538 05       		.uleb128 0x5
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 19
 
 
- 914 0538 0C       		.byte	0xc
- 915 0539 3B       		.byte	0x3b
- 916 053a 73000000 		.4byte	0x73
- 917 053e 05       		.uleb128 0x5
- 918 053f 03       		.byte	0x3
- 919 0540 00000000 		.4byte	num_loaded
- 920 0544 0C       		.uleb128 0xc
- 921 0545 B7010000 		.4byte	0x1b7
- 922 0549 54050000 		.4byte	0x554
- 923 054d 0D       		.uleb128 0xd
- 924 054e E8000000 		.4byte	0xe8
- 925 0552 0B       		.byte	0xb
- 926 0553 00       		.byte	0
- 927 0554 18       		.uleb128 0x18
- 928 0555 5D040000 		.4byte	.LASF52
- 929 0559 0C       		.byte	0xc
- 930 055a 3C       		.byte	0x3c
- 931 055b 44050000 		.4byte	0x544
- 932 055f 05       		.uleb128 0x5
- 933 0560 03       		.byte	0x3
- 934 0561 00000000 		.4byte	record_buffer
- 935 0565 18       		.uleb128 0x18
- 936 0566 95020000 		.4byte	.LASF32
- 937 056a 0C       		.byte	0xc
- 938 056b 3F       		.byte	0x3f
- 939 056c B7010000 		.4byte	0x1b7
- 940 0570 05       		.uleb128 0x5
- 941 0571 03       		.byte	0x3
- 942 0572 00000000 		.4byte	curr_record
- 943 0576 18       		.uleb128 0x18
- 944 0577 5B020000 		.4byte	.LASF53
- 945 057b 0C       		.byte	0xc
- 946 057c 42       		.byte	0x42
- 947 057d 73000000 		.4byte	0x73
- 948 0581 05       		.uleb128 0x5
- 949 0582 03       		.byte	0x3
- 950 0583 00000000 		.4byte	prev_index
- 951 0587 18       		.uleb128 0x18
- 952 0588 74010000 		.4byte	.LASF54
- 953 058c 01       		.byte	0x1
- 954 058d 1B       		.byte	0x1b
- 955 058e E3010000 		.4byte	0x1e3
- 956 0592 05       		.uleb128 0x5
- 957 0593 03       		.byte	0x3
- 958 0594 00000000 		.4byte	enc_sw_flag
- 959 0598 18       		.uleb128 0x18
- 960 0599 D5010000 		.4byte	.LASF55
- 961 059d 01       		.byte	0x1
- 962 059e 1C       		.byte	0x1c
- 963 059f E3010000 		.4byte	0x1e3
- 964 05a3 05       		.uleb128 0x5
- 965 05a4 03       		.byte	0x3
- 966 05a5 00000000 		.4byte	sw1_flag
- 967 05a9 19       		.uleb128 0x19
- 968 05aa F1020000 		.4byte	.LASF56
- 969 05ae F1020000 		.4byte	.LASF56
- 970 05b2 0D       		.byte	0xd
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 20
+ 915 0539 03       		.byte	0x3
+ 916 053a 00000000 		.4byte	buff_offset
+ 917 053e 18       		.uleb128 0x18
+ 918 053f CE030000 		.4byte	.LASF51
+ 919 0543 0C       		.byte	0xc
+ 920 0544 3A       		.byte	0x3a
+ 921 0545 73000000 		.4byte	0x73
+ 922 0549 05       		.uleb128 0x5
+ 923 054a 03       		.byte	0x3
+ 924 054b 00000000 		.4byte	buff_size
+ 925 054f 18       		.uleb128 0x18
+ 926 0550 A3000000 		.4byte	.LASF52
+ 927 0554 0C       		.byte	0xc
+ 928 0555 3B       		.byte	0x3b
+ 929 0556 73000000 		.4byte	0x73
+ 930 055a 05       		.uleb128 0x5
+ 931 055b 03       		.byte	0x3
+ 932 055c 00000000 		.4byte	num_loaded
+ 933 0560 07       		.uleb128 0x7
+ 934 0561 D3010000 		.4byte	0x1d3
+ 935 0565 70050000 		.4byte	0x570
+ 936 0569 08       		.uleb128 0x8
+ 937 056a E8000000 		.4byte	0xe8
+ 938 056e 0B       		.byte	0xb
+ 939 056f 00       		.byte	0
+ 940 0570 18       		.uleb128 0x18
+ 941 0571 66040000 		.4byte	.LASF53
+ 942 0575 0C       		.byte	0xc
+ 943 0576 3C       		.byte	0x3c
+ 944 0577 60050000 		.4byte	0x560
+ 945 057b 05       		.uleb128 0x5
+ 946 057c 03       		.byte	0x3
+ 947 057d 00000000 		.4byte	record_buffer
+ 948 0581 18       		.uleb128 0x18
+ 949 0582 9E020000 		.4byte	.LASF33
+ 950 0586 0C       		.byte	0xc
+ 951 0587 3F       		.byte	0x3f
+ 952 0588 D3010000 		.4byte	0x1d3
+ 953 058c 05       		.uleb128 0x5
+ 954 058d 03       		.byte	0x3
+ 955 058e 00000000 		.4byte	curr_record
+ 956 0592 18       		.uleb128 0x18
+ 957 0593 64020000 		.4byte	.LASF54
+ 958 0597 0C       		.byte	0xc
+ 959 0598 42       		.byte	0x42
+ 960 0599 73000000 		.4byte	0x73
+ 961 059d 05       		.uleb128 0x5
+ 962 059e 03       		.byte	0x3
+ 963 059f 00000000 		.4byte	prev_index
+ 964 05a3 18       		.uleb128 0x18
+ 965 05a4 74010000 		.4byte	.LASF55
+ 966 05a8 01       		.byte	0x1
+ 967 05a9 1B       		.byte	0x1b
+ 968 05aa FF010000 		.4byte	0x1ff
+ 969 05ae 05       		.uleb128 0x5
+ 970 05af 03       		.byte	0x3
+ 971 05b0 00000000 		.4byte	enc_sw_flag
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 20
 
 
- 971 05b3 8B       		.byte	0x8b
- 972 05b4 19       		.uleb128 0x19
- 973 05b5 35000000 		.4byte	.LASF57
- 974 05b9 35000000 		.4byte	.LASF57
- 975 05bd 0E       		.byte	0xe
- 976 05be 18       		.byte	0x18
- 977 05bf 19       		.uleb128 0x19
- 978 05c0 C8020000 		.4byte	.LASF58
- 979 05c4 C8020000 		.4byte	.LASF58
- 980 05c8 0F       		.byte	0xf
- 981 05c9 18       		.byte	0x18
- 982 05ca 19       		.uleb128 0x19
- 983 05cb 07010000 		.4byte	.LASF59
- 984 05cf 07010000 		.4byte	.LASF59
- 985 05d3 0D       		.byte	0xd
- 986 05d4 54       		.byte	0x54
- 987 05d5 1A       		.uleb128 0x1a
- 988 05d6 BD030000 		.4byte	.LASF60
- 989 05da BD030000 		.4byte	.LASF60
- 990 05de 10       		.byte	0x10
- 991 05df DA01     		.2byte	0x1da
- 992 05e1 19       		.uleb128 0x19
- 993 05e2 A1010000 		.4byte	.LASF61
- 994 05e6 A1010000 		.4byte	.LASF61
- 995 05ea 11       		.byte	0x11
- 996 05eb 48       		.byte	0x48
- 997 05ec 19       		.uleb128 0x19
- 998 05ed AD020000 		.4byte	.LASF62
- 999 05f1 AD020000 		.4byte	.LASF62
- 1000 05f5 12       		.byte	0x12
- 1001 05f6 93       		.byte	0x93
- 1002 05f7 19       		.uleb128 0x19
- 1003 05f8 5D000000 		.4byte	.LASF63
- 1004 05fc 5D000000 		.4byte	.LASF63
- 1005 0600 13       		.byte	0x13
- 1006 0601 93       		.byte	0x93
- 1007 0602 19       		.uleb128 0x19
- 1008 0603 C8010000 		.4byte	.LASF64
- 1009 0607 C8010000 		.4byte	.LASF64
- 1010 060b 14       		.byte	0x14
- 1011 060c 34       		.byte	0x34
- 1012 060d 19       		.uleb128 0x19
- 1013 060e B5030000 		.4byte	.LASF65
- 1014 0612 B5030000 		.4byte	.LASF65
- 1015 0616 06       		.byte	0x6
- 1016 0617 4A       		.byte	0x4a
- 1017 0618 19       		.uleb128 0x19
- 1018 0619 56010000 		.4byte	.LASF66
- 1019 061d 56010000 		.4byte	.LASF66
- 1020 0621 15       		.byte	0x15
- 1021 0622 59       		.byte	0x59
- 1022 0623 19       		.uleb128 0x19
- 1023 0624 00000000 		.4byte	.LASF67
- 1024 0628 00000000 		.4byte	.LASF67
- 1025 062c 06       		.byte	0x6
- 1026 062d 3B       		.byte	0x3b
- 1027 062e 19       		.uleb128 0x19
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 21
+ 972 05b4 18       		.uleb128 0x18
+ 973 05b5 DE010000 		.4byte	.LASF56
+ 974 05b9 01       		.byte	0x1
+ 975 05ba 1C       		.byte	0x1c
+ 976 05bb FF010000 		.4byte	0x1ff
+ 977 05bf 05       		.uleb128 0x5
+ 978 05c0 03       		.byte	0x3
+ 979 05c1 00000000 		.4byte	sw1_flag
+ 980 05c5 19       		.uleb128 0x19
+ 981 05c6 FA020000 		.4byte	.LASF57
+ 982 05ca FA020000 		.4byte	.LASF57
+ 983 05ce 0D       		.byte	0xd
+ 984 05cf 8B       		.byte	0x8b
+ 985 05d0 19       		.uleb128 0x19
+ 986 05d1 35000000 		.4byte	.LASF58
+ 987 05d5 35000000 		.4byte	.LASF58
+ 988 05d9 0E       		.byte	0xe
+ 989 05da 18       		.byte	0x18
+ 990 05db 19       		.uleb128 0x19
+ 991 05dc D1020000 		.4byte	.LASF59
+ 992 05e0 D1020000 		.4byte	.LASF59
+ 993 05e4 0F       		.byte	0xf
+ 994 05e5 18       		.byte	0x18
+ 995 05e6 19       		.uleb128 0x19
+ 996 05e7 07010000 		.4byte	.LASF60
+ 997 05eb 07010000 		.4byte	.LASF60
+ 998 05ef 0D       		.byte	0xd
+ 999 05f0 54       		.byte	0x54
+ 1000 05f1 1A       		.uleb128 0x1a
+ 1001 05f2 C6030000 		.4byte	.LASF61
+ 1002 05f6 C6030000 		.4byte	.LASF61
+ 1003 05fa 10       		.byte	0x10
+ 1004 05fb DA01     		.2byte	0x1da
+ 1005 05fd 19       		.uleb128 0x19
+ 1006 05fe A1010000 		.4byte	.LASF62
+ 1007 0602 A1010000 		.4byte	.LASF62
+ 1008 0606 11       		.byte	0x11
+ 1009 0607 48       		.byte	0x48
+ 1010 0608 19       		.uleb128 0x19
+ 1011 0609 B6020000 		.4byte	.LASF63
+ 1012 060d B6020000 		.4byte	.LASF63
+ 1013 0611 12       		.byte	0x12
+ 1014 0612 93       		.byte	0x93
+ 1015 0613 19       		.uleb128 0x19
+ 1016 0614 5D000000 		.4byte	.LASF64
+ 1017 0618 5D000000 		.4byte	.LASF64
+ 1018 061c 13       		.byte	0x13
+ 1019 061d 93       		.byte	0x93
+ 1020 061e 19       		.uleb128 0x19
+ 1021 061f D1010000 		.4byte	.LASF65
+ 1022 0623 D1010000 		.4byte	.LASF65
+ 1023 0627 14       		.byte	0x14
+ 1024 0628 34       		.byte	0x34
+ 1025 0629 19       		.uleb128 0x19
+ 1026 062a BE030000 		.4byte	.LASF66
+ 1027 062e BE030000 		.4byte	.LASF66
+ 1028 0632 06       		.byte	0x6
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 21
 
 
- 1028 062f 14000000 		.4byte	.LASF68
- 1029 0633 14000000 		.4byte	.LASF68
- 1030 0637 15       		.byte	0x15
- 1031 0638 6E       		.byte	0x6e
- 1032 0639 19       		.uleb128 0x19
- 1033 063a 87040000 		.4byte	.LASF69
- 1034 063e 87040000 		.4byte	.LASF69
- 1035 0642 0B       		.byte	0xb
- 1036 0643 48       		.byte	0x48
- 1037 0644 19       		.uleb128 0x19
- 1038 0645 4B030000 		.4byte	.LASF70
- 1039 0649 4B030000 		.4byte	.LASF70
- 1040 064d 14       		.byte	0x14
- 1041 064e 41       		.byte	0x41
- 1042 064f 19       		.uleb128 0x19
- 1043 0650 91010000 		.4byte	.LASF71
- 1044 0654 91010000 		.4byte	.LASF71
- 1045 0658 14       		.byte	0x14
- 1046 0659 42       		.byte	0x42
- 1047 065a 19       		.uleb128 0x19
- 1048 065b 80010000 		.4byte	.LASF72
- 1049 065f 80010000 		.4byte	.LASF72
- 1050 0663 14       		.byte	0x14
- 1051 0664 43       		.byte	0x43
- 1052 0665 19       		.uleb128 0x19
- 1053 0666 02030000 		.4byte	.LASF73
- 1054 066a 02030000 		.4byte	.LASF73
- 1055 066e 14       		.byte	0x14
- 1056 066f 49       		.byte	0x49
- 1057 0670 19       		.uleb128 0x19
- 1058 0671 79000000 		.4byte	.LASF74
- 1059 0675 79000000 		.4byte	.LASF74
- 1060 0679 14       		.byte	0x14
- 1061 067a 35       		.byte	0x35
- 1062 067b 19       		.uleb128 0x19
- 1063 067c 79030000 		.4byte	.LASF75
- 1064 0680 79030000 		.4byte	.LASF75
- 1065 0684 08       		.byte	0x8
- 1066 0685 2D       		.byte	0x2d
- 1067 0686 19       		.uleb128 0x19
- 1068 0687 59030000 		.4byte	.LASF76
- 1069 068b 59030000 		.4byte	.LASF76
- 1070 068f 08       		.byte	0x8
- 1071 0690 11       		.byte	0x11
- 1072 0691 19       		.uleb128 0x19
- 1073 0692 41010000 		.4byte	.LASF77
- 1074 0696 41010000 		.4byte	.LASF77
- 1075 069a 08       		.byte	0x8
- 1076 069b 13       		.byte	0x13
- 1077 069c 19       		.uleb128 0x19
- 1078 069d 6E030000 		.4byte	.LASF78
- 1079 06a1 6E030000 		.4byte	.LASF78
- 1080 06a5 0B       		.byte	0xb
- 1081 06a6 47       		.byte	0x47
- 1082 06a7 19       		.uleb128 0x19
- 1083 06a8 1B030000 		.4byte	.LASF79
- 1084 06ac 1B030000 		.4byte	.LASF79
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 22
+ 1029 0633 4A       		.byte	0x4a
+ 1030 0634 19       		.uleb128 0x19
+ 1031 0635 56010000 		.4byte	.LASF67
+ 1032 0639 56010000 		.4byte	.LASF67
+ 1033 063d 15       		.byte	0x15
+ 1034 063e 59       		.byte	0x59
+ 1035 063f 19       		.uleb128 0x19
+ 1036 0640 00000000 		.4byte	.LASF68
+ 1037 0644 00000000 		.4byte	.LASF68
+ 1038 0648 06       		.byte	0x6
+ 1039 0649 3B       		.byte	0x3b
+ 1040 064a 19       		.uleb128 0x19
+ 1041 064b 14000000 		.4byte	.LASF69
+ 1042 064f 14000000 		.4byte	.LASF69
+ 1043 0653 15       		.byte	0x15
+ 1044 0654 6E       		.byte	0x6e
+ 1045 0655 19       		.uleb128 0x19
+ 1046 0656 90040000 		.4byte	.LASF70
+ 1047 065a 90040000 		.4byte	.LASF70
+ 1048 065e 0B       		.byte	0xb
+ 1049 065f 49       		.byte	0x49
+ 1050 0660 19       		.uleb128 0x19
+ 1051 0661 54030000 		.4byte	.LASF71
+ 1052 0665 54030000 		.4byte	.LASF71
+ 1053 0669 14       		.byte	0x14
+ 1054 066a 41       		.byte	0x41
+ 1055 066b 19       		.uleb128 0x19
+ 1056 066c 91010000 		.4byte	.LASF72
+ 1057 0670 91010000 		.4byte	.LASF72
+ 1058 0674 14       		.byte	0x14
+ 1059 0675 42       		.byte	0x42
+ 1060 0676 19       		.uleb128 0x19
+ 1061 0677 80010000 		.4byte	.LASF73
+ 1062 067b 80010000 		.4byte	.LASF73
+ 1063 067f 14       		.byte	0x14
+ 1064 0680 43       		.byte	0x43
+ 1065 0681 19       		.uleb128 0x19
+ 1066 0682 0B030000 		.4byte	.LASF74
+ 1067 0686 0B030000 		.4byte	.LASF74
+ 1068 068a 14       		.byte	0x14
+ 1069 068b 49       		.byte	0x49
+ 1070 068c 19       		.uleb128 0x19
+ 1071 068d 79000000 		.4byte	.LASF75
+ 1072 0691 79000000 		.4byte	.LASF75
+ 1073 0695 14       		.byte	0x14
+ 1074 0696 35       		.byte	0x35
+ 1075 0697 19       		.uleb128 0x19
+ 1076 0698 82030000 		.4byte	.LASF76
+ 1077 069c 82030000 		.4byte	.LASF76
+ 1078 06a0 08       		.byte	0x8
+ 1079 06a1 2D       		.byte	0x2d
+ 1080 06a2 19       		.uleb128 0x19
+ 1081 06a3 62030000 		.4byte	.LASF77
+ 1082 06a7 62030000 		.4byte	.LASF77
+ 1083 06ab 08       		.byte	0x8
+ 1084 06ac 11       		.byte	0x11
+ 1085 06ad 19       		.uleb128 0x19
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 22
 
 
- 1085 06b0 0C       		.byte	0xc
- 1086 06b1 4B       		.byte	0x4b
- 1087 06b2 00       		.byte	0
- 1088              		.section	.debug_abbrev,"",%progbits
- 1089              	.Ldebug_abbrev0:
- 1090 0000 01       		.uleb128 0x1
- 1091 0001 11       		.uleb128 0x11
- 1092 0002 01       		.byte	0x1
- 1093 0003 25       		.uleb128 0x25
- 1094 0004 0E       		.uleb128 0xe
- 1095 0005 13       		.uleb128 0x13
- 1096 0006 0B       		.uleb128 0xb
- 1097 0007 03       		.uleb128 0x3
- 1098 0008 0E       		.uleb128 0xe
- 1099 0009 1B       		.uleb128 0x1b
- 1100 000a 0E       		.uleb128 0xe
- 1101 000b 55       		.uleb128 0x55
- 1102 000c 17       		.uleb128 0x17
- 1103 000d 11       		.uleb128 0x11
- 1104 000e 01       		.uleb128 0x1
- 1105 000f 10       		.uleb128 0x10
- 1106 0010 17       		.uleb128 0x17
- 1107 0011 00       		.byte	0
- 1108 0012 00       		.byte	0
- 1109 0013 02       		.uleb128 0x2
- 1110 0014 24       		.uleb128 0x24
- 1111 0015 00       		.byte	0
- 1112 0016 0B       		.uleb128 0xb
- 1113 0017 0B       		.uleb128 0xb
- 1114 0018 3E       		.uleb128 0x3e
- 1115 0019 0B       		.uleb128 0xb
- 1116 001a 03       		.uleb128 0x3
- 1117 001b 0E       		.uleb128 0xe
- 1118 001c 00       		.byte	0
- 1119 001d 00       		.byte	0
- 1120 001e 03       		.uleb128 0x3
- 1121 001f 16       		.uleb128 0x16
- 1122 0020 00       		.byte	0
- 1123 0021 03       		.uleb128 0x3
- 1124 0022 0E       		.uleb128 0xe
- 1125 0023 3A       		.uleb128 0x3a
- 1126 0024 0B       		.uleb128 0xb
- 1127 0025 3B       		.uleb128 0x3b
- 1128 0026 0B       		.uleb128 0xb
- 1129 0027 49       		.uleb128 0x49
- 1130 0028 13       		.uleb128 0x13
- 1131 0029 00       		.byte	0
- 1132 002a 00       		.byte	0
- 1133 002b 04       		.uleb128 0x4
- 1134 002c 24       		.uleb128 0x24
- 1135 002d 00       		.byte	0
- 1136 002e 0B       		.uleb128 0xb
- 1137 002f 0B       		.uleb128 0xb
- 1138 0030 3E       		.uleb128 0x3e
- 1139 0031 0B       		.uleb128 0xb
- 1140 0032 03       		.uleb128 0x3
- 1141 0033 08       		.uleb128 0x8
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 23
+ 1086 06ae 41010000 		.4byte	.LASF78
+ 1087 06b2 41010000 		.4byte	.LASF78
+ 1088 06b6 08       		.byte	0x8
+ 1089 06b7 13       		.byte	0x13
+ 1090 06b8 19       		.uleb128 0x19
+ 1091 06b9 77030000 		.4byte	.LASF79
+ 1092 06bd 77030000 		.4byte	.LASF79
+ 1093 06c1 0B       		.byte	0xb
+ 1094 06c2 48       		.byte	0x48
+ 1095 06c3 19       		.uleb128 0x19
+ 1096 06c4 24030000 		.4byte	.LASF80
+ 1097 06c8 24030000 		.4byte	.LASF80
+ 1098 06cc 0C       		.byte	0xc
+ 1099 06cd 4B       		.byte	0x4b
+ 1100 06ce 00       		.byte	0
+ 1101              		.section	.debug_abbrev,"",%progbits
+ 1102              	.Ldebug_abbrev0:
+ 1103 0000 01       		.uleb128 0x1
+ 1104 0001 11       		.uleb128 0x11
+ 1105 0002 01       		.byte	0x1
+ 1106 0003 25       		.uleb128 0x25
+ 1107 0004 0E       		.uleb128 0xe
+ 1108 0005 13       		.uleb128 0x13
+ 1109 0006 0B       		.uleb128 0xb
+ 1110 0007 03       		.uleb128 0x3
+ 1111 0008 0E       		.uleb128 0xe
+ 1112 0009 1B       		.uleb128 0x1b
+ 1113 000a 0E       		.uleb128 0xe
+ 1114 000b 55       		.uleb128 0x55
+ 1115 000c 17       		.uleb128 0x17
+ 1116 000d 11       		.uleb128 0x11
+ 1117 000e 01       		.uleb128 0x1
+ 1118 000f 10       		.uleb128 0x10
+ 1119 0010 17       		.uleb128 0x17
+ 1120 0011 00       		.byte	0
+ 1121 0012 00       		.byte	0
+ 1122 0013 02       		.uleb128 0x2
+ 1123 0014 24       		.uleb128 0x24
+ 1124 0015 00       		.byte	0
+ 1125 0016 0B       		.uleb128 0xb
+ 1126 0017 0B       		.uleb128 0xb
+ 1127 0018 3E       		.uleb128 0x3e
+ 1128 0019 0B       		.uleb128 0xb
+ 1129 001a 03       		.uleb128 0x3
+ 1130 001b 0E       		.uleb128 0xe
+ 1131 001c 00       		.byte	0
+ 1132 001d 00       		.byte	0
+ 1133 001e 03       		.uleb128 0x3
+ 1134 001f 16       		.uleb128 0x16
+ 1135 0020 00       		.byte	0
+ 1136 0021 03       		.uleb128 0x3
+ 1137 0022 0E       		.uleb128 0xe
+ 1138 0023 3A       		.uleb128 0x3a
+ 1139 0024 0B       		.uleb128 0xb
+ 1140 0025 3B       		.uleb128 0x3b
+ 1141 0026 0B       		.uleb128 0xb
+ 1142 0027 49       		.uleb128 0x49
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 23
 
 
- 1142 0034 00       		.byte	0
- 1143 0035 00       		.byte	0
- 1144 0036 05       		.uleb128 0x5
- 1145 0037 16       		.uleb128 0x16
- 1146 0038 00       		.byte	0
- 1147 0039 03       		.uleb128 0x3
- 1148 003a 0E       		.uleb128 0xe
- 1149 003b 3A       		.uleb128 0x3a
- 1150 003c 0B       		.uleb128 0xb
- 1151 003d 3B       		.uleb128 0x3b
- 1152 003e 05       		.uleb128 0x5
- 1153 003f 49       		.uleb128 0x49
- 1154 0040 13       		.uleb128 0x13
- 1155 0041 00       		.byte	0
- 1156 0042 00       		.byte	0
- 1157 0043 06       		.uleb128 0x6
- 1158 0044 35       		.uleb128 0x35
- 1159 0045 00       		.byte	0
- 1160 0046 49       		.uleb128 0x49
- 1161 0047 13       		.uleb128 0x13
- 1162 0048 00       		.byte	0
- 1163 0049 00       		.byte	0
- 1164 004a 07       		.uleb128 0x7
- 1165 004b 13       		.uleb128 0x13
- 1166 004c 00       		.byte	0
- 1167 004d 03       		.uleb128 0x3
- 1168 004e 0E       		.uleb128 0xe
- 1169 004f 3C       		.uleb128 0x3c
- 1170 0050 19       		.uleb128 0x19
- 1171 0051 00       		.byte	0
- 1172 0052 00       		.byte	0
- 1173 0053 08       		.uleb128 0x8
- 1174 0054 0F       		.uleb128 0xf
- 1175 0055 00       		.byte	0
- 1176 0056 0B       		.uleb128 0xb
- 1177 0057 0B       		.uleb128 0xb
- 1178 0058 49       		.uleb128 0x49
- 1179 0059 13       		.uleb128 0x13
- 1180 005a 00       		.byte	0
- 1181 005b 00       		.byte	0
- 1182 005c 09       		.uleb128 0x9
- 1183 005d 13       		.uleb128 0x13
- 1184 005e 01       		.byte	0x1
- 1185 005f 0B       		.uleb128 0xb
- 1186 0060 0B       		.uleb128 0xb
- 1187 0061 3A       		.uleb128 0x3a
- 1188 0062 0B       		.uleb128 0xb
- 1189 0063 3B       		.uleb128 0x3b
- 1190 0064 0B       		.uleb128 0xb
- 1191 0065 01       		.uleb128 0x1
- 1192 0066 13       		.uleb128 0x13
- 1193 0067 00       		.byte	0
- 1194 0068 00       		.byte	0
- 1195 0069 0A       		.uleb128 0xa
- 1196 006a 0D       		.uleb128 0xd
- 1197 006b 00       		.byte	0
- 1198 006c 03       		.uleb128 0x3
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 24
+ 1143 0028 13       		.uleb128 0x13
+ 1144 0029 00       		.byte	0
+ 1145 002a 00       		.byte	0
+ 1146 002b 04       		.uleb128 0x4
+ 1147 002c 24       		.uleb128 0x24
+ 1148 002d 00       		.byte	0
+ 1149 002e 0B       		.uleb128 0xb
+ 1150 002f 0B       		.uleb128 0xb
+ 1151 0030 3E       		.uleb128 0x3e
+ 1152 0031 0B       		.uleb128 0xb
+ 1153 0032 03       		.uleb128 0x3
+ 1154 0033 08       		.uleb128 0x8
+ 1155 0034 00       		.byte	0
+ 1156 0035 00       		.byte	0
+ 1157 0036 05       		.uleb128 0x5
+ 1158 0037 16       		.uleb128 0x16
+ 1159 0038 00       		.byte	0
+ 1160 0039 03       		.uleb128 0x3
+ 1161 003a 0E       		.uleb128 0xe
+ 1162 003b 3A       		.uleb128 0x3a
+ 1163 003c 0B       		.uleb128 0xb
+ 1164 003d 3B       		.uleb128 0x3b
+ 1165 003e 05       		.uleb128 0x5
+ 1166 003f 49       		.uleb128 0x49
+ 1167 0040 13       		.uleb128 0x13
+ 1168 0041 00       		.byte	0
+ 1169 0042 00       		.byte	0
+ 1170 0043 06       		.uleb128 0x6
+ 1171 0044 35       		.uleb128 0x35
+ 1172 0045 00       		.byte	0
+ 1173 0046 49       		.uleb128 0x49
+ 1174 0047 13       		.uleb128 0x13
+ 1175 0048 00       		.byte	0
+ 1176 0049 00       		.byte	0
+ 1177 004a 07       		.uleb128 0x7
+ 1178 004b 01       		.uleb128 0x1
+ 1179 004c 01       		.byte	0x1
+ 1180 004d 49       		.uleb128 0x49
+ 1181 004e 13       		.uleb128 0x13
+ 1182 004f 01       		.uleb128 0x1
+ 1183 0050 13       		.uleb128 0x13
+ 1184 0051 00       		.byte	0
+ 1185 0052 00       		.byte	0
+ 1186 0053 08       		.uleb128 0x8
+ 1187 0054 21       		.uleb128 0x21
+ 1188 0055 00       		.byte	0
+ 1189 0056 49       		.uleb128 0x49
+ 1190 0057 13       		.uleb128 0x13
+ 1191 0058 2F       		.uleb128 0x2f
+ 1192 0059 0B       		.uleb128 0xb
+ 1193 005a 00       		.byte	0
+ 1194 005b 00       		.byte	0
+ 1195 005c 09       		.uleb128 0x9
+ 1196 005d 13       		.uleb128 0x13
+ 1197 005e 00       		.byte	0
+ 1198 005f 03       		.uleb128 0x3
+ 1199 0060 0E       		.uleb128 0xe
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 24
 
 
- 1199 006d 0E       		.uleb128 0xe
- 1200 006e 3A       		.uleb128 0x3a
- 1201 006f 0B       		.uleb128 0xb
- 1202 0070 3B       		.uleb128 0x3b
- 1203 0071 0B       		.uleb128 0xb
- 1204 0072 49       		.uleb128 0x49
- 1205 0073 13       		.uleb128 0x13
- 1206 0074 38       		.uleb128 0x38
- 1207 0075 0B       		.uleb128 0xb
- 1208 0076 00       		.byte	0
- 1209 0077 00       		.byte	0
- 1210 0078 0B       		.uleb128 0xb
- 1211 0079 0D       		.uleb128 0xd
- 1212 007a 00       		.byte	0
- 1213 007b 03       		.uleb128 0x3
- 1214 007c 08       		.uleb128 0x8
- 1215 007d 3A       		.uleb128 0x3a
- 1216 007e 0B       		.uleb128 0xb
- 1217 007f 3B       		.uleb128 0x3b
- 1218 0080 0B       		.uleb128 0xb
- 1219 0081 49       		.uleb128 0x49
- 1220 0082 13       		.uleb128 0x13
- 1221 0083 38       		.uleb128 0x38
- 1222 0084 0B       		.uleb128 0xb
- 1223 0085 00       		.byte	0
- 1224 0086 00       		.byte	0
- 1225 0087 0C       		.uleb128 0xc
- 1226 0088 01       		.uleb128 0x1
- 1227 0089 01       		.byte	0x1
- 1228 008a 49       		.uleb128 0x49
- 1229 008b 13       		.uleb128 0x13
- 1230 008c 01       		.uleb128 0x1
- 1231 008d 13       		.uleb128 0x13
- 1232 008e 00       		.byte	0
- 1233 008f 00       		.byte	0
- 1234 0090 0D       		.uleb128 0xd
- 1235 0091 21       		.uleb128 0x21
- 1236 0092 00       		.byte	0
- 1237 0093 49       		.uleb128 0x49
- 1238 0094 13       		.uleb128 0x13
- 1239 0095 2F       		.uleb128 0x2f
- 1240 0096 0B       		.uleb128 0xb
- 1241 0097 00       		.byte	0
- 1242 0098 00       		.byte	0
- 1243 0099 0E       		.uleb128 0xe
- 1244 009a 2E       		.uleb128 0x2e
- 1245 009b 00       		.byte	0
- 1246 009c 3F       		.uleb128 0x3f
- 1247 009d 19       		.uleb128 0x19
- 1248 009e 03       		.uleb128 0x3
- 1249 009f 0E       		.uleb128 0xe
- 1250 00a0 3A       		.uleb128 0x3a
- 1251 00a1 0B       		.uleb128 0xb
- 1252 00a2 3B       		.uleb128 0x3b
- 1253 00a3 0B       		.uleb128 0xb
- 1254 00a4 27       		.uleb128 0x27
- 1255 00a5 19       		.uleb128 0x19
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 25
+ 1200 0061 3C       		.uleb128 0x3c
+ 1201 0062 19       		.uleb128 0x19
+ 1202 0063 00       		.byte	0
+ 1203 0064 00       		.byte	0
+ 1204 0065 0A       		.uleb128 0xa
+ 1205 0066 0F       		.uleb128 0xf
+ 1206 0067 00       		.byte	0
+ 1207 0068 0B       		.uleb128 0xb
+ 1208 0069 0B       		.uleb128 0xb
+ 1209 006a 49       		.uleb128 0x49
+ 1210 006b 13       		.uleb128 0x13
+ 1211 006c 00       		.byte	0
+ 1212 006d 00       		.byte	0
+ 1213 006e 0B       		.uleb128 0xb
+ 1214 006f 13       		.uleb128 0x13
+ 1215 0070 01       		.byte	0x1
+ 1216 0071 0B       		.uleb128 0xb
+ 1217 0072 0B       		.uleb128 0xb
+ 1218 0073 3A       		.uleb128 0x3a
+ 1219 0074 0B       		.uleb128 0xb
+ 1220 0075 3B       		.uleb128 0x3b
+ 1221 0076 0B       		.uleb128 0xb
+ 1222 0077 01       		.uleb128 0x1
+ 1223 0078 13       		.uleb128 0x13
+ 1224 0079 00       		.byte	0
+ 1225 007a 00       		.byte	0
+ 1226 007b 0C       		.uleb128 0xc
+ 1227 007c 0D       		.uleb128 0xd
+ 1228 007d 00       		.byte	0
+ 1229 007e 03       		.uleb128 0x3
+ 1230 007f 0E       		.uleb128 0xe
+ 1231 0080 3A       		.uleb128 0x3a
+ 1232 0081 0B       		.uleb128 0xb
+ 1233 0082 3B       		.uleb128 0x3b
+ 1234 0083 0B       		.uleb128 0xb
+ 1235 0084 49       		.uleb128 0x49
+ 1236 0085 13       		.uleb128 0x13
+ 1237 0086 38       		.uleb128 0x38
+ 1238 0087 0B       		.uleb128 0xb
+ 1239 0088 00       		.byte	0
+ 1240 0089 00       		.byte	0
+ 1241 008a 0D       		.uleb128 0xd
+ 1242 008b 0D       		.uleb128 0xd
+ 1243 008c 00       		.byte	0
+ 1244 008d 03       		.uleb128 0x3
+ 1245 008e 08       		.uleb128 0x8
+ 1246 008f 3A       		.uleb128 0x3a
+ 1247 0090 0B       		.uleb128 0xb
+ 1248 0091 3B       		.uleb128 0x3b
+ 1249 0092 0B       		.uleb128 0xb
+ 1250 0093 49       		.uleb128 0x49
+ 1251 0094 13       		.uleb128 0x13
+ 1252 0095 38       		.uleb128 0x38
+ 1253 0096 0B       		.uleb128 0xb
+ 1254 0097 00       		.byte	0
+ 1255 0098 00       		.byte	0
+ 1256 0099 0E       		.uleb128 0xe
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 25
 
 
- 1256 00a6 11       		.uleb128 0x11
- 1257 00a7 01       		.uleb128 0x1
- 1258 00a8 12       		.uleb128 0x12
- 1259 00a9 06       		.uleb128 0x6
- 1260 00aa 40       		.uleb128 0x40
- 1261 00ab 18       		.uleb128 0x18
- 1262 00ac 9742     		.uleb128 0x2117
- 1263 00ae 19       		.uleb128 0x19
- 1264 00af 00       		.byte	0
- 1265 00b0 00       		.byte	0
- 1266 00b1 0F       		.uleb128 0xf
- 1267 00b2 2E       		.uleb128 0x2e
- 1268 00b3 01       		.byte	0x1
- 1269 00b4 3F       		.uleb128 0x3f
- 1270 00b5 19       		.uleb128 0x19
- 1271 00b6 03       		.uleb128 0x3
- 1272 00b7 0E       		.uleb128 0xe
- 1273 00b8 3A       		.uleb128 0x3a
- 1274 00b9 0B       		.uleb128 0xb
- 1275 00ba 3B       		.uleb128 0x3b
- 1276 00bb 0B       		.uleb128 0xb
- 1277 00bc 27       		.uleb128 0x27
- 1278 00bd 19       		.uleb128 0x19
- 1279 00be 11       		.uleb128 0x11
- 1280 00bf 01       		.uleb128 0x1
- 1281 00c0 12       		.uleb128 0x12
- 1282 00c1 06       		.uleb128 0x6
- 1283 00c2 40       		.uleb128 0x40
- 1284 00c3 18       		.uleb128 0x18
- 1285 00c4 9742     		.uleb128 0x2117
- 1286 00c6 19       		.uleb128 0x19
- 1287 00c7 01       		.uleb128 0x1
- 1288 00c8 13       		.uleb128 0x13
- 1289 00c9 00       		.byte	0
- 1290 00ca 00       		.byte	0
- 1291 00cb 10       		.uleb128 0x10
- 1292 00cc 898201   		.uleb128 0x4109
- 1293 00cf 01       		.byte	0x1
- 1294 00d0 11       		.uleb128 0x11
- 1295 00d1 01       		.uleb128 0x1
- 1296 00d2 31       		.uleb128 0x31
- 1297 00d3 13       		.uleb128 0x13
- 1298 00d4 00       		.byte	0
- 1299 00d5 00       		.byte	0
- 1300 00d6 11       		.uleb128 0x11
- 1301 00d7 8A8201   		.uleb128 0x410a
- 1302 00da 00       		.byte	0
- 1303 00db 02       		.uleb128 0x2
- 1304 00dc 18       		.uleb128 0x18
- 1305 00dd 9142     		.uleb128 0x2111
- 1306 00df 18       		.uleb128 0x18
- 1307 00e0 00       		.byte	0
- 1308 00e1 00       		.byte	0
- 1309 00e2 12       		.uleb128 0x12
- 1310 00e3 2E       		.uleb128 0x2e
- 1311 00e4 01       		.byte	0x1
- 1312 00e5 3F       		.uleb128 0x3f
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 26
+ 1257 009a 2E       		.uleb128 0x2e
+ 1258 009b 00       		.byte	0
+ 1259 009c 3F       		.uleb128 0x3f
+ 1260 009d 19       		.uleb128 0x19
+ 1261 009e 03       		.uleb128 0x3
+ 1262 009f 0E       		.uleb128 0xe
+ 1263 00a0 3A       		.uleb128 0x3a
+ 1264 00a1 0B       		.uleb128 0xb
+ 1265 00a2 3B       		.uleb128 0x3b
+ 1266 00a3 0B       		.uleb128 0xb
+ 1267 00a4 27       		.uleb128 0x27
+ 1268 00a5 19       		.uleb128 0x19
+ 1269 00a6 11       		.uleb128 0x11
+ 1270 00a7 01       		.uleb128 0x1
+ 1271 00a8 12       		.uleb128 0x12
+ 1272 00a9 06       		.uleb128 0x6
+ 1273 00aa 40       		.uleb128 0x40
+ 1274 00ab 18       		.uleb128 0x18
+ 1275 00ac 9742     		.uleb128 0x2117
+ 1276 00ae 19       		.uleb128 0x19
+ 1277 00af 00       		.byte	0
+ 1278 00b0 00       		.byte	0
+ 1279 00b1 0F       		.uleb128 0xf
+ 1280 00b2 2E       		.uleb128 0x2e
+ 1281 00b3 01       		.byte	0x1
+ 1282 00b4 3F       		.uleb128 0x3f
+ 1283 00b5 19       		.uleb128 0x19
+ 1284 00b6 03       		.uleb128 0x3
+ 1285 00b7 0E       		.uleb128 0xe
+ 1286 00b8 3A       		.uleb128 0x3a
+ 1287 00b9 0B       		.uleb128 0xb
+ 1288 00ba 3B       		.uleb128 0x3b
+ 1289 00bb 0B       		.uleb128 0xb
+ 1290 00bc 27       		.uleb128 0x27
+ 1291 00bd 19       		.uleb128 0x19
+ 1292 00be 11       		.uleb128 0x11
+ 1293 00bf 01       		.uleb128 0x1
+ 1294 00c0 12       		.uleb128 0x12
+ 1295 00c1 06       		.uleb128 0x6
+ 1296 00c2 40       		.uleb128 0x40
+ 1297 00c3 18       		.uleb128 0x18
+ 1298 00c4 9742     		.uleb128 0x2117
+ 1299 00c6 19       		.uleb128 0x19
+ 1300 00c7 01       		.uleb128 0x1
+ 1301 00c8 13       		.uleb128 0x13
+ 1302 00c9 00       		.byte	0
+ 1303 00ca 00       		.byte	0
+ 1304 00cb 10       		.uleb128 0x10
+ 1305 00cc 898201   		.uleb128 0x4109
+ 1306 00cf 01       		.byte	0x1
+ 1307 00d0 11       		.uleb128 0x11
+ 1308 00d1 01       		.uleb128 0x1
+ 1309 00d2 31       		.uleb128 0x31
+ 1310 00d3 13       		.uleb128 0x13
+ 1311 00d4 00       		.byte	0
+ 1312 00d5 00       		.byte	0
+ 1313 00d6 11       		.uleb128 0x11
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 26
 
 
- 1313 00e6 19       		.uleb128 0x19
- 1314 00e7 03       		.uleb128 0x3
- 1315 00e8 0E       		.uleb128 0xe
- 1316 00e9 3A       		.uleb128 0x3a
- 1317 00ea 0B       		.uleb128 0xb
- 1318 00eb 3B       		.uleb128 0x3b
- 1319 00ec 0B       		.uleb128 0xb
- 1320 00ed 49       		.uleb128 0x49
- 1321 00ee 13       		.uleb128 0x13
- 1322 00ef 8701     		.uleb128 0x87
- 1323 00f1 19       		.uleb128 0x19
- 1324 00f2 11       		.uleb128 0x11
- 1325 00f3 01       		.uleb128 0x1
- 1326 00f4 12       		.uleb128 0x12
- 1327 00f5 06       		.uleb128 0x6
- 1328 00f6 40       		.uleb128 0x40
- 1329 00f7 18       		.uleb128 0x18
- 1330 00f8 9742     		.uleb128 0x2117
- 1331 00fa 19       		.uleb128 0x19
- 1332 00fb 01       		.uleb128 0x1
- 1333 00fc 13       		.uleb128 0x13
- 1334 00fd 00       		.byte	0
- 1335 00fe 00       		.byte	0
- 1336 00ff 13       		.uleb128 0x13
- 1337 0100 34       		.uleb128 0x34
- 1338 0101 00       		.byte	0
- 1339 0102 03       		.uleb128 0x3
- 1340 0103 0E       		.uleb128 0xe
- 1341 0104 3A       		.uleb128 0x3a
- 1342 0105 0B       		.uleb128 0xb
- 1343 0106 3B       		.uleb128 0x3b
- 1344 0107 0B       		.uleb128 0xb
- 1345 0108 49       		.uleb128 0x49
- 1346 0109 13       		.uleb128 0x13
- 1347 010a 02       		.uleb128 0x2
- 1348 010b 18       		.uleb128 0x18
- 1349 010c 00       		.byte	0
- 1350 010d 00       		.byte	0
- 1351 010e 14       		.uleb128 0x14
- 1352 010f 34       		.uleb128 0x34
- 1353 0110 00       		.byte	0
- 1354 0111 03       		.uleb128 0x3
- 1355 0112 08       		.uleb128 0x8
- 1356 0113 3A       		.uleb128 0x3a
- 1357 0114 0B       		.uleb128 0xb
- 1358 0115 3B       		.uleb128 0x3b
- 1359 0116 0B       		.uleb128 0xb
- 1360 0117 49       		.uleb128 0x49
- 1361 0118 13       		.uleb128 0x13
- 1362 0119 02       		.uleb128 0x2
- 1363 011a 18       		.uleb128 0x18
- 1364 011b 00       		.byte	0
- 1365 011c 00       		.byte	0
- 1366 011d 15       		.uleb128 0x15
- 1367 011e 898201   		.uleb128 0x4109
- 1368 0121 01       		.byte	0x1
- 1369 0122 11       		.uleb128 0x11
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 27
+ 1314 00d7 8A8201   		.uleb128 0x410a
+ 1315 00da 00       		.byte	0
+ 1316 00db 02       		.uleb128 0x2
+ 1317 00dc 18       		.uleb128 0x18
+ 1318 00dd 9142     		.uleb128 0x2111
+ 1319 00df 18       		.uleb128 0x18
+ 1320 00e0 00       		.byte	0
+ 1321 00e1 00       		.byte	0
+ 1322 00e2 12       		.uleb128 0x12
+ 1323 00e3 2E       		.uleb128 0x2e
+ 1324 00e4 01       		.byte	0x1
+ 1325 00e5 3F       		.uleb128 0x3f
+ 1326 00e6 19       		.uleb128 0x19
+ 1327 00e7 03       		.uleb128 0x3
+ 1328 00e8 0E       		.uleb128 0xe
+ 1329 00e9 3A       		.uleb128 0x3a
+ 1330 00ea 0B       		.uleb128 0xb
+ 1331 00eb 3B       		.uleb128 0x3b
+ 1332 00ec 0B       		.uleb128 0xb
+ 1333 00ed 49       		.uleb128 0x49
+ 1334 00ee 13       		.uleb128 0x13
+ 1335 00ef 8701     		.uleb128 0x87
+ 1336 00f1 19       		.uleb128 0x19
+ 1337 00f2 11       		.uleb128 0x11
+ 1338 00f3 01       		.uleb128 0x1
+ 1339 00f4 12       		.uleb128 0x12
+ 1340 00f5 06       		.uleb128 0x6
+ 1341 00f6 40       		.uleb128 0x40
+ 1342 00f7 18       		.uleb128 0x18
+ 1343 00f8 9742     		.uleb128 0x2117
+ 1344 00fa 19       		.uleb128 0x19
+ 1345 00fb 01       		.uleb128 0x1
+ 1346 00fc 13       		.uleb128 0x13
+ 1347 00fd 00       		.byte	0
+ 1348 00fe 00       		.byte	0
+ 1349 00ff 13       		.uleb128 0x13
+ 1350 0100 34       		.uleb128 0x34
+ 1351 0101 00       		.byte	0
+ 1352 0102 03       		.uleb128 0x3
+ 1353 0103 0E       		.uleb128 0xe
+ 1354 0104 3A       		.uleb128 0x3a
+ 1355 0105 0B       		.uleb128 0xb
+ 1356 0106 3B       		.uleb128 0x3b
+ 1357 0107 0B       		.uleb128 0xb
+ 1358 0108 49       		.uleb128 0x49
+ 1359 0109 13       		.uleb128 0x13
+ 1360 010a 02       		.uleb128 0x2
+ 1361 010b 18       		.uleb128 0x18
+ 1362 010c 00       		.byte	0
+ 1363 010d 00       		.byte	0
+ 1364 010e 14       		.uleb128 0x14
+ 1365 010f 34       		.uleb128 0x34
+ 1366 0110 00       		.byte	0
+ 1367 0111 03       		.uleb128 0x3
+ 1368 0112 08       		.uleb128 0x8
+ 1369 0113 3A       		.uleb128 0x3a
+ 1370 0114 0B       		.uleb128 0xb
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 27
 
 
- 1370 0123 01       		.uleb128 0x1
- 1371 0124 31       		.uleb128 0x31
- 1372 0125 13       		.uleb128 0x13
- 1373 0126 01       		.uleb128 0x1
- 1374 0127 13       		.uleb128 0x13
- 1375 0128 00       		.byte	0
- 1376 0129 00       		.byte	0
- 1377 012a 16       		.uleb128 0x16
- 1378 012b 898201   		.uleb128 0x4109
- 1379 012e 00       		.byte	0
- 1380 012f 11       		.uleb128 0x11
- 1381 0130 01       		.uleb128 0x1
- 1382 0131 31       		.uleb128 0x31
- 1383 0132 13       		.uleb128 0x13
- 1384 0133 00       		.byte	0
- 1385 0134 00       		.byte	0
- 1386 0135 17       		.uleb128 0x17
- 1387 0136 34       		.uleb128 0x34
- 1388 0137 00       		.byte	0
- 1389 0138 03       		.uleb128 0x3
- 1390 0139 0E       		.uleb128 0xe
- 1391 013a 3A       		.uleb128 0x3a
- 1392 013b 0B       		.uleb128 0xb
- 1393 013c 3B       		.uleb128 0x3b
- 1394 013d 05       		.uleb128 0x5
- 1395 013e 49       		.uleb128 0x49
- 1396 013f 13       		.uleb128 0x13
- 1397 0140 3F       		.uleb128 0x3f
- 1398 0141 19       		.uleb128 0x19
- 1399 0142 3C       		.uleb128 0x3c
- 1400 0143 19       		.uleb128 0x19
- 1401 0144 00       		.byte	0
- 1402 0145 00       		.byte	0
- 1403 0146 18       		.uleb128 0x18
- 1404 0147 34       		.uleb128 0x34
- 1405 0148 00       		.byte	0
- 1406 0149 03       		.uleb128 0x3
- 1407 014a 0E       		.uleb128 0xe
- 1408 014b 3A       		.uleb128 0x3a
- 1409 014c 0B       		.uleb128 0xb
- 1410 014d 3B       		.uleb128 0x3b
- 1411 014e 0B       		.uleb128 0xb
- 1412 014f 49       		.uleb128 0x49
- 1413 0150 13       		.uleb128 0x13
- 1414 0151 3F       		.uleb128 0x3f
- 1415 0152 19       		.uleb128 0x19
- 1416 0153 02       		.uleb128 0x2
- 1417 0154 18       		.uleb128 0x18
- 1418 0155 00       		.byte	0
- 1419 0156 00       		.byte	0
- 1420 0157 19       		.uleb128 0x19
- 1421 0158 2E       		.uleb128 0x2e
- 1422 0159 00       		.byte	0
- 1423 015a 3F       		.uleb128 0x3f
- 1424 015b 19       		.uleb128 0x19
- 1425 015c 3C       		.uleb128 0x3c
- 1426 015d 19       		.uleb128 0x19
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 28
+ 1371 0115 3B       		.uleb128 0x3b
+ 1372 0116 0B       		.uleb128 0xb
+ 1373 0117 49       		.uleb128 0x49
+ 1374 0118 13       		.uleb128 0x13
+ 1375 0119 02       		.uleb128 0x2
+ 1376 011a 18       		.uleb128 0x18
+ 1377 011b 00       		.byte	0
+ 1378 011c 00       		.byte	0
+ 1379 011d 15       		.uleb128 0x15
+ 1380 011e 898201   		.uleb128 0x4109
+ 1381 0121 01       		.byte	0x1
+ 1382 0122 11       		.uleb128 0x11
+ 1383 0123 01       		.uleb128 0x1
+ 1384 0124 31       		.uleb128 0x31
+ 1385 0125 13       		.uleb128 0x13
+ 1386 0126 01       		.uleb128 0x1
+ 1387 0127 13       		.uleb128 0x13
+ 1388 0128 00       		.byte	0
+ 1389 0129 00       		.byte	0
+ 1390 012a 16       		.uleb128 0x16
+ 1391 012b 898201   		.uleb128 0x4109
+ 1392 012e 00       		.byte	0
+ 1393 012f 11       		.uleb128 0x11
+ 1394 0130 01       		.uleb128 0x1
+ 1395 0131 31       		.uleb128 0x31
+ 1396 0132 13       		.uleb128 0x13
+ 1397 0133 00       		.byte	0
+ 1398 0134 00       		.byte	0
+ 1399 0135 17       		.uleb128 0x17
+ 1400 0136 34       		.uleb128 0x34
+ 1401 0137 00       		.byte	0
+ 1402 0138 03       		.uleb128 0x3
+ 1403 0139 0E       		.uleb128 0xe
+ 1404 013a 3A       		.uleb128 0x3a
+ 1405 013b 0B       		.uleb128 0xb
+ 1406 013c 3B       		.uleb128 0x3b
+ 1407 013d 05       		.uleb128 0x5
+ 1408 013e 49       		.uleb128 0x49
+ 1409 013f 13       		.uleb128 0x13
+ 1410 0140 3F       		.uleb128 0x3f
+ 1411 0141 19       		.uleb128 0x19
+ 1412 0142 3C       		.uleb128 0x3c
+ 1413 0143 19       		.uleb128 0x19
+ 1414 0144 00       		.byte	0
+ 1415 0145 00       		.byte	0
+ 1416 0146 18       		.uleb128 0x18
+ 1417 0147 34       		.uleb128 0x34
+ 1418 0148 00       		.byte	0
+ 1419 0149 03       		.uleb128 0x3
+ 1420 014a 0E       		.uleb128 0xe
+ 1421 014b 3A       		.uleb128 0x3a
+ 1422 014c 0B       		.uleb128 0xb
+ 1423 014d 3B       		.uleb128 0x3b
+ 1424 014e 0B       		.uleb128 0xb
+ 1425 014f 49       		.uleb128 0x49
+ 1426 0150 13       		.uleb128 0x13
+ 1427 0151 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 28
 
 
- 1427 015e 6E       		.uleb128 0x6e
- 1428 015f 0E       		.uleb128 0xe
- 1429 0160 03       		.uleb128 0x3
- 1430 0161 0E       		.uleb128 0xe
- 1431 0162 3A       		.uleb128 0x3a
- 1432 0163 0B       		.uleb128 0xb
- 1433 0164 3B       		.uleb128 0x3b
- 1434 0165 0B       		.uleb128 0xb
- 1435 0166 00       		.byte	0
- 1436 0167 00       		.byte	0
- 1437 0168 1A       		.uleb128 0x1a
- 1438 0169 2E       		.uleb128 0x2e
- 1439 016a 00       		.byte	0
- 1440 016b 3F       		.uleb128 0x3f
- 1441 016c 19       		.uleb128 0x19
- 1442 016d 3C       		.uleb128 0x3c
- 1443 016e 19       		.uleb128 0x19
- 1444 016f 6E       		.uleb128 0x6e
- 1445 0170 0E       		.uleb128 0xe
- 1446 0171 03       		.uleb128 0x3
- 1447 0172 0E       		.uleb128 0xe
- 1448 0173 3A       		.uleb128 0x3a
- 1449 0174 0B       		.uleb128 0xb
- 1450 0175 3B       		.uleb128 0x3b
- 1451 0176 05       		.uleb128 0x5
- 1452 0177 00       		.byte	0
- 1453 0178 00       		.byte	0
- 1454 0179 00       		.byte	0
- 1455              		.section	.debug_aranges,"",%progbits
- 1456 0000 2C000000 		.4byte	0x2c
- 1457 0004 0200     		.2byte	0x2
- 1458 0006 00000000 		.4byte	.Ldebug_info0
- 1459 000a 04       		.byte	0x4
- 1460 000b 00       		.byte	0
- 1461 000c 0000     		.2byte	0
- 1462 000e 0000     		.2byte	0
- 1463 0010 00000000 		.4byte	.LFB65
- 1464 0014 10000000 		.4byte	.LFE65-.LFB65
- 1465 0018 00000000 		.4byte	.LFB64
- 1466 001c 18000000 		.4byte	.LFE64-.LFB64
- 1467 0020 00000000 		.4byte	.LFB66
- 1468 0024 B8000000 		.4byte	.LFE66-.LFB66
- 1469 0028 00000000 		.4byte	0
- 1470 002c 00000000 		.4byte	0
- 1471              		.section	.debug_ranges,"",%progbits
- 1472              	.Ldebug_ranges0:
- 1473 0000 00000000 		.4byte	.LFB65
- 1474 0004 10000000 		.4byte	.LFE65
- 1475 0008 00000000 		.4byte	.LFB64
- 1476 000c 18000000 		.4byte	.LFE64
- 1477 0010 00000000 		.4byte	.LFB66
- 1478 0014 B8000000 		.4byte	.LFE66
- 1479 0018 00000000 		.4byte	0
- 1480 001c 00000000 		.4byte	0
- 1481              		.section	.debug_line,"",%progbits
- 1482              	.Ldebug_line0:
- 1483 0000 D7020000 		.section	.debug_str,"MS",%progbits,1
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 29
+ 1428 0152 19       		.uleb128 0x19
+ 1429 0153 02       		.uleb128 0x2
+ 1430 0154 18       		.uleb128 0x18
+ 1431 0155 00       		.byte	0
+ 1432 0156 00       		.byte	0
+ 1433 0157 19       		.uleb128 0x19
+ 1434 0158 2E       		.uleb128 0x2e
+ 1435 0159 00       		.byte	0
+ 1436 015a 3F       		.uleb128 0x3f
+ 1437 015b 19       		.uleb128 0x19
+ 1438 015c 3C       		.uleb128 0x3c
+ 1439 015d 19       		.uleb128 0x19
+ 1440 015e 6E       		.uleb128 0x6e
+ 1441 015f 0E       		.uleb128 0xe
+ 1442 0160 03       		.uleb128 0x3
+ 1443 0161 0E       		.uleb128 0xe
+ 1444 0162 3A       		.uleb128 0x3a
+ 1445 0163 0B       		.uleb128 0xb
+ 1446 0164 3B       		.uleb128 0x3b
+ 1447 0165 0B       		.uleb128 0xb
+ 1448 0166 00       		.byte	0
+ 1449 0167 00       		.byte	0
+ 1450 0168 1A       		.uleb128 0x1a
+ 1451 0169 2E       		.uleb128 0x2e
+ 1452 016a 00       		.byte	0
+ 1453 016b 3F       		.uleb128 0x3f
+ 1454 016c 19       		.uleb128 0x19
+ 1455 016d 3C       		.uleb128 0x3c
+ 1456 016e 19       		.uleb128 0x19
+ 1457 016f 6E       		.uleb128 0x6e
+ 1458 0170 0E       		.uleb128 0xe
+ 1459 0171 03       		.uleb128 0x3
+ 1460 0172 0E       		.uleb128 0xe
+ 1461 0173 3A       		.uleb128 0x3a
+ 1462 0174 0B       		.uleb128 0xb
+ 1463 0175 3B       		.uleb128 0x3b
+ 1464 0176 05       		.uleb128 0x5
+ 1465 0177 00       		.byte	0
+ 1466 0178 00       		.byte	0
+ 1467 0179 00       		.byte	0
+ 1468              		.section	.debug_aranges,"",%progbits
+ 1469 0000 2C000000 		.4byte	0x2c
+ 1470 0004 0200     		.2byte	0x2
+ 1471 0006 00000000 		.4byte	.Ldebug_info0
+ 1472 000a 04       		.byte	0x4
+ 1473 000b 00       		.byte	0
+ 1474 000c 0000     		.2byte	0
+ 1475 000e 0000     		.2byte	0
+ 1476 0010 00000000 		.4byte	.LFB65
+ 1477 0014 10000000 		.4byte	.LFE65-.LFB65
+ 1478 0018 00000000 		.4byte	.LFB64
+ 1479 001c 18000000 		.4byte	.LFE64-.LFB64
+ 1480 0020 00000000 		.4byte	.LFB66
+ 1481 0024 B8000000 		.4byte	.LFE66-.LFB66
+ 1482 0028 00000000 		.4byte	0
+ 1483 002c 00000000 		.4byte	0
+ 1484              		.section	.debug_ranges,"",%progbits
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 29
 
 
- 1483      02007F02 
- 1483      00000201 
- 1483      FB0E0D00 
- 1483      01010101 
- 1484              	.LASF67:
- 1485 0000 64745F67 		.ascii	"dt_getUnixtime\000"
- 1485      6574556E 
- 1485      69787469 
- 1485      6D6500
- 1486              	.LASF23:
- 1487 000f 794F6666 		.ascii	"yOff\000"
- 1487      00
- 1488              	.LASF68:
- 1489 0014 5052535F 		.ascii	"PRS_WriteSeed\000"
- 1489      57726974 
- 1489      65536565 
- 1489      6400
- 1490              	.LASF26:
- 1491 0022 75736572 		.ascii	"username\000"
- 1491      6E616D65 
- 1491      00
- 1492              	.LASF31:
- 1493 002b 6869645F 		.ascii	"hid_usage\000"
- 1493      75736167 
- 1493      6500
- 1494              	.LASF57:
- 1495 0035 656E635F 		.ascii	"enc_sw_int_StartEx\000"
- 1495      73775F69 
- 1495      6E745F53 
- 1495      74617274 
- 1495      457800
- 1496              	.LASF21:
- 1497 0048 73697A65 		.ascii	"sizetype\000"
- 1497      74797065 
- 1497      00
- 1498              	.LASF40:
- 1499 0051 735F7365 		.ascii	"s_sec_state\000"
- 1499      635F7374 
- 1499      61746500 
- 1500              	.LASF63:
- 1501 005d 4932434F 		.ascii	"I2COLED_Start\000"
- 1501      4C45445F 
- 1501      53746172 
- 1501      7400
- 1502              	.LASF85:
- 1503 006b 6D61696E 		.ascii	"main\000"
- 1503      00
- 1504              	.LASF27:
- 1505 0070 70617373 		.ascii	"password\000"
- 1505      776F7264 
- 1505      00
- 1506              	.LASF74:
- 1507 0079 64697370 		.ascii	"display_update\000"
- 1507      6C61795F 
- 1507      75706461 
- 1507      746500
- 1508              	.LASF2:
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 30
+ 1485              	.Ldebug_ranges0:
+ 1486 0000 00000000 		.4byte	.LFB65
+ 1487 0004 10000000 		.4byte	.LFE65
+ 1488 0008 00000000 		.4byte	.LFB64
+ 1489 000c 18000000 		.4byte	.LFE64
+ 1490 0010 00000000 		.4byte	.LFB66
+ 1491 0014 B8000000 		.4byte	.LFE66
+ 1492 0018 00000000 		.4byte	0
+ 1493 001c 00000000 		.4byte	0
+ 1494              		.section	.debug_line,"",%progbits
+ 1495              	.Ldebug_line0:
+ 1496 0000 D7020000 		.section	.debug_str,"MS",%progbits,1
+ 1496      02007F02 
+ 1496      00000201 
+ 1496      FB0E0D00 
+ 1496      01010101 
+ 1497              	.LASF68:
+ 1498 0000 64745F67 		.ascii	"dt_getUnixtime\000"
+ 1498      6574556E 
+ 1498      69787469 
+ 1498      6D6500
+ 1499              	.LASF23:
+ 1500 000f 794F6666 		.ascii	"yOff\000"
+ 1500      00
+ 1501              	.LASF69:
+ 1502 0014 5052535F 		.ascii	"PRS_WriteSeed\000"
+ 1502      57726974 
+ 1502      65536565 
+ 1502      6400
+ 1503              	.LASF26:
+ 1504 0022 75736572 		.ascii	"username\000"
+ 1504      6E616D65 
+ 1504      00
+ 1505              	.LASF32:
+ 1506 002b 6869645F 		.ascii	"hid_usage\000"
+ 1506      75736167 
+ 1506      6500
+ 1507              	.LASF58:
+ 1508 0035 656E635F 		.ascii	"enc_sw_int_StartEx\000"
+ 1508      73775F69 
+ 1508      6E745F53 
+ 1508      74617274 
+ 1508      457800
+ 1509              	.LASF21:
+ 1510 0048 73697A65 		.ascii	"sizetype\000"
+ 1510      74797065 
+ 1510      00
+ 1511              	.LASF41:
+ 1512 0051 735F7365 		.ascii	"s_sec_state\000"
+ 1512      635F7374 
+ 1512      61746500 
+ 1513              	.LASF64:
+ 1514 005d 4932434F 		.ascii	"I2COLED_Start\000"
+ 1514      4C45445F 
+ 1514      53746172 
+ 1514      7400
+ 1515              	.LASF86:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 30
 
 
- 1509 0088 73686F72 		.ascii	"short int\000"
- 1509      7420696E 
- 1509      7400
- 1510              	.LASF45:
- 1511 0092 64657461 		.ascii	"detail_menu_size\000"
- 1511      696C5F6D 
- 1511      656E755F 
- 1511      73697A65 
- 1511      00
- 1512              	.LASF51:
- 1513 00a3 6E756D5F 		.ascii	"num_loaded\000"
- 1513      6C6F6164 
- 1513      656400
- 1514              	.LASF13:
- 1515 00ae 75696E74 		.ascii	"uint8\000"
- 1515      3800
- 1516              	.LASF82:
- 1517 00b4 433A5C55 		.ascii	"C:\\Users\\bkettle\\OneDrive\\School\\6.115\\projec"
- 1517      73657273 
- 1517      5C626B65 
- 1517      74746C65 
- 1517      5C4F6E65 
- 1518 00e1 745C7073 		.ascii	"t\\psoc\\Password Keeper\\Complete.cydsn\000"
- 1518      6F635C50 
- 1518      61737377 
- 1518      6F726420 
- 1518      4B656570 
- 1519              	.LASF59:
- 1520 0107 55415254 		.ascii	"UART_1_Start\000"
- 1520      5F315F53 
- 1520      74617274 
- 1520      00
- 1521              	.LASF43:
- 1522 0114 61736369 		.ascii	"ascii_to_hid\000"
- 1522      695F746F 
- 1522      5F686964 
- 1522      00
- 1523              	.LASF16:
- 1524 0121 666C6F61 		.ascii	"float\000"
- 1524      7400
- 1525              	.LASF28:
- 1526 0127 5265636F 		.ascii	"Record\000"
- 1526      726400
- 1527              	.LASF8:
- 1528 012e 6C6F6E67 		.ascii	"long long int\000"
- 1528      206C6F6E 
- 1528      6720696E 
- 1528      7400
- 1529              	.LASF15:
- 1530 013c 696E7438 		.ascii	"int8\000"
- 1530      00
- 1531              	.LASF77:
- 1532 0141 5553425F 		.ascii	"USB_isReady\000"
- 1532      69735265 
- 1532      61647900 
- 1533              	.LASF6:
- 1534 014d 6C6F6E67 		.ascii	"long int\000"
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 31
+ 1516 006b 6D61696E 		.ascii	"main\000"
+ 1516      00
+ 1517              	.LASF27:
+ 1518 0070 70617373 		.ascii	"password\000"
+ 1518      776F7264 
+ 1518      00
+ 1519              	.LASF75:
+ 1520 0079 64697370 		.ascii	"display_update\000"
+ 1520      6C61795F 
+ 1520      75706461 
+ 1520      746500
+ 1521              	.LASF2:
+ 1522 0088 73686F72 		.ascii	"short int\000"
+ 1522      7420696E 
+ 1522      7400
+ 1523              	.LASF46:
+ 1524 0092 64657461 		.ascii	"detail_menu_size\000"
+ 1524      696C5F6D 
+ 1524      656E755F 
+ 1524      73697A65 
+ 1524      00
+ 1525              	.LASF52:
+ 1526 00a3 6E756D5F 		.ascii	"num_loaded\000"
+ 1526      6C6F6164 
+ 1526      656400
+ 1527              	.LASF13:
+ 1528 00ae 75696E74 		.ascii	"uint8\000"
+ 1528      3800
+ 1529              	.LASF83:
+ 1530 00b4 433A5C55 		.ascii	"C:\\Users\\bkettle\\OneDrive\\School\\6.115\\projec"
+ 1530      73657273 
+ 1530      5C626B65 
+ 1530      74746C65 
+ 1530      5C4F6E65 
+ 1531 00e1 745C7073 		.ascii	"t\\psoc\\Password Keeper\\Complete.cydsn\000"
+ 1531      6F635C50 
+ 1531      61737377 
+ 1531      6F726420 
+ 1531      4B656570 
+ 1532              	.LASF60:
+ 1533 0107 55415254 		.ascii	"UART_1_Start\000"
+ 1533      5F315F53 
+ 1533      74617274 
+ 1533      00
+ 1534              	.LASF44:
+ 1535 0114 61736369 		.ascii	"ascii_to_hid\000"
+ 1535      695F746F 
+ 1535      5F686964 
+ 1535      00
+ 1536              	.LASF16:
+ 1537 0121 666C6F61 		.ascii	"float\000"
+ 1537      7400
+ 1538              	.LASF29:
+ 1539 0127 5265636F 		.ascii	"Record\000"
+ 1539      726400
+ 1540              	.LASF8:
+ 1541 012e 6C6F6E67 		.ascii	"long long int\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 31
 
 
- 1534      20696E74 
- 1534      00
- 1535              	.LASF66:
- 1536 0156 5052535F 		.ascii	"PRS_Start\000"
- 1536      53746172 
- 1536      7400
- 1537              	.LASF29:
- 1538 0160 75707065 		.ascii	"uppercase\000"
- 1538      72636173 
- 1538      6500
- 1539              	.LASF4:
- 1540 016a 5F5F7569 		.ascii	"__uint8_t\000"
- 1540      6E74385F 
- 1540      7400
- 1541              	.LASF54:
- 1542 0174 656E635F 		.ascii	"enc_sw_flag\000"
- 1542      73775F66 
- 1542      6C616700 
- 1543              	.LASF72:
- 1544 0180 6766785F 		.ascii	"gfx_setTextColor\000"
- 1544      73657454 
- 1544      65787443 
- 1544      6F6C6F72 
- 1544      00
- 1545              	.LASF71:
- 1546 0191 6766785F 		.ascii	"gfx_setTextSize\000"
- 1546      73657454 
- 1546      65787453 
- 1546      697A6500 
- 1547              	.LASF61:
- 1548 01a1 4469616C 		.ascii	"Dial_Start\000"
- 1548      5F537461 
- 1548      727400
- 1549              	.LASF11:
- 1550 01ac 75696E74 		.ascii	"uint8_t\000"
- 1550      385F7400 
- 1551              	.LASF83:
- 1552 01b4 5357315F 		.ascii	"SW1_INT\000"
- 1552      494E5400 
- 1553              	.LASF20:
- 1554 01bc 6C6F6E67 		.ascii	"long double\000"
- 1554      20646F75 
- 1554      626C6500 
- 1555              	.LASF64:
- 1556 01c8 64697370 		.ascii	"display_init\000"
- 1556      6C61795F 
- 1556      696E6974 
- 1556      00
- 1557              	.LASF55:
- 1558 01d5 7377315F 		.ascii	"sw1_flag\000"
- 1558      666C6167 
- 1558      00
- 1559              	.LASF1:
- 1560 01de 756E7369 		.ascii	"unsigned char\000"
- 1560      676E6564 
- 1560      20636861 
- 1560      7200
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 32
+ 1541      206C6F6E 
+ 1541      6720696E 
+ 1541      7400
+ 1542              	.LASF15:
+ 1543 013c 696E7438 		.ascii	"int8\000"
+ 1543      00
+ 1544              	.LASF78:
+ 1545 0141 5553425F 		.ascii	"USB_isReady\000"
+ 1545      69735265 
+ 1545      61647900 
+ 1546              	.LASF6:
+ 1547 014d 6C6F6E67 		.ascii	"long int\000"
+ 1547      20696E74 
+ 1547      00
+ 1548              	.LASF67:
+ 1549 0156 5052535F 		.ascii	"PRS_Start\000"
+ 1549      53746172 
+ 1549      7400
+ 1550              	.LASF30:
+ 1551 0160 75707065 		.ascii	"uppercase\000"
+ 1551      72636173 
+ 1551      6500
+ 1552              	.LASF4:
+ 1553 016a 5F5F7569 		.ascii	"__uint8_t\000"
+ 1553      6E74385F 
+ 1553      7400
+ 1554              	.LASF55:
+ 1555 0174 656E635F 		.ascii	"enc_sw_flag\000"
+ 1555      73775F66 
+ 1555      6C616700 
+ 1556              	.LASF73:
+ 1557 0180 6766785F 		.ascii	"gfx_setTextColor\000"
+ 1557      73657454 
+ 1557      65787443 
+ 1557      6F6C6F72 
+ 1557      00
+ 1558              	.LASF72:
+ 1559 0191 6766785F 		.ascii	"gfx_setTextSize\000"
+ 1559      73657454 
+ 1559      65787453 
+ 1559      697A6500 
+ 1560              	.LASF62:
+ 1561 01a1 4469616C 		.ascii	"Dial_Start\000"
+ 1561      5F537461 
+ 1561      727400
+ 1562              	.LASF28:
+ 1563 01ac 746F7470 		.ascii	"totp_key\000"
+ 1563      5F6B6579 
+ 1563      00
+ 1564              	.LASF11:
+ 1565 01b5 75696E74 		.ascii	"uint8_t\000"
+ 1565      385F7400 
+ 1566              	.LASF84:
+ 1567 01bd 5357315F 		.ascii	"SW1_INT\000"
+ 1567      494E5400 
+ 1568              	.LASF20:
+ 1569 01c5 6C6F6E67 		.ascii	"long double\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 32
 
 
- 1561              	.LASF49:
- 1562 01ec 62756666 		.ascii	"buff_offset\000"
- 1562      5F6F6666 
- 1562      73657400 
- 1563              	.LASF22:
- 1564 01f8 46535F46 		.ascii	"FS_FILE\000"
- 1564      494C4500 
- 1565              	.LASF34:
- 1566 0200 7265636F 		.ascii	"record_size\000"
- 1566      72645F73 
- 1566      697A6500 
- 1567              	.LASF0:
- 1568 020c 7369676E 		.ascii	"signed char\000"
- 1568      65642063 
- 1568      68617200 
- 1569              	.LASF44:
- 1570 0218 64697370 		.ascii	"display_state\000"
- 1570      6C61795F 
- 1570      73746174 
- 1570      6500
- 1571              	.LASF9:
- 1572 0226 6C6F6E67 		.ascii	"long long unsigned int\000"
- 1572      206C6F6E 
- 1572      6720756E 
- 1572      7369676E 
- 1572      65642069 
- 1573              	.LASF37:
- 1574 023d 7046696C 		.ascii	"pFile\000"
- 1574      6500
- 1575              	.LASF10:
- 1576 0243 756E7369 		.ascii	"unsigned int\000"
- 1576      676E6564 
- 1576      20696E74 
- 1576      00
- 1577              	.LASF84:
- 1578 0250 454E435F 		.ascii	"ENC_SW_INT\000"
- 1578      53575F49 
- 1578      4E5400
- 1579              	.LASF53:
- 1580 025b 70726576 		.ascii	"prev_index\000"
- 1580      5F696E64 
- 1580      657800
- 1581              	.LASF19:
- 1582 0266 72656733 		.ascii	"reg32\000"
- 1582      3200
- 1583              	.LASF3:
- 1584 026c 73686F72 		.ascii	"short unsigned int\000"
- 1584      7420756E 
- 1584      7369676E 
- 1584      65642069 
- 1584      6E7400
- 1585              	.LASF18:
- 1586 027f 63686172 		.ascii	"char\000"
- 1586      00
- 1587              	.LASF24:
- 1588 0284 44617465 		.ascii	"DateTime\000"
- 1588      54696D65 
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 33
+ 1569      20646F75 
+ 1569      626C6500 
+ 1570              	.LASF65:
+ 1571 01d1 64697370 		.ascii	"display_init\000"
+ 1571      6C61795F 
+ 1571      696E6974 
+ 1571      00
+ 1572              	.LASF56:
+ 1573 01de 7377315F 		.ascii	"sw1_flag\000"
+ 1573      666C6167 
+ 1573      00
+ 1574              	.LASF1:
+ 1575 01e7 756E7369 		.ascii	"unsigned char\000"
+ 1575      676E6564 
+ 1575      20636861 
+ 1575      7200
+ 1576              	.LASF50:
+ 1577 01f5 62756666 		.ascii	"buff_offset\000"
+ 1577      5F6F6666 
+ 1577      73657400 
+ 1578              	.LASF22:
+ 1579 0201 46535F46 		.ascii	"FS_FILE\000"
+ 1579      494C4500 
+ 1580              	.LASF35:
+ 1581 0209 7265636F 		.ascii	"record_size\000"
+ 1581      72645F73 
+ 1581      697A6500 
+ 1582              	.LASF0:
+ 1583 0215 7369676E 		.ascii	"signed char\000"
+ 1583      65642063 
+ 1583      68617200 
+ 1584              	.LASF45:
+ 1585 0221 64697370 		.ascii	"display_state\000"
+ 1585      6C61795F 
+ 1585      73746174 
+ 1585      6500
+ 1586              	.LASF9:
+ 1587 022f 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1587      206C6F6E 
+ 1587      6720756E 
+ 1587      7369676E 
+ 1587      65642069 
+ 1588              	.LASF38:
+ 1589 0246 7046696C 		.ascii	"pFile\000"
+ 1589      6500
+ 1590              	.LASF10:
+ 1591 024c 756E7369 		.ascii	"unsigned int\000"
+ 1591      676E6564 
+ 1591      20696E74 
+ 1591      00
+ 1592              	.LASF85:
+ 1593 0259 454E435F 		.ascii	"ENC_SW_INT\000"
+ 1593      53575F49 
+ 1593      4E5400
+ 1594              	.LASF54:
+ 1595 0264 70726576 		.ascii	"prev_index\000"
+ 1595      5F696E64 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 33
 
 
- 1588      00
- 1589              	.LASF12:
- 1590 028d 696E7433 		.ascii	"int32_t\000"
- 1590      325F7400 
- 1591              	.LASF32:
- 1592 0295 63757272 		.ascii	"curr_record\000"
- 1592      5F726563 
- 1592      6F726400 
- 1593              	.LASF25:
- 1594 02a1 7469746C 		.ascii	"title\000"
- 1594      6500
- 1595              	.LASF30:
- 1596 02a7 5F426F6F 		.ascii	"_Bool\000"
- 1596      6C00
- 1597              	.LASF62:
- 1598 02ad 49324352 		.ascii	"I2CRTC_Start\000"
- 1598      54435F53 
- 1598      74617274 
- 1598      00
- 1599              	.LASF14:
- 1600 02ba 75696E74 		.ascii	"uint32\000"
- 1600      333200
- 1601              	.LASF81:
- 1602 02c1 6D61696E 		.ascii	"main.c\000"
- 1602      2E6300
- 1603              	.LASF58:
- 1604 02c8 7377315F 		.ascii	"sw1_int_StartEx\000"
- 1604      696E745F 
- 1604      53746172 
- 1604      74457800 
- 1605              	.LASF7:
- 1606 02d8 6C6F6E67 		.ascii	"long unsigned int\000"
- 1606      20756E73 
- 1606      69676E65 
- 1606      6420696E 
- 1606      7400
- 1607              	.LASF17:
- 1608 02ea 646F7562 		.ascii	"double\000"
- 1608      6C6500
- 1609              	.LASF56:
- 1610 02f1 55415254 		.ascii	"UART_1_PutString\000"
- 1610      5F315F50 
- 1610      75745374 
- 1610      72696E67 
- 1610      00
- 1611              	.LASF73:
- 1612 0302 6766785F 		.ascii	"gfx_println\000"
- 1612      7072696E 
- 1612      746C6E00 
- 1613              	.LASF33:
- 1614 030e 49544D5F 		.ascii	"ITM_RxBuffer\000"
- 1614      52784275 
- 1614      66666572 
- 1614      00
- 1615              	.LASF79:
- 1616 031b 75695F66 		.ascii	"ui_fsm\000"
- 1616      736D00
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 34
+ 1595      657800
+ 1596              	.LASF19:
+ 1597 026f 72656733 		.ascii	"reg32\000"
+ 1597      3200
+ 1598              	.LASF3:
+ 1599 0275 73686F72 		.ascii	"short unsigned int\000"
+ 1599      7420756E 
+ 1599      7369676E 
+ 1599      65642069 
+ 1599      6E7400
+ 1600              	.LASF18:
+ 1601 0288 63686172 		.ascii	"char\000"
+ 1601      00
+ 1602              	.LASF24:
+ 1603 028d 44617465 		.ascii	"DateTime\000"
+ 1603      54696D65 
+ 1603      00
+ 1604              	.LASF12:
+ 1605 0296 696E7433 		.ascii	"int32_t\000"
+ 1605      325F7400 
+ 1606              	.LASF33:
+ 1607 029e 63757272 		.ascii	"curr_record\000"
+ 1607      5F726563 
+ 1607      6F726400 
+ 1608              	.LASF25:
+ 1609 02aa 7469746C 		.ascii	"title\000"
+ 1609      6500
+ 1610              	.LASF31:
+ 1611 02b0 5F426F6F 		.ascii	"_Bool\000"
+ 1611      6C00
+ 1612              	.LASF63:
+ 1613 02b6 49324352 		.ascii	"I2CRTC_Start\000"
+ 1613      54435F53 
+ 1613      74617274 
+ 1613      00
+ 1614              	.LASF14:
+ 1615 02c3 75696E74 		.ascii	"uint32\000"
+ 1615      333200
+ 1616              	.LASF82:
+ 1617 02ca 6D61696E 		.ascii	"main.c\000"
+ 1617      2E6300
+ 1618              	.LASF59:
+ 1619 02d1 7377315F 		.ascii	"sw1_int_StartEx\000"
+ 1619      696E745F 
+ 1619      53746172 
+ 1619      74457800 
+ 1620              	.LASF7:
+ 1621 02e1 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1621      20756E73 
+ 1621      69676E65 
+ 1621      6420696E 
+ 1621      7400
+ 1622              	.LASF17:
+ 1623 02f3 646F7562 		.ascii	"double\000"
+ 1623      6C6500
+ 1624              	.LASF57:
+ 1625 02fa 55415254 		.ascii	"UART_1_PutString\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 34
 
 
- 1617              	.LASF47:
- 1618 0322 64657461 		.ascii	"detail_menu_top\000"
- 1618      696C5F6D 
- 1618      656E755F 
- 1618      746F7000 
- 1619              	.LASF42:
- 1620 0332 4B425F44 		.ascii	"KB_Data\000"
- 1620      61746100 
- 1621              	.LASF5:
- 1622 033a 5F5F696E 		.ascii	"__int32_t\000"
- 1622      7433325F 
- 1622      7400
- 1623              	.LASF35:
- 1624 0344 73644669 		.ascii	"sdFile\000"
- 1624      6C6500
- 1625              	.LASF70:
- 1626 034b 6766785F 		.ascii	"gfx_setCursor\000"
- 1626      73657443 
- 1626      7572736F 
- 1626      7200
- 1627              	.LASF76:
- 1628 0359 5553425F 		.ascii	"USB_print\000"
- 1628      7072696E 
- 1628      7400
- 1629              	.LASF38:
- 1630 0363 6E65775F 		.ascii	"new_record\000"
- 1630      7265636F 
- 1630      726400
- 1631              	.LASF78:
- 1632 036e 73657269 		.ascii	"serial_fsm\000"
- 1632      616C5F66 
- 1632      736D00
- 1633              	.LASF75:
- 1634 0379 5553425F 		.ascii	"USB_Initialize\000"
- 1634      496E6974 
- 1634      69616C69 
- 1634      7A6500
- 1635              	.LASF36:
- 1636 0388 7364566F 		.ascii	"sdVolName\000"
- 1636      6C4E616D 
- 1636      6500
- 1637              	.LASF46:
- 1638 0392 64657461 		.ascii	"detail_menu_items\000"
- 1638      696C5F6D 
- 1638      656E755F 
- 1638      6974656D 
- 1638      7300
- 1639              	.LASF48:
- 1640 03a4 64657461 		.ascii	"detail_menu_left\000"
- 1640      696C5F6D 
- 1640      656E755F 
- 1640      6C656674 
- 1640      00
- 1641              	.LASF65:
- 1642 03b5 5254435F 		.ascii	"RTC_now\000"
- 1642      6E6F7700 
- 1643              	.LASF60:
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccPkNfla.s 			page 35
+ 1625      5F315F50 
+ 1625      75745374 
+ 1625      72696E67 
+ 1625      00
+ 1626              	.LASF74:
+ 1627 030b 6766785F 		.ascii	"gfx_println\000"
+ 1627      7072696E 
+ 1627      746C6E00 
+ 1628              	.LASF34:
+ 1629 0317 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1629      52784275 
+ 1629      66666572 
+ 1629      00
+ 1630              	.LASF80:
+ 1631 0324 75695F66 		.ascii	"ui_fsm\000"
+ 1631      736D00
+ 1632              	.LASF48:
+ 1633 032b 64657461 		.ascii	"detail_menu_top\000"
+ 1633      696C5F6D 
+ 1633      656E755F 
+ 1633      746F7000 
+ 1634              	.LASF43:
+ 1635 033b 4B425F44 		.ascii	"KB_Data\000"
+ 1635      61746100 
+ 1636              	.LASF5:
+ 1637 0343 5F5F696E 		.ascii	"__int32_t\000"
+ 1637      7433325F 
+ 1637      7400
+ 1638              	.LASF36:
+ 1639 034d 73644669 		.ascii	"sdFile\000"
+ 1639      6C6500
+ 1640              	.LASF71:
+ 1641 0354 6766785F 		.ascii	"gfx_setCursor\000"
+ 1641      73657443 
+ 1641      7572736F 
+ 1641      7200
+ 1642              	.LASF77:
+ 1643 0362 5553425F 		.ascii	"USB_print\000"
+ 1643      7072696E 
+ 1643      7400
+ 1644              	.LASF39:
+ 1645 036c 6E65775F 		.ascii	"new_record\000"
+ 1645      7265636F 
+ 1645      726400
+ 1646              	.LASF79:
+ 1647 0377 73657269 		.ascii	"serial_fsm\000"
+ 1647      616C5F66 
+ 1647      736D00
+ 1648              	.LASF76:
+ 1649 0382 5553425F 		.ascii	"USB_Initialize\000"
+ 1649      496E6974 
+ 1649      69616C69 
+ 1649      7A6500
+ 1650              	.LASF37:
+ 1651 0391 7364566F 		.ascii	"sdVolName\000"
+ 1651      6C4E616D 
+ 1651      6500
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 35
 
 
- 1644 03bd 46535F49 		.ascii	"FS_Init\000"
- 1644      6E697400 
- 1645              	.LASF50:
- 1646 03c5 62756666 		.ascii	"buff_size\000"
- 1646      5F73697A 
- 1646      6500
- 1647              	.LASF80:
- 1648 03cf 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
- 1648      43313120 
- 1648      352E342E 
- 1648      31203230 
- 1648      31363036 
- 1649 0402 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
- 1649      20726576 
- 1649      6973696F 
- 1649      6E203233 
- 1649      37373135 
- 1650 0435 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
- 1650      66756E63 
- 1650      74696F6E 
- 1650      2D736563 
- 1650      74696F6E 
- 1651              	.LASF52:
- 1652 045d 7265636F 		.ascii	"record_buffer\000"
- 1652      72645F62 
- 1652      75666665 
- 1652      7200
- 1653              	.LASF41:
- 1654 046b 4B425F49 		.ascii	"KB_Initialized\000"
- 1654      6E697469 
- 1654      616C697A 
- 1654      656400
- 1655              	.LASF39:
- 1656 047a 735F6D61 		.ascii	"s_main_state\000"
- 1656      696E5F73 
- 1656      74617465 
- 1656      00
- 1657              	.LASF69:
- 1658 0487 73657269 		.ascii	"serial_menu_init\000"
- 1658      616C5F6D 
- 1658      656E755F 
- 1658      696E6974 
- 1658      00
- 1659              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 1652              	.LASF47:
+ 1653 039b 64657461 		.ascii	"detail_menu_items\000"
+ 1653      696C5F6D 
+ 1653      656E755F 
+ 1653      6974656D 
+ 1653      7300
+ 1654              	.LASF49:
+ 1655 03ad 64657461 		.ascii	"detail_menu_left\000"
+ 1655      696C5F6D 
+ 1655      656E755F 
+ 1655      6C656674 
+ 1655      00
+ 1656              	.LASF66:
+ 1657 03be 5254435F 		.ascii	"RTC_now\000"
+ 1657      6E6F7700 
+ 1658              	.LASF61:
+ 1659 03c6 46535F49 		.ascii	"FS_Init\000"
+ 1659      6E697400 
+ 1660              	.LASF51:
+ 1661 03ce 62756666 		.ascii	"buff_size\000"
+ 1661      5F73697A 
+ 1661      6500
+ 1662              	.LASF81:
+ 1663 03d8 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1663      43313120 
+ 1663      352E342E 
+ 1663      31203230 
+ 1663      31363036 
+ 1664 040b 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1664      20726576 
+ 1664      6973696F 
+ 1664      6E203233 
+ 1664      37373135 
+ 1665 043e 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1665      66756E63 
+ 1665      74696F6E 
+ 1665      2D736563 
+ 1665      74696F6E 
+ 1666              	.LASF53:
+ 1667 0466 7265636F 		.ascii	"record_buffer\000"
+ 1667      72645F62 
+ 1667      75666665 
+ 1667      7200
+ 1668              	.LASF42:
+ 1669 0474 4B425F49 		.ascii	"KB_Initialized\000"
+ 1669      6E697469 
+ 1669      616C697A 
+ 1669      656400
+ 1670              	.LASF40:
+ 1671 0483 735F6D61 		.ascii	"s_main_state\000"
+ 1671      696E5F73 
+ 1671      74617465 
+ 1671      00
+ 1672              	.LASF70:
+ 1673 0490 73657269 		.ascii	"serial_menu_init\000"
+ 1673      616C5F6D 
+ 1673      656E755F 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccyETIZM.s 			page 36
+
+
+ 1673      696E6974 
+ 1673      00
+ 1674              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

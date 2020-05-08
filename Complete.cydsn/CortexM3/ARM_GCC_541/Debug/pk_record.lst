@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccDnsbRr.s 			page 1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cc3BQt16.s 			page 1
 
 
    1              		.syntax unified
@@ -25,7 +25,7 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccDnsbRr.s 			page 1
   22              		.type	record_size, %object
   23              		.size	record_size, 4
   24              	record_size:
-  25 0000 40000000 		.word	64
+  25 0000 60000000 		.word	96
   26              		.text
   27              	.Letext0:
   28              		.file 1 "pk_record.c"
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccDnsbRr.s 			page 1
   55              	.Ldebug_abbrev0:
   56 0000 01       		.uleb128 0x1
   57 0001 11       		.uleb128 0x11
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccDnsbRr.s 			page 2
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cc3BQt16.s 			page 2
 
 
   58 0002 01       		.byte	0x1
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccDnsbRr.s 			page 1
  112 0000 28000000 		.section	.debug_str,"MS",%progbits,1
  112      02002200 
  112      00000201 
-ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccDnsbRr.s 			page 3
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\cc3BQt16.s 			page 3
 
 
  112      FB0E0D00 

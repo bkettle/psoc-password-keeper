@@ -44,6 +44,7 @@
           <File BuildType="BUILD" Toolchain="">pk_ui.c</File>
           <File BuildType="BUILD" Toolchain="">ssd1306.c</File>
           <File BuildType="BUILD" Toolchain="">pk_usb.c</File>
+          <File BuildType="BUILD" Toolchain="">aes.c</File>
           <File BuildType="BUILD" Toolchain="">cyapicallbacks.h</File>
           <File BuildType="BUILD" Toolchain="">pk_record.h</File>
           <File BuildType="BUILD" Toolchain="">pk_sdrecorddb.h</File>
@@ -52,6 +53,7 @@
           <File BuildType="BUILD" Toolchain="">pk_ui.h</File>
           <File BuildType="BUILD" Toolchain="">ssd1306.h</File>
           <File BuildType="BUILD" Toolchain="">pk_usb.h</File>
+          <File BuildType="BUILD" Toolchain="">aes.h</File>
         </Files>
       </Folder>
       <Folder BuildType="STRICT" Path="C:\Users\bkettle\OneDrive\School\6.115\project\psoc\Password Keeper\Complete.cydsn\Generated_Source\PSoC5">

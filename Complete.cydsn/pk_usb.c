@@ -122,7 +122,7 @@ void KB_TypeString(char* str_to_type, bool draw) {
             // type the current character
             KB_TypeChar(ascii_to_hid[shifted_ascii]);
         }
-        USB_print(str_to_type);
+        //USB_print(str_to_type);
         if (draw) {
             gfx_setCursor(20,48);
             gfx_println("done!");

@@ -4,6 +4,6 @@
     password, title data.
 */
 
-int record_size = 64; // record size in bytes
+int record_size = 96; // record size in bytes
 
 /* [] END OF FILE */

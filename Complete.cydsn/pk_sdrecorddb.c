@@ -4,12 +4,33 @@
     sd-card database
 */
 
-#include <project.h>
 #include <pk_sdrecorddb.h>
 
-Record example_record = {"example", "record", "this is an example"};
+//Record example_record = {"example", "record", "this is an example"};
 
 char sdFile[9] = "pwdb";
+
+// ENCRYPTION
+struct AES_ctx ctx;
+uint8_t key[16] = {83, 13, 14, 15, 16, 17, 18, 19,
+                    20, 245, 22, 23, 24, 25, 29, 27};
+void enc_encryptRecord(Record * to_encrypt) {
+    // encrypts the record
+    // record size must be a mutliple of 16
+    AES_init_ctx(&ctx, key);
+    for (int i=0; i<(record_size/16); i++) {
+        AES_ECB_encrypt(&ctx, (uint8_t *) to_encrypt + i*16);
+    }
+}
+
+void enc_decryptRecord(Record * to_decrypt) {
+    // decrypts the record
+    AES_init_ctx(&ctx, key);
+    for (int i=0; i<(record_size/16); i++) {
+        AES_ECB_decrypt(&ctx, (uint8_t *) to_decrypt + i*16);
+    }
+}
+// END ENCRYPTION
 
 
 void SD_createDB(bool write_example) {
@@ -48,21 +69,22 @@ void SD_createDB(bool write_example) {
         UART_1_PutString(sdFile);
         UART_1_PutString(" was opened");
         
-        // write example record to the file
-        if (write_example) {
-            if(0 != FS_Write(pFile, &example_record, record_size)) {
-                /* Inditate that data was written to a file */
-                UART_1_PutString("\n\r\"0123456789\"");
-                UART_1_PutString(sdFile);
-                //LCD_Position(1u, 0u);
-                UART_1_PutString(" written to file");
-            }
-            else {
-                UART_1_PutString("\n\r Failed to write");
-                //LCD_Position(1u, 0u);
-                UART_1_PutString(" data to file");
-            }
-        }
+//        // write example record to the file
+//        if (write_example) {
+//            // this writes unencrypted record, will not work
+//            if(0 != FS_Write(pFile, &example_record, record_size)) {
+//                /* Inditate that data was written to a file */
+//                UART_1_PutString("\n\r\"0123456789\"");
+//                UART_1_PutString(sdFile);
+//                //LCD_Position(1u, 0u);
+//                UART_1_PutString(" written to file");
+//            }
+//            else {
+//                UART_1_PutString("\n\r Failed to write");
+//                //LCD_Position(1u, 0u);
+//                UART_1_PutString(" data to file");
+//            }
+//        }
         
         if(0 == FS_FClose(pFile)) {
             UART_1_PutString("\n\r File was closed");
@@ -111,6 +133,12 @@ bool SD_readRecords(int rec_index, int num_records, Record * out) {
         
         FS_Read(pFile, out, record_size*num_records);
         
+        // decrypt the records
+        for (int i = 0; i<num_records; i++) {
+            // find the address of each record and decrypt
+            enc_decryptRecord(&out[i]);
+        }
+        
         if (0 != FS_FClose(pFile)) {
             // failed to close file
             UART_1_PutString("\n\r !! Failed to close file!");
@@ -131,8 +159,10 @@ bool SD_addRecord(Record * to_add) {
     pFile = FS_FOpen(sdFile, "a");
     
     if (pFile) {
-        // cursor should be at the end of the file, bc appending
+        // encrypt record
+        enc_encryptRecord(to_add);
         
+        // cursor should be at the end of the file, bc appending
         // write the record in to_add to the file at the cursor pos
         // should be record_size long (I hope)
         FS_Write(pFile, to_add, record_size);

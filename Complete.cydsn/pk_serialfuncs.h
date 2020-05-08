@@ -24,12 +24,13 @@ typedef struct {
 #define S_STARTUP 0
 #define S_MAIN_MENU 1
 #define S_ADD_RECORD 2
+#define S_FORMAT_SD 3
 
 // definitions for commands for serial main menu
 #define INVALID_CMD 0
 #define S_MAIN_ADD 1
 #define S_MAIN_VIEW 2
-#define S_MAIN_GEN_PW 3
+#define S_MAIN_FORMAT 3
 
 // states for adding a record
 #define ADD_REC_START 0

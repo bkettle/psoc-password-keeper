@@ -81,7 +81,7 @@ void ui_updateBuffer(int curr_index) {
     
     SD_readRecords(buff_offset, num_loaded, record_buffer);
     num_loaded = num_loaded;
-    debug_printBuff();
+    //debug_printBuff();
 }
     
     
@@ -134,16 +134,16 @@ void ui_drawRecordList(Record * buff, int curr_index) {
     // update record buffer if approaching the end
     // and we have a different cursor value than last time
     if (curr_index != prev_index) {
-        USB_print("\n\r scrolled");
+        //USB_print("\n\r scrolled");
         if (curr_index - buff_offset < 3) {
             // currently highlighted is the third from the bottom
             // we want this to be middle-ish
-            USB_print("\n\r updating low");
+            //USB_print("\n\r updating low");
             ui_updateBuffer(curr_index);
         } else if (curr_index - buff_offset > buff_size - 4) {
             // 3rd from top is currently hightlighted
             // so center it
-            USB_print("\n\r updating high");
+            //USB_print("\n\r updating high");
             ui_updateBuffer(curr_index);
         }
     }
@@ -176,6 +176,30 @@ void ui_drawRecordDetail(Record record) {
     display_update();
     Dial_SetCounter(0);
     ui_recordDetailUpdate(Dial_GetCounter());
+}
+
+void ui_drawRecordCredentials(Record record) {
+    display_clear();
+    gfx_setCursor(0,6);
+    gfx_setTextSize(1);
+    gfx_setTextColor(WHITE);
+    gfx_println(record.title);
+    gfx_print("user:\n\r  "); gfx_println(record.username);
+    gfx_print("pass:\n\r  "); gfx_println(record.password);
+    gfx_println("<- push to go back");
+    display_update();
+}
+
+void ui_drawTOTP(Record record) {
+    display_clear();
+    gfx_setCursor(0,6);
+    gfx_setTextSize(1);
+    gfx_setTextColor(WHITE);
+    gfx_println(record.title);
+    gfx_setTextSize(2);
+    gfx_setTextSize(1);
+    gfx_println("<- push to go back");
+    display_update();
 }
 
 void ui_fsm(bool * enc_sw_flag) {
@@ -244,6 +268,10 @@ void ui_fsm(bool * enc_sw_flag) {
                     }
                     break;
                     case RECORD_VIEW_CREDENTIALS:
+                    {
+                        ui_drawRecordCredentials(curr_record);
+                        display_state = DISPLAY_CREDENTIALS;
+                    }
                     break;
                     case RECORD_VIEW_TOTP:
                     break;
@@ -257,9 +285,19 @@ void ui_fsm(bool * enc_sw_flag) {
                 }
             }
         break;
-        case VIEW_CREDENTIALS:
+        case DISPLAY_CREDENTIALS:
+            // basically just wait for button push
+            if (*enc_sw_flag) {
+                // return to main record menu on button push
+                display_state = RECORD_SELECT;
+                Dial_SetCounter(0);
+                ui_updateBuffer(0);
+                ui_drawRecordList(record_buffer, curr_index);
+            }
         break;
         case RECORD_TOTP:
+            // refresh if enough time has passed?
+            // not super necessary feature but would be dope
         break;
         case MANAGE_RECORDS:
         break;
