@@ -4,8 +4,13 @@
 
 #include <pk_usb.h>
 
+// holds command in progress
 char rx_buffer[40] = {0};
 int rx_buff_length = 40;
+
+// hold current USB input
+// has to be long to support copy/paste
+char inputbuffer[40];
 
 void clr_rx_buffer(){ 
     memset(rx_buffer, 0, 40); 
@@ -17,13 +22,24 @@ void USB_handleInput(char * cmd_output) {
     // input recieved
     if (USBFS_DataIsReady()) {
         while (USBFS_DataIsReady()) {
-            char inputbuffer[3];
+            // this only works as intended for 1 character at a time,
+            // could add a loop over inputbuffer to fix this
             int count = USBFS_GetAll((uint8_t*) inputbuffer);
             inputbuffer[count] = 0; // null terminate the input
             if (inputbuffer[0] == 0xD) {
                 // move buffer into cmd_output on enter
                 strcpy(cmd_output, rx_buffer);
                 clr_rx_buffer();
+            } else if (inputbuffer[0] == 0x7F) {
+                // handle backspaces
+                int rx_len = strlen(rx_buffer);
+                if (rx_len > 0) {
+                    // if there is something in rx_buffer
+                    // then replace the last thing with \0
+                    rx_buffer[rx_len - 1] = 0;
+                }
+                // echo the backspace to the terminal
+                USBFS_PutChar(0x7F);
             } else {
                 USB_print(inputbuffer);    // echo recieved character
                 // add non-enter characters to rx buffer

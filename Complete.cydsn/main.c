@@ -95,6 +95,14 @@ int main() {
     USB_print("STARTUP\n\r");
     
     for(;;) {
+        // update the UI record buffer if the serial thing
+        // has just added a record to the db
+        if (serial_status == S_STATUS_REQUIRE_RELOAD) {
+            serial_status = S_STATUS_GOOD;
+            ui_forceBufferUpdate = true;
+        }
+        
+        // CALL FSMs
         // only do the serial things if serial is connected
         // ie the user has putty open
         if (USB_isReady()) serial_fsm(&curr_record);

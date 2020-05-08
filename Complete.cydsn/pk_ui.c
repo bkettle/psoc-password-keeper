@@ -9,10 +9,8 @@
 
 uint8 display_state = STARTUP;
 
-// JUST AN EXAMPLE
-// example key for testing totp
-char test_totp[20] = {0x3d, 0xc6, 0xca, 0xa4, 0x82, 0x4a, 0x6d, 0x28, 0x87, 0x67, 
-                      0xb2, 0x33, 0x1e, 0x20, 0xb4, 0x31, 0x66, 0xcb, 0x85, 0xd9};
+// for external input
+bool ui_forceBufferUpdate;
 
 /***************************************************
 *       VALUES FOR RECORD DETAIL MENU              *
@@ -83,6 +81,13 @@ void ui_updateBuffer(int curr_index) {
 void ui_drawRecordList(Record * buff, int curr_index) {
     /* uses the record buff, the current record number,
         and the current buffer offset to print the current record menu */
+    // update buffer if required by external input
+    if (ui_forceBufferUpdate) {
+        ui_updateBuffer(curr_index);
+        ui_forceBufferUpdate = false; // handled it
+    }
+    
+    // calculate where in the buffer our current index is
     int buff_index = curr_index - buff_offset;
     // handle overflow beyond bounds
     if (buff_index < 0) {
@@ -102,8 +107,10 @@ void ui_drawRecordList(Record * buff, int curr_index) {
         curr_index = buff_index + buff_offset -1; // don't count as scroll
         buff_index = num_loaded - 1;
     }
+    
+    // draw relevant 5 records on screen
     display_clear();
-    gfx_fillRect(0, 22, 100, 20, WHITE);
+    gfx_fillRect(0, 22, 120, 20, WHITE);
     gfx_setTextSize(1);
     gfx_setCursor(0,6);
     gfx_setTextColor(WHITE);
@@ -194,7 +201,7 @@ void ui_drawTOTP(Record record) {
     char totp_str[10]; // holds ascii representation of totp
     int unixtime = dt_getUnixtime(RTC_now()); // get current unix time
     // calculate totp value and print to screen
-    sprintf(totp_str, "%d", calc_totp(unixtime, test_totp, 20, 30, 0));
+    sprintf(totp_str, "%06d", calc_totp(unixtime, record.totp_key, 20, 30, 0));
     gfx_println(totp_str);
     gfx_setTextSize(1);
     gfx_println("<- push to go back");
@@ -292,10 +299,10 @@ void ui_fsm(bool * enc_sw_flag) {
             // basically just wait for button push
             if (*enc_sw_flag) {
                 // return to main record menu on button push
-                display_state = RECORD_SELECT;
+                display_state = RECORD_DETAIL;
                 Dial_SetCounter(0);
                 ui_updateBuffer(0);
-                ui_drawRecordList(record_buffer, curr_index);
+                ui_drawRecordDetail(curr_record);
             }
         break;
         case DISPLAY_TOTP:
@@ -304,10 +311,10 @@ void ui_fsm(bool * enc_sw_flag) {
             // return to menu on button press
             if (*enc_sw_flag) {
                 // return to main record menu on button push
-                display_state = RECORD_SELECT;
+                display_state = RECORD_DETAIL;
                 Dial_SetCounter(0);
                 ui_updateBuffer(0);
-                ui_drawRecordList(record_buffer, curr_index);
+                ui_drawRecordDetail(curr_record);
             }
         break;
         case MANAGE_RECORDS:

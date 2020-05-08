@@ -10,6 +10,13 @@
 #include <ds3231.h>
 #include <stdio.h>
 #include <stdlib.h>
+    
+// Serial Status
+// for other parts of the system
+int serial_status;
+#define S_STATUS_GOOD 0 // all is good, self-contained
+#define S_STATUS_REQUIRE_RELOAD 1 // after modifying record db
+#define S_STATUS_FORMATTING_SD 2 // when formatting sd card
 
 void serial_print_record(Record record);
 
@@ -25,30 +32,6 @@ typedef struct {
 #define S_MAIN_MENU 1
 #define S_ADD_RECORD 2
 #define S_FORMAT_SD 3
-
-// definitions for commands for serial main menu
-#define INVALID_CMD 0
-#define S_MAIN_ADD 1
-#define S_MAIN_VIEW 2
-#define S_MAIN_FORMAT 3
-
-// states for adding a record
-#define ADD_REC_START 0
-#define ADD_REC_TITLE 1
-#define ADD_REC_UNAME 2
-#define ADD_REC_PASS_MENU 3
-#define ADD_REC_PASS_ENTRY 4
-#define ADD_REC_PROMPT_TOTP 5
-#define ADD_REC_TOTP_ENTRY 6
-#define ADD_REC_CONF_PROMPT 7
-#define ADD_REC_CONFIRM 8
-
-// command definitions for password menu
-#define PASS_MENU_ENTER 1
-#define PASS_MENU_GEN 2
-
-// HOLDS THE RECORD BEING CREATED
-Record new_record;
 
 // print a menu and prompt user input
 void serial_print_menu(SerialMenu menu);
@@ -70,7 +53,7 @@ void serial_printHex(unsigned char * arr, size_t size);
 
 CY_ISR(RX_INT);
 
-CY_ISR(ENC_SW_INT);
+//CY_ISR(ENC_SW_INT);
 
 // Serial state variables
 int s_main_state;

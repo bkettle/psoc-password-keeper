@@ -18,6 +18,8 @@
 // address for the oled
 #define DISPLAY_ADDRESS 0x3C // 011110+SA0+RW - 0x3C or 0x3D
     
+// for input from main
+bool ui_forceBufferUpdate;
     
 // dislay states
 #define STARTUP 0

@@ -52,6 +52,34 @@ SerialMenu pass_menu = {
     }
 };
 
+// STATES AND THINGS
+// FOR SERIAL MENUS
+// main fsm defs in header 
+// definitions for commands for serial main menu
+#define INVALID_CMD 0
+#define S_MAIN_ADD 1
+#define S_MAIN_VIEW 2
+#define S_MAIN_FORMAT 3
+
+// states for adding a record
+#define ADD_REC_START 0
+#define ADD_REC_TITLE 1
+#define ADD_REC_UNAME 2
+#define ADD_REC_PASS_MENU 3
+#define ADD_REC_PASS_ENTRY 4
+#define ADD_REC_PROMPT_TOTP 5
+#define ADD_REC_TOTP_ENTRY 6
+#define ADD_REC_CONF_PROMPT 7
+#define ADD_REC_CONFIRM 8
+
+// command definitions for password menu
+#define PASS_MENU_ENTER 1
+#define PASS_MENU_GEN 2
+
+// HOLDS THE RECORD BEING CREATED
+Record new_record;
+// END STATES AND THINGS
+
 void update_rx_buffer(char to_add) {
     char str_to_add[2] = {to_add, 0};
     strcat(rx_buffer, str_to_add);
@@ -178,6 +206,7 @@ void serial_print_dt(DateTime dt) {
 // Serial state variables
 int s_main_state = S_MAIN_MENU;
 int s_sec_state = 0; // secondary state
+int serial_status = S_STATUS_GOOD;
 
 void serial_menu_init() {
     //rx_buff_length = 0;
@@ -245,8 +274,7 @@ void serial_fsm() {
             switch(s_sec_state) {
                 case ADD_REC_START:
                     // clear the current record
-                    new_record = (Record){"","","",""};
-                    USB_print("\n\rNOTE: Backspace not Supported yet!");
+                    new_record = (Record){"","","",false,""};
                     USB_print("\n\rEnter Record Title: ");
                     s_sec_state = ADD_REC_TITLE;
                 break;
@@ -380,6 +408,8 @@ void serial_fsm() {
                             // new_record should be complete
                             // save the new record to sd
                             SD_addRecord(&new_record);
+                            // tell ui to reload records
+                            serial_status = S_STATUS_REQUIRE_RELOAD;
                         } else {
                             USB_print("\n\rCancelling!");
                         }
