@@ -32,16 +32,16 @@ int main(void)
     I2CRTC_EnableInt();
     
     
-    
-    /*DateTime init = {
+    // HAVE TO SET TO UTC TIME
+    DateTime init = {
         20,     // year from 2000
-        6,      // month
-        1,      // day
-        16,      // hour
-        3,      // minute
-        22      // second
+        5,      // month
+        8,      // day
+        20,      // hour
+        31,      // minute
+        20      // second
     };
-    RTC_setTime(init); TIME SHOULD BE SET NOW*/
+    RTC_setTime(init); //TIME SHOULD BE SET NOW
 
     for(;;)
     {
