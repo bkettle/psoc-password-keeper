@@ -1,0 +1,3896 @@
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"usha.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.USHAReset,"ax",%progbits
+  20              		.align	2
+  21              		.global	USHAReset
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	USHAReset, %function
+  25              	USHAReset:
+  26              	.LFB0:
+  27              		.file 1 "..\\lib\\yubico-c-client\\usha.c"
+   1:..\lib\yubico-c-client/usha.c **** /**************************** usha.c ****************************/
+   2:..\lib\yubico-c-client/usha.c **** /******************** See RFC 4634 for details ******************/
+   3:..\lib\yubico-c-client/usha.c **** /*
+   4:..\lib\yubico-c-client/usha.c ****  *  Description:
+   5:..\lib\yubico-c-client/usha.c ****  *     This file implements a unified interface to the SHA algorithms.
+   6:..\lib\yubico-c-client/usha.c ****  */
+   7:..\lib\yubico-c-client/usha.c **** 
+   8:..\lib\yubico-c-client/usha.c **** #include "sha.h"
+   9:..\lib\yubico-c-client/usha.c **** 
+  10:..\lib\yubico-c-client/usha.c **** /*
+  11:..\lib\yubico-c-client/usha.c ****  *  USHAReset
+  12:..\lib\yubico-c-client/usha.c ****  *
+  13:..\lib\yubico-c-client/usha.c ****  *  Description:
+  14:..\lib\yubico-c-client/usha.c ****  *      This function will initialize the SHA Context in preparation
+  15:..\lib\yubico-c-client/usha.c ****  *      for computing a new SHA message digest.
+  16:..\lib\yubico-c-client/usha.c ****  *
+  17:..\lib\yubico-c-client/usha.c ****  *  Parameters:
+  18:..\lib\yubico-c-client/usha.c ****  *      context: [in/out]
+  19:..\lib\yubico-c-client/usha.c ****  *          The context to reset.
+  20:..\lib\yubico-c-client/usha.c ****  *      whichSha: [in]
+  21:..\lib\yubico-c-client/usha.c ****  *          Selects which SHA reset to call
+  22:..\lib\yubico-c-client/usha.c ****  *
+  23:..\lib\yubico-c-client/usha.c ****  *  Returns:
+  24:..\lib\yubico-c-client/usha.c ****  *      sha Error Code.
+  25:..\lib\yubico-c-client/usha.c ****  *
+  26:..\lib\yubico-c-client/usha.c ****  */
+  27:..\lib\yubico-c-client/usha.c **** int
+  28:..\lib\yubico-c-client/usha.c **** USHAReset (USHAContext * ctx, enum SHAversion whichSha)
+  29:..\lib\yubico-c-client/usha.c **** {
+  28              		.loc 1 29 0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 2
+
+
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  30:..\lib\yubico-c-client/usha.c ****   if (ctx)
+  33              		.loc 1 30 0
+  34 0000 E0B1     		cbz	r0, .L9
+  29:..\lib\yubico-c-client/usha.c ****   if (ctx)
+  35              		.loc 1 29 0
+  36 0002 08B5     		push	{r3, lr}
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 3, -8
+  39              		.cfi_offset 14, -4
+  31:..\lib\yubico-c-client/usha.c ****     {
+  32:..\lib\yubico-c-client/usha.c ****       ctx->whichSha = whichSha;
+  40              		.loc 1 32 0
+  41 0004 0160     		str	r1, [r0]
+  33:..\lib\yubico-c-client/usha.c ****       switch (whichSha)
+  42              		.loc 1 33 0
+  43 0006 0429     		cmp	r1, #4
+  44 0008 1AD8     		bhi	.L10
+  45 000a DFE801F0 		tbb	[pc, r1]
+  46              	.L4:
+  47 000e 03       		.byte	(.L3-.L4)/2
+  48 000f 07       		.byte	(.L5-.L4)/2
+  49 0010 0B       		.byte	(.L6-.L4)/2
+  50 0011 0F       		.byte	(.L7-.L4)/2
+  51 0012 13       		.byte	(.L8-.L4)/2
+  52 0013 00       		.p2align 1
+  53              	.L3:
+  34:..\lib\yubico-c-client/usha.c **** 	{
+  35:..\lib\yubico-c-client/usha.c **** 	case SHA1:
+  36:..\lib\yubico-c-client/usha.c **** 	  return SHA1Reset ((SHA1Context *) & ctx->ctx);
+  54              		.loc 1 36 0
+  55 0014 0830     		adds	r0, r0, #8
+  56              	.LVL1:
+  57 0016 FFF7FEFF 		bl	SHA1Reset
+  58              	.LVL2:
+  59 001a 08BD     		pop	{r3, pc}
+  60              	.LVL3:
+  61              	.L5:
+  37:..\lib\yubico-c-client/usha.c **** 	case SHA224:
+  38:..\lib\yubico-c-client/usha.c **** 	  return SHA224Reset ((SHA224Context *) & ctx->ctx);
+  62              		.loc 1 38 0
+  63 001c 0830     		adds	r0, r0, #8
+  64              	.LVL4:
+  65 001e FFF7FEFF 		bl	SHA224Reset
+  66              	.LVL5:
+  67 0022 08BD     		pop	{r3, pc}
+  68              	.LVL6:
+  69              	.L6:
+  39:..\lib\yubico-c-client/usha.c **** 	case SHA256:
+  40:..\lib\yubico-c-client/usha.c **** 	  return SHA256Reset ((SHA256Context *) & ctx->ctx);
+  70              		.loc 1 40 0
+  71 0024 0830     		adds	r0, r0, #8
+  72              	.LVL7:
+  73 0026 FFF7FEFF 		bl	SHA256Reset
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 3
+
+
+  74              	.LVL8:
+  75 002a 08BD     		pop	{r3, pc}
+  76              	.LVL9:
+  77              	.L7:
+  41:..\lib\yubico-c-client/usha.c **** 	case SHA384:
+  42:..\lib\yubico-c-client/usha.c **** 	  return SHA384Reset ((SHA384Context *) & ctx->ctx);
+  78              		.loc 1 42 0
+  79 002c 0830     		adds	r0, r0, #8
+  80              	.LVL10:
+  81 002e FFF7FEFF 		bl	SHA384Reset
+  82              	.LVL11:
+  83 0032 08BD     		pop	{r3, pc}
+  84              	.LVL12:
+  85              	.L8:
+  43:..\lib\yubico-c-client/usha.c **** 	case SHA512:
+  44:..\lib\yubico-c-client/usha.c **** 	  return SHA512Reset ((SHA512Context *) & ctx->ctx);
+  86              		.loc 1 44 0
+  87 0034 0830     		adds	r0, r0, #8
+  88              	.LVL13:
+  89 0036 FFF7FEFF 		bl	SHA512Reset
+  90              	.LVL14:
+  91 003a 08BD     		pop	{r3, pc}
+  92              	.LVL15:
+  93              	.L9:
+  94              		.cfi_def_cfa_offset 0
+  95              		.cfi_restore 3
+  96              		.cfi_restore 14
+  45:..\lib\yubico-c-client/usha.c **** 	default:
+  46:..\lib\yubico-c-client/usha.c **** 	  return shaBadParam;
+  47:..\lib\yubico-c-client/usha.c **** 	}
+  48:..\lib\yubico-c-client/usha.c ****     }
+  49:..\lib\yubico-c-client/usha.c ****   else
+  50:..\lib\yubico-c-client/usha.c ****     {
+  51:..\lib\yubico-c-client/usha.c ****       return shaNull;
+  97              		.loc 1 51 0
+  98 003c 0120     		movs	r0, #1
+  99              	.LVL16:
+  52:..\lib\yubico-c-client/usha.c ****     }
+  53:..\lib\yubico-c-client/usha.c **** }
+ 100              		.loc 1 53 0
+ 101 003e 7047     		bx	lr
+ 102              	.LVL17:
+ 103              	.L10:
+  46:..\lib\yubico-c-client/usha.c **** 	}
+ 104              		.loc 1 46 0
+ 105 0040 0420     		movs	r0, #4
+ 106              	.LVL18:
+ 107              		.loc 1 53 0
+ 108 0042 08BD     		pop	{r3, pc}
+ 109              		.cfi_endproc
+ 110              	.LFE0:
+ 111              		.size	USHAReset, .-USHAReset
+ 112              		.section	.text.USHAInput,"ax",%progbits
+ 113              		.align	2
+ 114              		.global	USHAInput
+ 115              		.thumb
+ 116              		.thumb_func
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 4
+
+
+ 117              		.type	USHAInput, %function
+ 118              	USHAInput:
+ 119              	.LFB1:
+  54:..\lib\yubico-c-client/usha.c **** 
+  55:..\lib\yubico-c-client/usha.c **** /*
+  56:..\lib\yubico-c-client/usha.c ****  *  USHAInput
+  57:..\lib\yubico-c-client/usha.c ****  *
+  58:..\lib\yubico-c-client/usha.c ****  *  Description:
+  59:..\lib\yubico-c-client/usha.c ****  *      This function accepts an array of octets as the next portion
+  60:..\lib\yubico-c-client/usha.c ****  *      of the message.
+  61:..\lib\yubico-c-client/usha.c ****  *
+  62:..\lib\yubico-c-client/usha.c ****  *  Parameters:
+  63:..\lib\yubico-c-client/usha.c ****  *      context: [in/out]
+  64:..\lib\yubico-c-client/usha.c ****  *          The SHA context to update
+  65:..\lib\yubico-c-client/usha.c ****  *      message_array: [in]
+  66:..\lib\yubico-c-client/usha.c ****  *          An array of characters representing the next portion of
+  67:..\lib\yubico-c-client/usha.c ****  *          the message.
+  68:..\lib\yubico-c-client/usha.c ****  *      length: [in]
+  69:..\lib\yubico-c-client/usha.c ****  *          The length of the message in message_array
+  70:..\lib\yubico-c-client/usha.c ****  *
+  71:..\lib\yubico-c-client/usha.c ****  *  Returns:
+  72:..\lib\yubico-c-client/usha.c ****  *      sha Error Code.
+  73:..\lib\yubico-c-client/usha.c ****  *
+  74:..\lib\yubico-c-client/usha.c ****  */
+  75:..\lib\yubico-c-client/usha.c **** int
+  76:..\lib\yubico-c-client/usha.c **** USHAInput (USHAContext * ctx, const uint8_t * bytes, unsigned int bytecount)
+  77:..\lib\yubico-c-client/usha.c **** {
+ 120              		.loc 1 77 0
+ 121              		.cfi_startproc
+ 122              		@ args = 0, pretend = 0, frame = 0
+ 123              		@ frame_needed = 0, uses_anonymous_args = 0
+ 124              	.LVL19:
+  78:..\lib\yubico-c-client/usha.c ****   if (ctx)
+ 125              		.loc 1 78 0
+ 126 0000 E0B1     		cbz	r0, .L20
+  77:..\lib\yubico-c-client/usha.c ****   if (ctx)
+ 127              		.loc 1 77 0
+ 128 0002 08B5     		push	{r3, lr}
+ 129              		.cfi_def_cfa_offset 8
+ 130              		.cfi_offset 3, -8
+ 131              		.cfi_offset 14, -4
+  79:..\lib\yubico-c-client/usha.c ****     {
+  80:..\lib\yubico-c-client/usha.c ****       switch (ctx->whichSha)
+ 132              		.loc 1 80 0
+ 133 0004 0368     		ldr	r3, [r0]
+ 134 0006 042B     		cmp	r3, #4
+ 135 0008 1AD8     		bhi	.L21
+ 136 000a DFE803F0 		tbb	[pc, r3]
+ 137              	.L15:
+ 138 000e 03       		.byte	(.L14-.L15)/2
+ 139 000f 07       		.byte	(.L16-.L15)/2
+ 140 0010 0B       		.byte	(.L17-.L15)/2
+ 141 0011 0F       		.byte	(.L18-.L15)/2
+ 142 0012 13       		.byte	(.L19-.L15)/2
+ 143 0013 00       		.p2align 1
+ 144              	.L14:
+  81:..\lib\yubico-c-client/usha.c **** 	{
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 5
+
+
+  82:..\lib\yubico-c-client/usha.c **** 	case SHA1:
+  83:..\lib\yubico-c-client/usha.c **** 	  return SHA1Input ((SHA1Context *) & ctx->ctx, bytes, bytecount);
+ 145              		.loc 1 83 0
+ 146 0014 0830     		adds	r0, r0, #8
+ 147              	.LVL20:
+ 148 0016 FFF7FEFF 		bl	SHA1Input
+ 149              	.LVL21:
+ 150 001a 08BD     		pop	{r3, pc}
+ 151              	.LVL22:
+ 152              	.L16:
+  84:..\lib\yubico-c-client/usha.c **** 	case SHA224:
+  85:..\lib\yubico-c-client/usha.c **** 	  return SHA224Input ((SHA224Context *) & ctx->ctx, bytes, bytecount);
+ 153              		.loc 1 85 0
+ 154 001c 0830     		adds	r0, r0, #8
+ 155              	.LVL23:
+ 156 001e FFF7FEFF 		bl	SHA224Input
+ 157              	.LVL24:
+ 158 0022 08BD     		pop	{r3, pc}
+ 159              	.LVL25:
+ 160              	.L17:
+  86:..\lib\yubico-c-client/usha.c **** 	case SHA256:
+  87:..\lib\yubico-c-client/usha.c **** 	  return SHA256Input ((SHA256Context *) & ctx->ctx, bytes, bytecount);
+ 161              		.loc 1 87 0
+ 162 0024 0830     		adds	r0, r0, #8
+ 163              	.LVL26:
+ 164 0026 FFF7FEFF 		bl	SHA256Input
+ 165              	.LVL27:
+ 166 002a 08BD     		pop	{r3, pc}
+ 167              	.LVL28:
+ 168              	.L18:
+  88:..\lib\yubico-c-client/usha.c **** 	case SHA384:
+  89:..\lib\yubico-c-client/usha.c **** 	  return SHA384Input ((SHA384Context *) & ctx->ctx, bytes, bytecount);
+ 169              		.loc 1 89 0
+ 170 002c 0830     		adds	r0, r0, #8
+ 171              	.LVL29:
+ 172 002e FFF7FEFF 		bl	SHA384Input
+ 173              	.LVL30:
+ 174 0032 08BD     		pop	{r3, pc}
+ 175              	.LVL31:
+ 176              	.L19:
+  90:..\lib\yubico-c-client/usha.c **** 	case SHA512:
+  91:..\lib\yubico-c-client/usha.c **** 	  return SHA512Input ((SHA512Context *) & ctx->ctx, bytes, bytecount);
+ 177              		.loc 1 91 0
+ 178 0034 0830     		adds	r0, r0, #8
+ 179              	.LVL32:
+ 180 0036 FFF7FEFF 		bl	SHA512Input
+ 181              	.LVL33:
+ 182 003a 08BD     		pop	{r3, pc}
+ 183              	.LVL34:
+ 184              	.L20:
+ 185              		.cfi_def_cfa_offset 0
+ 186              		.cfi_restore 3
+ 187              		.cfi_restore 14
+  92:..\lib\yubico-c-client/usha.c **** 	default:
+  93:..\lib\yubico-c-client/usha.c **** 	  return shaBadParam;
+  94:..\lib\yubico-c-client/usha.c **** 	}
+  95:..\lib\yubico-c-client/usha.c ****     }
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 6
+
+
+  96:..\lib\yubico-c-client/usha.c ****   else
+  97:..\lib\yubico-c-client/usha.c ****     {
+  98:..\lib\yubico-c-client/usha.c ****       return shaNull;
+ 188              		.loc 1 98 0
+ 189 003c 0120     		movs	r0, #1
+ 190              	.LVL35:
+  99:..\lib\yubico-c-client/usha.c ****     }
+ 100:..\lib\yubico-c-client/usha.c **** }
+ 191              		.loc 1 100 0
+ 192 003e 7047     		bx	lr
+ 193              	.LVL36:
+ 194              	.L21:
+  93:..\lib\yubico-c-client/usha.c **** 	}
+ 195              		.loc 1 93 0
+ 196 0040 0420     		movs	r0, #4
+ 197              	.LVL37:
+ 198              		.loc 1 100 0
+ 199 0042 08BD     		pop	{r3, pc}
+ 200              		.cfi_endproc
+ 201              	.LFE1:
+ 202              		.size	USHAInput, .-USHAInput
+ 203              		.section	.text.USHAFinalBits,"ax",%progbits
+ 204              		.align	2
+ 205              		.global	USHAFinalBits
+ 206              		.thumb
+ 207              		.thumb_func
+ 208              		.type	USHAFinalBits, %function
+ 209              	USHAFinalBits:
+ 210              	.LFB2:
+ 101:..\lib\yubico-c-client/usha.c **** 
+ 102:..\lib\yubico-c-client/usha.c **** /*
+ 103:..\lib\yubico-c-client/usha.c ****  * USHAFinalBits
+ 104:..\lib\yubico-c-client/usha.c ****  *
+ 105:..\lib\yubico-c-client/usha.c ****  * Description:
+ 106:..\lib\yubico-c-client/usha.c ****  *   This function will add in any final bits of the message.
+ 107:..\lib\yubico-c-client/usha.c ****  *
+ 108:..\lib\yubico-c-client/usha.c ****  * Parameters:
+ 109:..\lib\yubico-c-client/usha.c ****  *   context: [in/out]
+ 110:..\lib\yubico-c-client/usha.c ****  *     The SHA context to update
+ 111:..\lib\yubico-c-client/usha.c ****  *   message_bits: [in]
+ 112:..\lib\yubico-c-client/usha.c ****  *     The final bits of the message, in the upper portion of the
+ 113:..\lib\yubico-c-client/usha.c ****  *     byte. (Use 0b###00000 instead of 0b00000### to input the
+ 114:..\lib\yubico-c-client/usha.c ****  *     three bits ###.)
+ 115:..\lib\yubico-c-client/usha.c ****  *   length: [in]
+ 116:..\lib\yubico-c-client/usha.c ****  *     The number of bits in message_bits, between 1 and 7.
+ 117:..\lib\yubico-c-client/usha.c ****  *
+ 118:..\lib\yubico-c-client/usha.c ****  * Returns:
+ 119:..\lib\yubico-c-client/usha.c ****  *   sha Error Code.
+ 120:..\lib\yubico-c-client/usha.c ****  */
+ 121:..\lib\yubico-c-client/usha.c **** int
+ 122:..\lib\yubico-c-client/usha.c **** USHAFinalBits (USHAContext * ctx, const uint8_t bits, unsigned int bitcount)
+ 123:..\lib\yubico-c-client/usha.c **** {
+ 211              		.loc 1 123 0
+ 212              		.cfi_startproc
+ 213              		@ args = 0, pretend = 0, frame = 0
+ 214              		@ frame_needed = 0, uses_anonymous_args = 0
+ 215              	.LVL38:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 7
+
+
+ 124:..\lib\yubico-c-client/usha.c ****   if (ctx)
+ 216              		.loc 1 124 0
+ 217 0000 E0B1     		cbz	r0, .L31
+ 123:..\lib\yubico-c-client/usha.c ****   if (ctx)
+ 218              		.loc 1 123 0
+ 219 0002 08B5     		push	{r3, lr}
+ 220              		.cfi_def_cfa_offset 8
+ 221              		.cfi_offset 3, -8
+ 222              		.cfi_offset 14, -4
+ 125:..\lib\yubico-c-client/usha.c ****     {
+ 126:..\lib\yubico-c-client/usha.c ****       switch (ctx->whichSha)
+ 223              		.loc 1 126 0
+ 224 0004 0368     		ldr	r3, [r0]
+ 225 0006 042B     		cmp	r3, #4
+ 226 0008 1AD8     		bhi	.L32
+ 227 000a DFE803F0 		tbb	[pc, r3]
+ 228              	.L26:
+ 229 000e 03       		.byte	(.L25-.L26)/2
+ 230 000f 07       		.byte	(.L27-.L26)/2
+ 231 0010 0B       		.byte	(.L28-.L26)/2
+ 232 0011 0F       		.byte	(.L29-.L26)/2
+ 233 0012 13       		.byte	(.L30-.L26)/2
+ 234 0013 00       		.p2align 1
+ 235              	.L25:
+ 127:..\lib\yubico-c-client/usha.c **** 	{
+ 128:..\lib\yubico-c-client/usha.c **** 	case SHA1:
+ 129:..\lib\yubico-c-client/usha.c **** 	  return SHA1FinalBits ((SHA1Context *) & ctx->ctx, bits, bitcount);
+ 236              		.loc 1 129 0
+ 237 0014 0830     		adds	r0, r0, #8
+ 238              	.LVL39:
+ 239 0016 FFF7FEFF 		bl	SHA1FinalBits
+ 240              	.LVL40:
+ 241 001a 08BD     		pop	{r3, pc}
+ 242              	.LVL41:
+ 243              	.L27:
+ 130:..\lib\yubico-c-client/usha.c **** 	case SHA224:
+ 131:..\lib\yubico-c-client/usha.c **** 	  return SHA224FinalBits ((SHA224Context *) & ctx->ctx, bits,
+ 244              		.loc 1 131 0
+ 245 001c 0830     		adds	r0, r0, #8
+ 246              	.LVL42:
+ 247 001e FFF7FEFF 		bl	SHA224FinalBits
+ 248              	.LVL43:
+ 249 0022 08BD     		pop	{r3, pc}
+ 250              	.LVL44:
+ 251              	.L28:
+ 132:..\lib\yubico-c-client/usha.c **** 				  bitcount);
+ 133:..\lib\yubico-c-client/usha.c **** 	case SHA256:
+ 134:..\lib\yubico-c-client/usha.c **** 	  return SHA256FinalBits ((SHA256Context *) & ctx->ctx, bits,
+ 252              		.loc 1 134 0
+ 253 0024 0830     		adds	r0, r0, #8
+ 254              	.LVL45:
+ 255 0026 FFF7FEFF 		bl	SHA256FinalBits
+ 256              	.LVL46:
+ 257 002a 08BD     		pop	{r3, pc}
+ 258              	.LVL47:
+ 259              	.L29:
+ 135:..\lib\yubico-c-client/usha.c **** 				  bitcount);
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 8
+
+
+ 136:..\lib\yubico-c-client/usha.c **** 	case SHA384:
+ 137:..\lib\yubico-c-client/usha.c **** 	  return SHA384FinalBits ((SHA384Context *) & ctx->ctx, bits,
+ 260              		.loc 1 137 0
+ 261 002c 0830     		adds	r0, r0, #8
+ 262              	.LVL48:
+ 263 002e FFF7FEFF 		bl	SHA384FinalBits
+ 264              	.LVL49:
+ 265 0032 08BD     		pop	{r3, pc}
+ 266              	.LVL50:
+ 267              	.L30:
+ 138:..\lib\yubico-c-client/usha.c **** 				  bitcount);
+ 139:..\lib\yubico-c-client/usha.c **** 	case SHA512:
+ 140:..\lib\yubico-c-client/usha.c **** 	  return SHA512FinalBits ((SHA512Context *) & ctx->ctx, bits,
+ 268              		.loc 1 140 0
+ 269 0034 0830     		adds	r0, r0, #8
+ 270              	.LVL51:
+ 271 0036 FFF7FEFF 		bl	SHA512FinalBits
+ 272              	.LVL52:
+ 273 003a 08BD     		pop	{r3, pc}
+ 274              	.LVL53:
+ 275              	.L31:
+ 276              		.cfi_def_cfa_offset 0
+ 277              		.cfi_restore 3
+ 278              		.cfi_restore 14
+ 141:..\lib\yubico-c-client/usha.c **** 				  bitcount);
+ 142:..\lib\yubico-c-client/usha.c **** 	default:
+ 143:..\lib\yubico-c-client/usha.c **** 	  return shaBadParam;
+ 144:..\lib\yubico-c-client/usha.c **** 	}
+ 145:..\lib\yubico-c-client/usha.c ****     }
+ 146:..\lib\yubico-c-client/usha.c ****   else
+ 147:..\lib\yubico-c-client/usha.c ****     {
+ 148:..\lib\yubico-c-client/usha.c ****       return shaNull;
+ 279              		.loc 1 148 0
+ 280 003c 0120     		movs	r0, #1
+ 281              	.LVL54:
+ 149:..\lib\yubico-c-client/usha.c ****     }
+ 150:..\lib\yubico-c-client/usha.c **** }
+ 282              		.loc 1 150 0
+ 283 003e 7047     		bx	lr
+ 284              	.LVL55:
+ 285              	.L32:
+ 143:..\lib\yubico-c-client/usha.c **** 	}
+ 286              		.loc 1 143 0
+ 287 0040 0420     		movs	r0, #4
+ 288              	.LVL56:
+ 289              		.loc 1 150 0
+ 290 0042 08BD     		pop	{r3, pc}
+ 291              		.cfi_endproc
+ 292              	.LFE2:
+ 293              		.size	USHAFinalBits, .-USHAFinalBits
+ 294              		.section	.text.USHAResult,"ax",%progbits
+ 295              		.align	2
+ 296              		.global	USHAResult
+ 297              		.thumb
+ 298              		.thumb_func
+ 299              		.type	USHAResult, %function
+ 300              	USHAResult:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 9
+
+
+ 301              	.LFB3:
+ 151:..\lib\yubico-c-client/usha.c **** 
+ 152:..\lib\yubico-c-client/usha.c **** /*
+ 153:..\lib\yubico-c-client/usha.c ****  * USHAResult
+ 154:..\lib\yubico-c-client/usha.c ****  *
+ 155:..\lib\yubico-c-client/usha.c ****  * Description:
+ 156:..\lib\yubico-c-client/usha.c ****  *   This function will return the 160-bit message digest into the
+ 157:..\lib\yubico-c-client/usha.c ****  *   Message_Digest array provided by the caller.
+ 158:..\lib\yubico-c-client/usha.c ****  *   NOTE: The first octet of hash is stored in the 0th element,
+ 159:..\lib\yubico-c-client/usha.c ****  *      the last octet of hash in the 19th element.
+ 160:..\lib\yubico-c-client/usha.c ****  *
+ 161:..\lib\yubico-c-client/usha.c ****  * Parameters:
+ 162:..\lib\yubico-c-client/usha.c ****  *   context: [in/out]
+ 163:..\lib\yubico-c-client/usha.c ****  *     The context to use to calculate the SHA-1 hash.
+ 164:..\lib\yubico-c-client/usha.c ****  *   Message_Digest: [out]
+ 165:..\lib\yubico-c-client/usha.c ****  *     Where the digest is returned.
+ 166:..\lib\yubico-c-client/usha.c ****  *
+ 167:..\lib\yubico-c-client/usha.c ****  * Returns:
+ 168:..\lib\yubico-c-client/usha.c ****  *   sha Error Code.
+ 169:..\lib\yubico-c-client/usha.c ****  *
+ 170:..\lib\yubico-c-client/usha.c ****  */
+ 171:..\lib\yubico-c-client/usha.c **** int
+ 172:..\lib\yubico-c-client/usha.c **** USHAResult (USHAContext * ctx, uint8_t Message_Digest[USHAMaxHashSize])
+ 173:..\lib\yubico-c-client/usha.c **** {
+ 302              		.loc 1 173 0
+ 303              		.cfi_startproc
+ 304              		@ args = 0, pretend = 0, frame = 0
+ 305              		@ frame_needed = 0, uses_anonymous_args = 0
+ 306              	.LVL57:
+ 174:..\lib\yubico-c-client/usha.c ****   if (ctx)
+ 307              		.loc 1 174 0
+ 308 0000 E0B1     		cbz	r0, .L42
+ 173:..\lib\yubico-c-client/usha.c ****   if (ctx)
+ 309              		.loc 1 173 0
+ 310 0002 08B5     		push	{r3, lr}
+ 311              		.cfi_def_cfa_offset 8
+ 312              		.cfi_offset 3, -8
+ 313              		.cfi_offset 14, -4
+ 175:..\lib\yubico-c-client/usha.c ****     {
+ 176:..\lib\yubico-c-client/usha.c ****       switch (ctx->whichSha)
+ 314              		.loc 1 176 0
+ 315 0004 0368     		ldr	r3, [r0]
+ 316 0006 042B     		cmp	r3, #4
+ 317 0008 1AD8     		bhi	.L43
+ 318 000a DFE803F0 		tbb	[pc, r3]
+ 319              	.L37:
+ 320 000e 03       		.byte	(.L36-.L37)/2
+ 321 000f 07       		.byte	(.L38-.L37)/2
+ 322 0010 0B       		.byte	(.L39-.L37)/2
+ 323 0011 0F       		.byte	(.L40-.L37)/2
+ 324 0012 13       		.byte	(.L41-.L37)/2
+ 325 0013 00       		.p2align 1
+ 326              	.L36:
+ 177:..\lib\yubico-c-client/usha.c **** 	{
+ 178:..\lib\yubico-c-client/usha.c **** 	case SHA1:
+ 179:..\lib\yubico-c-client/usha.c **** 	  return SHA1Result ((SHA1Context *) & ctx->ctx, Message_Digest);
+ 327              		.loc 1 179 0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 10
+
+
+ 328 0014 0830     		adds	r0, r0, #8
+ 329              	.LVL58:
+ 330 0016 FFF7FEFF 		bl	SHA1Result
+ 331              	.LVL59:
+ 332 001a 08BD     		pop	{r3, pc}
+ 333              	.LVL60:
+ 334              	.L38:
+ 180:..\lib\yubico-c-client/usha.c **** 	case SHA224:
+ 181:..\lib\yubico-c-client/usha.c **** 	  return SHA224Result ((SHA224Context *) & ctx->ctx, Message_Digest);
+ 335              		.loc 1 181 0
+ 336 001c 0830     		adds	r0, r0, #8
+ 337              	.LVL61:
+ 338 001e FFF7FEFF 		bl	SHA224Result
+ 339              	.LVL62:
+ 340 0022 08BD     		pop	{r3, pc}
+ 341              	.LVL63:
+ 342              	.L39:
+ 182:..\lib\yubico-c-client/usha.c **** 	case SHA256:
+ 183:..\lib\yubico-c-client/usha.c **** 	  return SHA256Result ((SHA256Context *) & ctx->ctx, Message_Digest);
+ 343              		.loc 1 183 0
+ 344 0024 0830     		adds	r0, r0, #8
+ 345              	.LVL64:
+ 346 0026 FFF7FEFF 		bl	SHA256Result
+ 347              	.LVL65:
+ 348 002a 08BD     		pop	{r3, pc}
+ 349              	.LVL66:
+ 350              	.L40:
+ 184:..\lib\yubico-c-client/usha.c **** 	case SHA384:
+ 185:..\lib\yubico-c-client/usha.c **** 	  return SHA384Result ((SHA384Context *) & ctx->ctx, Message_Digest);
+ 351              		.loc 1 185 0
+ 352 002c 0830     		adds	r0, r0, #8
+ 353              	.LVL67:
+ 354 002e FFF7FEFF 		bl	SHA384Result
+ 355              	.LVL68:
+ 356 0032 08BD     		pop	{r3, pc}
+ 357              	.LVL69:
+ 358              	.L41:
+ 186:..\lib\yubico-c-client/usha.c **** 	case SHA512:
+ 187:..\lib\yubico-c-client/usha.c **** 	  return SHA512Result ((SHA512Context *) & ctx->ctx, Message_Digest);
+ 359              		.loc 1 187 0
+ 360 0034 0830     		adds	r0, r0, #8
+ 361              	.LVL70:
+ 362 0036 FFF7FEFF 		bl	SHA512Result
+ 363              	.LVL71:
+ 364 003a 08BD     		pop	{r3, pc}
+ 365              	.LVL72:
+ 366              	.L42:
+ 367              		.cfi_def_cfa_offset 0
+ 368              		.cfi_restore 3
+ 369              		.cfi_restore 14
+ 188:..\lib\yubico-c-client/usha.c **** 	default:
+ 189:..\lib\yubico-c-client/usha.c **** 	  return shaBadParam;
+ 190:..\lib\yubico-c-client/usha.c **** 	}
+ 191:..\lib\yubico-c-client/usha.c ****     }
+ 192:..\lib\yubico-c-client/usha.c ****   else
+ 193:..\lib\yubico-c-client/usha.c ****     {
+ 194:..\lib\yubico-c-client/usha.c ****       return shaNull;
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 11
+
+
+ 370              		.loc 1 194 0
+ 371 003c 0120     		movs	r0, #1
+ 372              	.LVL73:
+ 195:..\lib\yubico-c-client/usha.c ****     }
+ 196:..\lib\yubico-c-client/usha.c **** }
+ 373              		.loc 1 196 0
+ 374 003e 7047     		bx	lr
+ 375              	.LVL74:
+ 376              	.L43:
+ 189:..\lib\yubico-c-client/usha.c **** 	}
+ 377              		.loc 1 189 0
+ 378 0040 0420     		movs	r0, #4
+ 379              	.LVL75:
+ 380              		.loc 1 196 0
+ 381 0042 08BD     		pop	{r3, pc}
+ 382              		.cfi_endproc
+ 383              	.LFE3:
+ 384              		.size	USHAResult, .-USHAResult
+ 385              		.section	.text.USHABlockSize,"ax",%progbits
+ 386              		.align	2
+ 387              		.global	USHABlockSize
+ 388              		.thumb
+ 389              		.thumb_func
+ 390              		.type	USHABlockSize, %function
+ 391              	USHABlockSize:
+ 392              	.LFB4:
+ 197:..\lib\yubico-c-client/usha.c **** 
+ 198:..\lib\yubico-c-client/usha.c **** /*
+ 199:..\lib\yubico-c-client/usha.c ****  * USHABlockSize
+ 200:..\lib\yubico-c-client/usha.c ****  *
+ 201:..\lib\yubico-c-client/usha.c ****  * Description:
+ 202:..\lib\yubico-c-client/usha.c ****  *   This function will return the blocksize for the given SHA
+ 203:..\lib\yubico-c-client/usha.c ****  *   algorithm.
+ 204:..\lib\yubico-c-client/usha.c ****  *
+ 205:..\lib\yubico-c-client/usha.c ****  * Parameters:
+ 206:..\lib\yubico-c-client/usha.c ****  *   whichSha:
+ 207:..\lib\yubico-c-client/usha.c ****  *     which SHA algorithm to query
+ 208:..\lib\yubico-c-client/usha.c ****  *
+ 209:..\lib\yubico-c-client/usha.c ****  * Returns:
+ 210:..\lib\yubico-c-client/usha.c ****  *   block size
+ 211:..\lib\yubico-c-client/usha.c ****  *
+ 212:..\lib\yubico-c-client/usha.c ****  */
+ 213:..\lib\yubico-c-client/usha.c **** int
+ 214:..\lib\yubico-c-client/usha.c **** USHABlockSize (enum SHAversion whichSha)
+ 215:..\lib\yubico-c-client/usha.c **** {
+ 393              		.loc 1 215 0
+ 394              		.cfi_startproc
+ 395              		@ args = 0, pretend = 0, frame = 0
+ 396              		@ frame_needed = 0, uses_anonymous_args = 0
+ 397              		@ link register save eliminated.
+ 398              	.LVL76:
+ 216:..\lib\yubico-c-client/usha.c ****   switch (whichSha)
+ 399              		.loc 1 216 0
+ 400 0000 0228     		cmp	r0, #2
+ 401 0002 01D8     		bhi	.L48
+ 217:..\lib\yubico-c-client/usha.c ****     {
+ 218:..\lib\yubico-c-client/usha.c ****     case SHA1:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 12
+
+
+ 219:..\lib\yubico-c-client/usha.c ****       return SHA1_Message_Block_Size;
+ 402              		.loc 1 219 0
+ 403 0004 4020     		movs	r0, #64
+ 404              	.LVL77:
+ 405 0006 7047     		bx	lr
+ 406              	.LVL78:
+ 407              	.L48:
+ 220:..\lib\yubico-c-client/usha.c ****     case SHA224:
+ 221:..\lib\yubico-c-client/usha.c ****       return SHA224_Message_Block_Size;
+ 222:..\lib\yubico-c-client/usha.c ****     case SHA256:
+ 223:..\lib\yubico-c-client/usha.c ****       return SHA256_Message_Block_Size;
+ 224:..\lib\yubico-c-client/usha.c ****     case SHA384:
+ 225:..\lib\yubico-c-client/usha.c ****       return SHA384_Message_Block_Size;
+ 408              		.loc 1 225 0
+ 409 0008 8020     		movs	r0, #128
+ 410              	.LVL79:
+ 226:..\lib\yubico-c-client/usha.c ****     default:
+ 227:..\lib\yubico-c-client/usha.c ****     case SHA512:
+ 228:..\lib\yubico-c-client/usha.c ****       return SHA512_Message_Block_Size;
+ 229:..\lib\yubico-c-client/usha.c ****     }
+ 230:..\lib\yubico-c-client/usha.c **** }
+ 411              		.loc 1 230 0
+ 412 000a 7047     		bx	lr
+ 413              		.cfi_endproc
+ 414              	.LFE4:
+ 415              		.size	USHABlockSize, .-USHABlockSize
+ 416              		.section	.text.USHAHashSize,"ax",%progbits
+ 417              		.align	2
+ 418              		.global	USHAHashSize
+ 419              		.thumb
+ 420              		.thumb_func
+ 421              		.type	USHAHashSize, %function
+ 422              	USHAHashSize:
+ 423              	.LFB5:
+ 231:..\lib\yubico-c-client/usha.c **** 
+ 232:..\lib\yubico-c-client/usha.c **** /*
+ 233:..\lib\yubico-c-client/usha.c ****  * USHAHashSize
+ 234:..\lib\yubico-c-client/usha.c ****  *
+ 235:..\lib\yubico-c-client/usha.c ****  * Description:
+ 236:..\lib\yubico-c-client/usha.c ****  *   This function will return the hashsize for the given SHA
+ 237:..\lib\yubico-c-client/usha.c ****  *   algorithm.
+ 238:..\lib\yubico-c-client/usha.c ****  *
+ 239:..\lib\yubico-c-client/usha.c ****  * Parameters:
+ 240:..\lib\yubico-c-client/usha.c ****  *   whichSha:
+ 241:..\lib\yubico-c-client/usha.c ****  *     which SHA algorithm to query
+ 242:..\lib\yubico-c-client/usha.c ****  *
+ 243:..\lib\yubico-c-client/usha.c ****  * Returns:
+ 244:..\lib\yubico-c-client/usha.c ****  *   hash size
+ 245:..\lib\yubico-c-client/usha.c ****  *
+ 246:..\lib\yubico-c-client/usha.c ****  */
+ 247:..\lib\yubico-c-client/usha.c **** int
+ 248:..\lib\yubico-c-client/usha.c **** USHAHashSize (enum SHAversion whichSha)
+ 249:..\lib\yubico-c-client/usha.c **** {
+ 424              		.loc 1 249 0
+ 425              		.cfi_startproc
+ 426              		@ args = 0, pretend = 0, frame = 0
+ 427              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 13
+
+
+ 428              		@ link register save eliminated.
+ 429              	.LVL80:
+ 250:..\lib\yubico-c-client/usha.c ****   switch (whichSha)
+ 430              		.loc 1 250 0
+ 431 0000 0328     		cmp	r0, #3
+ 432 0002 09D8     		bhi	.L50
+ 433 0004 DFE800F0 		tbb	[pc, r0]
+ 434              	.L52:
+ 435 0008 02       		.byte	(.L51-.L52)/2
+ 436 0009 0A       		.byte	(.L56-.L52)/2
+ 437 000a 04       		.byte	(.L54-.L52)/2
+ 438 000b 06       		.byte	(.L55-.L52)/2
+ 439              		.p2align 1
+ 440              	.L51:
+ 251:..\lib\yubico-c-client/usha.c ****     {
+ 252:..\lib\yubico-c-client/usha.c ****     case SHA1:
+ 253:..\lib\yubico-c-client/usha.c ****       return SHA1HashSize;
+ 441              		.loc 1 253 0
+ 442 000c 1420     		movs	r0, #20
+ 443              	.LVL81:
+ 444 000e 7047     		bx	lr
+ 445              	.LVL82:
+ 446              	.L54:
+ 254:..\lib\yubico-c-client/usha.c ****     case SHA224:
+ 255:..\lib\yubico-c-client/usha.c ****       return SHA224HashSize;
+ 256:..\lib\yubico-c-client/usha.c ****     case SHA256:
+ 257:..\lib\yubico-c-client/usha.c ****       return SHA256HashSize;
+ 447              		.loc 1 257 0
+ 448 0010 2020     		movs	r0, #32
+ 449              	.LVL83:
+ 450 0012 7047     		bx	lr
+ 451              	.LVL84:
+ 452              	.L55:
+ 258:..\lib\yubico-c-client/usha.c ****     case SHA384:
+ 259:..\lib\yubico-c-client/usha.c ****       return SHA384HashSize;
+ 453              		.loc 1 259 0
+ 454 0014 3020     		movs	r0, #48
+ 455              	.LVL85:
+ 456 0016 7047     		bx	lr
+ 457              	.LVL86:
+ 458              	.L50:
+ 260:..\lib\yubico-c-client/usha.c ****     default:
+ 261:..\lib\yubico-c-client/usha.c ****     case SHA512:
+ 262:..\lib\yubico-c-client/usha.c ****       return SHA512HashSize;
+ 459              		.loc 1 262 0
+ 460 0018 4020     		movs	r0, #64
+ 461              	.LVL87:
+ 462 001a 7047     		bx	lr
+ 463              	.LVL88:
+ 464              	.L56:
+ 255:..\lib\yubico-c-client/usha.c ****     case SHA256:
+ 465              		.loc 1 255 0
+ 466 001c 1C20     		movs	r0, #28
+ 467              	.LVL89:
+ 263:..\lib\yubico-c-client/usha.c ****     }
+ 264:..\lib\yubico-c-client/usha.c **** }
+ 468              		.loc 1 264 0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 14
+
+
+ 469 001e 7047     		bx	lr
+ 470              		.cfi_endproc
+ 471              	.LFE5:
+ 472              		.size	USHAHashSize, .-USHAHashSize
+ 473              		.section	.text.USHAHashSizeBits,"ax",%progbits
+ 474              		.align	2
+ 475              		.global	USHAHashSizeBits
+ 476              		.thumb
+ 477              		.thumb_func
+ 478              		.type	USHAHashSizeBits, %function
+ 479              	USHAHashSizeBits:
+ 480              	.LFB6:
+ 265:..\lib\yubico-c-client/usha.c **** 
+ 266:..\lib\yubico-c-client/usha.c **** /*
+ 267:..\lib\yubico-c-client/usha.c ****  * USHAHashSizeBits
+ 268:..\lib\yubico-c-client/usha.c ****  *
+ 269:..\lib\yubico-c-client/usha.c ****  * Description:
+ 270:..\lib\yubico-c-client/usha.c ****  *   This function will return the hashsize for the given SHA
+ 271:..\lib\yubico-c-client/usha.c ****  *   algorithm, expressed in bits.
+ 272:..\lib\yubico-c-client/usha.c ****  *
+ 273:..\lib\yubico-c-client/usha.c ****  * Parameters:
+ 274:..\lib\yubico-c-client/usha.c ****  *   whichSha:
+ 275:..\lib\yubico-c-client/usha.c ****  *     which SHA algorithm to query
+ 276:..\lib\yubico-c-client/usha.c ****  *
+ 277:..\lib\yubico-c-client/usha.c ****  * Returns:
+ 278:..\lib\yubico-c-client/usha.c ****  *   hash size in bits
+ 279:..\lib\yubico-c-client/usha.c ****  *
+ 280:..\lib\yubico-c-client/usha.c ****  */
+ 281:..\lib\yubico-c-client/usha.c **** int
+ 282:..\lib\yubico-c-client/usha.c **** USHAHashSizeBits (enum SHAversion whichSha)
+ 283:..\lib\yubico-c-client/usha.c **** {
+ 481              		.loc 1 283 0
+ 482              		.cfi_startproc
+ 483              		@ args = 0, pretend = 0, frame = 0
+ 484              		@ frame_needed = 0, uses_anonymous_args = 0
+ 485              		@ link register save eliminated.
+ 486              	.LVL90:
+ 284:..\lib\yubico-c-client/usha.c ****   switch (whichSha)
+ 487              		.loc 1 284 0
+ 488 0000 0328     		cmp	r0, #3
+ 489 0002 0BD8     		bhi	.L58
+ 490 0004 DFE800F0 		tbb	[pc, r0]
+ 491              	.L60:
+ 492 0008 02       		.byte	(.L59-.L60)/2
+ 493 0009 0D       		.byte	(.L64-.L60)/2
+ 494 000a 04       		.byte	(.L62-.L60)/2
+ 495 000b 07       		.byte	(.L63-.L60)/2
+ 496              		.p2align 1
+ 497              	.L59:
+ 285:..\lib\yubico-c-client/usha.c ****     {
+ 286:..\lib\yubico-c-client/usha.c ****     case SHA1:
+ 287:..\lib\yubico-c-client/usha.c ****       return SHA1HashSizeBits;
+ 498              		.loc 1 287 0
+ 499 000c A020     		movs	r0, #160
+ 500              	.LVL91:
+ 501 000e 7047     		bx	lr
+ 502              	.LVL92:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 15
+
+
+ 503              	.L62:
+ 288:..\lib\yubico-c-client/usha.c ****     case SHA224:
+ 289:..\lib\yubico-c-client/usha.c ****       return SHA224HashSizeBits;
+ 290:..\lib\yubico-c-client/usha.c ****     case SHA256:
+ 291:..\lib\yubico-c-client/usha.c ****       return SHA256HashSizeBits;
+ 504              		.loc 1 291 0
+ 505 0010 4FF48070 		mov	r0, #256
+ 506              	.LVL93:
+ 507 0014 7047     		bx	lr
+ 508              	.LVL94:
+ 509              	.L63:
+ 292:..\lib\yubico-c-client/usha.c ****     case SHA384:
+ 293:..\lib\yubico-c-client/usha.c ****       return SHA384HashSizeBits;
+ 510              		.loc 1 293 0
+ 511 0016 4FF4C070 		mov	r0, #384
+ 512              	.LVL95:
+ 513 001a 7047     		bx	lr
+ 514              	.LVL96:
+ 515              	.L58:
+ 294:..\lib\yubico-c-client/usha.c ****     default:
+ 295:..\lib\yubico-c-client/usha.c ****     case SHA512:
+ 296:..\lib\yubico-c-client/usha.c ****       return SHA512HashSizeBits;
+ 516              		.loc 1 296 0
+ 517 001c 4FF40070 		mov	r0, #512
+ 518              	.LVL97:
+ 519 0020 7047     		bx	lr
+ 520              	.LVL98:
+ 521              	.L64:
+ 289:..\lib\yubico-c-client/usha.c ****     case SHA256:
+ 522              		.loc 1 289 0
+ 523 0022 E020     		movs	r0, #224
+ 524              	.LVL99:
+ 297:..\lib\yubico-c-client/usha.c ****     }
+ 298:..\lib\yubico-c-client/usha.c **** }
+ 525              		.loc 1 298 0
+ 526 0024 7047     		bx	lr
+ 527              		.cfi_endproc
+ 528              	.LFE6:
+ 529              		.size	USHAHashSizeBits, .-USHAHashSizeBits
+ 530 0026 00BF     		.text
+ 531              	.Letext0:
+ 532              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 533              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 534              		.file 4 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 535              		.file 5 "..\\lib\\yubico-c-client\\sha.h"
+ 536              		.section	.debug_info,"",%progbits
+ 537              	.Ldebug_info0:
+ 538 0000 E2070000 		.4byte	0x7e2
+ 539 0004 0400     		.2byte	0x4
+ 540 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 541 000a 04       		.byte	0x4
+ 542 000b 01       		.uleb128 0x1
+ 543 000c 83050000 		.4byte	.LASF97
+ 544 0010 0C       		.byte	0xc
+ 545 0011 DC020000 		.4byte	.LASF98
+ 546 0015 A0000000 		.4byte	.LASF99
+ 547 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 16
+
+
+ 548 001d 00000000 		.4byte	0
+ 549 0021 00000000 		.4byte	.Ldebug_line0
+ 550 0025 02       		.uleb128 0x2
+ 551 0026 01       		.byte	0x1
+ 552 0027 06       		.byte	0x6
+ 553 0028 4E030000 		.4byte	.LASF0
+ 554 002c 03       		.uleb128 0x3
+ 555 002d A0020000 		.4byte	.LASF5
+ 556 0031 02       		.byte	0x2
+ 557 0032 1D       		.byte	0x1d
+ 558 0033 37000000 		.4byte	0x37
+ 559 0037 02       		.uleb128 0x2
+ 560 0038 01       		.byte	0x1
+ 561 0039 08       		.byte	0x8
+ 562 003a 19030000 		.4byte	.LASF1
+ 563 003e 02       		.uleb128 0x2
+ 564 003f 02       		.byte	0x2
+ 565 0040 05       		.byte	0x5
+ 566 0041 76000000 		.4byte	.LASF2
+ 567 0045 02       		.uleb128 0x2
+ 568 0046 02       		.byte	0x2
+ 569 0047 07       		.byte	0x7
+ 570 0048 CD030000 		.4byte	.LASF3
+ 571 004c 02       		.uleb128 0x2
+ 572 004d 04       		.byte	0x4
+ 573 004e 05       		.byte	0x5
+ 574 004f 54020000 		.4byte	.LASF4
+ 575 0053 03       		.uleb128 0x3
+ 576 0054 13010000 		.4byte	.LASF6
+ 577 0058 02       		.byte	0x2
+ 578 0059 41       		.byte	0x41
+ 579 005a 5E000000 		.4byte	0x5e
+ 580 005e 02       		.uleb128 0x2
+ 581 005f 04       		.byte	0x4
+ 582 0060 07       		.byte	0x7
+ 583 0061 7B040000 		.4byte	.LASF7
+ 584 0065 02       		.uleb128 0x2
+ 585 0066 08       		.byte	0x8
+ 586 0067 05       		.byte	0x5
+ 587 0068 1D020000 		.4byte	.LASF8
+ 588 006c 03       		.uleb128 0x3
+ 589 006d 25040000 		.4byte	.LASF9
+ 590 0071 02       		.byte	0x2
+ 591 0072 5B       		.byte	0x5b
+ 592 0073 77000000 		.4byte	0x77
+ 593 0077 02       		.uleb128 0x2
+ 594 0078 08       		.byte	0x8
+ 595 0079 07       		.byte	0x7
+ 596 007a 5A030000 		.4byte	.LASF10
+ 597 007e 03       		.uleb128 0x3
+ 598 007f A4040000 		.4byte	.LASF11
+ 599 0083 02       		.byte	0x2
+ 600 0084 92       		.byte	0x92
+ 601 0085 3E000000 		.4byte	0x3e
+ 602 0089 04       		.uleb128 0x4
+ 603 008a 04       		.byte	0x4
+ 604 008b 05       		.byte	0x5
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 17
+
+
+ 605 008c 696E7400 		.ascii	"int\000"
+ 606 0090 02       		.uleb128 0x2
+ 607 0091 04       		.byte	0x4
+ 608 0092 07       		.byte	0x7
+ 609 0093 8B030000 		.4byte	.LASF12
+ 610 0097 03       		.uleb128 0x3
+ 611 0098 90010000 		.4byte	.LASF13
+ 612 009c 03       		.byte	0x3
+ 613 009d 18       		.byte	0x18
+ 614 009e 2C000000 		.4byte	0x2c
+ 615 00a2 03       		.uleb128 0x3
+ 616 00a3 82030000 		.4byte	.LASF14
+ 617 00a7 03       		.byte	0x3
+ 618 00a8 30       		.byte	0x30
+ 619 00a9 53000000 		.4byte	0x53
+ 620 00ad 03       		.uleb128 0x3
+ 621 00ae 5F000000 		.4byte	.LASF15
+ 622 00b2 03       		.byte	0x3
+ 623 00b3 3C       		.byte	0x3c
+ 624 00b4 6C000000 		.4byte	0x6c
+ 625 00b8 03       		.uleb128 0x3
+ 626 00b9 6D040000 		.4byte	.LASF16
+ 627 00bd 04       		.byte	0x4
+ 628 00be 1B       		.byte	0x1b
+ 629 00bf 7E000000 		.4byte	0x7e
+ 630 00c3 05       		.uleb128 0x5
+ 631 00c4 01       		.byte	0x1
+ 632 00c5 37000000 		.4byte	0x37
+ 633 00c9 05       		.byte	0x5
+ 634 00ca 2D       		.byte	0x2d
+ 635 00cb EE000000 		.4byte	0xee
+ 636 00cf 06       		.uleb128 0x6
+ 637 00d0 A2030000 		.4byte	.LASF17
+ 638 00d4 00       		.byte	0
+ 639 00d5 06       		.uleb128 0x6
+ 640 00d6 F7030000 		.4byte	.LASF18
+ 641 00da 01       		.byte	0x1
+ 642 00db 06       		.uleb128 0x6
+ 643 00dc 6D020000 		.4byte	.LASF19
+ 644 00e0 02       		.byte	0x2
+ 645 00e1 06       		.uleb128 0x6
+ 646 00e2 75010000 		.4byte	.LASF20
+ 647 00e6 03       		.byte	0x3
+ 648 00e7 06       		.uleb128 0x6
+ 649 00e8 A2010000 		.4byte	.LASF21
+ 650 00ec 04       		.byte	0x4
+ 651 00ed 00       		.byte	0
+ 652 00ee 05       		.uleb128 0x5
+ 653 00ef 02       		.byte	0x2
+ 654 00f0 45000000 		.4byte	0x45
+ 655 00f4 05       		.byte	0x5
+ 656 00f5 3B       		.byte	0x3b
+ 657 00f6 6B010000 		.4byte	0x16b
+ 658 00fa 06       		.uleb128 0x6
+ 659 00fb 30040000 		.4byte	.LASF22
+ 660 00ff 40       		.byte	0x40
+ 661 0100 06       		.uleb128 0x6
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 18
+
+
+ 662 0101 00050000 		.4byte	.LASF23
+ 663 0105 40       		.byte	0x40
+ 664 0106 06       		.uleb128 0x6
+ 665 0107 E6040000 		.4byte	.LASF24
+ 666 010b 40       		.byte	0x40
+ 667 010c 06       		.uleb128 0x6
+ 668 010d 41010000 		.4byte	.LASF25
+ 669 0111 80       		.byte	0x80
+ 670 0112 06       		.uleb128 0x6
+ 671 0113 3A020000 		.4byte	.LASF26
+ 672 0117 80       		.byte	0x80
+ 673 0118 06       		.uleb128 0x6
+ 674 0119 F7000000 		.4byte	.LASF27
+ 675 011d 80       		.byte	0x80
+ 676 011e 06       		.uleb128 0x6
+ 677 011f 11060000 		.4byte	.LASF28
+ 678 0123 14       		.byte	0x14
+ 679 0124 06       		.uleb128 0x6
+ 680 0125 FA020000 		.4byte	.LASF29
+ 681 0129 1C       		.byte	0x1c
+ 682 012a 06       		.uleb128 0x6
+ 683 012b 5E040000 		.4byte	.LASF30
+ 684 012f 20       		.byte	0x20
+ 685 0130 06       		.uleb128 0x6
+ 686 0131 BF040000 		.4byte	.LASF31
+ 687 0135 30       		.byte	0x30
+ 688 0136 06       		.uleb128 0x6
+ 689 0137 BA010000 		.4byte	.LASF32
+ 690 013b 40       		.byte	0x40
+ 691 013c 06       		.uleb128 0x6
+ 692 013d 90000000 		.4byte	.LASF33
+ 693 0141 40       		.byte	0x40
+ 694 0142 06       		.uleb128 0x6
+ 695 0143 71030000 		.4byte	.LASF34
+ 696 0147 A0       		.byte	0xa0
+ 697 0148 06       		.uleb128 0x6
+ 698 0149 30030000 		.4byte	.LASF35
+ 699 014d E0       		.byte	0xe0
+ 700 014e 07       		.uleb128 0x7
+ 701 014f BA030000 		.4byte	.LASF36
+ 702 0153 0001     		.2byte	0x100
+ 703 0155 07       		.uleb128 0x7
+ 704 0156 70050000 		.4byte	.LASF37
+ 705 015a 8001     		.2byte	0x180
+ 706 015c 07       		.uleb128 0x7
+ 707 015d 1A050000 		.4byte	.LASF38
+ 708 0161 0002     		.2byte	0x200
+ 709 0163 07       		.uleb128 0x7
+ 710 0164 2E000000 		.4byte	.LASF39
+ 711 0168 0002     		.2byte	0x200
+ 712 016a 00       		.byte	0
+ 713 016b 08       		.uleb128 0x8
+ 714 016c 43030000 		.4byte	.LASF100
+ 715 0170 01       		.byte	0x1
+ 716 0171 37000000 		.4byte	0x37
+ 717 0175 05       		.byte	0x5
+ 718 0176 4D       		.byte	0x4d
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 19
+
+
+ 719 0177 9A010000 		.4byte	0x19a
+ 720 017b 06       		.uleb128 0x6
+ 721 017c 8F020000 		.4byte	.LASF40
+ 722 0180 00       		.byte	0
+ 723 0181 06       		.uleb128 0x6
+ 724 0182 E0030000 		.4byte	.LASF41
+ 725 0186 01       		.byte	0x1
+ 726 0187 06       		.uleb128 0x6
+ 727 0188 C8020000 		.4byte	.LASF42
+ 728 018c 02       		.byte	0x2
+ 729 018d 06       		.uleb128 0x6
+ 730 018e 80000000 		.4byte	.LASF43
+ 731 0192 03       		.byte	0x3
+ 732 0193 06       		.uleb128 0x6
+ 733 0194 32060000 		.4byte	.LASF44
+ 734 0198 04       		.byte	0x4
+ 735 0199 00       		.byte	0
+ 736 019a 09       		.uleb128 0x9
+ 737 019b AE010000 		.4byte	.LASF53
+ 738 019f 68       		.byte	0x68
+ 739 01a0 05       		.byte	0x5
+ 740 01a1 56       		.byte	0x56
+ 741 01a2 FB010000 		.4byte	0x1fb
+ 742 01a6 0A       		.uleb128 0xa
+ 743 01a7 7D020000 		.4byte	.LASF45
+ 744 01ab 05       		.byte	0x5
+ 745 01ac 58       		.byte	0x58
+ 746 01ad FB010000 		.4byte	0x1fb
+ 747 01b1 00       		.byte	0
+ 748 01b2 0A       		.uleb128 0xa
+ 749 01b3 2A010000 		.4byte	.LASF46
+ 750 01b7 05       		.byte	0x5
+ 751 01b8 5A       		.byte	0x5a
+ 752 01b9 A2000000 		.4byte	0xa2
+ 753 01bd 14       		.byte	0x14
+ 754 01be 0A       		.uleb128 0xa
+ 755 01bf 1E010000 		.4byte	.LASF47
+ 756 01c3 05       		.byte	0x5
+ 757 01c4 5B       		.byte	0x5b
+ 758 01c5 A2000000 		.4byte	0xa2
+ 759 01c9 18       		.byte	0x18
+ 760 01ca 0A       		.uleb128 0xa
+ 761 01cb 1E060000 		.4byte	.LASF48
+ 762 01cf 05       		.byte	0x5
+ 763 01d0 5D       		.byte	0x5d
+ 764 01d1 B8000000 		.4byte	0xb8
+ 765 01d5 1C       		.byte	0x1c
+ 766 01d6 0A       		.uleb128 0xa
+ 767 01d7 48050000 		.4byte	.LASF49
+ 768 01db 05       		.byte	0x5
+ 769 01dc 5F       		.byte	0x5f
+ 770 01dd 12020000 		.4byte	0x212
+ 771 01e1 1E       		.byte	0x1e
+ 772 01e2 0A       		.uleb128 0xa
+ 773 01e3 17000000 		.4byte	.LASF50
+ 774 01e7 05       		.byte	0x5
+ 775 01e8 61       		.byte	0x61
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 20
+
+
+ 776 01e9 89000000 		.4byte	0x89
+ 777 01ed 60       		.byte	0x60
+ 778 01ee 0A       		.uleb128 0xa
+ 779 01ef 98010000 		.4byte	.LASF51
+ 780 01f3 05       		.byte	0x5
+ 781 01f4 62       		.byte	0x62
+ 782 01f5 89000000 		.4byte	0x89
+ 783 01f9 64       		.byte	0x64
+ 784 01fa 00       		.byte	0
+ 785 01fb 0B       		.uleb128 0xb
+ 786 01fc A2000000 		.4byte	0xa2
+ 787 0200 0B020000 		.4byte	0x20b
+ 788 0204 0C       		.uleb128 0xc
+ 789 0205 0B020000 		.4byte	0x20b
+ 790 0209 04       		.byte	0x4
+ 791 020a 00       		.byte	0
+ 792 020b 02       		.uleb128 0x2
+ 793 020c 04       		.byte	0x4
+ 794 020d 07       		.byte	0x7
+ 795 020e 87000000 		.4byte	.LASF52
+ 796 0212 0B       		.uleb128 0xb
+ 797 0213 97000000 		.4byte	0x97
+ 798 0217 22020000 		.4byte	0x222
+ 799 021b 0C       		.uleb128 0xc
+ 800 021c 0B020000 		.4byte	0x20b
+ 801 0220 3F       		.byte	0x3f
+ 802 0221 00       		.byte	0
+ 803 0222 03       		.uleb128 0x3
+ 804 0223 AE010000 		.4byte	.LASF53
+ 805 0227 05       		.byte	0x5
+ 806 0228 63       		.byte	0x63
+ 807 0229 9A010000 		.4byte	0x19a
+ 808 022d 09       		.uleb128 0x9
+ 809 022e 42000000 		.4byte	.LASF54
+ 810 0232 74       		.byte	0x74
+ 811 0233 05       		.byte	0x5
+ 812 0234 69       		.byte	0x69
+ 813 0235 8E020000 		.4byte	0x28e
+ 814 0239 0A       		.uleb128 0xa
+ 815 023a 7D020000 		.4byte	.LASF45
+ 816 023e 05       		.byte	0x5
+ 817 023f 6B       		.byte	0x6b
+ 818 0240 8E020000 		.4byte	0x28e
+ 819 0244 00       		.byte	0
+ 820 0245 0A       		.uleb128 0xa
+ 821 0246 2A010000 		.4byte	.LASF46
+ 822 024a 05       		.byte	0x5
+ 823 024b 6D       		.byte	0x6d
+ 824 024c A2000000 		.4byte	0xa2
+ 825 0250 20       		.byte	0x20
+ 826 0251 0A       		.uleb128 0xa
+ 827 0252 1E010000 		.4byte	.LASF47
+ 828 0256 05       		.byte	0x5
+ 829 0257 6E       		.byte	0x6e
+ 830 0258 A2000000 		.4byte	0xa2
+ 831 025c 24       		.byte	0x24
+ 832 025d 0A       		.uleb128 0xa
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 21
+
+
+ 833 025e 1E060000 		.4byte	.LASF48
+ 834 0262 05       		.byte	0x5
+ 835 0263 70       		.byte	0x70
+ 836 0264 B8000000 		.4byte	0xb8
+ 837 0268 28       		.byte	0x28
+ 838 0269 0A       		.uleb128 0xa
+ 839 026a 48050000 		.4byte	.LASF49
+ 840 026e 05       		.byte	0x5
+ 841 026f 72       		.byte	0x72
+ 842 0270 12020000 		.4byte	0x212
+ 843 0274 2A       		.byte	0x2a
+ 844 0275 0A       		.uleb128 0xa
+ 845 0276 17000000 		.4byte	.LASF50
+ 846 027a 05       		.byte	0x5
+ 847 027b 74       		.byte	0x74
+ 848 027c 89000000 		.4byte	0x89
+ 849 0280 6C       		.byte	0x6c
+ 850 0281 0A       		.uleb128 0xa
+ 851 0282 98010000 		.4byte	.LASF51
+ 852 0286 05       		.byte	0x5
+ 853 0287 75       		.byte	0x75
+ 854 0288 89000000 		.4byte	0x89
+ 855 028c 70       		.byte	0x70
+ 856 028d 00       		.byte	0
+ 857 028e 0B       		.uleb128 0xb
+ 858 028f A2000000 		.4byte	0xa2
+ 859 0293 9E020000 		.4byte	0x29e
+ 860 0297 0C       		.uleb128 0xc
+ 861 0298 0B020000 		.4byte	0x20b
+ 862 029c 07       		.byte	0x7
+ 863 029d 00       		.byte	0
+ 864 029e 03       		.uleb128 0x3
+ 865 029f 42000000 		.4byte	.LASF54
+ 866 02a3 05       		.byte	0x5
+ 867 02a4 76       		.byte	0x76
+ 868 02a5 2D020000 		.4byte	0x22d
+ 869 02a9 09       		.uleb128 0x9
+ 870 02aa D7010000 		.4byte	.LASF55
+ 871 02ae E0       		.byte	0xe0
+ 872 02af 05       		.byte	0x5
+ 873 02b0 7C       		.byte	0x7c
+ 874 02b1 0A030000 		.4byte	0x30a
+ 875 02b5 0A       		.uleb128 0xa
+ 876 02b6 7D020000 		.4byte	.LASF45
+ 877 02ba 05       		.byte	0x5
+ 878 02bb 82       		.byte	0x82
+ 879 02bc 0A030000 		.4byte	0x30a
+ 880 02c0 00       		.byte	0
+ 881 02c1 0A       		.uleb128 0xa
+ 882 02c2 2A010000 		.4byte	.LASF46
+ 883 02c6 05       		.byte	0x5
+ 884 02c7 83       		.byte	0x83
+ 885 02c8 AD000000 		.4byte	0xad
+ 886 02cc 40       		.byte	0x40
+ 887 02cd 0A       		.uleb128 0xa
+ 888 02ce 1E010000 		.4byte	.LASF47
+ 889 02d2 05       		.byte	0x5
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 22
+
+
+ 890 02d3 83       		.byte	0x83
+ 891 02d4 AD000000 		.4byte	0xad
+ 892 02d8 48       		.byte	0x48
+ 893 02d9 0A       		.uleb128 0xa
+ 894 02da 1E060000 		.4byte	.LASF48
+ 895 02de 05       		.byte	0x5
+ 896 02df 85       		.byte	0x85
+ 897 02e0 B8000000 		.4byte	0xb8
+ 898 02e4 50       		.byte	0x50
+ 899 02e5 0A       		.uleb128 0xa
+ 900 02e6 48050000 		.4byte	.LASF49
+ 901 02ea 05       		.byte	0x5
+ 902 02eb 87       		.byte	0x87
+ 903 02ec 1A030000 		.4byte	0x31a
+ 904 02f0 52       		.byte	0x52
+ 905 02f1 0A       		.uleb128 0xa
+ 906 02f2 17000000 		.4byte	.LASF50
+ 907 02f6 05       		.byte	0x5
+ 908 02f7 89       		.byte	0x89
+ 909 02f8 89000000 		.4byte	0x89
+ 910 02fc D4       		.byte	0xd4
+ 911 02fd 0A       		.uleb128 0xa
+ 912 02fe 98010000 		.4byte	.LASF51
+ 913 0302 05       		.byte	0x5
+ 914 0303 8A       		.byte	0x8a
+ 915 0304 89000000 		.4byte	0x89
+ 916 0308 D8       		.byte	0xd8
+ 917 0309 00       		.byte	0
+ 918 030a 0B       		.uleb128 0xb
+ 919 030b AD000000 		.4byte	0xad
+ 920 030f 1A030000 		.4byte	0x31a
+ 921 0313 0C       		.uleb128 0xc
+ 922 0314 0B020000 		.4byte	0x20b
+ 923 0318 07       		.byte	0x7
+ 924 0319 00       		.byte	0
+ 925 031a 0B       		.uleb128 0xb
+ 926 031b 97000000 		.4byte	0x97
+ 927 031f 2A030000 		.4byte	0x32a
+ 928 0323 0C       		.uleb128 0xc
+ 929 0324 0B020000 		.4byte	0x20b
+ 930 0328 7F       		.byte	0x7f
+ 931 0329 00       		.byte	0
+ 932 032a 03       		.uleb128 0x3
+ 933 032b D7010000 		.4byte	.LASF55
+ 934 032f 05       		.byte	0x5
+ 935 0330 8B       		.byte	0x8b
+ 936 0331 A9020000 		.4byte	0x2a9
+ 937 0335 03       		.uleb128 0x3
+ 938 0336 C9010000 		.4byte	.LASF56
+ 939 033a 05       		.byte	0x5
+ 940 033b 91       		.byte	0x91
+ 941 033c 2D020000 		.4byte	0x22d
+ 942 0340 03       		.uleb128 0x3
+ 943 0341 2D050000 		.4byte	.LASF57
+ 944 0345 05       		.byte	0x5
+ 945 0346 97       		.byte	0x97
+ 946 0347 A9020000 		.4byte	0x2a9
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 23
+
+
+ 947 034b 0D       		.uleb128 0xd
+ 948 034c E0       		.byte	0xe0
+ 949 034d 05       		.byte	0x5
+ 950 034e A0       		.byte	0xa0
+ 951 034f 8B030000 		.4byte	0x38b
+ 952 0353 0E       		.uleb128 0xe
+ 953 0354 FF030000 		.4byte	.LASF58
+ 954 0358 05       		.byte	0x5
+ 955 0359 A2       		.byte	0xa2
+ 956 035a 22020000 		.4byte	0x222
+ 957 035e 0E       		.uleb128 0xe
+ 958 035f E5010000 		.4byte	.LASF59
+ 959 0363 05       		.byte	0x5
+ 960 0364 A3       		.byte	0xa3
+ 961 0365 35030000 		.4byte	0x335
+ 962 0369 0E       		.uleb128 0xe
+ 963 036a 68000000 		.4byte	.LASF60
+ 964 036e 05       		.byte	0x5
+ 965 036f A4       		.byte	0xa4
+ 966 0370 9E020000 		.4byte	0x29e
+ 967 0374 0E       		.uleb128 0xe
+ 968 0375 56050000 		.4byte	.LASF61
+ 969 0379 05       		.byte	0x5
+ 970 037a A5       		.byte	0xa5
+ 971 037b 40030000 		.4byte	0x340
+ 972 037f 0E       		.uleb128 0xe
+ 973 0380 17040000 		.4byte	.LASF62
+ 974 0384 05       		.byte	0x5
+ 975 0385 A6       		.byte	0xa6
+ 976 0386 2A030000 		.4byte	0x32a
+ 977 038a 00       		.byte	0
+ 978 038b 09       		.uleb128 0x9
+ 979 038c 48040000 		.4byte	.LASF63
+ 980 0390 E8       		.byte	0xe8
+ 981 0391 05       		.byte	0x5
+ 982 0392 9D       		.byte	0x9d
+ 983 0393 B0030000 		.4byte	0x3b0
+ 984 0397 0A       		.uleb128 0xa
+ 985 0398 27030000 		.4byte	.LASF64
+ 986 039c 05       		.byte	0x5
+ 987 039d 9F       		.byte	0x9f
+ 988 039e 89000000 		.4byte	0x89
+ 989 03a2 00       		.byte	0
+ 990 03a3 0F       		.uleb128 0xf
+ 991 03a4 63747800 		.ascii	"ctx\000"
+ 992 03a8 05       		.byte	0x5
+ 993 03a9 A7       		.byte	0xa7
+ 994 03aa 4B030000 		.4byte	0x34b
+ 995 03ae 08       		.byte	0x8
+ 996 03af 00       		.byte	0
+ 997 03b0 03       		.uleb128 0x3
+ 998 03b1 48040000 		.4byte	.LASF63
+ 999 03b5 05       		.byte	0x5
+ 1000 03b6 A8       		.byte	0xa8
+ 1001 03b7 8B030000 		.4byte	0x38b
+ 1002 03bb 10       		.uleb128 0x10
+ 1003 03bc 30020000 		.4byte	.LASF65
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 24
+
+
+ 1004 03c0 01       		.byte	0x1
+ 1005 03c1 1C       		.byte	0x1c
+ 1006 03c2 89000000 		.4byte	0x89
+ 1007 03c6 00000000 		.4byte	.LFB0
+ 1008 03ca 44000000 		.4byte	.LFE0-.LFB0
+ 1009 03ce 01       		.uleb128 0x1
+ 1010 03cf 9C       		.byte	0x9c
+ 1011 03d0 62040000 		.4byte	0x462
+ 1012 03d4 11       		.uleb128 0x11
+ 1013 03d5 63747800 		.ascii	"ctx\000"
+ 1014 03d9 01       		.byte	0x1
+ 1015 03da 1C       		.byte	0x1c
+ 1016 03db 62040000 		.4byte	0x462
+ 1017 03df 00000000 		.4byte	.LLST0
+ 1018 03e3 12       		.uleb128 0x12
+ 1019 03e4 27030000 		.4byte	.LASF64
+ 1020 03e8 01       		.byte	0x1
+ 1021 03e9 1C       		.byte	0x1c
+ 1022 03ea 6B010000 		.4byte	0x16b
+ 1023 03ee F8000000 		.4byte	.LLST1
+ 1024 03f2 13       		.uleb128 0x13
+ 1025 03f3 1A000000 		.4byte	.LVL2
+ 1026 03f7 09070000 		.4byte	0x709
+ 1027 03fb 09040000 		.4byte	0x409
+ 1028 03ff 14       		.uleb128 0x14
+ 1029 0400 01       		.uleb128 0x1
+ 1030 0401 50       		.byte	0x50
+ 1031 0402 05       		.uleb128 0x5
+ 1032 0403 F3       		.byte	0xf3
+ 1033 0404 01       		.uleb128 0x1
+ 1034 0405 50       		.byte	0x50
+ 1035 0406 23       		.byte	0x23
+ 1036 0407 08       		.uleb128 0x8
+ 1037 0408 00       		.byte	0
+ 1038 0409 13       		.uleb128 0x13
+ 1039 040a 22000000 		.4byte	.LVL5
+ 1040 040e 14070000 		.4byte	0x714
+ 1041 0412 20040000 		.4byte	0x420
+ 1042 0416 14       		.uleb128 0x14
+ 1043 0417 01       		.uleb128 0x1
+ 1044 0418 50       		.byte	0x50
+ 1045 0419 05       		.uleb128 0x5
+ 1046 041a F3       		.byte	0xf3
+ 1047 041b 01       		.uleb128 0x1
+ 1048 041c 50       		.byte	0x50
+ 1049 041d 23       		.byte	0x23
+ 1050 041e 08       		.uleb128 0x8
+ 1051 041f 00       		.byte	0
+ 1052 0420 13       		.uleb128 0x13
+ 1053 0421 2A000000 		.4byte	.LVL8
+ 1054 0425 1F070000 		.4byte	0x71f
+ 1055 0429 37040000 		.4byte	0x437
+ 1056 042d 14       		.uleb128 0x14
+ 1057 042e 01       		.uleb128 0x1
+ 1058 042f 50       		.byte	0x50
+ 1059 0430 05       		.uleb128 0x5
+ 1060 0431 F3       		.byte	0xf3
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 25
+
+
+ 1061 0432 01       		.uleb128 0x1
+ 1062 0433 50       		.byte	0x50
+ 1063 0434 23       		.byte	0x23
+ 1064 0435 08       		.uleb128 0x8
+ 1065 0436 00       		.byte	0
+ 1066 0437 13       		.uleb128 0x13
+ 1067 0438 32000000 		.4byte	.LVL11
+ 1068 043c 2A070000 		.4byte	0x72a
+ 1069 0440 4E040000 		.4byte	0x44e
+ 1070 0444 14       		.uleb128 0x14
+ 1071 0445 01       		.uleb128 0x1
+ 1072 0446 50       		.byte	0x50
+ 1073 0447 05       		.uleb128 0x5
+ 1074 0448 F3       		.byte	0xf3
+ 1075 0449 01       		.uleb128 0x1
+ 1076 044a 50       		.byte	0x50
+ 1077 044b 23       		.byte	0x23
+ 1078 044c 08       		.uleb128 0x8
+ 1079 044d 00       		.byte	0
+ 1080 044e 15       		.uleb128 0x15
+ 1081 044f 3A000000 		.4byte	.LVL14
+ 1082 0453 35070000 		.4byte	0x735
+ 1083 0457 14       		.uleb128 0x14
+ 1084 0458 01       		.uleb128 0x1
+ 1085 0459 50       		.byte	0x50
+ 1086 045a 05       		.uleb128 0x5
+ 1087 045b F3       		.byte	0xf3
+ 1088 045c 01       		.uleb128 0x1
+ 1089 045d 50       		.byte	0x50
+ 1090 045e 23       		.byte	0x23
+ 1091 045f 08       		.uleb128 0x8
+ 1092 0460 00       		.byte	0
+ 1093 0461 00       		.byte	0
+ 1094 0462 16       		.uleb128 0x16
+ 1095 0463 04       		.byte	0x4
+ 1096 0464 B0030000 		.4byte	0x3b0
+ 1097 0468 10       		.uleb128 0x10
+ 1098 0469 98030000 		.4byte	.LASF66
+ 1099 046d 01       		.byte	0x1
+ 1100 046e 4C       		.byte	0x4c
+ 1101 046f 89000000 		.4byte	0x89
+ 1102 0473 00000000 		.4byte	.LFB1
+ 1103 0477 44000000 		.4byte	.LFE1-.LFB1
+ 1104 047b 01       		.uleb128 0x1
+ 1105 047c 9C       		.byte	0x9c
+ 1106 047d 1E050000 		.4byte	0x51e
+ 1107 0481 11       		.uleb128 0x11
+ 1108 0482 63747800 		.ascii	"ctx\000"
+ 1109 0486 01       		.byte	0x1
+ 1110 0487 4C       		.byte	0x4c
+ 1111 0488 62040000 		.4byte	0x462
+ 1112 048c 88010000 		.4byte	.LLST2
+ 1113 0490 12       		.uleb128 0x12
+ 1114 0491 8D040000 		.4byte	.LASF67
+ 1115 0495 01       		.byte	0x1
+ 1116 0496 4C       		.byte	0x4c
+ 1117 0497 1E050000 		.4byte	0x51e
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 26
+
+
+ 1118 049b 80020000 		.4byte	.LLST3
+ 1119 049f 12       		.uleb128 0x12
+ 1120 04a0 54040000 		.4byte	.LASF68
+ 1121 04a4 01       		.byte	0x1
+ 1122 04a5 4C       		.byte	0x4c
+ 1123 04a6 90000000 		.4byte	0x90
+ 1124 04aa 10030000 		.4byte	.LLST4
+ 1125 04ae 13       		.uleb128 0x13
+ 1126 04af 1A000000 		.4byte	.LVL21
+ 1127 04b3 40070000 		.4byte	0x740
+ 1128 04b7 C5040000 		.4byte	0x4c5
+ 1129 04bb 14       		.uleb128 0x14
+ 1130 04bc 01       		.uleb128 0x1
+ 1131 04bd 50       		.byte	0x50
+ 1132 04be 05       		.uleb128 0x5
+ 1133 04bf F3       		.byte	0xf3
+ 1134 04c0 01       		.uleb128 0x1
+ 1135 04c1 50       		.byte	0x50
+ 1136 04c2 23       		.byte	0x23
+ 1137 04c3 08       		.uleb128 0x8
+ 1138 04c4 00       		.byte	0
+ 1139 04c5 13       		.uleb128 0x13
+ 1140 04c6 22000000 		.4byte	.LVL24
+ 1141 04ca 4B070000 		.4byte	0x74b
+ 1142 04ce DC040000 		.4byte	0x4dc
+ 1143 04d2 14       		.uleb128 0x14
+ 1144 04d3 01       		.uleb128 0x1
+ 1145 04d4 50       		.byte	0x50
+ 1146 04d5 05       		.uleb128 0x5
+ 1147 04d6 F3       		.byte	0xf3
+ 1148 04d7 01       		.uleb128 0x1
+ 1149 04d8 50       		.byte	0x50
+ 1150 04d9 23       		.byte	0x23
+ 1151 04da 08       		.uleb128 0x8
+ 1152 04db 00       		.byte	0
+ 1153 04dc 13       		.uleb128 0x13
+ 1154 04dd 2A000000 		.4byte	.LVL27
+ 1155 04e1 56070000 		.4byte	0x756
+ 1156 04e5 F3040000 		.4byte	0x4f3
+ 1157 04e9 14       		.uleb128 0x14
+ 1158 04ea 01       		.uleb128 0x1
+ 1159 04eb 50       		.byte	0x50
+ 1160 04ec 05       		.uleb128 0x5
+ 1161 04ed F3       		.byte	0xf3
+ 1162 04ee 01       		.uleb128 0x1
+ 1163 04ef 50       		.byte	0x50
+ 1164 04f0 23       		.byte	0x23
+ 1165 04f1 08       		.uleb128 0x8
+ 1166 04f2 00       		.byte	0
+ 1167 04f3 13       		.uleb128 0x13
+ 1168 04f4 32000000 		.4byte	.LVL30
+ 1169 04f8 61070000 		.4byte	0x761
+ 1170 04fc 0A050000 		.4byte	0x50a
+ 1171 0500 14       		.uleb128 0x14
+ 1172 0501 01       		.uleb128 0x1
+ 1173 0502 50       		.byte	0x50
+ 1174 0503 05       		.uleb128 0x5
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 27
+
+
+ 1175 0504 F3       		.byte	0xf3
+ 1176 0505 01       		.uleb128 0x1
+ 1177 0506 50       		.byte	0x50
+ 1178 0507 23       		.byte	0x23
+ 1179 0508 08       		.uleb128 0x8
+ 1180 0509 00       		.byte	0
+ 1181 050a 15       		.uleb128 0x15
+ 1182 050b 3A000000 		.4byte	.LVL33
+ 1183 050f 6C070000 		.4byte	0x76c
+ 1184 0513 14       		.uleb128 0x14
+ 1185 0514 01       		.uleb128 0x1
+ 1186 0515 50       		.byte	0x50
+ 1187 0516 05       		.uleb128 0x5
+ 1188 0517 F3       		.byte	0xf3
+ 1189 0518 01       		.uleb128 0x1
+ 1190 0519 50       		.byte	0x50
+ 1191 051a 23       		.byte	0x23
+ 1192 051b 08       		.uleb128 0x8
+ 1193 051c 00       		.byte	0
+ 1194 051d 00       		.byte	0
+ 1195 051e 16       		.uleb128 0x16
+ 1196 051f 04       		.byte	0x4
+ 1197 0520 24050000 		.4byte	0x524
+ 1198 0524 17       		.uleb128 0x17
+ 1199 0525 97000000 		.4byte	0x97
+ 1200 0529 10       		.uleb128 0x10
+ 1201 052a AA020000 		.4byte	.LASF69
+ 1202 052e 01       		.byte	0x1
+ 1203 052f 7A       		.byte	0x7a
+ 1204 0530 89000000 		.4byte	0x89
+ 1205 0534 00000000 		.4byte	.LFB2
+ 1206 0538 44000000 		.4byte	.LFE2-.LFB2
+ 1207 053c 01       		.uleb128 0x1
+ 1208 053d 9C       		.byte	0x9c
+ 1209 053e DF050000 		.4byte	0x5df
+ 1210 0542 11       		.uleb128 0x11
+ 1211 0543 63747800 		.ascii	"ctx\000"
+ 1212 0547 01       		.byte	0x1
+ 1213 0548 7A       		.byte	0x7a
+ 1214 0549 62040000 		.4byte	0x462
+ 1215 054d A0030000 		.4byte	.LLST5
+ 1216 0551 12       		.uleb128 0x12
+ 1217 0552 2B020000 		.4byte	.LASF70
+ 1218 0556 01       		.byte	0x1
+ 1219 0557 7A       		.byte	0x7a
+ 1220 0558 24050000 		.4byte	0x524
+ 1221 055c 98040000 		.4byte	.LLST6
+ 1222 0560 12       		.uleb128 0x12
+ 1223 0561 F3010000 		.4byte	.LASF71
+ 1224 0565 01       		.byte	0x1
+ 1225 0566 7A       		.byte	0x7a
+ 1226 0567 90000000 		.4byte	0x90
+ 1227 056b 28050000 		.4byte	.LLST7
+ 1228 056f 13       		.uleb128 0x13
+ 1229 0570 1A000000 		.4byte	.LVL40
+ 1230 0574 77070000 		.4byte	0x777
+ 1231 0578 86050000 		.4byte	0x586
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 28
+
+
+ 1232 057c 14       		.uleb128 0x14
+ 1233 057d 01       		.uleb128 0x1
+ 1234 057e 50       		.byte	0x50
+ 1235 057f 05       		.uleb128 0x5
+ 1236 0580 F3       		.byte	0xf3
+ 1237 0581 01       		.uleb128 0x1
+ 1238 0582 50       		.byte	0x50
+ 1239 0583 23       		.byte	0x23
+ 1240 0584 08       		.uleb128 0x8
+ 1241 0585 00       		.byte	0
+ 1242 0586 13       		.uleb128 0x13
+ 1243 0587 22000000 		.4byte	.LVL43
+ 1244 058b 82070000 		.4byte	0x782
+ 1245 058f 9D050000 		.4byte	0x59d
+ 1246 0593 14       		.uleb128 0x14
+ 1247 0594 01       		.uleb128 0x1
+ 1248 0595 50       		.byte	0x50
+ 1249 0596 05       		.uleb128 0x5
+ 1250 0597 F3       		.byte	0xf3
+ 1251 0598 01       		.uleb128 0x1
+ 1252 0599 50       		.byte	0x50
+ 1253 059a 23       		.byte	0x23
+ 1254 059b 08       		.uleb128 0x8
+ 1255 059c 00       		.byte	0
+ 1256 059d 13       		.uleb128 0x13
+ 1257 059e 2A000000 		.4byte	.LVL46
+ 1258 05a2 8D070000 		.4byte	0x78d
+ 1259 05a6 B4050000 		.4byte	0x5b4
+ 1260 05aa 14       		.uleb128 0x14
+ 1261 05ab 01       		.uleb128 0x1
+ 1262 05ac 50       		.byte	0x50
+ 1263 05ad 05       		.uleb128 0x5
+ 1264 05ae F3       		.byte	0xf3
+ 1265 05af 01       		.uleb128 0x1
+ 1266 05b0 50       		.byte	0x50
+ 1267 05b1 23       		.byte	0x23
+ 1268 05b2 08       		.uleb128 0x8
+ 1269 05b3 00       		.byte	0
+ 1270 05b4 13       		.uleb128 0x13
+ 1271 05b5 32000000 		.4byte	.LVL49
+ 1272 05b9 98070000 		.4byte	0x798
+ 1273 05bd CB050000 		.4byte	0x5cb
+ 1274 05c1 14       		.uleb128 0x14
+ 1275 05c2 01       		.uleb128 0x1
+ 1276 05c3 50       		.byte	0x50
+ 1277 05c4 05       		.uleb128 0x5
+ 1278 05c5 F3       		.byte	0xf3
+ 1279 05c6 01       		.uleb128 0x1
+ 1280 05c7 50       		.byte	0x50
+ 1281 05c8 23       		.byte	0x23
+ 1282 05c9 08       		.uleb128 0x8
+ 1283 05ca 00       		.byte	0
+ 1284 05cb 15       		.uleb128 0x15
+ 1285 05cc 3A000000 		.4byte	.LVL52
+ 1286 05d0 A3070000 		.4byte	0x7a3
+ 1287 05d4 14       		.uleb128 0x14
+ 1288 05d5 01       		.uleb128 0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 29
+
+
+ 1289 05d6 50       		.byte	0x50
+ 1290 05d7 05       		.uleb128 0x5
+ 1291 05d8 F3       		.byte	0xf3
+ 1292 05d9 01       		.uleb128 0x1
+ 1293 05da 50       		.byte	0x50
+ 1294 05db 23       		.byte	0x23
+ 1295 05dc 08       		.uleb128 0x8
+ 1296 05dd 00       		.byte	0
+ 1297 05de 00       		.byte	0
+ 1298 05df 10       		.uleb128 0x10
+ 1299 05e0 B4040000 		.4byte	.LASF72
+ 1300 05e4 01       		.byte	0x1
+ 1301 05e5 AC       		.byte	0xac
+ 1302 05e6 89000000 		.4byte	0x89
+ 1303 05ea 00000000 		.4byte	.LFB3
+ 1304 05ee 44000000 		.4byte	.LFE3-.LFB3
+ 1305 05f2 01       		.uleb128 0x1
+ 1306 05f3 9C       		.byte	0x9c
+ 1307 05f4 86060000 		.4byte	0x686
+ 1308 05f8 11       		.uleb128 0x11
+ 1309 05f9 63747800 		.ascii	"ctx\000"
+ 1310 05fd 01       		.byte	0x1
+ 1311 05fe AC       		.byte	0xac
+ 1312 05ff 62040000 		.4byte	0x462
+ 1313 0603 B8050000 		.4byte	.LLST8
+ 1314 0607 12       		.uleb128 0x12
+ 1315 0608 50000000 		.4byte	.LASF73
+ 1316 060c 01       		.byte	0x1
+ 1317 060d AC       		.byte	0xac
+ 1318 060e 86060000 		.4byte	0x686
+ 1319 0612 B0060000 		.4byte	.LLST9
+ 1320 0616 13       		.uleb128 0x13
+ 1321 0617 1A000000 		.4byte	.LVL59
+ 1322 061b AE070000 		.4byte	0x7ae
+ 1323 061f 2D060000 		.4byte	0x62d
+ 1324 0623 14       		.uleb128 0x14
+ 1325 0624 01       		.uleb128 0x1
+ 1326 0625 50       		.byte	0x50
+ 1327 0626 05       		.uleb128 0x5
+ 1328 0627 F3       		.byte	0xf3
+ 1329 0628 01       		.uleb128 0x1
+ 1330 0629 50       		.byte	0x50
+ 1331 062a 23       		.byte	0x23
+ 1332 062b 08       		.uleb128 0x8
+ 1333 062c 00       		.byte	0
+ 1334 062d 13       		.uleb128 0x13
+ 1335 062e 22000000 		.4byte	.LVL62
+ 1336 0632 B9070000 		.4byte	0x7b9
+ 1337 0636 44060000 		.4byte	0x644
+ 1338 063a 14       		.uleb128 0x14
+ 1339 063b 01       		.uleb128 0x1
+ 1340 063c 50       		.byte	0x50
+ 1341 063d 05       		.uleb128 0x5
+ 1342 063e F3       		.byte	0xf3
+ 1343 063f 01       		.uleb128 0x1
+ 1344 0640 50       		.byte	0x50
+ 1345 0641 23       		.byte	0x23
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 30
+
+
+ 1346 0642 08       		.uleb128 0x8
+ 1347 0643 00       		.byte	0
+ 1348 0644 13       		.uleb128 0x13
+ 1349 0645 2A000000 		.4byte	.LVL65
+ 1350 0649 C4070000 		.4byte	0x7c4
+ 1351 064d 5B060000 		.4byte	0x65b
+ 1352 0651 14       		.uleb128 0x14
+ 1353 0652 01       		.uleb128 0x1
+ 1354 0653 50       		.byte	0x50
+ 1355 0654 05       		.uleb128 0x5
+ 1356 0655 F3       		.byte	0xf3
+ 1357 0656 01       		.uleb128 0x1
+ 1358 0657 50       		.byte	0x50
+ 1359 0658 23       		.byte	0x23
+ 1360 0659 08       		.uleb128 0x8
+ 1361 065a 00       		.byte	0
+ 1362 065b 13       		.uleb128 0x13
+ 1363 065c 32000000 		.4byte	.LVL68
+ 1364 0660 CF070000 		.4byte	0x7cf
+ 1365 0664 72060000 		.4byte	0x672
+ 1366 0668 14       		.uleb128 0x14
+ 1367 0669 01       		.uleb128 0x1
+ 1368 066a 50       		.byte	0x50
+ 1369 066b 05       		.uleb128 0x5
+ 1370 066c F3       		.byte	0xf3
+ 1371 066d 01       		.uleb128 0x1
+ 1372 066e 50       		.byte	0x50
+ 1373 066f 23       		.byte	0x23
+ 1374 0670 08       		.uleb128 0x8
+ 1375 0671 00       		.byte	0
+ 1376 0672 15       		.uleb128 0x15
+ 1377 0673 3A000000 		.4byte	.LVL71
+ 1378 0677 DA070000 		.4byte	0x7da
+ 1379 067b 14       		.uleb128 0x14
+ 1380 067c 01       		.uleb128 0x1
+ 1381 067d 50       		.byte	0x50
+ 1382 067e 05       		.uleb128 0x5
+ 1383 067f F3       		.byte	0xf3
+ 1384 0680 01       		.uleb128 0x1
+ 1385 0681 50       		.byte	0x50
+ 1386 0682 23       		.byte	0x23
+ 1387 0683 08       		.uleb128 0x8
+ 1388 0684 00       		.byte	0
+ 1389 0685 00       		.byte	0
+ 1390 0686 16       		.uleb128 0x16
+ 1391 0687 04       		.byte	0x4
+ 1392 0688 97000000 		.4byte	0x97
+ 1393 068c 10       		.uleb128 0x10
+ 1394 068d 5B010000 		.4byte	.LASF74
+ 1395 0691 01       		.byte	0x1
+ 1396 0692 D6       		.byte	0xd6
+ 1397 0693 89000000 		.4byte	0x89
+ 1398 0697 00000000 		.4byte	.LFB4
+ 1399 069b 0C000000 		.4byte	.LFE4-.LFB4
+ 1400 069f 01       		.uleb128 0x1
+ 1401 06a0 9C       		.byte	0x9c
+ 1402 06a1 B5060000 		.4byte	0x6b5
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 31
+
+
+ 1403 06a5 12       		.uleb128 0x12
+ 1404 06a6 27030000 		.4byte	.LASF64
+ 1405 06aa 01       		.byte	0x1
+ 1406 06ab D6       		.byte	0xd6
+ 1407 06ac 6B010000 		.4byte	0x16b
+ 1408 06b0 40070000 		.4byte	.LLST10
+ 1409 06b4 00       		.byte	0
+ 1410 06b5 10       		.uleb128 0x10
+ 1411 06b6 10020000 		.4byte	.LASF75
+ 1412 06ba 01       		.byte	0x1
+ 1413 06bb F8       		.byte	0xf8
+ 1414 06bc 89000000 		.4byte	0x89
+ 1415 06c0 00000000 		.4byte	.LFB5
+ 1416 06c4 20000000 		.4byte	.LFE5-.LFB5
+ 1417 06c8 01       		.uleb128 0x1
+ 1418 06c9 9C       		.byte	0x9c
+ 1419 06ca DE060000 		.4byte	0x6de
+ 1420 06ce 12       		.uleb128 0x12
+ 1421 06cf 27030000 		.4byte	.LASF64
+ 1422 06d3 01       		.byte	0x1
+ 1423 06d4 F8       		.byte	0xf8
+ 1424 06d5 6B010000 		.4byte	0x16b
+ 1425 06d9 7A070000 		.4byte	.LLST11
+ 1426 06dd 00       		.byte	0
+ 1427 06de 18       		.uleb128 0x18
+ 1428 06df 93040000 		.4byte	.LASF76
+ 1429 06e3 01       		.byte	0x1
+ 1430 06e4 1A01     		.2byte	0x11a
+ 1431 06e6 89000000 		.4byte	0x89
+ 1432 06ea 00000000 		.4byte	.LFB6
+ 1433 06ee 26000000 		.4byte	.LFE6-.LFB6
+ 1434 06f2 01       		.uleb128 0x1
+ 1435 06f3 9C       		.byte	0x9c
+ 1436 06f4 09070000 		.4byte	0x709
+ 1437 06f8 19       		.uleb128 0x19
+ 1438 06f9 27030000 		.4byte	.LASF64
+ 1439 06fd 01       		.byte	0x1
+ 1440 06fe 1A01     		.2byte	0x11a
+ 1441 0700 6B010000 		.4byte	0x16b
+ 1442 0704 FF070000 		.4byte	.LLST12
+ 1443 0708 00       		.byte	0
+ 1444 0709 1A       		.uleb128 0x1a
+ 1445 070a 06020000 		.4byte	.LASF77
+ 1446 070e 06020000 		.4byte	.LASF77
+ 1447 0712 05       		.byte	0x5
+ 1448 0713 BD       		.byte	0xbd
+ 1449 0714 1A       		.uleb128 0x1a
+ 1450 0715 DA040000 		.4byte	.LASF78
+ 1451 0719 DA040000 		.4byte	.LASF78
+ 1452 071d 05       		.byte	0x5
+ 1453 071e C5       		.byte	0xc5
+ 1454 071f 1A       		.uleb128 0x1a
+ 1455 0720 0B000000 		.4byte	.LASF79
+ 1456 0724 0B000000 		.4byte	.LASF79
+ 1457 0728 05       		.byte	0x5
+ 1458 0729 CE       		.byte	0xce
+ 1459 072a 1A       		.uleb128 0x1a
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 32
+
+
+ 1460 072b 64050000 		.4byte	.LASF80
+ 1461 072f 64050000 		.4byte	.LASF80
+ 1462 0733 05       		.byte	0x5
+ 1463 0734 D7       		.byte	0xd7
+ 1464 0735 1A       		.uleb128 0x1a
+ 1465 0736 94020000 		.4byte	.LASF81
+ 1466 073a 94020000 		.4byte	.LASF81
+ 1467 073e 05       		.byte	0x5
+ 1468 073f E0       		.byte	0xe0
+ 1469 0740 1A       		.uleb128 0x1a
+ 1470 0741 FC010000 		.4byte	.LASF82
+ 1471 0745 FC010000 		.4byte	.LASF82
+ 1472 0749 05       		.byte	0x5
+ 1473 074a BE       		.byte	0xbe
+ 1474 074b 1A       		.uleb128 0x1a
+ 1475 074c 0B040000 		.4byte	.LASF83
+ 1476 0750 0B040000 		.4byte	.LASF83
+ 1477 0754 05       		.byte	0x5
+ 1478 0755 C6       		.byte	0xc6
+ 1479 0756 1A       		.uleb128 0x1a
+ 1480 0757 CE040000 		.4byte	.LASF84
+ 1481 075b CE040000 		.4byte	.LASF84
+ 1482 075f 05       		.byte	0x5
+ 1483 0760 CF       		.byte	0xcf
+ 1484 0761 1A       		.uleb128 0x1a
+ 1485 0762 69010000 		.4byte	.LASF85
+ 1486 0766 69010000 		.4byte	.LASF85
+ 1487 076a 05       		.byte	0x5
+ 1488 076b D8       		.byte	0xd8
+ 1489 076c 1A       		.uleb128 0x1a
+ 1490 076d 35010000 		.4byte	.LASF86
+ 1491 0771 35010000 		.4byte	.LASF86
+ 1492 0775 05       		.byte	0x5
+ 1493 0776 E1       		.byte	0xe1
+ 1494 0777 1A       		.uleb128 0x1a
+ 1495 0778 20000000 		.4byte	.LASF87
+ 1496 077c 20000000 		.4byte	.LASF87
+ 1497 0780 05       		.byte	0x5
+ 1498 0781 C0       		.byte	0xc0
+ 1499 0782 1A       		.uleb128 0x1a
+ 1500 0783 09030000 		.4byte	.LASF88
+ 1501 0787 09030000 		.4byte	.LASF88
+ 1502 078b 05       		.byte	0x5
+ 1503 078c C8       		.byte	0xc8
+ 1504 078d 1A       		.uleb128 0x1a
+ 1505 078e 5D020000 		.4byte	.LASF89
+ 1506 0792 5D020000 		.4byte	.LASF89
+ 1507 0796 05       		.byte	0x5
+ 1508 0797 D1       		.byte	0xd1
+ 1509 0798 1A       		.uleb128 0x1a
+ 1510 0799 B8020000 		.4byte	.LASF90
+ 1511 079d B8020000 		.4byte	.LASF90
+ 1512 07a1 05       		.byte	0x5
+ 1513 07a2 DA       		.byte	0xda
+ 1514 07a3 1A       		.uleb128 0x1a
+ 1515 07a4 E7030000 		.4byte	.LASF91
+ 1516 07a8 E7030000 		.4byte	.LASF91
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 33
+
+
+ 1517 07ac 05       		.byte	0x5
+ 1518 07ad E3       		.byte	0xe3
+ 1519 07ae 1A       		.uleb128 0x1a
+ 1520 07af 00000000 		.4byte	.LASF92
+ 1521 07b3 00000000 		.4byte	.LASF92
+ 1522 07b7 05       		.byte	0x5
+ 1523 07b8 C2       		.byte	0xc2
+ 1524 07b9 1A       		.uleb128 0x1a
+ 1525 07ba 3B050000 		.4byte	.LASF93
+ 1526 07be 3B050000 		.4byte	.LASF93
+ 1527 07c2 05       		.byte	0x5
+ 1528 07c3 CA       		.byte	0xca
+ 1529 07c4 1A       		.uleb128 0x1a
+ 1530 07c5 CF020000 		.4byte	.LASF94
+ 1531 07c9 CF020000 		.4byte	.LASF94
+ 1532 07cd 05       		.byte	0x5
+ 1533 07ce D3       		.byte	0xd3
+ 1534 07cf 1A       		.uleb128 0x1a
+ 1535 07d0 83010000 		.4byte	.LASF95
+ 1536 07d4 83010000 		.4byte	.LASF95
+ 1537 07d8 05       		.byte	0x5
+ 1538 07d9 DC       		.byte	0xdc
+ 1539 07da 1A       		.uleb128 0x1a
+ 1540 07db AD030000 		.4byte	.LASF96
+ 1541 07df AD030000 		.4byte	.LASF96
+ 1542 07e3 05       		.byte	0x5
+ 1543 07e4 E5       		.byte	0xe5
+ 1544 07e5 00       		.byte	0
+ 1545              		.section	.debug_abbrev,"",%progbits
+ 1546              	.Ldebug_abbrev0:
+ 1547 0000 01       		.uleb128 0x1
+ 1548 0001 11       		.uleb128 0x11
+ 1549 0002 01       		.byte	0x1
+ 1550 0003 25       		.uleb128 0x25
+ 1551 0004 0E       		.uleb128 0xe
+ 1552 0005 13       		.uleb128 0x13
+ 1553 0006 0B       		.uleb128 0xb
+ 1554 0007 03       		.uleb128 0x3
+ 1555 0008 0E       		.uleb128 0xe
+ 1556 0009 1B       		.uleb128 0x1b
+ 1557 000a 0E       		.uleb128 0xe
+ 1558 000b 55       		.uleb128 0x55
+ 1559 000c 17       		.uleb128 0x17
+ 1560 000d 11       		.uleb128 0x11
+ 1561 000e 01       		.uleb128 0x1
+ 1562 000f 10       		.uleb128 0x10
+ 1563 0010 17       		.uleb128 0x17
+ 1564 0011 00       		.byte	0
+ 1565 0012 00       		.byte	0
+ 1566 0013 02       		.uleb128 0x2
+ 1567 0014 24       		.uleb128 0x24
+ 1568 0015 00       		.byte	0
+ 1569 0016 0B       		.uleb128 0xb
+ 1570 0017 0B       		.uleb128 0xb
+ 1571 0018 3E       		.uleb128 0x3e
+ 1572 0019 0B       		.uleb128 0xb
+ 1573 001a 03       		.uleb128 0x3
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 34
+
+
+ 1574 001b 0E       		.uleb128 0xe
+ 1575 001c 00       		.byte	0
+ 1576 001d 00       		.byte	0
+ 1577 001e 03       		.uleb128 0x3
+ 1578 001f 16       		.uleb128 0x16
+ 1579 0020 00       		.byte	0
+ 1580 0021 03       		.uleb128 0x3
+ 1581 0022 0E       		.uleb128 0xe
+ 1582 0023 3A       		.uleb128 0x3a
+ 1583 0024 0B       		.uleb128 0xb
+ 1584 0025 3B       		.uleb128 0x3b
+ 1585 0026 0B       		.uleb128 0xb
+ 1586 0027 49       		.uleb128 0x49
+ 1587 0028 13       		.uleb128 0x13
+ 1588 0029 00       		.byte	0
+ 1589 002a 00       		.byte	0
+ 1590 002b 04       		.uleb128 0x4
+ 1591 002c 24       		.uleb128 0x24
+ 1592 002d 00       		.byte	0
+ 1593 002e 0B       		.uleb128 0xb
+ 1594 002f 0B       		.uleb128 0xb
+ 1595 0030 3E       		.uleb128 0x3e
+ 1596 0031 0B       		.uleb128 0xb
+ 1597 0032 03       		.uleb128 0x3
+ 1598 0033 08       		.uleb128 0x8
+ 1599 0034 00       		.byte	0
+ 1600 0035 00       		.byte	0
+ 1601 0036 05       		.uleb128 0x5
+ 1602 0037 04       		.uleb128 0x4
+ 1603 0038 01       		.byte	0x1
+ 1604 0039 0B       		.uleb128 0xb
+ 1605 003a 0B       		.uleb128 0xb
+ 1606 003b 49       		.uleb128 0x49
+ 1607 003c 13       		.uleb128 0x13
+ 1608 003d 3A       		.uleb128 0x3a
+ 1609 003e 0B       		.uleb128 0xb
+ 1610 003f 3B       		.uleb128 0x3b
+ 1611 0040 0B       		.uleb128 0xb
+ 1612 0041 01       		.uleb128 0x1
+ 1613 0042 13       		.uleb128 0x13
+ 1614 0043 00       		.byte	0
+ 1615 0044 00       		.byte	0
+ 1616 0045 06       		.uleb128 0x6
+ 1617 0046 28       		.uleb128 0x28
+ 1618 0047 00       		.byte	0
+ 1619 0048 03       		.uleb128 0x3
+ 1620 0049 0E       		.uleb128 0xe
+ 1621 004a 1C       		.uleb128 0x1c
+ 1622 004b 0B       		.uleb128 0xb
+ 1623 004c 00       		.byte	0
+ 1624 004d 00       		.byte	0
+ 1625 004e 07       		.uleb128 0x7
+ 1626 004f 28       		.uleb128 0x28
+ 1627 0050 00       		.byte	0
+ 1628 0051 03       		.uleb128 0x3
+ 1629 0052 0E       		.uleb128 0xe
+ 1630 0053 1C       		.uleb128 0x1c
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 35
+
+
+ 1631 0054 05       		.uleb128 0x5
+ 1632 0055 00       		.byte	0
+ 1633 0056 00       		.byte	0
+ 1634 0057 08       		.uleb128 0x8
+ 1635 0058 04       		.uleb128 0x4
+ 1636 0059 01       		.byte	0x1
+ 1637 005a 03       		.uleb128 0x3
+ 1638 005b 0E       		.uleb128 0xe
+ 1639 005c 0B       		.uleb128 0xb
+ 1640 005d 0B       		.uleb128 0xb
+ 1641 005e 49       		.uleb128 0x49
+ 1642 005f 13       		.uleb128 0x13
+ 1643 0060 3A       		.uleb128 0x3a
+ 1644 0061 0B       		.uleb128 0xb
+ 1645 0062 3B       		.uleb128 0x3b
+ 1646 0063 0B       		.uleb128 0xb
+ 1647 0064 01       		.uleb128 0x1
+ 1648 0065 13       		.uleb128 0x13
+ 1649 0066 00       		.byte	0
+ 1650 0067 00       		.byte	0
+ 1651 0068 09       		.uleb128 0x9
+ 1652 0069 13       		.uleb128 0x13
+ 1653 006a 01       		.byte	0x1
+ 1654 006b 03       		.uleb128 0x3
+ 1655 006c 0E       		.uleb128 0xe
+ 1656 006d 0B       		.uleb128 0xb
+ 1657 006e 0B       		.uleb128 0xb
+ 1658 006f 3A       		.uleb128 0x3a
+ 1659 0070 0B       		.uleb128 0xb
+ 1660 0071 3B       		.uleb128 0x3b
+ 1661 0072 0B       		.uleb128 0xb
+ 1662 0073 01       		.uleb128 0x1
+ 1663 0074 13       		.uleb128 0x13
+ 1664 0075 00       		.byte	0
+ 1665 0076 00       		.byte	0
+ 1666 0077 0A       		.uleb128 0xa
+ 1667 0078 0D       		.uleb128 0xd
+ 1668 0079 00       		.byte	0
+ 1669 007a 03       		.uleb128 0x3
+ 1670 007b 0E       		.uleb128 0xe
+ 1671 007c 3A       		.uleb128 0x3a
+ 1672 007d 0B       		.uleb128 0xb
+ 1673 007e 3B       		.uleb128 0x3b
+ 1674 007f 0B       		.uleb128 0xb
+ 1675 0080 49       		.uleb128 0x49
+ 1676 0081 13       		.uleb128 0x13
+ 1677 0082 38       		.uleb128 0x38
+ 1678 0083 0B       		.uleb128 0xb
+ 1679 0084 00       		.byte	0
+ 1680 0085 00       		.byte	0
+ 1681 0086 0B       		.uleb128 0xb
+ 1682 0087 01       		.uleb128 0x1
+ 1683 0088 01       		.byte	0x1
+ 1684 0089 49       		.uleb128 0x49
+ 1685 008a 13       		.uleb128 0x13
+ 1686 008b 01       		.uleb128 0x1
+ 1687 008c 13       		.uleb128 0x13
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 36
+
+
+ 1688 008d 00       		.byte	0
+ 1689 008e 00       		.byte	0
+ 1690 008f 0C       		.uleb128 0xc
+ 1691 0090 21       		.uleb128 0x21
+ 1692 0091 00       		.byte	0
+ 1693 0092 49       		.uleb128 0x49
+ 1694 0093 13       		.uleb128 0x13
+ 1695 0094 2F       		.uleb128 0x2f
+ 1696 0095 0B       		.uleb128 0xb
+ 1697 0096 00       		.byte	0
+ 1698 0097 00       		.byte	0
+ 1699 0098 0D       		.uleb128 0xd
+ 1700 0099 17       		.uleb128 0x17
+ 1701 009a 01       		.byte	0x1
+ 1702 009b 0B       		.uleb128 0xb
+ 1703 009c 0B       		.uleb128 0xb
+ 1704 009d 3A       		.uleb128 0x3a
+ 1705 009e 0B       		.uleb128 0xb
+ 1706 009f 3B       		.uleb128 0x3b
+ 1707 00a0 0B       		.uleb128 0xb
+ 1708 00a1 01       		.uleb128 0x1
+ 1709 00a2 13       		.uleb128 0x13
+ 1710 00a3 00       		.byte	0
+ 1711 00a4 00       		.byte	0
+ 1712 00a5 0E       		.uleb128 0xe
+ 1713 00a6 0D       		.uleb128 0xd
+ 1714 00a7 00       		.byte	0
+ 1715 00a8 03       		.uleb128 0x3
+ 1716 00a9 0E       		.uleb128 0xe
+ 1717 00aa 3A       		.uleb128 0x3a
+ 1718 00ab 0B       		.uleb128 0xb
+ 1719 00ac 3B       		.uleb128 0x3b
+ 1720 00ad 0B       		.uleb128 0xb
+ 1721 00ae 49       		.uleb128 0x49
+ 1722 00af 13       		.uleb128 0x13
+ 1723 00b0 00       		.byte	0
+ 1724 00b1 00       		.byte	0
+ 1725 00b2 0F       		.uleb128 0xf
+ 1726 00b3 0D       		.uleb128 0xd
+ 1727 00b4 00       		.byte	0
+ 1728 00b5 03       		.uleb128 0x3
+ 1729 00b6 08       		.uleb128 0x8
+ 1730 00b7 3A       		.uleb128 0x3a
+ 1731 00b8 0B       		.uleb128 0xb
+ 1732 00b9 3B       		.uleb128 0x3b
+ 1733 00ba 0B       		.uleb128 0xb
+ 1734 00bb 49       		.uleb128 0x49
+ 1735 00bc 13       		.uleb128 0x13
+ 1736 00bd 38       		.uleb128 0x38
+ 1737 00be 0B       		.uleb128 0xb
+ 1738 00bf 00       		.byte	0
+ 1739 00c0 00       		.byte	0
+ 1740 00c1 10       		.uleb128 0x10
+ 1741 00c2 2E       		.uleb128 0x2e
+ 1742 00c3 01       		.byte	0x1
+ 1743 00c4 3F       		.uleb128 0x3f
+ 1744 00c5 19       		.uleb128 0x19
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 37
+
+
+ 1745 00c6 03       		.uleb128 0x3
+ 1746 00c7 0E       		.uleb128 0xe
+ 1747 00c8 3A       		.uleb128 0x3a
+ 1748 00c9 0B       		.uleb128 0xb
+ 1749 00ca 3B       		.uleb128 0x3b
+ 1750 00cb 0B       		.uleb128 0xb
+ 1751 00cc 27       		.uleb128 0x27
+ 1752 00cd 19       		.uleb128 0x19
+ 1753 00ce 49       		.uleb128 0x49
+ 1754 00cf 13       		.uleb128 0x13
+ 1755 00d0 11       		.uleb128 0x11
+ 1756 00d1 01       		.uleb128 0x1
+ 1757 00d2 12       		.uleb128 0x12
+ 1758 00d3 06       		.uleb128 0x6
+ 1759 00d4 40       		.uleb128 0x40
+ 1760 00d5 18       		.uleb128 0x18
+ 1761 00d6 9742     		.uleb128 0x2117
+ 1762 00d8 19       		.uleb128 0x19
+ 1763 00d9 01       		.uleb128 0x1
+ 1764 00da 13       		.uleb128 0x13
+ 1765 00db 00       		.byte	0
+ 1766 00dc 00       		.byte	0
+ 1767 00dd 11       		.uleb128 0x11
+ 1768 00de 05       		.uleb128 0x5
+ 1769 00df 00       		.byte	0
+ 1770 00e0 03       		.uleb128 0x3
+ 1771 00e1 08       		.uleb128 0x8
+ 1772 00e2 3A       		.uleb128 0x3a
+ 1773 00e3 0B       		.uleb128 0xb
+ 1774 00e4 3B       		.uleb128 0x3b
+ 1775 00e5 0B       		.uleb128 0xb
+ 1776 00e6 49       		.uleb128 0x49
+ 1777 00e7 13       		.uleb128 0x13
+ 1778 00e8 02       		.uleb128 0x2
+ 1779 00e9 17       		.uleb128 0x17
+ 1780 00ea 00       		.byte	0
+ 1781 00eb 00       		.byte	0
+ 1782 00ec 12       		.uleb128 0x12
+ 1783 00ed 05       		.uleb128 0x5
+ 1784 00ee 00       		.byte	0
+ 1785 00ef 03       		.uleb128 0x3
+ 1786 00f0 0E       		.uleb128 0xe
+ 1787 00f1 3A       		.uleb128 0x3a
+ 1788 00f2 0B       		.uleb128 0xb
+ 1789 00f3 3B       		.uleb128 0x3b
+ 1790 00f4 0B       		.uleb128 0xb
+ 1791 00f5 49       		.uleb128 0x49
+ 1792 00f6 13       		.uleb128 0x13
+ 1793 00f7 02       		.uleb128 0x2
+ 1794 00f8 17       		.uleb128 0x17
+ 1795 00f9 00       		.byte	0
+ 1796 00fa 00       		.byte	0
+ 1797 00fb 13       		.uleb128 0x13
+ 1798 00fc 898201   		.uleb128 0x4109
+ 1799 00ff 01       		.byte	0x1
+ 1800 0100 11       		.uleb128 0x11
+ 1801 0101 01       		.uleb128 0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 38
+
+
+ 1802 0102 31       		.uleb128 0x31
+ 1803 0103 13       		.uleb128 0x13
+ 1804 0104 01       		.uleb128 0x1
+ 1805 0105 13       		.uleb128 0x13
+ 1806 0106 00       		.byte	0
+ 1807 0107 00       		.byte	0
+ 1808 0108 14       		.uleb128 0x14
+ 1809 0109 8A8201   		.uleb128 0x410a
+ 1810 010c 00       		.byte	0
+ 1811 010d 02       		.uleb128 0x2
+ 1812 010e 18       		.uleb128 0x18
+ 1813 010f 9142     		.uleb128 0x2111
+ 1814 0111 18       		.uleb128 0x18
+ 1815 0112 00       		.byte	0
+ 1816 0113 00       		.byte	0
+ 1817 0114 15       		.uleb128 0x15
+ 1818 0115 898201   		.uleb128 0x4109
+ 1819 0118 01       		.byte	0x1
+ 1820 0119 11       		.uleb128 0x11
+ 1821 011a 01       		.uleb128 0x1
+ 1822 011b 31       		.uleb128 0x31
+ 1823 011c 13       		.uleb128 0x13
+ 1824 011d 00       		.byte	0
+ 1825 011e 00       		.byte	0
+ 1826 011f 16       		.uleb128 0x16
+ 1827 0120 0F       		.uleb128 0xf
+ 1828 0121 00       		.byte	0
+ 1829 0122 0B       		.uleb128 0xb
+ 1830 0123 0B       		.uleb128 0xb
+ 1831 0124 49       		.uleb128 0x49
+ 1832 0125 13       		.uleb128 0x13
+ 1833 0126 00       		.byte	0
+ 1834 0127 00       		.byte	0
+ 1835 0128 17       		.uleb128 0x17
+ 1836 0129 26       		.uleb128 0x26
+ 1837 012a 00       		.byte	0
+ 1838 012b 49       		.uleb128 0x49
+ 1839 012c 13       		.uleb128 0x13
+ 1840 012d 00       		.byte	0
+ 1841 012e 00       		.byte	0
+ 1842 012f 18       		.uleb128 0x18
+ 1843 0130 2E       		.uleb128 0x2e
+ 1844 0131 01       		.byte	0x1
+ 1845 0132 3F       		.uleb128 0x3f
+ 1846 0133 19       		.uleb128 0x19
+ 1847 0134 03       		.uleb128 0x3
+ 1848 0135 0E       		.uleb128 0xe
+ 1849 0136 3A       		.uleb128 0x3a
+ 1850 0137 0B       		.uleb128 0xb
+ 1851 0138 3B       		.uleb128 0x3b
+ 1852 0139 05       		.uleb128 0x5
+ 1853 013a 27       		.uleb128 0x27
+ 1854 013b 19       		.uleb128 0x19
+ 1855 013c 49       		.uleb128 0x49
+ 1856 013d 13       		.uleb128 0x13
+ 1857 013e 11       		.uleb128 0x11
+ 1858 013f 01       		.uleb128 0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 39
+
+
+ 1859 0140 12       		.uleb128 0x12
+ 1860 0141 06       		.uleb128 0x6
+ 1861 0142 40       		.uleb128 0x40
+ 1862 0143 18       		.uleb128 0x18
+ 1863 0144 9742     		.uleb128 0x2117
+ 1864 0146 19       		.uleb128 0x19
+ 1865 0147 01       		.uleb128 0x1
+ 1866 0148 13       		.uleb128 0x13
+ 1867 0149 00       		.byte	0
+ 1868 014a 00       		.byte	0
+ 1869 014b 19       		.uleb128 0x19
+ 1870 014c 05       		.uleb128 0x5
+ 1871 014d 00       		.byte	0
+ 1872 014e 03       		.uleb128 0x3
+ 1873 014f 0E       		.uleb128 0xe
+ 1874 0150 3A       		.uleb128 0x3a
+ 1875 0151 0B       		.uleb128 0xb
+ 1876 0152 3B       		.uleb128 0x3b
+ 1877 0153 05       		.uleb128 0x5
+ 1878 0154 49       		.uleb128 0x49
+ 1879 0155 13       		.uleb128 0x13
+ 1880 0156 02       		.uleb128 0x2
+ 1881 0157 17       		.uleb128 0x17
+ 1882 0158 00       		.byte	0
+ 1883 0159 00       		.byte	0
+ 1884 015a 1A       		.uleb128 0x1a
+ 1885 015b 2E       		.uleb128 0x2e
+ 1886 015c 00       		.byte	0
+ 1887 015d 3F       		.uleb128 0x3f
+ 1888 015e 19       		.uleb128 0x19
+ 1889 015f 3C       		.uleb128 0x3c
+ 1890 0160 19       		.uleb128 0x19
+ 1891 0161 6E       		.uleb128 0x6e
+ 1892 0162 0E       		.uleb128 0xe
+ 1893 0163 03       		.uleb128 0x3
+ 1894 0164 0E       		.uleb128 0xe
+ 1895 0165 3A       		.uleb128 0x3a
+ 1896 0166 0B       		.uleb128 0xb
+ 1897 0167 3B       		.uleb128 0x3b
+ 1898 0168 0B       		.uleb128 0xb
+ 1899 0169 00       		.byte	0
+ 1900 016a 00       		.byte	0
+ 1901 016b 00       		.byte	0
+ 1902              		.section	.debug_loc,"",%progbits
+ 1903              	.Ldebug_loc0:
+ 1904              	.LLST0:
+ 1905 0000 00000000 		.4byte	.LVL0
+ 1906 0004 16000000 		.4byte	.LVL1
+ 1907 0008 0100     		.2byte	0x1
+ 1908 000a 50       		.byte	0x50
+ 1909 000b 16000000 		.4byte	.LVL1
+ 1910 000f 19000000 		.4byte	.LVL2-1
+ 1911 0013 0300     		.2byte	0x3
+ 1912 0015 70       		.byte	0x70
+ 1913 0016 78       		.sleb128 -8
+ 1914 0017 9F       		.byte	0x9f
+ 1915 0018 19000000 		.4byte	.LVL2-1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 40
+
+
+ 1916 001c 1C000000 		.4byte	.LVL3
+ 1917 0020 0400     		.2byte	0x4
+ 1918 0022 F3       		.byte	0xf3
+ 1919 0023 01       		.uleb128 0x1
+ 1920 0024 50       		.byte	0x50
+ 1921 0025 9F       		.byte	0x9f
+ 1922 0026 1C000000 		.4byte	.LVL3
+ 1923 002a 1E000000 		.4byte	.LVL4
+ 1924 002e 0100     		.2byte	0x1
+ 1925 0030 50       		.byte	0x50
+ 1926 0031 1E000000 		.4byte	.LVL4
+ 1927 0035 21000000 		.4byte	.LVL5-1
+ 1928 0039 0300     		.2byte	0x3
+ 1929 003b 70       		.byte	0x70
+ 1930 003c 78       		.sleb128 -8
+ 1931 003d 9F       		.byte	0x9f
+ 1932 003e 21000000 		.4byte	.LVL5-1
+ 1933 0042 24000000 		.4byte	.LVL6
+ 1934 0046 0400     		.2byte	0x4
+ 1935 0048 F3       		.byte	0xf3
+ 1936 0049 01       		.uleb128 0x1
+ 1937 004a 50       		.byte	0x50
+ 1938 004b 9F       		.byte	0x9f
+ 1939 004c 24000000 		.4byte	.LVL6
+ 1940 0050 26000000 		.4byte	.LVL7
+ 1941 0054 0100     		.2byte	0x1
+ 1942 0056 50       		.byte	0x50
+ 1943 0057 26000000 		.4byte	.LVL7
+ 1944 005b 29000000 		.4byte	.LVL8-1
+ 1945 005f 0300     		.2byte	0x3
+ 1946 0061 70       		.byte	0x70
+ 1947 0062 78       		.sleb128 -8
+ 1948 0063 9F       		.byte	0x9f
+ 1949 0064 29000000 		.4byte	.LVL8-1
+ 1950 0068 2C000000 		.4byte	.LVL9
+ 1951 006c 0400     		.2byte	0x4
+ 1952 006e F3       		.byte	0xf3
+ 1953 006f 01       		.uleb128 0x1
+ 1954 0070 50       		.byte	0x50
+ 1955 0071 9F       		.byte	0x9f
+ 1956 0072 2C000000 		.4byte	.LVL9
+ 1957 0076 2E000000 		.4byte	.LVL10
+ 1958 007a 0100     		.2byte	0x1
+ 1959 007c 50       		.byte	0x50
+ 1960 007d 2E000000 		.4byte	.LVL10
+ 1961 0081 31000000 		.4byte	.LVL11-1
+ 1962 0085 0300     		.2byte	0x3
+ 1963 0087 70       		.byte	0x70
+ 1964 0088 78       		.sleb128 -8
+ 1965 0089 9F       		.byte	0x9f
+ 1966 008a 31000000 		.4byte	.LVL11-1
+ 1967 008e 34000000 		.4byte	.LVL12
+ 1968 0092 0400     		.2byte	0x4
+ 1969 0094 F3       		.byte	0xf3
+ 1970 0095 01       		.uleb128 0x1
+ 1971 0096 50       		.byte	0x50
+ 1972 0097 9F       		.byte	0x9f
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 41
+
+
+ 1973 0098 34000000 		.4byte	.LVL12
+ 1974 009c 36000000 		.4byte	.LVL13
+ 1975 00a0 0100     		.2byte	0x1
+ 1976 00a2 50       		.byte	0x50
+ 1977 00a3 36000000 		.4byte	.LVL13
+ 1978 00a7 39000000 		.4byte	.LVL14-1
+ 1979 00ab 0300     		.2byte	0x3
+ 1980 00ad 70       		.byte	0x70
+ 1981 00ae 78       		.sleb128 -8
+ 1982 00af 9F       		.byte	0x9f
+ 1983 00b0 39000000 		.4byte	.LVL14-1
+ 1984 00b4 3C000000 		.4byte	.LVL15
+ 1985 00b8 0400     		.2byte	0x4
+ 1986 00ba F3       		.byte	0xf3
+ 1987 00bb 01       		.uleb128 0x1
+ 1988 00bc 50       		.byte	0x50
+ 1989 00bd 9F       		.byte	0x9f
+ 1990 00be 3C000000 		.4byte	.LVL15
+ 1991 00c2 3E000000 		.4byte	.LVL16
+ 1992 00c6 0100     		.2byte	0x1
+ 1993 00c8 50       		.byte	0x50
+ 1994 00c9 3E000000 		.4byte	.LVL16
+ 1995 00cd 40000000 		.4byte	.LVL17
+ 1996 00d1 0400     		.2byte	0x4
+ 1997 00d3 F3       		.byte	0xf3
+ 1998 00d4 01       		.uleb128 0x1
+ 1999 00d5 50       		.byte	0x50
+ 2000 00d6 9F       		.byte	0x9f
+ 2001 00d7 40000000 		.4byte	.LVL17
+ 2002 00db 42000000 		.4byte	.LVL18
+ 2003 00df 0100     		.2byte	0x1
+ 2004 00e1 50       		.byte	0x50
+ 2005 00e2 42000000 		.4byte	.LVL18
+ 2006 00e6 44000000 		.4byte	.LFE0
+ 2007 00ea 0400     		.2byte	0x4
+ 2008 00ec F3       		.byte	0xf3
+ 2009 00ed 01       		.uleb128 0x1
+ 2010 00ee 50       		.byte	0x50
+ 2011 00ef 9F       		.byte	0x9f
+ 2012 00f0 00000000 		.4byte	0
+ 2013 00f4 00000000 		.4byte	0
+ 2014              	.LLST1:
+ 2015 00f8 00000000 		.4byte	.LVL0
+ 2016 00fc 19000000 		.4byte	.LVL2-1
+ 2017 0100 0100     		.2byte	0x1
+ 2018 0102 51       		.byte	0x51
+ 2019 0103 19000000 		.4byte	.LVL2-1
+ 2020 0107 1C000000 		.4byte	.LVL3
+ 2021 010b 0400     		.2byte	0x4
+ 2022 010d F3       		.byte	0xf3
+ 2023 010e 01       		.uleb128 0x1
+ 2024 010f 51       		.byte	0x51
+ 2025 0110 9F       		.byte	0x9f
+ 2026 0111 1C000000 		.4byte	.LVL3
+ 2027 0115 21000000 		.4byte	.LVL5-1
+ 2028 0119 0100     		.2byte	0x1
+ 2029 011b 51       		.byte	0x51
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 42
+
+
+ 2030 011c 21000000 		.4byte	.LVL5-1
+ 2031 0120 24000000 		.4byte	.LVL6
+ 2032 0124 0400     		.2byte	0x4
+ 2033 0126 F3       		.byte	0xf3
+ 2034 0127 01       		.uleb128 0x1
+ 2035 0128 51       		.byte	0x51
+ 2036 0129 9F       		.byte	0x9f
+ 2037 012a 24000000 		.4byte	.LVL6
+ 2038 012e 29000000 		.4byte	.LVL8-1
+ 2039 0132 0100     		.2byte	0x1
+ 2040 0134 51       		.byte	0x51
+ 2041 0135 29000000 		.4byte	.LVL8-1
+ 2042 0139 2C000000 		.4byte	.LVL9
+ 2043 013d 0400     		.2byte	0x4
+ 2044 013f F3       		.byte	0xf3
+ 2045 0140 01       		.uleb128 0x1
+ 2046 0141 51       		.byte	0x51
+ 2047 0142 9F       		.byte	0x9f
+ 2048 0143 2C000000 		.4byte	.LVL9
+ 2049 0147 31000000 		.4byte	.LVL11-1
+ 2050 014b 0100     		.2byte	0x1
+ 2051 014d 51       		.byte	0x51
+ 2052 014e 31000000 		.4byte	.LVL11-1
+ 2053 0152 34000000 		.4byte	.LVL12
+ 2054 0156 0400     		.2byte	0x4
+ 2055 0158 F3       		.byte	0xf3
+ 2056 0159 01       		.uleb128 0x1
+ 2057 015a 51       		.byte	0x51
+ 2058 015b 9F       		.byte	0x9f
+ 2059 015c 34000000 		.4byte	.LVL12
+ 2060 0160 39000000 		.4byte	.LVL14-1
+ 2061 0164 0100     		.2byte	0x1
+ 2062 0166 51       		.byte	0x51
+ 2063 0167 39000000 		.4byte	.LVL14-1
+ 2064 016b 3C000000 		.4byte	.LVL15
+ 2065 016f 0400     		.2byte	0x4
+ 2066 0171 F3       		.byte	0xf3
+ 2067 0172 01       		.uleb128 0x1
+ 2068 0173 51       		.byte	0x51
+ 2069 0174 9F       		.byte	0x9f
+ 2070 0175 3C000000 		.4byte	.LVL15
+ 2071 0179 44000000 		.4byte	.LFE0
+ 2072 017d 0100     		.2byte	0x1
+ 2073 017f 51       		.byte	0x51
+ 2074 0180 00000000 		.4byte	0
+ 2075 0184 00000000 		.4byte	0
+ 2076              	.LLST2:
+ 2077 0188 00000000 		.4byte	.LVL19
+ 2078 018c 16000000 		.4byte	.LVL20
+ 2079 0190 0100     		.2byte	0x1
+ 2080 0192 50       		.byte	0x50
+ 2081 0193 16000000 		.4byte	.LVL20
+ 2082 0197 19000000 		.4byte	.LVL21-1
+ 2083 019b 0300     		.2byte	0x3
+ 2084 019d 70       		.byte	0x70
+ 2085 019e 78       		.sleb128 -8
+ 2086 019f 9F       		.byte	0x9f
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 43
+
+
+ 2087 01a0 19000000 		.4byte	.LVL21-1
+ 2088 01a4 1C000000 		.4byte	.LVL22
+ 2089 01a8 0400     		.2byte	0x4
+ 2090 01aa F3       		.byte	0xf3
+ 2091 01ab 01       		.uleb128 0x1
+ 2092 01ac 50       		.byte	0x50
+ 2093 01ad 9F       		.byte	0x9f
+ 2094 01ae 1C000000 		.4byte	.LVL22
+ 2095 01b2 1E000000 		.4byte	.LVL23
+ 2096 01b6 0100     		.2byte	0x1
+ 2097 01b8 50       		.byte	0x50
+ 2098 01b9 1E000000 		.4byte	.LVL23
+ 2099 01bd 21000000 		.4byte	.LVL24-1
+ 2100 01c1 0300     		.2byte	0x3
+ 2101 01c3 70       		.byte	0x70
+ 2102 01c4 78       		.sleb128 -8
+ 2103 01c5 9F       		.byte	0x9f
+ 2104 01c6 21000000 		.4byte	.LVL24-1
+ 2105 01ca 24000000 		.4byte	.LVL25
+ 2106 01ce 0400     		.2byte	0x4
+ 2107 01d0 F3       		.byte	0xf3
+ 2108 01d1 01       		.uleb128 0x1
+ 2109 01d2 50       		.byte	0x50
+ 2110 01d3 9F       		.byte	0x9f
+ 2111 01d4 24000000 		.4byte	.LVL25
+ 2112 01d8 26000000 		.4byte	.LVL26
+ 2113 01dc 0100     		.2byte	0x1
+ 2114 01de 50       		.byte	0x50
+ 2115 01df 26000000 		.4byte	.LVL26
+ 2116 01e3 29000000 		.4byte	.LVL27-1
+ 2117 01e7 0300     		.2byte	0x3
+ 2118 01e9 70       		.byte	0x70
+ 2119 01ea 78       		.sleb128 -8
+ 2120 01eb 9F       		.byte	0x9f
+ 2121 01ec 29000000 		.4byte	.LVL27-1
+ 2122 01f0 2C000000 		.4byte	.LVL28
+ 2123 01f4 0400     		.2byte	0x4
+ 2124 01f6 F3       		.byte	0xf3
+ 2125 01f7 01       		.uleb128 0x1
+ 2126 01f8 50       		.byte	0x50
+ 2127 01f9 9F       		.byte	0x9f
+ 2128 01fa 2C000000 		.4byte	.LVL28
+ 2129 01fe 2E000000 		.4byte	.LVL29
+ 2130 0202 0100     		.2byte	0x1
+ 2131 0204 50       		.byte	0x50
+ 2132 0205 2E000000 		.4byte	.LVL29
+ 2133 0209 31000000 		.4byte	.LVL30-1
+ 2134 020d 0300     		.2byte	0x3
+ 2135 020f 70       		.byte	0x70
+ 2136 0210 78       		.sleb128 -8
+ 2137 0211 9F       		.byte	0x9f
+ 2138 0212 31000000 		.4byte	.LVL30-1
+ 2139 0216 34000000 		.4byte	.LVL31
+ 2140 021a 0400     		.2byte	0x4
+ 2141 021c F3       		.byte	0xf3
+ 2142 021d 01       		.uleb128 0x1
+ 2143 021e 50       		.byte	0x50
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 44
+
+
+ 2144 021f 9F       		.byte	0x9f
+ 2145 0220 34000000 		.4byte	.LVL31
+ 2146 0224 36000000 		.4byte	.LVL32
+ 2147 0228 0100     		.2byte	0x1
+ 2148 022a 50       		.byte	0x50
+ 2149 022b 36000000 		.4byte	.LVL32
+ 2150 022f 39000000 		.4byte	.LVL33-1
+ 2151 0233 0300     		.2byte	0x3
+ 2152 0235 70       		.byte	0x70
+ 2153 0236 78       		.sleb128 -8
+ 2154 0237 9F       		.byte	0x9f
+ 2155 0238 39000000 		.4byte	.LVL33-1
+ 2156 023c 3C000000 		.4byte	.LVL34
+ 2157 0240 0400     		.2byte	0x4
+ 2158 0242 F3       		.byte	0xf3
+ 2159 0243 01       		.uleb128 0x1
+ 2160 0244 50       		.byte	0x50
+ 2161 0245 9F       		.byte	0x9f
+ 2162 0246 3C000000 		.4byte	.LVL34
+ 2163 024a 3E000000 		.4byte	.LVL35
+ 2164 024e 0100     		.2byte	0x1
+ 2165 0250 50       		.byte	0x50
+ 2166 0251 3E000000 		.4byte	.LVL35
+ 2167 0255 40000000 		.4byte	.LVL36
+ 2168 0259 0400     		.2byte	0x4
+ 2169 025b F3       		.byte	0xf3
+ 2170 025c 01       		.uleb128 0x1
+ 2171 025d 50       		.byte	0x50
+ 2172 025e 9F       		.byte	0x9f
+ 2173 025f 40000000 		.4byte	.LVL36
+ 2174 0263 42000000 		.4byte	.LVL37
+ 2175 0267 0100     		.2byte	0x1
+ 2176 0269 50       		.byte	0x50
+ 2177 026a 42000000 		.4byte	.LVL37
+ 2178 026e 44000000 		.4byte	.LFE1
+ 2179 0272 0400     		.2byte	0x4
+ 2180 0274 F3       		.byte	0xf3
+ 2181 0275 01       		.uleb128 0x1
+ 2182 0276 50       		.byte	0x50
+ 2183 0277 9F       		.byte	0x9f
+ 2184 0278 00000000 		.4byte	0
+ 2185 027c 00000000 		.4byte	0
+ 2186              	.LLST3:
+ 2187 0280 00000000 		.4byte	.LVL19
+ 2188 0284 19000000 		.4byte	.LVL21-1
+ 2189 0288 0100     		.2byte	0x1
+ 2190 028a 51       		.byte	0x51
+ 2191 028b 19000000 		.4byte	.LVL21-1
+ 2192 028f 1C000000 		.4byte	.LVL22
+ 2193 0293 0400     		.2byte	0x4
+ 2194 0295 F3       		.byte	0xf3
+ 2195 0296 01       		.uleb128 0x1
+ 2196 0297 51       		.byte	0x51
+ 2197 0298 9F       		.byte	0x9f
+ 2198 0299 1C000000 		.4byte	.LVL22
+ 2199 029d 21000000 		.4byte	.LVL24-1
+ 2200 02a1 0100     		.2byte	0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 45
+
+
+ 2201 02a3 51       		.byte	0x51
+ 2202 02a4 21000000 		.4byte	.LVL24-1
+ 2203 02a8 24000000 		.4byte	.LVL25
+ 2204 02ac 0400     		.2byte	0x4
+ 2205 02ae F3       		.byte	0xf3
+ 2206 02af 01       		.uleb128 0x1
+ 2207 02b0 51       		.byte	0x51
+ 2208 02b1 9F       		.byte	0x9f
+ 2209 02b2 24000000 		.4byte	.LVL25
+ 2210 02b6 29000000 		.4byte	.LVL27-1
+ 2211 02ba 0100     		.2byte	0x1
+ 2212 02bc 51       		.byte	0x51
+ 2213 02bd 29000000 		.4byte	.LVL27-1
+ 2214 02c1 2C000000 		.4byte	.LVL28
+ 2215 02c5 0400     		.2byte	0x4
+ 2216 02c7 F3       		.byte	0xf3
+ 2217 02c8 01       		.uleb128 0x1
+ 2218 02c9 51       		.byte	0x51
+ 2219 02ca 9F       		.byte	0x9f
+ 2220 02cb 2C000000 		.4byte	.LVL28
+ 2221 02cf 31000000 		.4byte	.LVL30-1
+ 2222 02d3 0100     		.2byte	0x1
+ 2223 02d5 51       		.byte	0x51
+ 2224 02d6 31000000 		.4byte	.LVL30-1
+ 2225 02da 34000000 		.4byte	.LVL31
+ 2226 02de 0400     		.2byte	0x4
+ 2227 02e0 F3       		.byte	0xf3
+ 2228 02e1 01       		.uleb128 0x1
+ 2229 02e2 51       		.byte	0x51
+ 2230 02e3 9F       		.byte	0x9f
+ 2231 02e4 34000000 		.4byte	.LVL31
+ 2232 02e8 39000000 		.4byte	.LVL33-1
+ 2233 02ec 0100     		.2byte	0x1
+ 2234 02ee 51       		.byte	0x51
+ 2235 02ef 39000000 		.4byte	.LVL33-1
+ 2236 02f3 3C000000 		.4byte	.LVL34
+ 2237 02f7 0400     		.2byte	0x4
+ 2238 02f9 F3       		.byte	0xf3
+ 2239 02fa 01       		.uleb128 0x1
+ 2240 02fb 51       		.byte	0x51
+ 2241 02fc 9F       		.byte	0x9f
+ 2242 02fd 3C000000 		.4byte	.LVL34
+ 2243 0301 44000000 		.4byte	.LFE1
+ 2244 0305 0100     		.2byte	0x1
+ 2245 0307 51       		.byte	0x51
+ 2246 0308 00000000 		.4byte	0
+ 2247 030c 00000000 		.4byte	0
+ 2248              	.LLST4:
+ 2249 0310 00000000 		.4byte	.LVL19
+ 2250 0314 19000000 		.4byte	.LVL21-1
+ 2251 0318 0100     		.2byte	0x1
+ 2252 031a 52       		.byte	0x52
+ 2253 031b 19000000 		.4byte	.LVL21-1
+ 2254 031f 1C000000 		.4byte	.LVL22
+ 2255 0323 0400     		.2byte	0x4
+ 2256 0325 F3       		.byte	0xf3
+ 2257 0326 01       		.uleb128 0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 46
+
+
+ 2258 0327 52       		.byte	0x52
+ 2259 0328 9F       		.byte	0x9f
+ 2260 0329 1C000000 		.4byte	.LVL22
+ 2261 032d 21000000 		.4byte	.LVL24-1
+ 2262 0331 0100     		.2byte	0x1
+ 2263 0333 52       		.byte	0x52
+ 2264 0334 21000000 		.4byte	.LVL24-1
+ 2265 0338 24000000 		.4byte	.LVL25
+ 2266 033c 0400     		.2byte	0x4
+ 2267 033e F3       		.byte	0xf3
+ 2268 033f 01       		.uleb128 0x1
+ 2269 0340 52       		.byte	0x52
+ 2270 0341 9F       		.byte	0x9f
+ 2271 0342 24000000 		.4byte	.LVL25
+ 2272 0346 29000000 		.4byte	.LVL27-1
+ 2273 034a 0100     		.2byte	0x1
+ 2274 034c 52       		.byte	0x52
+ 2275 034d 29000000 		.4byte	.LVL27-1
+ 2276 0351 2C000000 		.4byte	.LVL28
+ 2277 0355 0400     		.2byte	0x4
+ 2278 0357 F3       		.byte	0xf3
+ 2279 0358 01       		.uleb128 0x1
+ 2280 0359 52       		.byte	0x52
+ 2281 035a 9F       		.byte	0x9f
+ 2282 035b 2C000000 		.4byte	.LVL28
+ 2283 035f 31000000 		.4byte	.LVL30-1
+ 2284 0363 0100     		.2byte	0x1
+ 2285 0365 52       		.byte	0x52
+ 2286 0366 31000000 		.4byte	.LVL30-1
+ 2287 036a 34000000 		.4byte	.LVL31
+ 2288 036e 0400     		.2byte	0x4
+ 2289 0370 F3       		.byte	0xf3
+ 2290 0371 01       		.uleb128 0x1
+ 2291 0372 52       		.byte	0x52
+ 2292 0373 9F       		.byte	0x9f
+ 2293 0374 34000000 		.4byte	.LVL31
+ 2294 0378 39000000 		.4byte	.LVL33-1
+ 2295 037c 0100     		.2byte	0x1
+ 2296 037e 52       		.byte	0x52
+ 2297 037f 39000000 		.4byte	.LVL33-1
+ 2298 0383 3C000000 		.4byte	.LVL34
+ 2299 0387 0400     		.2byte	0x4
+ 2300 0389 F3       		.byte	0xf3
+ 2301 038a 01       		.uleb128 0x1
+ 2302 038b 52       		.byte	0x52
+ 2303 038c 9F       		.byte	0x9f
+ 2304 038d 3C000000 		.4byte	.LVL34
+ 2305 0391 44000000 		.4byte	.LFE1
+ 2306 0395 0100     		.2byte	0x1
+ 2307 0397 52       		.byte	0x52
+ 2308 0398 00000000 		.4byte	0
+ 2309 039c 00000000 		.4byte	0
+ 2310              	.LLST5:
+ 2311 03a0 00000000 		.4byte	.LVL38
+ 2312 03a4 16000000 		.4byte	.LVL39
+ 2313 03a8 0100     		.2byte	0x1
+ 2314 03aa 50       		.byte	0x50
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 47
+
+
+ 2315 03ab 16000000 		.4byte	.LVL39
+ 2316 03af 19000000 		.4byte	.LVL40-1
+ 2317 03b3 0300     		.2byte	0x3
+ 2318 03b5 70       		.byte	0x70
+ 2319 03b6 78       		.sleb128 -8
+ 2320 03b7 9F       		.byte	0x9f
+ 2321 03b8 19000000 		.4byte	.LVL40-1
+ 2322 03bc 1C000000 		.4byte	.LVL41
+ 2323 03c0 0400     		.2byte	0x4
+ 2324 03c2 F3       		.byte	0xf3
+ 2325 03c3 01       		.uleb128 0x1
+ 2326 03c4 50       		.byte	0x50
+ 2327 03c5 9F       		.byte	0x9f
+ 2328 03c6 1C000000 		.4byte	.LVL41
+ 2329 03ca 1E000000 		.4byte	.LVL42
+ 2330 03ce 0100     		.2byte	0x1
+ 2331 03d0 50       		.byte	0x50
+ 2332 03d1 1E000000 		.4byte	.LVL42
+ 2333 03d5 21000000 		.4byte	.LVL43-1
+ 2334 03d9 0300     		.2byte	0x3
+ 2335 03db 70       		.byte	0x70
+ 2336 03dc 78       		.sleb128 -8
+ 2337 03dd 9F       		.byte	0x9f
+ 2338 03de 21000000 		.4byte	.LVL43-1
+ 2339 03e2 24000000 		.4byte	.LVL44
+ 2340 03e6 0400     		.2byte	0x4
+ 2341 03e8 F3       		.byte	0xf3
+ 2342 03e9 01       		.uleb128 0x1
+ 2343 03ea 50       		.byte	0x50
+ 2344 03eb 9F       		.byte	0x9f
+ 2345 03ec 24000000 		.4byte	.LVL44
+ 2346 03f0 26000000 		.4byte	.LVL45
+ 2347 03f4 0100     		.2byte	0x1
+ 2348 03f6 50       		.byte	0x50
+ 2349 03f7 26000000 		.4byte	.LVL45
+ 2350 03fb 29000000 		.4byte	.LVL46-1
+ 2351 03ff 0300     		.2byte	0x3
+ 2352 0401 70       		.byte	0x70
+ 2353 0402 78       		.sleb128 -8
+ 2354 0403 9F       		.byte	0x9f
+ 2355 0404 29000000 		.4byte	.LVL46-1
+ 2356 0408 2C000000 		.4byte	.LVL47
+ 2357 040c 0400     		.2byte	0x4
+ 2358 040e F3       		.byte	0xf3
+ 2359 040f 01       		.uleb128 0x1
+ 2360 0410 50       		.byte	0x50
+ 2361 0411 9F       		.byte	0x9f
+ 2362 0412 2C000000 		.4byte	.LVL47
+ 2363 0416 2E000000 		.4byte	.LVL48
+ 2364 041a 0100     		.2byte	0x1
+ 2365 041c 50       		.byte	0x50
+ 2366 041d 2E000000 		.4byte	.LVL48
+ 2367 0421 31000000 		.4byte	.LVL49-1
+ 2368 0425 0300     		.2byte	0x3
+ 2369 0427 70       		.byte	0x70
+ 2370 0428 78       		.sleb128 -8
+ 2371 0429 9F       		.byte	0x9f
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 48
+
+
+ 2372 042a 31000000 		.4byte	.LVL49-1
+ 2373 042e 34000000 		.4byte	.LVL50
+ 2374 0432 0400     		.2byte	0x4
+ 2375 0434 F3       		.byte	0xf3
+ 2376 0435 01       		.uleb128 0x1
+ 2377 0436 50       		.byte	0x50
+ 2378 0437 9F       		.byte	0x9f
+ 2379 0438 34000000 		.4byte	.LVL50
+ 2380 043c 36000000 		.4byte	.LVL51
+ 2381 0440 0100     		.2byte	0x1
+ 2382 0442 50       		.byte	0x50
+ 2383 0443 36000000 		.4byte	.LVL51
+ 2384 0447 39000000 		.4byte	.LVL52-1
+ 2385 044b 0300     		.2byte	0x3
+ 2386 044d 70       		.byte	0x70
+ 2387 044e 78       		.sleb128 -8
+ 2388 044f 9F       		.byte	0x9f
+ 2389 0450 39000000 		.4byte	.LVL52-1
+ 2390 0454 3C000000 		.4byte	.LVL53
+ 2391 0458 0400     		.2byte	0x4
+ 2392 045a F3       		.byte	0xf3
+ 2393 045b 01       		.uleb128 0x1
+ 2394 045c 50       		.byte	0x50
+ 2395 045d 9F       		.byte	0x9f
+ 2396 045e 3C000000 		.4byte	.LVL53
+ 2397 0462 3E000000 		.4byte	.LVL54
+ 2398 0466 0100     		.2byte	0x1
+ 2399 0468 50       		.byte	0x50
+ 2400 0469 3E000000 		.4byte	.LVL54
+ 2401 046d 40000000 		.4byte	.LVL55
+ 2402 0471 0400     		.2byte	0x4
+ 2403 0473 F3       		.byte	0xf3
+ 2404 0474 01       		.uleb128 0x1
+ 2405 0475 50       		.byte	0x50
+ 2406 0476 9F       		.byte	0x9f
+ 2407 0477 40000000 		.4byte	.LVL55
+ 2408 047b 42000000 		.4byte	.LVL56
+ 2409 047f 0100     		.2byte	0x1
+ 2410 0481 50       		.byte	0x50
+ 2411 0482 42000000 		.4byte	.LVL56
+ 2412 0486 44000000 		.4byte	.LFE2
+ 2413 048a 0400     		.2byte	0x4
+ 2414 048c F3       		.byte	0xf3
+ 2415 048d 01       		.uleb128 0x1
+ 2416 048e 50       		.byte	0x50
+ 2417 048f 9F       		.byte	0x9f
+ 2418 0490 00000000 		.4byte	0
+ 2419 0494 00000000 		.4byte	0
+ 2420              	.LLST6:
+ 2421 0498 00000000 		.4byte	.LVL38
+ 2422 049c 19000000 		.4byte	.LVL40-1
+ 2423 04a0 0100     		.2byte	0x1
+ 2424 04a2 51       		.byte	0x51
+ 2425 04a3 19000000 		.4byte	.LVL40-1
+ 2426 04a7 1C000000 		.4byte	.LVL41
+ 2427 04ab 0400     		.2byte	0x4
+ 2428 04ad F3       		.byte	0xf3
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 49
+
+
+ 2429 04ae 01       		.uleb128 0x1
+ 2430 04af 51       		.byte	0x51
+ 2431 04b0 9F       		.byte	0x9f
+ 2432 04b1 1C000000 		.4byte	.LVL41
+ 2433 04b5 21000000 		.4byte	.LVL43-1
+ 2434 04b9 0100     		.2byte	0x1
+ 2435 04bb 51       		.byte	0x51
+ 2436 04bc 21000000 		.4byte	.LVL43-1
+ 2437 04c0 24000000 		.4byte	.LVL44
+ 2438 04c4 0400     		.2byte	0x4
+ 2439 04c6 F3       		.byte	0xf3
+ 2440 04c7 01       		.uleb128 0x1
+ 2441 04c8 51       		.byte	0x51
+ 2442 04c9 9F       		.byte	0x9f
+ 2443 04ca 24000000 		.4byte	.LVL44
+ 2444 04ce 29000000 		.4byte	.LVL46-1
+ 2445 04d2 0100     		.2byte	0x1
+ 2446 04d4 51       		.byte	0x51
+ 2447 04d5 29000000 		.4byte	.LVL46-1
+ 2448 04d9 2C000000 		.4byte	.LVL47
+ 2449 04dd 0400     		.2byte	0x4
+ 2450 04df F3       		.byte	0xf3
+ 2451 04e0 01       		.uleb128 0x1
+ 2452 04e1 51       		.byte	0x51
+ 2453 04e2 9F       		.byte	0x9f
+ 2454 04e3 2C000000 		.4byte	.LVL47
+ 2455 04e7 31000000 		.4byte	.LVL49-1
+ 2456 04eb 0100     		.2byte	0x1
+ 2457 04ed 51       		.byte	0x51
+ 2458 04ee 31000000 		.4byte	.LVL49-1
+ 2459 04f2 34000000 		.4byte	.LVL50
+ 2460 04f6 0400     		.2byte	0x4
+ 2461 04f8 F3       		.byte	0xf3
+ 2462 04f9 01       		.uleb128 0x1
+ 2463 04fa 51       		.byte	0x51
+ 2464 04fb 9F       		.byte	0x9f
+ 2465 04fc 34000000 		.4byte	.LVL50
+ 2466 0500 39000000 		.4byte	.LVL52-1
+ 2467 0504 0100     		.2byte	0x1
+ 2468 0506 51       		.byte	0x51
+ 2469 0507 39000000 		.4byte	.LVL52-1
+ 2470 050b 3C000000 		.4byte	.LVL53
+ 2471 050f 0400     		.2byte	0x4
+ 2472 0511 F3       		.byte	0xf3
+ 2473 0512 01       		.uleb128 0x1
+ 2474 0513 51       		.byte	0x51
+ 2475 0514 9F       		.byte	0x9f
+ 2476 0515 3C000000 		.4byte	.LVL53
+ 2477 0519 44000000 		.4byte	.LFE2
+ 2478 051d 0100     		.2byte	0x1
+ 2479 051f 51       		.byte	0x51
+ 2480 0520 00000000 		.4byte	0
+ 2481 0524 00000000 		.4byte	0
+ 2482              	.LLST7:
+ 2483 0528 00000000 		.4byte	.LVL38
+ 2484 052c 19000000 		.4byte	.LVL40-1
+ 2485 0530 0100     		.2byte	0x1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 50
+
+
+ 2486 0532 52       		.byte	0x52
+ 2487 0533 19000000 		.4byte	.LVL40-1
+ 2488 0537 1C000000 		.4byte	.LVL41
+ 2489 053b 0400     		.2byte	0x4
+ 2490 053d F3       		.byte	0xf3
+ 2491 053e 01       		.uleb128 0x1
+ 2492 053f 52       		.byte	0x52
+ 2493 0540 9F       		.byte	0x9f
+ 2494 0541 1C000000 		.4byte	.LVL41
+ 2495 0545 21000000 		.4byte	.LVL43-1
+ 2496 0549 0100     		.2byte	0x1
+ 2497 054b 52       		.byte	0x52
+ 2498 054c 21000000 		.4byte	.LVL43-1
+ 2499 0550 24000000 		.4byte	.LVL44
+ 2500 0554 0400     		.2byte	0x4
+ 2501 0556 F3       		.byte	0xf3
+ 2502 0557 01       		.uleb128 0x1
+ 2503 0558 52       		.byte	0x52
+ 2504 0559 9F       		.byte	0x9f
+ 2505 055a 24000000 		.4byte	.LVL44
+ 2506 055e 29000000 		.4byte	.LVL46-1
+ 2507 0562 0100     		.2byte	0x1
+ 2508 0564 52       		.byte	0x52
+ 2509 0565 29000000 		.4byte	.LVL46-1
+ 2510 0569 2C000000 		.4byte	.LVL47
+ 2511 056d 0400     		.2byte	0x4
+ 2512 056f F3       		.byte	0xf3
+ 2513 0570 01       		.uleb128 0x1
+ 2514 0571 52       		.byte	0x52
+ 2515 0572 9F       		.byte	0x9f
+ 2516 0573 2C000000 		.4byte	.LVL47
+ 2517 0577 31000000 		.4byte	.LVL49-1
+ 2518 057b 0100     		.2byte	0x1
+ 2519 057d 52       		.byte	0x52
+ 2520 057e 31000000 		.4byte	.LVL49-1
+ 2521 0582 34000000 		.4byte	.LVL50
+ 2522 0586 0400     		.2byte	0x4
+ 2523 0588 F3       		.byte	0xf3
+ 2524 0589 01       		.uleb128 0x1
+ 2525 058a 52       		.byte	0x52
+ 2526 058b 9F       		.byte	0x9f
+ 2527 058c 34000000 		.4byte	.LVL50
+ 2528 0590 39000000 		.4byte	.LVL52-1
+ 2529 0594 0100     		.2byte	0x1
+ 2530 0596 52       		.byte	0x52
+ 2531 0597 39000000 		.4byte	.LVL52-1
+ 2532 059b 3C000000 		.4byte	.LVL53
+ 2533 059f 0400     		.2byte	0x4
+ 2534 05a1 F3       		.byte	0xf3
+ 2535 05a2 01       		.uleb128 0x1
+ 2536 05a3 52       		.byte	0x52
+ 2537 05a4 9F       		.byte	0x9f
+ 2538 05a5 3C000000 		.4byte	.LVL53
+ 2539 05a9 44000000 		.4byte	.LFE2
+ 2540 05ad 0100     		.2byte	0x1
+ 2541 05af 52       		.byte	0x52
+ 2542 05b0 00000000 		.4byte	0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 51
+
+
+ 2543 05b4 00000000 		.4byte	0
+ 2544              	.LLST8:
+ 2545 05b8 00000000 		.4byte	.LVL57
+ 2546 05bc 16000000 		.4byte	.LVL58
+ 2547 05c0 0100     		.2byte	0x1
+ 2548 05c2 50       		.byte	0x50
+ 2549 05c3 16000000 		.4byte	.LVL58
+ 2550 05c7 19000000 		.4byte	.LVL59-1
+ 2551 05cb 0300     		.2byte	0x3
+ 2552 05cd 70       		.byte	0x70
+ 2553 05ce 78       		.sleb128 -8
+ 2554 05cf 9F       		.byte	0x9f
+ 2555 05d0 19000000 		.4byte	.LVL59-1
+ 2556 05d4 1C000000 		.4byte	.LVL60
+ 2557 05d8 0400     		.2byte	0x4
+ 2558 05da F3       		.byte	0xf3
+ 2559 05db 01       		.uleb128 0x1
+ 2560 05dc 50       		.byte	0x50
+ 2561 05dd 9F       		.byte	0x9f
+ 2562 05de 1C000000 		.4byte	.LVL60
+ 2563 05e2 1E000000 		.4byte	.LVL61
+ 2564 05e6 0100     		.2byte	0x1
+ 2565 05e8 50       		.byte	0x50
+ 2566 05e9 1E000000 		.4byte	.LVL61
+ 2567 05ed 21000000 		.4byte	.LVL62-1
+ 2568 05f1 0300     		.2byte	0x3
+ 2569 05f3 70       		.byte	0x70
+ 2570 05f4 78       		.sleb128 -8
+ 2571 05f5 9F       		.byte	0x9f
+ 2572 05f6 21000000 		.4byte	.LVL62-1
+ 2573 05fa 24000000 		.4byte	.LVL63
+ 2574 05fe 0400     		.2byte	0x4
+ 2575 0600 F3       		.byte	0xf3
+ 2576 0601 01       		.uleb128 0x1
+ 2577 0602 50       		.byte	0x50
+ 2578 0603 9F       		.byte	0x9f
+ 2579 0604 24000000 		.4byte	.LVL63
+ 2580 0608 26000000 		.4byte	.LVL64
+ 2581 060c 0100     		.2byte	0x1
+ 2582 060e 50       		.byte	0x50
+ 2583 060f 26000000 		.4byte	.LVL64
+ 2584 0613 29000000 		.4byte	.LVL65-1
+ 2585 0617 0300     		.2byte	0x3
+ 2586 0619 70       		.byte	0x70
+ 2587 061a 78       		.sleb128 -8
+ 2588 061b 9F       		.byte	0x9f
+ 2589 061c 29000000 		.4byte	.LVL65-1
+ 2590 0620 2C000000 		.4byte	.LVL66
+ 2591 0624 0400     		.2byte	0x4
+ 2592 0626 F3       		.byte	0xf3
+ 2593 0627 01       		.uleb128 0x1
+ 2594 0628 50       		.byte	0x50
+ 2595 0629 9F       		.byte	0x9f
+ 2596 062a 2C000000 		.4byte	.LVL66
+ 2597 062e 2E000000 		.4byte	.LVL67
+ 2598 0632 0100     		.2byte	0x1
+ 2599 0634 50       		.byte	0x50
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 52
+
+
+ 2600 0635 2E000000 		.4byte	.LVL67
+ 2601 0639 31000000 		.4byte	.LVL68-1
+ 2602 063d 0300     		.2byte	0x3
+ 2603 063f 70       		.byte	0x70
+ 2604 0640 78       		.sleb128 -8
+ 2605 0641 9F       		.byte	0x9f
+ 2606 0642 31000000 		.4byte	.LVL68-1
+ 2607 0646 34000000 		.4byte	.LVL69
+ 2608 064a 0400     		.2byte	0x4
+ 2609 064c F3       		.byte	0xf3
+ 2610 064d 01       		.uleb128 0x1
+ 2611 064e 50       		.byte	0x50
+ 2612 064f 9F       		.byte	0x9f
+ 2613 0650 34000000 		.4byte	.LVL69
+ 2614 0654 36000000 		.4byte	.LVL70
+ 2615 0658 0100     		.2byte	0x1
+ 2616 065a 50       		.byte	0x50
+ 2617 065b 36000000 		.4byte	.LVL70
+ 2618 065f 39000000 		.4byte	.LVL71-1
+ 2619 0663 0300     		.2byte	0x3
+ 2620 0665 70       		.byte	0x70
+ 2621 0666 78       		.sleb128 -8
+ 2622 0667 9F       		.byte	0x9f
+ 2623 0668 39000000 		.4byte	.LVL71-1
+ 2624 066c 3C000000 		.4byte	.LVL72
+ 2625 0670 0400     		.2byte	0x4
+ 2626 0672 F3       		.byte	0xf3
+ 2627 0673 01       		.uleb128 0x1
+ 2628 0674 50       		.byte	0x50
+ 2629 0675 9F       		.byte	0x9f
+ 2630 0676 3C000000 		.4byte	.LVL72
+ 2631 067a 3E000000 		.4byte	.LVL73
+ 2632 067e 0100     		.2byte	0x1
+ 2633 0680 50       		.byte	0x50
+ 2634 0681 3E000000 		.4byte	.LVL73
+ 2635 0685 40000000 		.4byte	.LVL74
+ 2636 0689 0400     		.2byte	0x4
+ 2637 068b F3       		.byte	0xf3
+ 2638 068c 01       		.uleb128 0x1
+ 2639 068d 50       		.byte	0x50
+ 2640 068e 9F       		.byte	0x9f
+ 2641 068f 40000000 		.4byte	.LVL74
+ 2642 0693 42000000 		.4byte	.LVL75
+ 2643 0697 0100     		.2byte	0x1
+ 2644 0699 50       		.byte	0x50
+ 2645 069a 42000000 		.4byte	.LVL75
+ 2646 069e 44000000 		.4byte	.LFE3
+ 2647 06a2 0400     		.2byte	0x4
+ 2648 06a4 F3       		.byte	0xf3
+ 2649 06a5 01       		.uleb128 0x1
+ 2650 06a6 50       		.byte	0x50
+ 2651 06a7 9F       		.byte	0x9f
+ 2652 06a8 00000000 		.4byte	0
+ 2653 06ac 00000000 		.4byte	0
+ 2654              	.LLST9:
+ 2655 06b0 00000000 		.4byte	.LVL57
+ 2656 06b4 19000000 		.4byte	.LVL59-1
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 53
+
+
+ 2657 06b8 0100     		.2byte	0x1
+ 2658 06ba 51       		.byte	0x51
+ 2659 06bb 19000000 		.4byte	.LVL59-1
+ 2660 06bf 1C000000 		.4byte	.LVL60
+ 2661 06c3 0400     		.2byte	0x4
+ 2662 06c5 F3       		.byte	0xf3
+ 2663 06c6 01       		.uleb128 0x1
+ 2664 06c7 51       		.byte	0x51
+ 2665 06c8 9F       		.byte	0x9f
+ 2666 06c9 1C000000 		.4byte	.LVL60
+ 2667 06cd 21000000 		.4byte	.LVL62-1
+ 2668 06d1 0100     		.2byte	0x1
+ 2669 06d3 51       		.byte	0x51
+ 2670 06d4 21000000 		.4byte	.LVL62-1
+ 2671 06d8 24000000 		.4byte	.LVL63
+ 2672 06dc 0400     		.2byte	0x4
+ 2673 06de F3       		.byte	0xf3
+ 2674 06df 01       		.uleb128 0x1
+ 2675 06e0 51       		.byte	0x51
+ 2676 06e1 9F       		.byte	0x9f
+ 2677 06e2 24000000 		.4byte	.LVL63
+ 2678 06e6 29000000 		.4byte	.LVL65-1
+ 2679 06ea 0100     		.2byte	0x1
+ 2680 06ec 51       		.byte	0x51
+ 2681 06ed 29000000 		.4byte	.LVL65-1
+ 2682 06f1 2C000000 		.4byte	.LVL66
+ 2683 06f5 0400     		.2byte	0x4
+ 2684 06f7 F3       		.byte	0xf3
+ 2685 06f8 01       		.uleb128 0x1
+ 2686 06f9 51       		.byte	0x51
+ 2687 06fa 9F       		.byte	0x9f
+ 2688 06fb 2C000000 		.4byte	.LVL66
+ 2689 06ff 31000000 		.4byte	.LVL68-1
+ 2690 0703 0100     		.2byte	0x1
+ 2691 0705 51       		.byte	0x51
+ 2692 0706 31000000 		.4byte	.LVL68-1
+ 2693 070a 34000000 		.4byte	.LVL69
+ 2694 070e 0400     		.2byte	0x4
+ 2695 0710 F3       		.byte	0xf3
+ 2696 0711 01       		.uleb128 0x1
+ 2697 0712 51       		.byte	0x51
+ 2698 0713 9F       		.byte	0x9f
+ 2699 0714 34000000 		.4byte	.LVL69
+ 2700 0718 39000000 		.4byte	.LVL71-1
+ 2701 071c 0100     		.2byte	0x1
+ 2702 071e 51       		.byte	0x51
+ 2703 071f 39000000 		.4byte	.LVL71-1
+ 2704 0723 3C000000 		.4byte	.LVL72
+ 2705 0727 0400     		.2byte	0x4
+ 2706 0729 F3       		.byte	0xf3
+ 2707 072a 01       		.uleb128 0x1
+ 2708 072b 51       		.byte	0x51
+ 2709 072c 9F       		.byte	0x9f
+ 2710 072d 3C000000 		.4byte	.LVL72
+ 2711 0731 44000000 		.4byte	.LFE3
+ 2712 0735 0100     		.2byte	0x1
+ 2713 0737 51       		.byte	0x51
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 54
+
+
+ 2714 0738 00000000 		.4byte	0
+ 2715 073c 00000000 		.4byte	0
+ 2716              	.LLST10:
+ 2717 0740 00000000 		.4byte	.LVL76
+ 2718 0744 06000000 		.4byte	.LVL77
+ 2719 0748 0100     		.2byte	0x1
+ 2720 074a 50       		.byte	0x50
+ 2721 074b 06000000 		.4byte	.LVL77
+ 2722 074f 08000000 		.4byte	.LVL78
+ 2723 0753 0400     		.2byte	0x4
+ 2724 0755 F3       		.byte	0xf3
+ 2725 0756 01       		.uleb128 0x1
+ 2726 0757 50       		.byte	0x50
+ 2727 0758 9F       		.byte	0x9f
+ 2728 0759 08000000 		.4byte	.LVL78
+ 2729 075d 0A000000 		.4byte	.LVL79
+ 2730 0761 0100     		.2byte	0x1
+ 2731 0763 50       		.byte	0x50
+ 2732 0764 0A000000 		.4byte	.LVL79
+ 2733 0768 0C000000 		.4byte	.LFE4
+ 2734 076c 0400     		.2byte	0x4
+ 2735 076e F3       		.byte	0xf3
+ 2736 076f 01       		.uleb128 0x1
+ 2737 0770 50       		.byte	0x50
+ 2738 0771 9F       		.byte	0x9f
+ 2739 0772 00000000 		.4byte	0
+ 2740 0776 00000000 		.4byte	0
+ 2741              	.LLST11:
+ 2742 077a 00000000 		.4byte	.LVL80
+ 2743 077e 0E000000 		.4byte	.LVL81
+ 2744 0782 0100     		.2byte	0x1
+ 2745 0784 50       		.byte	0x50
+ 2746 0785 0E000000 		.4byte	.LVL81
+ 2747 0789 10000000 		.4byte	.LVL82
+ 2748 078d 0400     		.2byte	0x4
+ 2749 078f F3       		.byte	0xf3
+ 2750 0790 01       		.uleb128 0x1
+ 2751 0791 50       		.byte	0x50
+ 2752 0792 9F       		.byte	0x9f
+ 2753 0793 10000000 		.4byte	.LVL82
+ 2754 0797 12000000 		.4byte	.LVL83
+ 2755 079b 0100     		.2byte	0x1
+ 2756 079d 50       		.byte	0x50
+ 2757 079e 12000000 		.4byte	.LVL83
+ 2758 07a2 14000000 		.4byte	.LVL84
+ 2759 07a6 0400     		.2byte	0x4
+ 2760 07a8 F3       		.byte	0xf3
+ 2761 07a9 01       		.uleb128 0x1
+ 2762 07aa 50       		.byte	0x50
+ 2763 07ab 9F       		.byte	0x9f
+ 2764 07ac 14000000 		.4byte	.LVL84
+ 2765 07b0 16000000 		.4byte	.LVL85
+ 2766 07b4 0100     		.2byte	0x1
+ 2767 07b6 50       		.byte	0x50
+ 2768 07b7 16000000 		.4byte	.LVL85
+ 2769 07bb 18000000 		.4byte	.LVL86
+ 2770 07bf 0400     		.2byte	0x4
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 55
+
+
+ 2771 07c1 F3       		.byte	0xf3
+ 2772 07c2 01       		.uleb128 0x1
+ 2773 07c3 50       		.byte	0x50
+ 2774 07c4 9F       		.byte	0x9f
+ 2775 07c5 18000000 		.4byte	.LVL86
+ 2776 07c9 1A000000 		.4byte	.LVL87
+ 2777 07cd 0100     		.2byte	0x1
+ 2778 07cf 50       		.byte	0x50
+ 2779 07d0 1A000000 		.4byte	.LVL87
+ 2780 07d4 1C000000 		.4byte	.LVL88
+ 2781 07d8 0400     		.2byte	0x4
+ 2782 07da F3       		.byte	0xf3
+ 2783 07db 01       		.uleb128 0x1
+ 2784 07dc 50       		.byte	0x50
+ 2785 07dd 9F       		.byte	0x9f
+ 2786 07de 1C000000 		.4byte	.LVL88
+ 2787 07e2 1E000000 		.4byte	.LVL89
+ 2788 07e6 0100     		.2byte	0x1
+ 2789 07e8 50       		.byte	0x50
+ 2790 07e9 1E000000 		.4byte	.LVL89
+ 2791 07ed 20000000 		.4byte	.LFE5
+ 2792 07f1 0400     		.2byte	0x4
+ 2793 07f3 F3       		.byte	0xf3
+ 2794 07f4 01       		.uleb128 0x1
+ 2795 07f5 50       		.byte	0x50
+ 2796 07f6 9F       		.byte	0x9f
+ 2797 07f7 00000000 		.4byte	0
+ 2798 07fb 00000000 		.4byte	0
+ 2799              	.LLST12:
+ 2800 07ff 00000000 		.4byte	.LVL90
+ 2801 0803 0E000000 		.4byte	.LVL91
+ 2802 0807 0100     		.2byte	0x1
+ 2803 0809 50       		.byte	0x50
+ 2804 080a 0E000000 		.4byte	.LVL91
+ 2805 080e 10000000 		.4byte	.LVL92
+ 2806 0812 0400     		.2byte	0x4
+ 2807 0814 F3       		.byte	0xf3
+ 2808 0815 01       		.uleb128 0x1
+ 2809 0816 50       		.byte	0x50
+ 2810 0817 9F       		.byte	0x9f
+ 2811 0818 10000000 		.4byte	.LVL92
+ 2812 081c 14000000 		.4byte	.LVL93
+ 2813 0820 0100     		.2byte	0x1
+ 2814 0822 50       		.byte	0x50
+ 2815 0823 14000000 		.4byte	.LVL93
+ 2816 0827 16000000 		.4byte	.LVL94
+ 2817 082b 0400     		.2byte	0x4
+ 2818 082d F3       		.byte	0xf3
+ 2819 082e 01       		.uleb128 0x1
+ 2820 082f 50       		.byte	0x50
+ 2821 0830 9F       		.byte	0x9f
+ 2822 0831 16000000 		.4byte	.LVL94
+ 2823 0835 1A000000 		.4byte	.LVL95
+ 2824 0839 0100     		.2byte	0x1
+ 2825 083b 50       		.byte	0x50
+ 2826 083c 1A000000 		.4byte	.LVL95
+ 2827 0840 1C000000 		.4byte	.LVL96
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 56
+
+
+ 2828 0844 0400     		.2byte	0x4
+ 2829 0846 F3       		.byte	0xf3
+ 2830 0847 01       		.uleb128 0x1
+ 2831 0848 50       		.byte	0x50
+ 2832 0849 9F       		.byte	0x9f
+ 2833 084a 1C000000 		.4byte	.LVL96
+ 2834 084e 20000000 		.4byte	.LVL97
+ 2835 0852 0100     		.2byte	0x1
+ 2836 0854 50       		.byte	0x50
+ 2837 0855 20000000 		.4byte	.LVL97
+ 2838 0859 22000000 		.4byte	.LVL98
+ 2839 085d 0400     		.2byte	0x4
+ 2840 085f F3       		.byte	0xf3
+ 2841 0860 01       		.uleb128 0x1
+ 2842 0861 50       		.byte	0x50
+ 2843 0862 9F       		.byte	0x9f
+ 2844 0863 22000000 		.4byte	.LVL98
+ 2845 0867 24000000 		.4byte	.LVL99
+ 2846 086b 0100     		.2byte	0x1
+ 2847 086d 50       		.byte	0x50
+ 2848 086e 24000000 		.4byte	.LVL99
+ 2849 0872 26000000 		.4byte	.LFE6
+ 2850 0876 0400     		.2byte	0x4
+ 2851 0878 F3       		.byte	0xf3
+ 2852 0879 01       		.uleb128 0x1
+ 2853 087a 50       		.byte	0x50
+ 2854 087b 9F       		.byte	0x9f
+ 2855 087c 00000000 		.4byte	0
+ 2856 0880 00000000 		.4byte	0
+ 2857              		.section	.debug_aranges,"",%progbits
+ 2858 0000 4C000000 		.4byte	0x4c
+ 2859 0004 0200     		.2byte	0x2
+ 2860 0006 00000000 		.4byte	.Ldebug_info0
+ 2861 000a 04       		.byte	0x4
+ 2862 000b 00       		.byte	0
+ 2863 000c 0000     		.2byte	0
+ 2864 000e 0000     		.2byte	0
+ 2865 0010 00000000 		.4byte	.LFB0
+ 2866 0014 44000000 		.4byte	.LFE0-.LFB0
+ 2867 0018 00000000 		.4byte	.LFB1
+ 2868 001c 44000000 		.4byte	.LFE1-.LFB1
+ 2869 0020 00000000 		.4byte	.LFB2
+ 2870 0024 44000000 		.4byte	.LFE2-.LFB2
+ 2871 0028 00000000 		.4byte	.LFB3
+ 2872 002c 44000000 		.4byte	.LFE3-.LFB3
+ 2873 0030 00000000 		.4byte	.LFB4
+ 2874 0034 0C000000 		.4byte	.LFE4-.LFB4
+ 2875 0038 00000000 		.4byte	.LFB5
+ 2876 003c 20000000 		.4byte	.LFE5-.LFB5
+ 2877 0040 00000000 		.4byte	.LFB6
+ 2878 0044 26000000 		.4byte	.LFE6-.LFB6
+ 2879 0048 00000000 		.4byte	0
+ 2880 004c 00000000 		.4byte	0
+ 2881              		.section	.debug_ranges,"",%progbits
+ 2882              	.Ldebug_ranges0:
+ 2883 0000 00000000 		.4byte	.LFB0
+ 2884 0004 44000000 		.4byte	.LFE0
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 57
+
+
+ 2885 0008 00000000 		.4byte	.LFB1
+ 2886 000c 44000000 		.4byte	.LFE1
+ 2887 0010 00000000 		.4byte	.LFB2
+ 2888 0014 44000000 		.4byte	.LFE2
+ 2889 0018 00000000 		.4byte	.LFB3
+ 2890 001c 44000000 		.4byte	.LFE3
+ 2891 0020 00000000 		.4byte	.LFB4
+ 2892 0024 0C000000 		.4byte	.LFE4
+ 2893 0028 00000000 		.4byte	.LFB5
+ 2894 002c 20000000 		.4byte	.LFE5
+ 2895 0030 00000000 		.4byte	.LFB6
+ 2896 0034 26000000 		.4byte	.LFE6
+ 2897 0038 00000000 		.4byte	0
+ 2898 003c 00000000 		.4byte	0
+ 2899              		.section	.debug_line,"",%progbits
+ 2900              	.Ldebug_line0:
+ 2901 0000 76020000 		.section	.debug_str,"MS",%progbits,1
+ 2901      0200AE01 
+ 2901      00000201 
+ 2901      FB0E0D00 
+ 2901      01010101 
+ 2902              	.LASF92:
+ 2903 0000 53484131 		.ascii	"SHA1Result\000"
+ 2903      52657375 
+ 2903      6C7400
+ 2904              	.LASF79:
+ 2905 000b 53484132 		.ascii	"SHA256Reset\000"
+ 2905      35365265 
+ 2905      73657400 
+ 2906              	.LASF50:
+ 2907 0017 436F6D70 		.ascii	"Computed\000"
+ 2907      75746564 
+ 2907      00
+ 2908              	.LASF87:
+ 2909 0020 53484131 		.ascii	"SHA1FinalBits\000"
+ 2909      46696E61 
+ 2909      6C426974 
+ 2909      7300
+ 2910              	.LASF39:
+ 2911 002e 55534841 		.ascii	"USHAMaxHashSizeBits\000"
+ 2911      4D617848 
+ 2911      61736853 
+ 2911      697A6542 
+ 2911      69747300 
+ 2912              	.LASF54:
+ 2913 0042 53484132 		.ascii	"SHA256Context\000"
+ 2913      3536436F 
+ 2913      6E746578 
+ 2913      7400
+ 2914              	.LASF73:
+ 2915 0050 4D657373 		.ascii	"Message_Digest\000"
+ 2915      6167655F 
+ 2915      44696765 
+ 2915      737400
+ 2916              	.LASF15:
+ 2917 005f 75696E74 		.ascii	"uint64_t\000"
+ 2917      36345F74 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 58
+
+
+ 2917      00
+ 2918              	.LASF60:
+ 2919 0068 73686132 		.ascii	"sha256Context\000"
+ 2919      3536436F 
+ 2919      6E746578 
+ 2919      7400
+ 2920              	.LASF2:
+ 2921 0076 73686F72 		.ascii	"short int\000"
+ 2921      7420696E 
+ 2921      7400
+ 2922              	.LASF43:
+ 2923 0080 53484133 		.ascii	"SHA384\000"
+ 2923      383400
+ 2924              	.LASF52:
+ 2925 0087 73697A65 		.ascii	"sizetype\000"
+ 2925      74797065 
+ 2925      00
+ 2926              	.LASF33:
+ 2927 0090 55534841 		.ascii	"USHAMaxHashSize\000"
+ 2927      4D617848 
+ 2927      61736853 
+ 2927      697A6500 
+ 2928              	.LASF99:
+ 2929 00a0 433A5C55 		.ascii	"C:\\Users\\bkettle\\OneDrive\\School\\6.115\\projec"
+ 2929      73657273 
+ 2929      5C626B65 
+ 2929      74746C65 
+ 2929      5C4F6E65 
+ 2930 00cd 745C7073 		.ascii	"t\\psoc\\Password Keeper\\TOTP PW Test.cydsn\000"
+ 2930      6F635C50 
+ 2930      61737377 
+ 2930      6F726420 
+ 2930      4B656570 
+ 2931              	.LASF27:
+ 2932 00f7 55534841 		.ascii	"USHA_Max_Message_Block_Size\000"
+ 2932      5F4D6178 
+ 2932      5F4D6573 
+ 2932      73616765 
+ 2932      5F426C6F 
+ 2933              	.LASF6:
+ 2934 0113 5F5F7569 		.ascii	"__uint32_t\000"
+ 2934      6E743332 
+ 2934      5F7400
+ 2935              	.LASF47:
+ 2936 011e 4C656E67 		.ascii	"Length_High\000"
+ 2936      74685F48 
+ 2936      69676800 
+ 2937              	.LASF46:
+ 2938 012a 4C656E67 		.ascii	"Length_Low\000"
+ 2938      74685F4C 
+ 2938      6F7700
+ 2939              	.LASF86:
+ 2940 0135 53484135 		.ascii	"SHA512Input\000"
+ 2940      3132496E 
+ 2940      70757400 
+ 2941              	.LASF25:
+ 2942 0141 53484133 		.ascii	"SHA384_Message_Block_Size\000"
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 59
+
+
+ 2942      38345F4D 
+ 2942      65737361 
+ 2942      67655F42 
+ 2942      6C6F636B 
+ 2943              	.LASF74:
+ 2944 015b 55534841 		.ascii	"USHABlockSize\000"
+ 2944      426C6F63 
+ 2944      6B53697A 
+ 2944      6500
+ 2945              	.LASF85:
+ 2946 0169 53484133 		.ascii	"SHA384Input\000"
+ 2946      3834496E 
+ 2946      70757400 
+ 2947              	.LASF20:
+ 2948 0175 73686153 		.ascii	"shaStateError\000"
+ 2948      74617465 
+ 2948      4572726F 
+ 2948      7200
+ 2949              	.LASF95:
+ 2950 0183 53484133 		.ascii	"SHA384Result\000"
+ 2950      38345265 
+ 2950      73756C74 
+ 2950      00
+ 2951              	.LASF13:
+ 2952 0190 75696E74 		.ascii	"uint8_t\000"
+ 2952      385F7400 
+ 2953              	.LASF51:
+ 2954 0198 436F7272 		.ascii	"Corrupted\000"
+ 2954      75707465 
+ 2954      6400
+ 2955              	.LASF21:
+ 2956 01a2 73686142 		.ascii	"shaBadParam\000"
+ 2956      61645061 
+ 2956      72616D00 
+ 2957              	.LASF53:
+ 2958 01ae 53484131 		.ascii	"SHA1Context\000"
+ 2958      436F6E74 
+ 2958      65787400 
+ 2959              	.LASF32:
+ 2960 01ba 53484135 		.ascii	"SHA512HashSize\000"
+ 2960      31324861 
+ 2960      73685369 
+ 2960      7A6500
+ 2961              	.LASF56:
+ 2962 01c9 53484132 		.ascii	"SHA224Context\000"
+ 2962      3234436F 
+ 2962      6E746578 
+ 2962      7400
+ 2963              	.LASF55:
+ 2964 01d7 53484135 		.ascii	"SHA512Context\000"
+ 2964      3132436F 
+ 2964      6E746578 
+ 2964      7400
+ 2965              	.LASF59:
+ 2966 01e5 73686132 		.ascii	"sha224Context\000"
+ 2966      3234436F 
+ 2966      6E746578 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 60
+
+
+ 2966      7400
+ 2967              	.LASF71:
+ 2968 01f3 62697463 		.ascii	"bitcount\000"
+ 2968      6F756E74 
+ 2968      00
+ 2969              	.LASF82:
+ 2970 01fc 53484131 		.ascii	"SHA1Input\000"
+ 2970      496E7075 
+ 2970      7400
+ 2971              	.LASF77:
+ 2972 0206 53484131 		.ascii	"SHA1Reset\000"
+ 2972      52657365 
+ 2972      7400
+ 2973              	.LASF75:
+ 2974 0210 55534841 		.ascii	"USHAHashSize\000"
+ 2974      48617368 
+ 2974      53697A65 
+ 2974      00
+ 2975              	.LASF8:
+ 2976 021d 6C6F6E67 		.ascii	"long long int\000"
+ 2976      206C6F6E 
+ 2976      6720696E 
+ 2976      7400
+ 2977              	.LASF70:
+ 2978 022b 62697473 		.ascii	"bits\000"
+ 2978      00
+ 2979              	.LASF65:
+ 2980 0230 55534841 		.ascii	"USHAReset\000"
+ 2980      52657365 
+ 2980      7400
+ 2981              	.LASF26:
+ 2982 023a 53484135 		.ascii	"SHA512_Message_Block_Size\000"
+ 2982      31325F4D 
+ 2982      65737361 
+ 2982      67655F42 
+ 2982      6C6F636B 
+ 2983              	.LASF4:
+ 2984 0254 6C6F6E67 		.ascii	"long int\000"
+ 2984      20696E74 
+ 2984      00
+ 2985              	.LASF89:
+ 2986 025d 53484132 		.ascii	"SHA256FinalBits\000"
+ 2986      35364669 
+ 2986      6E616C42 
+ 2986      69747300 
+ 2987              	.LASF19:
+ 2988 026d 73686149 		.ascii	"shaInputTooLong\000"
+ 2988      6E707574 
+ 2988      546F6F4C 
+ 2988      6F6E6700 
+ 2989              	.LASF45:
+ 2990 027d 496E7465 		.ascii	"Intermediate_Hash\000"
+ 2990      726D6564 
+ 2990      69617465 
+ 2990      5F486173 
+ 2990      6800
+ 2991              	.LASF40:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 61
+
+
+ 2992 028f 53484131 		.ascii	"SHA1\000"
+ 2992      00
+ 2993              	.LASF81:
+ 2994 0294 53484135 		.ascii	"SHA512Reset\000"
+ 2994      31325265 
+ 2994      73657400 
+ 2995              	.LASF5:
+ 2996 02a0 5F5F7569 		.ascii	"__uint8_t\000"
+ 2996      6E74385F 
+ 2996      7400
+ 2997              	.LASF69:
+ 2998 02aa 55534841 		.ascii	"USHAFinalBits\000"
+ 2998      46696E61 
+ 2998      6C426974 
+ 2998      7300
+ 2999              	.LASF90:
+ 3000 02b8 53484133 		.ascii	"SHA384FinalBits\000"
+ 3000      38344669 
+ 3000      6E616C42 
+ 3000      69747300 
+ 3001              	.LASF42:
+ 3002 02c8 53484132 		.ascii	"SHA256\000"
+ 3002      353600
+ 3003              	.LASF94:
+ 3004 02cf 53484132 		.ascii	"SHA256Result\000"
+ 3004      35365265 
+ 3004      73756C74 
+ 3004      00
+ 3005              	.LASF98:
+ 3006 02dc 2E2E5C6C 		.ascii	"..\\lib\\yubico-c-client\\usha.c\000"
+ 3006      69625C79 
+ 3006      75626963 
+ 3006      6F2D632D 
+ 3006      636C6965 
+ 3007              	.LASF29:
+ 3008 02fa 53484132 		.ascii	"SHA224HashSize\000"
+ 3008      32344861 
+ 3008      73685369 
+ 3008      7A6500
+ 3009              	.LASF88:
+ 3010 0309 53484132 		.ascii	"SHA224FinalBits\000"
+ 3010      32344669 
+ 3010      6E616C42 
+ 3010      69747300 
+ 3011              	.LASF1:
+ 3012 0319 756E7369 		.ascii	"unsigned char\000"
+ 3012      676E6564 
+ 3012      20636861 
+ 3012      7200
+ 3013              	.LASF64:
+ 3014 0327 77686963 		.ascii	"whichSha\000"
+ 3014      68536861 
+ 3014      00
+ 3015              	.LASF35:
+ 3016 0330 53484132 		.ascii	"SHA224HashSizeBits\000"
+ 3016      32344861 
+ 3016      73685369 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 62
+
+
+ 3016      7A654269 
+ 3016      747300
+ 3017              	.LASF100:
+ 3018 0343 53484176 		.ascii	"SHAversion\000"
+ 3018      65727369 
+ 3018      6F6E00
+ 3019              	.LASF0:
+ 3020 034e 7369676E 		.ascii	"signed char\000"
+ 3020      65642063 
+ 3020      68617200 
+ 3021              	.LASF10:
+ 3022 035a 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3022      206C6F6E 
+ 3022      6720756E 
+ 3022      7369676E 
+ 3022      65642069 
+ 3023              	.LASF34:
+ 3024 0371 53484131 		.ascii	"SHA1HashSizeBits\000"
+ 3024      48617368 
+ 3024      53697A65 
+ 3024      42697473 
+ 3024      00
+ 3025              	.LASF14:
+ 3026 0382 75696E74 		.ascii	"uint32_t\000"
+ 3026      33325F74 
+ 3026      00
+ 3027              	.LASF12:
+ 3028 038b 756E7369 		.ascii	"unsigned int\000"
+ 3028      676E6564 
+ 3028      20696E74 
+ 3028      00
+ 3029              	.LASF66:
+ 3030 0398 55534841 		.ascii	"USHAInput\000"
+ 3030      496E7075 
+ 3030      7400
+ 3031              	.LASF17:
+ 3032 03a2 73686153 		.ascii	"shaSuccess\000"
+ 3032      75636365 
+ 3032      737300
+ 3033              	.LASF96:
+ 3034 03ad 53484135 		.ascii	"SHA512Result\000"
+ 3034      31325265 
+ 3034      73756C74 
+ 3034      00
+ 3035              	.LASF36:
+ 3036 03ba 53484132 		.ascii	"SHA256HashSizeBits\000"
+ 3036      35364861 
+ 3036      73685369 
+ 3036      7A654269 
+ 3036      747300
+ 3037              	.LASF3:
+ 3038 03cd 73686F72 		.ascii	"short unsigned int\000"
+ 3038      7420756E 
+ 3038      7369676E 
+ 3038      65642069 
+ 3038      6E7400
+ 3039              	.LASF41:
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 63
+
+
+ 3040 03e0 53484132 		.ascii	"SHA224\000"
+ 3040      323400
+ 3041              	.LASF91:
+ 3042 03e7 53484135 		.ascii	"SHA512FinalBits\000"
+ 3042      31324669 
+ 3042      6E616C42 
+ 3042      69747300 
+ 3043              	.LASF18:
+ 3044 03f7 7368614E 		.ascii	"shaNull\000"
+ 3044      756C6C00 
+ 3045              	.LASF58:
+ 3046 03ff 73686131 		.ascii	"sha1Context\000"
+ 3046      436F6E74 
+ 3046      65787400 
+ 3047              	.LASF83:
+ 3048 040b 53484132 		.ascii	"SHA224Input\000"
+ 3048      3234496E 
+ 3048      70757400 
+ 3049              	.LASF62:
+ 3050 0417 73686135 		.ascii	"sha512Context\000"
+ 3050      3132436F 
+ 3050      6E746578 
+ 3050      7400
+ 3051              	.LASF9:
+ 3052 0425 5F5F7569 		.ascii	"__uint64_t\000"
+ 3052      6E743634 
+ 3052      5F7400
+ 3053              	.LASF22:
+ 3054 0430 53484131 		.ascii	"SHA1_Message_Block_Size\000"
+ 3054      5F4D6573 
+ 3054      73616765 
+ 3054      5F426C6F 
+ 3054      636B5F53 
+ 3055              	.LASF63:
+ 3056 0448 55534841 		.ascii	"USHAContext\000"
+ 3056      436F6E74 
+ 3056      65787400 
+ 3057              	.LASF68:
+ 3058 0454 62797465 		.ascii	"bytecount\000"
+ 3058      636F756E 
+ 3058      7400
+ 3059              	.LASF30:
+ 3060 045e 53484132 		.ascii	"SHA256HashSize\000"
+ 3060      35364861 
+ 3060      73685369 
+ 3060      7A6500
+ 3061              	.LASF16:
+ 3062 046d 696E745F 		.ascii	"int_least16_t\000"
+ 3062      6C656173 
+ 3062      7431365F 
+ 3062      7400
+ 3063              	.LASF7:
+ 3064 047b 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3064      20756E73 
+ 3064      69676E65 
+ 3064      6420696E 
+ 3064      7400
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 64
+
+
+ 3065              	.LASF67:
+ 3066 048d 62797465 		.ascii	"bytes\000"
+ 3066      7300
+ 3067              	.LASF76:
+ 3068 0493 55534841 		.ascii	"USHAHashSizeBits\000"
+ 3068      48617368 
+ 3068      53697A65 
+ 3068      42697473 
+ 3068      00
+ 3069              	.LASF11:
+ 3070 04a4 5F5F696E 		.ascii	"__int_least16_t\000"
+ 3070      745F6C65 
+ 3070      61737431 
+ 3070      365F7400 
+ 3071              	.LASF72:
+ 3072 04b4 55534841 		.ascii	"USHAResult\000"
+ 3072      52657375 
+ 3072      6C7400
+ 3073              	.LASF31:
+ 3074 04bf 53484133 		.ascii	"SHA384HashSize\000"
+ 3074      38344861 
+ 3074      73685369 
+ 3074      7A6500
+ 3075              	.LASF84:
+ 3076 04ce 53484132 		.ascii	"SHA256Input\000"
+ 3076      3536496E 
+ 3076      70757400 
+ 3077              	.LASF78:
+ 3078 04da 53484132 		.ascii	"SHA224Reset\000"
+ 3078      32345265 
+ 3078      73657400 
+ 3079              	.LASF24:
+ 3080 04e6 53484132 		.ascii	"SHA256_Message_Block_Size\000"
+ 3080      35365F4D 
+ 3080      65737361 
+ 3080      67655F42 
+ 3080      6C6F636B 
+ 3081              	.LASF23:
+ 3082 0500 53484132 		.ascii	"SHA224_Message_Block_Size\000"
+ 3082      32345F4D 
+ 3082      65737361 
+ 3082      67655F42 
+ 3082      6C6F636B 
+ 3083              	.LASF38:
+ 3084 051a 53484135 		.ascii	"SHA512HashSizeBits\000"
+ 3084      31324861 
+ 3084      73685369 
+ 3084      7A654269 
+ 3084      747300
+ 3085              	.LASF57:
+ 3086 052d 53484133 		.ascii	"SHA384Context\000"
+ 3086      3834436F 
+ 3086      6E746578 
+ 3086      7400
+ 3087              	.LASF93:
+ 3088 053b 53484132 		.ascii	"SHA224Result\000"
+ 3088      32345265 
+ARM GAS  C:\Users\bkettle\AppData\Local\Temp\ccOD3M5d.s 			page 65
+
+
+ 3088      73756C74 
+ 3088      00
+ 3089              	.LASF49:
+ 3090 0548 4D657373 		.ascii	"Message_Block\000"
+ 3090      6167655F 
+ 3090      426C6F63 
+ 3090      6B00
+ 3091              	.LASF61:
+ 3092 0556 73686133 		.ascii	"sha384Context\000"
+ 3092      3834436F 
+ 3092      6E746578 
+ 3092      7400
+ 3093              	.LASF80:
+ 3094 0564 53484133 		.ascii	"SHA384Reset\000"
+ 3094      38345265 
+ 3094      73657400 
+ 3095              	.LASF37:
+ 3096 0570 53484133 		.ascii	"SHA384HashSizeBits\000"
+ 3096      38344861 
+ 3096      73685369 
+ 3096      7A654269 
+ 3096      747300
+ 3097              	.LASF97:
+ 3098 0583 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 3098      43313120 
+ 3098      352E342E 
+ 3098      31203230 
+ 3098      31363036 
+ 3099 05b6 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 3099      20726576 
+ 3099      6973696F 
+ 3099      6E203233 
+ 3099      37373135 
+ 3100 05e9 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 3100      66756E63 
+ 3100      74696F6E 
+ 3100      2D736563 
+ 3100      74696F6E 
+ 3101              	.LASF28:
+ 3102 0611 53484131 		.ascii	"SHA1HashSize\000"
+ 3102      48617368 
+ 3102      53697A65 
+ 3102      00
+ 3103              	.LASF48:
+ 3104 061e 4D657373 		.ascii	"Message_Block_Index\000"
+ 3104      6167655F 
+ 3104      426C6F63 
+ 3104      6B5F496E 
+ 3104      64657800 
+ 3105              	.LASF44:
+ 3106 0632 53484135 		.ascii	"SHA512\000"
+ 3106      313200
+ 3107              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

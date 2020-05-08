@@ -1,0 +1,62 @@
+--------------- Build Started: 05/07/2020 22:31:35 Project: TOTP PW Test, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+The code generation step is up to date.
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I..\lib\psoc_totp -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/main.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c main.c -o .\CortexM3\ARM_GCC_541\Debug\main.o
+main.c: In function 'main':
+main.c:120:46: warning: pointer targets in passing argument 1 of 'strlen' differ in signedness [-Wpointer-sign]
+         hmac_sha1(sec_key1, 4, data1, strlen(data1), out1, &len1);
+                                              ^
+In file included from c:\program files (x86)\cypress\psoc creator\4.3\psoc creator\import\gnu\arm\5.4.1\arm-none-eabi\include\string.h:10:0,
+                 from Generated_Source\PSoC5/CyLib.h:22,
+                 from Generated_Source\PSoC5/UART_1.h:24,
+                 from Generated_Source\PSoC5/project.h:22,
+                 from main.c:12:
+c:\program files (x86)\cypress\psoc creator\4.3\psoc creator\import\gnu\arm\5.4.1\arm-none-eabi\include\string.h:33:9: note: expected 'const char *' but argument is of type 'unsigned char *'
+ size_t  _EXFUN(strlen,(const char *));
+         ^
+main.c:131:47: warning: pointer targets in passing argument 1 of 'strlen' differ in signedness [-Wpointer-sign]
+         hmac_sha1(sec_key2, 20, data2, strlen(data2), out2, &len2);
+                                               ^
+In file included from c:\program files (x86)\cypress\psoc creator\4.3\psoc creator\import\gnu\arm\5.4.1\arm-none-eabi\include\string.h:10:0,
+                 from Generated_Source\PSoC5/CyLib.h:22,
+                 from Generated_Source\PSoC5/UART_1.h:24,
+                 from Generated_Source\PSoC5/project.h:22,
+                 from main.c:12:
+c:\program files (x86)\cypress\psoc creator\4.3\psoc creator\import\gnu\arm\5.4.1\arm-none-eabi\include\string.h:33:9: note: expected 'const char *' but argument is of type 'unsigned char *'
+ size_t  _EXFUN(strlen,(const char *));
+         ^
+main.c:190:14: warning: pointer targets in passing argument 1 of 'phex' differ in signedness [-Wpointer-sign]
+         phex(trunc, 4);
+              ^
+main.c:20:6: note: expected 'unsigned char *' but argument is of type 'char *'
+ void phex(unsigned char * arr, size_t size) {
+      ^
+main.c:195:14: warning: pointer targets in passing argument 1 of 'phex' differ in signedness [-Wpointer-sign]
+         phex(trunc, 4);
+              ^
+main.c:20:6: note: expected 'unsigned char *' but argument is of type 'char *'
+ void phex(unsigned char * arr, size_t size) {
+      ^
+main.c:206:27: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
+         sprintf(to_print, "%d ", t_num);
+                           ^
+main.c:206:27: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
+main.c:210:27: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
+         sprintf(to_print, "-> %d", hotp);
+                           ^
+main.c:210:27: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I..\lib\psoc_totp -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/otp.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c ..\lib\psoc_totp\otp.c -o .\CortexM3\ARM_GCC_541\Debug\otp.o
+..\lib\psoc_totp\otp.c: In function 'calc_hotp':
+..\lib\psoc_totp\otp.c:60:10: warning: unused variable 'to_print' [-Wunused-variable]
+     char to_print[20];
+          ^
+arm-none-eabi-ar.exe -rs ".\CortexM3\ARM_GCC_541\Debug\TOTP PW Test.a" .\CortexM3\ARM_GCC_541\Debug\UART_1.o .\CortexM3\ARM_GCC_541\Debug\UART_1_PM.o .\CortexM3\ARM_GCC_541\Debug\UART_1_INT.o .\CortexM3\ARM_GCC_541\Debug\UART_1_BOOT.o .\CortexM3\ARM_GCC_541\Debug\UART_1_IntClock.o .\CortexM3\ARM_GCC_541\Debug\CyDmac.o .\CortexM3\ARM_GCC_541\Debug\CyFlash.o .\CortexM3\ARM_GCC_541\Debug\CyLib.o .\CortexM3\ARM_GCC_541\Debug\cyPm.o .\CortexM3\ARM_GCC_541\Debug\CySpc.o .\CortexM3\ARM_GCC_541\Debug\cyutils.o .\CortexM3\ARM_GCC_541\Debug\cy_em_eeprom.o .\CortexM3\ARM_GCC_541\Debug\CyBootAsmGnu.o
+arm-none-eabi-ar.exe: creating .\CortexM3\ARM_GCC_541\Debug\TOTP PW Test.a
+arm-none-eabi-gcc.exe -Wl,--start-group -o "C:\Users\bkettle\OneDrive\School\6.115\project\psoc\Password Keeper\TOTP PW Test.cydsn\CortexM3\ARM_GCC_541\Debug\TOTP PW Test.elf" .\CortexM3\ARM_GCC_541\Debug\main.o .\CortexM3\ARM_GCC_541\Debug\hmac_sha1.o .\CortexM3\ARM_GCC_541\Debug\otp.o .\CortexM3\ARM_GCC_541\Debug\sha1.o .\CortexM3\ARM_GCC_541\Debug\cyfitter_cfg.o .\CortexM3\ARM_GCC_541\Debug\cymetadata.o .\CortexM3\ARM_GCC_541\Debug\Cm3Start.o ".\CortexM3\ARM_GCC_541\Debug\TOTP PW Test.a" "C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CortexM3\ARM_GCC_541\Debug\CyComponentLibrary.a" -mcpu=cortex-m3 -mthumb -L Generated_Source\PSoC5 "-Wl,-Map,.\CortexM3\ARM_GCC_541\Debug/TOTP PW Test.map" -T Generated_Source\PSoC5\cm3gcc.ld -specs=nano.specs -Wl,--gc-sections -g -ffunction-sections -Og -ffat-lto-objects -Wl,--end-group
+cyelftool.exe -C "C:\Users\bkettle\OneDrive\School\6.115\project\psoc\Password Keeper\TOTP PW Test.cydsn\CortexM3\ARM_GCC_541\Debug\TOTP PW Test.elf" --flash_row_size 256 --flash_size 262144 --flash_offset 0x00000000
+No ELF section .cychecksum found, creating one
+Application checksum calculated and stored in ELF section .cychecksum
+Checksum calculated and stored in ELF section .cymeta
+cyelftool.exe -S "C:\Users\bkettle\OneDrive\School\6.115\project\psoc\Password Keeper\TOTP PW Test.cydsn\CortexM3\ARM_GCC_541\Debug\TOTP PW Test.elf"
+Flash used: 9792 of 262144 bytes (3.7%).
+SRAM used: 2545 of 65536 bytes (3.9%). Stack: 2048 bytes. Heap: 128 bytes.
+--------------- Build Succeeded: 05/07/2020 22:31:38 ---------------
