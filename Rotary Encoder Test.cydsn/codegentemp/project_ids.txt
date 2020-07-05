@@ -1,7 +1,0 @@
-C:\Users\bkettle\OneDrive\School\6.115\project\psoc\Password Keeper\Serial USB Test.cydsn\Serial USB Test.cyprj|ae0f6e25-2b51-4303-b19d-83b2682a76a0
-C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|3b9ed91b-89ec-4097-bef7-30692b94aff7
-C:\Users\bkettle\Documents\PSoC Creator\4.3\Downloads ( 4.3).cylib\Downloads ( 4.3).cyprj|4fdaa394-d1ad-4b9f-90b3-57651610b8d5
-C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|b77592a4-be24-4fe3-857f-0377ac5ebf62
-C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|8a5edbca-6ca2-4fb6-ad95-9a39f91c501e
-C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|ab9cb7a1-fa14-458d-858c-78097d7590d6
-C:\Users\bkettle\OneDrive\School\6.115\project\psoc\Password Keeper\Rotary Encoder Test.cydsn\Rotary Encoder Test.cyprj|ffc311de-5e3b-407f-9fa5-2de792d1c852
